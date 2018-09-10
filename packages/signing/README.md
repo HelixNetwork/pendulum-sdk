@@ -2,6 +2,8 @@
 
 IOTA Signing Scheme
 
+> Helix Signing Implementation .ts implementation in tests currently.
+
 ## Installation
 
 Install using [npm](https://www.npmjs.org/):
@@ -17,7 +19,7 @@ yarn add @helix/signing
 
 ## API Reference
 
-    
+
 * [signing](#module_signing)
 
     * [~subseed(seed, index)](#module_signing..subseed)

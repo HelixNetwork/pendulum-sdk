@@ -2,6 +2,8 @@
 
 Converts value across different IOTA units.
 
+> Obsolete soon. 
+
 ## Installation
 
 Install using [npm](https://www.npmjs.org/):
@@ -29,4 +31,3 @@ yarn add @helix/unit-converter
 
 Converts accross IOTA units. Valid unit names are:
 `i`, `Ki`, `Mi`, `Gi`, `Ti`, `Pi`
-

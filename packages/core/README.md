@@ -1,6 +1,6 @@
 # @helix/core
 
-Core functionality to interact with the IOTA network. Includes methods for:
+Core functionality to interact with the Helix Network. Includes methods for:
 - Generating addresses
 - Creating, attaching and broadcasting transactions
 - Querying for transactions
@@ -24,7 +24,7 @@ yarn add @helix/core
 
 ## API Reference
 
-    
+
 * [core](#module_core)
 
     * [.composeApi([settings])](#module_core.composeApi)
@@ -238,9 +238,9 @@ Returns list of transaction trytes and overwrites the following fields:
  - `attachmentTimestampUpperBound`
 
 This method can be replaced with a local equivelant such as
-[`ccurl.interface.js`](https://github.com/iotaledger/ccurl.interface.js) in node.js,
-[`curl.lib.js`](https://github.com/iotaledger/curl.lib.js) which works on WebGL 2 enabled browsers
-or remote [`PoWbox`](https://powbox.devnet.iota.org/).
+[`ccurl.interface.js`](https://github.com/helixnetwork/ccurl.interface.js) in node.js,
+[`curl.lib.js`](https://github.com/helixnetwork/curl.lib.js) which works on WebGL 2 enabled browsers
+or remote [`PoWbox`](https://hlxbox.devnet.helix.ai/).
 
 `trunkTransaction` and `branchTransaction` hashes are given by
 [`getTransactionToApprove`](#module_core.getTransactionsToApprove).
@@ -1255,7 +1255,7 @@ prepareTransfers(seed, transfers)
 
 | Param | Type |
 | --- | --- |
-| provider | <code>Provider</code> | 
+| provider | <code>Provider</code> |
 
 **Returns**: <code>function</code> - [`storeAndBroadcast`](#module_core.storeAndBroadcast)  
 <a name="module_core.storeAndBroadcast"></a>
@@ -1320,7 +1320,7 @@ Any transactions stored with this command will eventaully be erased, as a result
 
 | Param | Type |
 | --- | --- |
-| provider | <code>Provider</code> | 
+| provider | <code>Provider</code> |
 
 **Returns**: <code>function</code> - [`traverseBundle`](#module_core.traverseBundle)  
 <a name="module_core.traverseBundle"></a>

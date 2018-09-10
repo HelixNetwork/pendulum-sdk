@@ -9,7 +9,7 @@ Based on HELIX-Client Reference Implementation in Javascript
 
 ## Contributing
 
-Thanks for everyone involved in the process of developing the Official Helix API. Hat tips to all of the IOTA developers that have enabled this great technology.
+Thanks for everyone involved in the process of developing the Official Helix API. Hat tip to all of the IOTA developers that have enabled this great technology.
 
 ### Clone and bootstrap
 

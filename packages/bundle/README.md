@@ -1,7 +1,7 @@
 # @helix/bundle
 
 Utilities for generating and signing bundles.
-A bundle in IOTA is an atomic set of transactions.
+A bundle in Helix is an atomic set of transactions.
 
 ## Installation
 
@@ -18,7 +18,7 @@ yarn add @helix/bundle
 
 ## API Reference
 
-    
+
 * [bundle](#module_bundle)
 
     * [~createBundle(entries)](#module_bundle..createBundle)

@@ -1,4 +1,5 @@
 # @helix/converter
+> Obsolete soon!
 
 Methods for converting ascii, values &amp; trytes to trits and back.
 
@@ -17,7 +18,7 @@ yarn add @helix/converter
 
 ## API Reference
 
-    
+
 * [converter](#module_converter)
 
     * [.asciiToTrytes(input)](#module_converter.asciiToTrytes)
@@ -103,7 +104,7 @@ Converts trytes or values to trits
 
 | Param | Type |
 | --- | --- |
-| trits | <code>Int8Array</code> | 
+| trits | <code>Int8Array</code> |
 
 Converts trits to trytes
 
@@ -114,7 +115,7 @@ Converts trits to trytes
 
 | Param | Type |
 | --- | --- |
-| trits | <code>Int8Array</code> | 
+| trits | <code>Int8Array</code> |
 
 Converts trits into an integer value
 
@@ -124,7 +125,7 @@ Converts trits into an integer value
 
 | Param | Type |
 | --- | --- |
-| value | <code>Number</code> | 
+| value | <code>Number</code> |
 
 Converts an integer value to trits
 
