@@ -7,7 +7,41 @@ Based on HELIX-Client Reference Implementation in Javascript
 
 ---
 
-## Getting started
+## Contributing
+
+Thanks for everyone involved in the process of developing the Official Helix API. Hat tips to all of the IOTA developers that have enabled this great technology.
+
+### Clone and bootstrap
+
+1. Fork the repo with <kbd>Fork</kbd> button at top right corner.
+2. Clone your fork locally and `cd` in it.
+3. Bootstrap your environment with:
+
+```
+npm run init
+```
+
+This will install all dependencies, build and link the packages together. helix.js uses [Lerna](https://lernajs.io/) to manage multiple packages. You can re-bootstrap your setup at any point with `lerna bootstrap` command.
+
+### Run the tests
+
+Make your changes on a single or across multiple packages and test the system in integration. Run from the _root directory_:
+
+```
+npm test
+```
+
+To run tests of specific package just `cd` to the package directory and run `npm test` from there.
+
+You may also want to configure your editor to build the source uppon save and watch the tests running.
+Once building on save is setup, you can start watching tests with `npm test --watch` from each package directory.
+
+### Updating documentation
+
+Please update the documention when needed by editing [`JSDoc`](http://usejsdoc.org) annotations and running `npm run docs` from the _root directory_.
+
+
+## Using the API
 
 ### Installation
 
@@ -101,46 +135,3 @@ helix.prepareTransfers(seed, transfers)
 For details on all available API methods please see the [reference page](api_reference.md).
 
 Documentation of helix protocol and [`Helix.Protocol`](https://hlx.readme.io/hcp) http API can be found on [docs.helix.works](https://docs.helix.works).
-
-## Contributing
-
-Thanks for everyone involved in the process of developing the Official Helix API. Hat tips to all of the IOTA developers that have enabled this great technology.
-
-### Clone and bootstrap
-
-1. Fork the repo with <kbd>Fork</kbd> button at top right corner.
-2. Clone your fork locally and `cd` in it.
-3. Bootstrap your environment with:
-
-```
-npm run init
-```
-
-This will install all dependencies, build and link the packages together. helix.js uses [Lerna](https://lernajs.io/) to manage multiple packages. You can re-bootstrap your setup at any point with `lerna bootstrap` command.
-
-### Run the tests
-
-Make your changes on a single or across multiple packages and test the system in integration. Run from the _root directory_:
-
-```
-npm test
-```
-
-To run tests of specific package just `cd` to the package directory and run `npm test` from there.
-
-You may also want to configure your editor to build the source uppon save and watch the tests running.
-Once building on save is setup, you can start watching tests with `npm test --watch` from each package directory.
-
-### Updating documentation
-
-Please update the documention when needed by editing [`JSDoc`](http://usejsdoc.org) annotations and running `npm run docs` from the _root directory_.
-
-
-## Reporting Issues
-
-Please report any problems you encouter during development by [opening an issue](https://github.com/helixnetwork/helix.ap/issues/new).
-
-## Join the discussion
-
-Suggestions and discussion around specs, standardization and enhancements are highly encouraged.
-You are invited to join the discussion on [helix Discord](https://discord.gg/DTbJufa).
