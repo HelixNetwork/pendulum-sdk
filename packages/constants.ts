@@ -1,3 +1,5 @@
+/** We will provide sizes for this */
+
 export const HASH_TRYTE_SIZE = 81
 export const TAG_TRYTE_SIZE = 27
 export const SIGNATURE_MESSAGE_FRAGMENT_TRYTE_SIZE = 2187
