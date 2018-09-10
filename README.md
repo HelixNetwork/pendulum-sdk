@@ -1,7 +1,7 @@
 # Helix API
 
-Based on HELIX-Client Reference Implementation in Javascript
-> DISCLAIMER: This readme and most of the code base are taken from the HELIX Foundation. This repository is NOT intended for public use and is subject to the agreed Non-Disclosure-Agreement.
+Based on IOTA-Client Reference Implementation in Javascript
+> DISCLAIMER: This readme and most of the code base are taken from the IOTA Foundation. This repository is NOT intended for public use and is subject to the agreed Non-Disclosure-Agreement.  As it was a spontaneous decision to fork from the newer typescript implementation, this repository is just freshly refactored, expect wrong naming and minor mistakes.  On a different note, the Helix signature scheme, which was already implemented in javascript, is now being translated to typescript, so expect some pushes to this repository from our side.
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/helixnetwork/helix.ap/master/LICENSE)  
 
