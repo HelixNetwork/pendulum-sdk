@@ -1,6 +1,6 @@
 {
     "name": "@helixnetwork/signing",
-    "version": "0.0.1-alpha.2",
+    "version": "0.0.1-alpha.0",
     "description": "IOTA Signing Scheme",
     "main": "./out/signing/src/index.js",
     "typings": "typings/signing/src",
@@ -43,8 +43,8 @@
         "url": "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
     },
     "dependencies": {
-        "@helixnetwork/converter": "^0.0.1-alpha.2",
-        "@helixnetwork/kerl": "^0.0.1-alpha.2",
-        "@helixnetwork/pad": "^0.0.1-alpha.2"
+        "@helixnetwork/converter": "^0.0.1-alpha.0",
+        "@helixnetwork/kerl": "^0.0.1-alpha.0",
+        "@helixnetwork/pad": "^0.0.1-alpha.0"
     }
 }
