@@ -1,6 +1,6 @@
 {
     "name": "@helixnetwork/transaction-converter",
-    "version": "1.0.0-beta.5",
+    "version": "0.0.1-alpha.1",
     "description": "Converts transaction trytes to transaction objects and back.",
     "main": "./out/transaction-converter/src/index.js",
     "typings": "typings/transaction-converter/src",

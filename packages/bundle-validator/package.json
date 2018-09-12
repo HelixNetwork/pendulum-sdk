@@ -1,6 +1,6 @@
 {
     "name": "@helixnetwork/bundle-validator",
-    "version": "1.0.0-beta.5",
+    "version": "0.0.1-alpha.1",
     "description": "Syntactically validates bundle structure and signatures.",
     "main": "./out/bundle-validator/src/index.js",
     "typings": "typings/bundle-validator/src",

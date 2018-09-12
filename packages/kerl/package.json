@@ -1,6 +1,6 @@
 {
     "name": "@helixnetwork/kerl",
-    "version": "1.0.0-beta.5",
+    "version": "0.0.1-alpha.1",
     "description": "IOTA-related cryptographic methods",
     "main": "./out/src/index.js",
     "typings": "typings/src",
