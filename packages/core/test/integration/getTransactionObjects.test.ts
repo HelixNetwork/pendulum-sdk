@@ -1,8 +1,8 @@
 import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
+import { createHttpClient } from '@helixnetwork/http-client'
 import { INVALID_TRANSACTION_HASH } from '../../../errors'
 import { createGetTransactionObjects } from '../../src'
-import { bundle, bundleWithZeroValue } from '@helix/samples'
+import { bundle, bundleWithZeroValue } from '@helixnetwork/samples'
 
 import './nocks/getTrytes'
 

@@ -1,5 +1,5 @@
 import * as Promise from 'bluebird'
-import { transactionHashValidator } from '@helix/transaction'
+import { transactionHashValidator } from '@helixnetwork/transaction'
 import { INVALID_REFERENCE_HASH } from '../../errors'
 import { depthValidator, validate } from '../../guards'
 import {

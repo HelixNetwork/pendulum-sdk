@@ -1,6 +1,6 @@
 import * as Promise from 'bluebird'
-import { bundleValidator } from '@helix/bundle-validator'
-import { transactionHashValidator } from '@helix/transaction'
+import { bundleValidator } from '@helixnetwork/bundle-validator'
+import { transactionHashValidator } from '@helixnetwork/transaction'
 import { validate } from '../../guards'
 import { Bundle, Callback, Hash, Provider, Transaction } from '../../types'
 import { createTraverseBundle } from './'

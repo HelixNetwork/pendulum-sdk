@@ -1,5 +1,5 @@
 import test from 'ava'
-import { invalidTransactionObject, transactionObject } from '@helix/samples'
+import { invalidTransactionObject, transactionObject } from '@helixnetwork/samples'
 import { isTransactionArray } from '../src'
 
 test('isTransactionArray() returns true for valid trasnaction array.', t => {

@@ -1,7 +1,7 @@
 /** @module checksum */
 
-import { trits, trytes } from '@helix/converter'
-import Kerl from '@helix/kerl'
+import { trits, trytes } from '@helixnetwork/converter'
+import Kerl from '@helixnetwork/kerl'
 import { INVALID_ADDRESS, INVALID_CHECKSUM, INVALID_TRYTES } from '../../errors'
 import { isHash, isTrytes } from '../../guards'
 import { asArray, Trytes } from '../../types'

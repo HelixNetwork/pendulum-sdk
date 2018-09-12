@@ -1,9 +1,9 @@
 /** @module transaction-converter */
 
-import { tritsToTrytes, trytesToTrits, value } from '@helix/converter'
-import { transactionHash } from '@helix/transaction'
-import Curl from '@helix/curl'
-import { padTrits, padTrytes } from '@helix/pad'
+import { tritsToTrytes, trytesToTrits, value } from '@helixnetwork/converter'
+import { transactionHash } from '@helixnetwork/transaction'
+import Curl from '@helixnetwork/curl'
+import { padTrits, padTrytes } from '@helixnetwork/pad'
 import * as errors from '../../errors'
 import { isTrytesOfExactLength } from '../../guards'
 import { asArray, Hash, Transaction, Trytes } from '../../types'

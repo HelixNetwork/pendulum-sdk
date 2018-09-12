@@ -1,5 +1,5 @@
 import test from 'ava'
-import { transactionTrytes } from '@helix/samples'
+import { transactionTrytes } from '@helixnetwork/samples'
 import { isTransactionTrytes } from '../src'
 
 test('isTransactionTrytes() returns true for valid transaction trytes.', t => {

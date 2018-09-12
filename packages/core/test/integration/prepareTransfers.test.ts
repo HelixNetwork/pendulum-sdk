@@ -1,9 +1,9 @@
 import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
-import { addChecksum } from '@helix/checksum'
+import { createHttpClient } from '@helixnetwork/http-client'
+import { addChecksum } from '@helixnetwork/checksum'
 import { createPrepareTransfers } from '../../src'
 import { Transfer, Trytes } from '../../../types'
-import { addresses, trytes as expected } from '@helix/samples'
+import { addresses, trytes as expected } from '@helixnetwork/samples'
 
 import './nocks/prepareTransfers'
 

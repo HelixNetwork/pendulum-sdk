@@ -1,5 +1,5 @@
 import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
+import { createHttpClient } from '@helixnetwork/http-client'
 import { INVALID_TRANSACTION_HASH } from '../../../errors'
 import { createGetInclusionStates } from '../../src'
 import { getInclusionStatesCommand, getInclusionStatesResponse } from './nocks/getInclusionStates'

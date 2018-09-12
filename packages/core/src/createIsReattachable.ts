@@ -1,5 +1,5 @@
 import * as Promise from 'bluebird'
-import { removeChecksum } from '@helix/checksum'
+import { removeChecksum } from '@helixnetwork/checksum'
 import { INVALID_ADDRESS } from '../../errors'
 import { arrayValidator, hashValidator, trytesValidator, validate } from '../../guards'
 import { asArray, Callback, Hash, Provider, Transaction, Trytes } from '../../types'

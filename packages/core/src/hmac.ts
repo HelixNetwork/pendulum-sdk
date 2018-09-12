@@ -1,5 +1,5 @@
-import { trits, trytes } from '@helix/converter'
-import Curl from '@helix/curl'
+import { trits, trytes } from '@helixnetwork/converter'
+import Curl from '@helixnetwork/curl'
 import { Bundle } from '../../types'
 
 const HMAC_ROUNDS = 27

@@ -1,19 +1,19 @@
-# @helix/http-client
+# @helixnetwork/http-client
 
 Sends commands to [`IRI`](https://github.com/helixnetwork/hcp) over `HTTP`.
-Allows to create a network provider compatible with functions in [`@helix/core`](../core).
+Allows to create a network provider compatible with functions in [`@helixnetwork/core`](../core).
 
 ## Installation
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helix/http-client
+npm install @helixnetwork/http-client
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helix/http-client
+yarn add @helixnetwork/http-client
 ```
 
 ## API Reference

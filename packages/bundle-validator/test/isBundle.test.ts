@@ -7,7 +7,7 @@ import {
     bundleWithInvalidTransactionOrder,
     bundleWithInvalidValueSum,
     bundleWithZeroValue,
-} from '@helix/samples'
+} from '@helixnetwork/samples'
 import isBundle from '../src'
 
 test('isBundle() returns true for valid bundle.', t => {

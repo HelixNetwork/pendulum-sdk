@@ -1,6 +1,6 @@
-import { addChecksum } from '@helix/checksum'
-import { trits, trytes } from '@helix/converter'
-import { address, digests, key, subseed } from '@helix/signing'
+import { addChecksum } from '@helixnetwork/checksum'
+import { trits, trytes } from '@helixnetwork/converter'
+import { address, digests, key, subseed } from '@helixnetwork/signing'
 import { Hash } from '../../types'
 
 /**

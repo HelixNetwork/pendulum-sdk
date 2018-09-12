@@ -1,5 +1,5 @@
 import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
+import { createHttpClient } from '@helixnetwork/http-client'
 import { INVALID_BRANCH_TRANSACTION, INVALID_TRANSACTION_TRYTES, INVALID_TRUNK_TRANSACTION } from '../../../errors'
 import { createAttachToTangle } from '../../src'
 import { attachToTangleCommand, attachToTangleResponse } from './nocks/attachToTangle'

@@ -1,10 +1,10 @@
 /** @module bundle-validator */
 
-import { trits, trytes } from '@helix/converter'
-import Kerl from '@helix/kerl'
-import { validateSignatures } from '@helix/signing'
-import { isTransaction } from '@helix/transaction'
-import { asTransactionTrytes } from '@helix/transaction-converter'
+import { trits, trytes } from '@helixnetwork/converter'
+import Kerl from '@helixnetwork/kerl'
+import { validateSignatures } from '@helixnetwork/signing'
+import { isTransaction } from '@helixnetwork/transaction'
+import { asTransactionTrytes } from '@helixnetwork/transaction-converter'
 import * as errors from '../../errors'
 import { isArray, Validator } from '../../guards'
 import { Bundle, Hash, Transaction, Trytes } from '../../types'

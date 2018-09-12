@@ -1,5 +1,5 @@
 import test from 'ava'
-import { bundle } from '@helix/samples'
+import { bundle } from '@helixnetwork/samples'
 import { isTailTransaction } from '../src'
 
 test('isTailTransaction() returns true for valid tail transaction.', t => {

@@ -2,8 +2,8 @@
  * @module transaction
  */
 
-import { tritsToTrytes, trytesToTrits } from '@helix/converter'
-import Curl from '@helix/curl'
+import { tritsToTrytes, trytesToTrits } from '@helixnetwork/converter'
+import Curl from '@helixnetwork/curl'
 import * as errors from '../../errors'
 import { isArray, isHash, isTrytesOfExactLength, validate, Validator } from '../../guards'
 import { Hash, Transaction, Trytes } from '../../types'

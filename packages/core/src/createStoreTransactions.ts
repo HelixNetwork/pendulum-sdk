@@ -1,4 +1,4 @@
-import { attachedTrytesValidator } from '@helix/transaction'
+import { attachedTrytesValidator } from '@helixnetwork/transaction'
 import * as Promise from 'bluebird'
 import { arrayValidator, validate } from '../../guards'
 import {

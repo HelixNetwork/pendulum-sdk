@@ -1,10 +1,10 @@
 import * as Promise from 'bluebird'
 
-import { trits, trytes } from '@helix/converter'
-import { addEntry, addTrytes, finalizeBundle } from '@helix/bundle'
-import { isValidChecksum, removeChecksum } from '@helix/checksum'
-import { key, normalizedBundleHash, signatureFragment, subseed } from '@helix/signing'
-import { asFinalTransactionTrytes } from '@helix/transaction-converter'
+import { trits, trytes } from '@helixnetwork/converter'
+import { addEntry, addTrytes, finalizeBundle } from '@helixnetwork/bundle'
+import { isValidChecksum, removeChecksum } from '@helixnetwork/checksum'
+import { key, normalizedBundleHash, signatureFragment, subseed } from '@helixnetwork/signing'
+import { asFinalTransactionTrytes } from '@helixnetwork/transaction-converter'
 import * as errors from '../../errors'
 import {
     arrayValidator,

@@ -1,10 +1,10 @@
 import * as Promise from 'bluebird'
-import { createGetBalances, Balances } from '@helix/core'
-import { trits, trytes } from '@helix/converter'
-import { removeChecksum } from '@helix/checksum'
-import { addEntry, addTrytes, finalizeBundle } from '@helix/bundle'
-import Kerl from '@helix/kerl'
-import { digests, key, normalizedBundleHash, signatureFragment, subseed } from '@helix/signing'
+import { createGetBalances, Balances } from '@helixnetwork/core'
+import { trits, trytes } from '@helixnetwork/converter'
+import { removeChecksum } from '@helixnetwork/checksum'
+import { addEntry, addTrytes, finalizeBundle } from '@helixnetwork/bundle'
+import Kerl from '@helixnetwork/kerl'
+import { digests, key, normalizedBundleHash, signatureFragment, subseed } from '@helixnetwork/signing'
 import * as errors from '../../errors'
 import {
     arrayValidator,

@@ -1,6 +1,6 @@
 import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
-import { bundle, bundleWithZeroValue, transfers } from '@helix/samples'
+import { createHttpClient } from '@helixnetwork/http-client'
+import { bundle, bundleWithZeroValue, transfers } from '@helixnetwork/samples'
 import { INVALID_ADDRESS } from '../../../errors'
 import {
     createGetBundlesFromAddresses,

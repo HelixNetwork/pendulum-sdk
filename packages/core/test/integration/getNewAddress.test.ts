@@ -1,5 +1,5 @@
 import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
+import { createHttpClient } from '@helixnetwork/http-client'
 import { INVALID_SEED, INVALID_TOTAL_OPTION } from '../../../errors'
 import {
     applyChecksumOption,
@@ -11,7 +11,7 @@ import {
 import './nocks/findTransactions'
 import './nocks/wereAddressesSpentFrom'
 
-import { addresses, addressesWithChecksum, newAddress, newAddressWithChecksum, seed } from '@helix/samples'
+import { addresses, addressesWithChecksum, newAddress, newAddressWithChecksum, seed } from '@helixnetwork/samples'
 
 const client = createHttpClient()
 const getNewAddress = createGetNewAddress(client, 'lib')

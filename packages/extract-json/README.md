@@ -1,4 +1,4 @@
-# @helix/extract-json
+# @helixnetwork/extract-json
 
 Extracts JSON encoded messages from signature message fragments.
 
@@ -6,13 +6,13 @@ Extracts JSON encoded messages from signature message fragments.
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helix/extract-json
+npm install @helixnetwork/extract-json
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helix/extract-json
+yarn add @helixnetwork/extract-json
 ```
 
 ## API Reference

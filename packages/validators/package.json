@@ -1,5 +1,5 @@
 {
-    "name": "@helix/validators",
+    "name": "@helixnetwork/validators",
     "version": "1.0.0-beta.5",
     "description": "Collection of guards and validators, useful in IOTA development.",
     "main": "./out/validators/src/index.js",
@@ -47,11 +47,11 @@
         ]
     },
     "dependencies": {
-        "@helix/checksum": "^1.0.0-beta.5",
-        "@helix/transaction": "^1.0.0-beta.5"
+        "@helixnetwork/checksum": "^1.0.0-beta.5",
+        "@helixnetwork/transaction": "^1.0.0-beta.5"
     },
     "devDependencies": {
-        "@helix/samples": "^1.0.0-beta.5"
+        "@helixnetwork/samples": "^1.0.0-beta.5"
     },
     "keywords": [
         "iota",

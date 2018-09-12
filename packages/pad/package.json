@@ -1,5 +1,5 @@
 {
-    "name": "@helix/pad",
+    "name": "@helixnetwork/pad",
     "version": "1.0.0-beta.5",
     "description": "Padding utility",
     "main": "./out/pad/src/index.js",

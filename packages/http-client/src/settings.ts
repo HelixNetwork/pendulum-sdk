@@ -31,7 +31,7 @@ export const getSettingsWithDefaults = (settings: Partial<Settings> = {}): Setti
 
     if (sandbox || token) {
         throw new Error(
-            'Sandbox has been removed in favor of a more generic remote curl machine, a.k.a. powbox. See NPM package @helix/curl-remote for details.'
+            'Sandbox has been removed in favor of a more generic remote curl machine, a.k.a. powbox. See NPM package @helixnetwork/curl-remote for details.'
         )
     }
 

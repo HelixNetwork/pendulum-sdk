@@ -1,5 +1,5 @@
 import test from 'ava'
-import { transactionObject } from '@helix/samples'
+import { transactionObject } from '@helixnetwork/samples'
 import { isTransactionHash } from '../src'
 
 test('isTransactionHash() returns true for valid transaction hash.', t => {

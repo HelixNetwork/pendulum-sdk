@@ -48,13 +48,13 @@ Install using [npm](https://www.npmjs.org/):
 > @helixnetwork scope
 
 ```
-npm i @helix/core
+npm i @helixnetwork/core
 ```
 
 ### Connecting to network
 
 ```js
-import { composeAPI } from '@helix/core'
+import { composeAPI } from '@helixnetwork/core'
 
 const helix = composeAPI({
     provider: 'http://localhost:14700'
@@ -70,13 +70,13 @@ Composing custom client methods with network provider:
 1. Install an Helix.Protocol http client:
 
 ```
-npm install @helix/http-client
+npm install @helixnetwork/http-client
 ```
 
 2. Create an api method with custom provider:
 ```js
-import { createHttpClient } from '@helix/http-client'
-import { createGetNodeInfo } from '@helix/core'
+import { createHttpClient } from '@helixnetwork/http-client'
+import { createGetNodeInfo } from '@helixnetwork/core'
 
 const client = createHttpClient({
     provider: 'http://localhost:14265'

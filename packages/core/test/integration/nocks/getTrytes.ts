@@ -1,6 +1,6 @@
 import * as nock from 'nock'
 import { ProtocolCommand, GetTrytesCommand, GetTrytesResponse } from '../../../../types'
-import { bundle, bundleTrytes, bundleWithZeroValue, bundleWithZeroValueTrytes } from '@helix/samples'
+import { bundle, bundleTrytes, bundleWithZeroValue, bundleWithZeroValueTrytes } from '@helixnetwork/samples'
 import headers from './headers'
 
 export const getTrytesCommand: GetTrytesCommand = {
