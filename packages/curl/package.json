@@ -5,7 +5,7 @@
     "main": "./out/index.js",
     "typings": "typings",
     "publishConfig": {
-        "access": "public"
+        "access": "private"
     },
     "scripts": {
         "prepare": "tsc",

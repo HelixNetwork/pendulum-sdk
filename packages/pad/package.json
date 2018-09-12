@@ -5,7 +5,7 @@
     "main": "./out/pad/src/index.js",
     "typings": "typings/pad/src",
     "publishConfig": {
-        "access": "public"
+        "access": "private"
     },
     "scripts": {
         "prepare": "tsc",

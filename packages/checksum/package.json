@@ -5,7 +5,7 @@
     "main": "./out/checksum/src/index.js",
     "typings": "typings/checksum/src",
     "publishConfig": {
-        "access": "public"
+        "access": "private"
     },
     "scripts": {
         "prepare": "tsc",

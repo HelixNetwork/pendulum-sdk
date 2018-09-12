@@ -5,7 +5,7 @@
     "main": "./out/transaction/src/index.js",
     "typings": "typings/transaction/src",
     "publishConfig": {
-        "access": "public"
+        "access": "private"
     },
     "scripts": {
         "prepare": "tsc",

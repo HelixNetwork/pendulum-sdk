@@ -5,7 +5,7 @@
     "main": "./out/signing/src/index.js",
     "typings": "typings/signing/src",
     "publishConfig": {
-        "access": "public"
+        "access": "private"
     },
     "scripts": {
         "prepare": "tsc",
