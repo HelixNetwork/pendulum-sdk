@@ -1,6 +1,6 @@
 {
     "name": "@helixnetwork/checksum",
-    "version": "0.0.1-alpha.1",
+    "version": "0.0.1-alpha.2",
     "description": "Add, remove and validate checksums",
     "main": "./out/checksum/src/index.js",
     "typings": "typings/checksum/src",
@@ -61,10 +61,10 @@
         "url": "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
     },
     "dependencies": {
-        "@helixnetwork/converter": "^0.0.1-alpha.1",
-        "@helixnetwork/kerl": "^0.0.1-alpha.1"
+        "@helixnetwork/converter": "^0.0.1-alpha.2",
+        "@helixnetwork/kerl": "^0.0.1-alpha.2"
     },
     "devDependencies": {
-        "@helixnetwork/samples": "^0.0.1-alpha.1"
+        "@helixnetwork/samples": "^0.0.1-alpha.2"
     }
 }

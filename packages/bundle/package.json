@@ -1,6 +1,6 @@
 {
     "name": "@helixnetwork/bundle",
-    "version": "0.0.1-alpha.1",
+    "version": "0.0.1-alpha.2",
     "description": "Utilities for generating and signing bundles",
     "main": "./out/bundle/src/index.js",
     "typings": "typings/bundle/src",
@@ -64,9 +64,9 @@
         "url": "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
     },
     "dependencies": {
-        "@helixnetwork/converter": "^0.0.1-alpha.1",
-        "@helixnetwork/kerl": "^0.0.1-alpha.1",
-        "@helixnetwork/pad": "^0.0.1-alpha.1",
-        "@helixnetwork/signing": "^0.0.1-alpha.1"
+        "@helixnetwork/converter": "^0.0.1-alpha.2",
+        "@helixnetwork/kerl": "^0.0.1-alpha.2",
+        "@helixnetwork/pad": "^0.0.1-alpha.2",
+        "@helixnetwork/signing": "^0.0.1-alpha.2"
     }
 }

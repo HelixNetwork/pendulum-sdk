@@ -1,6 +1,6 @@
 {
     "name": "@helixnetwork/transaction-converter",
-    "version": "0.0.1-alpha.1",
+    "version": "0.0.1-alpha.2",
     "description": "Converts transaction trytes to transaction objects and back.",
     "main": "./out/transaction-converter/src/index.js",
     "typings": "typings/transaction-converter/src",
@@ -64,12 +64,12 @@
         "url": "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
     },
     "dependencies": {
-        "@helixnetwork/converter": "^0.0.1-alpha.1",
-        "@helixnetwork/curl": "^0.0.1-alpha.1",
-        "@helixnetwork/pad": "^0.0.1-alpha.1",
-        "@helixnetwork/transaction": "^0.0.1-alpha.1"
+        "@helixnetwork/converter": "^0.0.1-alpha.2",
+        "@helixnetwork/curl": "^0.0.1-alpha.2",
+        "@helixnetwork/pad": "^0.0.1-alpha.2",
+        "@helixnetwork/transaction": "^0.0.1-alpha.2"
     },
     "devDependencies": {
-        "@helixnetwork/samples": "^0.0.1-alpha.1"
+        "@helixnetwork/samples": "^0.0.1-alpha.2"
     }
 }

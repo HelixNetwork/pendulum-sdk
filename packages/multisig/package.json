@@ -1,6 +1,6 @@
 {
     "name": "@helixnetwork/multisig",
-    "version": "0.0.1-alpha.1",
+    "version": "0.0.1-alpha.2",
     "description": "Methods for generating multisig addresses and co-signing transactions.",
     "main": "./out/multisig/src/index.js",
     "typings": "typings/multisig/src",
@@ -43,12 +43,12 @@
         "url": "https://github.com/helixnetwork/helix.api.git"
     },
     "dependencies": {
-        "@helixnetwork/bundle": "^0.0.1-alpha.1",
-        "@helixnetwork/checksum": "^0.0.1-alpha.1",
-        "@helixnetwork/converter": "^0.0.1-alpha.1",
-        "@helixnetwork/core": "^0.0.1-alpha.1",
-        "@helixnetwork/kerl": "^0.0.1-alpha.1",
-        "@helixnetwork/signing": "^0.0.1-alpha.1",
+        "@helixnetwork/bundle": "^0.0.1-alpha.2",
+        "@helixnetwork/checksum": "^0.0.1-alpha.2",
+        "@helixnetwork/converter": "^0.0.1-alpha.2",
+        "@helixnetwork/core": "^0.0.1-alpha.2",
+        "@helixnetwork/kerl": "^0.0.1-alpha.2",
+        "@helixnetwork/signing": "^0.0.1-alpha.2",
         "@types/bluebird": "^3.5.20",
         "bluebird": "^3.5.1",
         "isomorphic-fetch": "^2.2.1"
