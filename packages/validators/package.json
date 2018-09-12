@@ -47,11 +47,11 @@
         ]
     },
     "dependencies": {
-        "@helixnetwork/checksum": "^1.0.0-beta.5",
-        "@helixnetwork/transaction": "^1.0.0-beta.5"
+        "@helixnetwork/checksum": "^0.0.1-alpha.1",
+        "@helixnetwork/transaction": "^0.0.1-alpha.1"
     },
     "devDependencies": {
-        "@helixnetwork/samples": "^1.0.0-beta.5"
+        "@helixnetwork/samples": "^0.0.1-alpha.1"
     },
     "keywords": [
         "iota",

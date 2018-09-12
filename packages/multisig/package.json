@@ -43,12 +43,12 @@
         "url": "https://github.com/helixnetwork/helix.api.git"
     },
     "dependencies": {
-        "@helixnetwork/bundle": "^1.0.0-beta.5",
-        "@helixnetwork/checksum": "^1.0.0-beta.5",
-        "@helixnetwork/converter": "^1.0.0-beta.5",
-        "@helixnetwork/core": "^1.0.0-beta.5",
-        "@helixnetwork/kerl": "^1.0.0-beta.5",
-        "@helixnetwork/signing": "^1.0.0-beta.5",
+        "@helixnetwork/bundle": "^0.0.1-alpha.1",
+        "@helixnetwork/checksum": "^0.0.1-alpha.1",
+        "@helixnetwork/converter": "^0.0.1-alpha.1",
+        "@helixnetwork/core": "^0.0.1-alpha.1",
+        "@helixnetwork/kerl": "^0.0.1-alpha.1",
+        "@helixnetwork/signing": "^0.0.1-alpha.1",
         "@types/bluebird": "^3.5.20",
         "bluebird": "^3.5.1",
         "isomorphic-fetch": "^2.2.1"

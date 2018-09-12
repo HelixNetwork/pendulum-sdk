@@ -61,10 +61,10 @@
         "url": "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
     },
     "dependencies": {
-        "@helixnetwork/converter": "^1.0.0-beta.5",
-        "@helixnetwork/kerl": "^1.0.0-beta.5"
+        "@helixnetwork/converter": "^0.0.1-alpha.1",
+        "@helixnetwork/kerl": "^0.0.1-alpha.1"
     },
     "devDependencies": {
-        "@helixnetwork/samples": "^1.0.0-beta.5"
+        "@helixnetwork/samples": "^0.0.1-alpha.1"
     }
 }
