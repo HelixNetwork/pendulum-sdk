@@ -5,7 +5,7 @@
  */
 /* tslint:disable variable-name no-conditional-assignment */
 
-// @todo investigate possibility of buffer inputs with js-sha3
+// @TODO investigate possibility of buffer inputs with js-sha3
 // note: cryptojs is using keccak rather than sha3, opposed to their naming, hence we currently use js-sha3. We might consider different sha3 implementations.
 
 import * as crypto from "js-sha3";
@@ -77,8 +77,8 @@ export default class Sha3 {
    * @param {number} offset
    * @param {number} length
    **/
-  // @todo remove out and update state internally
-  // @todo add validation of limits
+  // @TODO remove out and update state internally
+  // @TODO add validation of limits
 
   public squeeze(input: string, offset: number, length: number) {
     if (length && length % 64 !== 0) {
@@ -102,7 +102,7 @@ export default class Sha3 {
    *
    * @ignore
    */
-  // @todo state should be set to null, rather than re-initializing.
+  // @TODO state should be set to null, rather than re-initializing.
 
   public reset() {
     this.sha3 = (crypto.sha3_256 as any).create();
