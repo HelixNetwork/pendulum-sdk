@@ -1,8 +1,8 @@
 import test from "ava";
 import Sha3 from "../src";
-import { bytesToHex, hexToBytes } from "@helixnetwork/converter";
+import { bytes, hex } from "@helixnetwork/converter";
 
-test("Sha3: absorb() and squeeze()", t => {
+test("SHA-3: absorb() and squeeze()", t => {
   const input =
     "964b398ecd55793d8ca93e01274efe1377a70c8dc358fdca17cb4e94a9ed7777";
   const expected =
@@ -10,14 +10,16 @@ test("Sha3: absorb() and squeeze()", t => {
 
   const absorbSqueeze = (input: string): string => {
     const sha3: Sha3 = new Sha3();
+    const inputBytes = bytes(input);
     sha3.absorb(input, 0, input.length);
-    sha3.squeeze(input, 0, Sha3.HASH_LENGTH);
-    return hash;
+    const hash = new Int8Array(Sha3.HASH_LENGTH);
+    sha3.squeeze(hash, 0, Sha3.HASH_LENGTH);
+    return hex(hash);
   };
 
   t.is(
     absorbSqueeze(input),
     expected,
-    "Sha3 should produce correct hash for absorb/squeeze case."
+    "SHA-3 should produce correct hash for absorb/squeeze case."
   );
 });
