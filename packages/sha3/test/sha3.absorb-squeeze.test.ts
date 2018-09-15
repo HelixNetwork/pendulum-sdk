@@ -9,10 +9,10 @@ test('SHA-3: absorb() and squeeze()', t => {
     'c2a26a52b0da35baf172d0069cf890f47e351a184b534fffa7d9e4366532d9f9'
 
   const absorbSqueeze = (input: string): string => {
-    const sha3: Sha3 = new Sha3()
-    const inputBytes = bytes(input)
+	const inputBytes = bytes(input)
+	const sha3: Sha3 = new Sha3()
     sha3.absorb(input, 0, input.length)
-    const hash = new Int8Array(Sha3.HASH_LENGTH)
+    const hash = new Uint8Array(Sha3.HASH_LENGTH)
     sha3.squeeze(hash, 0, Sha3.HASH_LENGTH)
     return hex(hash);
   }
