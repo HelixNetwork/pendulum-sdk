@@ -46,12 +46,12 @@ export default class Sha3 {
    *
    * @ignore
    *
-   * @param {string} input
+   * @param {Uint8Array} input
    * @param {number} offset
    * @param {number} length
    **/
-  public absorb(input: string, offset: number, length: number) {
-    if (length && length % 64 !== 0) {
+  public absorb(input: Uint8Array, offset: number, length: number) {
+    if (length && length % BYTE_HASH_LENGTH !== 0) {
       throw new Error(errors.ILLEGAL_HASH_LENGTH);
     }
 
@@ -60,9 +60,12 @@ export default class Sha3 {
       const input_state = input.slice(offset, offset + limit);
       offset += limit;
 
-      // absorb the input state
-      this.sha3.update(input_state);
-      //this.reset()
+      // will become obsolete
+      const hex_state = this.bytesToHex(input_state);
+
+      // @TODO absorb the input state as Int8Array
+      // js-sha3 only returns expected results when using hex strings as input.
+      this.sha3.update(hex_state);
     } while ((length -= Sha3.HASH_LENGTH) > 0);
   }
 
@@ -73,26 +76,35 @@ export default class Sha3 {
    *
    * @ignore
    *
-   * @param {string} input
+   * @param {Uint8Array} input
    * @param {number} offset
    * @param {number} length
    **/
   // @TODO remove out and update state internally
   // @TODO add validation of limits
 
-  public squeeze(input: string, offset: number, length: number) {
-    if (length && length % 64 !== 0) {
+  public squeeze(input: Uint8Array, offset: number, length: number) {
+    if (length && length % BYTE_HASH_LENGTH !== 0) {
       throw new Error(errors.ILLEGAL_HASH_LENGTH);
     }
-    var out: string = "";
+
     do {
-      console.log(out);
-      var state = this.sha3.hex();
-      out += state;
+      // finalize
+      let state = this.sha3.digest();
+
+      let i = 0;
+      const limit = length < Sha3.HASH_LENGTH ? length : Sha3.HASH_LENGTH;
+
+      // out += state;
+      while (i < limit) {
+        input[offset++] = state[i++];
+      }
+
+      const hex_state = this.bytesToHex(state);
+
       this.reset();
-      this.sha3.update(state);
+      this.sha3.update(hex_state);
     } while ((length -= Sha3.HASH_LENGTH) > 0);
-    return out;
   }
 
   /**
@@ -106,5 +118,21 @@ export default class Sha3 {
 
   public reset() {
     this.sha3 = (crypto.sha3_256 as any).create();
+  }
+
+  // This helper method will become obsolete when js-sha3 or our implementation returns
+  // expected results with Int8Arrays as input
+  private bytesToHex(uint8arr) {
+    if (!uint8arr) {
+      return "";
+    }
+    let hexStr = "";
+    for (let i = 0; i < uint8arr.length; i++) {
+      let hex = (uint8arr[i] & 0xff).toString(16);
+      hex = hex.length === 1 ? "0" + hex : hex;
+      hexStr += hex;
+    }
+
+    return hexStr;
   }
 }

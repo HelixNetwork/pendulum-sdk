@@ -1,5 +1,6 @@
 import test from "ava";
 import Sha3 from "../src";
+import { bytesToHex, hexToBytes } from "@helixnetwork/converter";
 
 test("Sha3: absorb() and squeeze()", t => {
   const input =
@@ -10,7 +11,7 @@ test("Sha3: absorb() and squeeze()", t => {
   const absorbSqueeze = (input: string): string => {
     const sha3: Sha3 = new Sha3();
     sha3.absorb(input, 0, input.length);
-    const hash = sha3.squeeze(input, 0, Sha3.HASH_LENGTH);
+    sha3.squeeze(input, 0, Sha3.HASH_LENGTH);
     return hash;
   };
 
