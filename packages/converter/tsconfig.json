@@ -5,6 +5,7 @@
             "es2015"
         ],
         "noImplicitThis": true,
+		"noImplicitAny": false,
         "strict": true,
         "outDir": "out",
         "declaration": true,
