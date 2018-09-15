@@ -1,5 +1,5 @@
 import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
+import { createHttpClient } from '@helixnetwork/http-client'
 import { INVALID_ADDRESS } from '../../../errors'
 import { createWereAddressesSpentFrom } from '../../src/createWereAddressesSpentFrom'
 import { wereAddressesSpentFromCommand, wereAddressesSpentFromResponse } from './nocks/wereAddressesSpentFrom'

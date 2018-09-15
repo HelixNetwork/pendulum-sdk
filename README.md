@@ -36,35 +36,28 @@ To run tests of specific package just `cd` to the package directory and run `npm
 You may also want to configure your editor to build the source uppon save and watch the tests running.
 Once building on save is setup, you can start watching tests with `npm test --watch` from each package directory.
 
-### Updating documentation
+### Generate docs
 
 Please update the documention when needed by editing [`JSDoc`](http://usejsdoc.org) annotations and running `npm run docs` from the _root directory_.
-
 
 ## Using the API
 
 ### Installation
 
-> Note: This repository is not published on npm yet! Just clone the git repo.
-
 Install using [npm](https://www.npmjs.org/):
-```
-npm install @helix/core
-```
-
-or using [yarn](https://yarnpkg.com/):
+> @helixnetwork scope
 
 ```
-yarn add @helix/core
+npm i @helixnetwork/core
 ```
 
 ### Connecting to network
 
 ```js
-import { composeAPI } from '@helix/core'
+import { composeAPI } from '@helixnetwork/core'
 
 const helix = composeAPI({
-    provider: 'http://localhost:14265'
+    provider: 'http://localhost:14700'
 })
 
 helix.getNodeInfo()
@@ -77,13 +70,13 @@ Composing custom client methods with network provider:
 1. Install an Helix.Protocol http client:
 
 ```
-npm install @helix/http-client
+npm install @helixnetwork/http-client
 ```
 
 2. Create an api method with custom provider:
 ```js
-import { createHttpClient } from '@helix/http-client'
-import { createGetNodeInfo } from '@helix/core'
+import { createHttpClient } from '@helixnetwork/http-client'
+import { createGetNodeInfo } from '@helixnetwork/core'
 
 const client = createHttpClient({
     provider: 'http://localhost:14265'
@@ -96,9 +89,6 @@ const getNodeInfo = createGetNodeInfo(client)
 
 Publish transfers by calling [`prepareTransfers`](packages/core#module_core.prepareTransfers) and piping the
 prepared trytes to [`sendTrytes`](packages/core#module_core.sendTrytes) command.
-
-Feel free to use devnet and take advatage of [`PoWbox`](https://powbox.devnet.helix.org/) as well as
-[`helix faucet`](https://faucet.devnet.helix.org/) during development.
 
 ```js
 // must be truly random & 81-trytes long
@@ -134,4 +124,4 @@ helix.prepareTransfers(seed, transfers)
 
 For details on all available API methods please see the [reference page](api_reference.md).
 
-Documentation of helix protocol and [`Helix.Protocol`](https://hlx.readme.io/hcp) http API can be found on [docs.helix.works](https://docs.helix.works).
+Documentation of helix protocol and [`Helix.Protocol`](https://hlx.readme.io/hcp) http API can be found on [Helix Internal Documentation](https://hlx.readme.io).

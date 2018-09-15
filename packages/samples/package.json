@@ -1,11 +1,11 @@
 {
-    "name": "@helix/samples",
-    "version": "1.0.0-beta.5",
+    "name": "@helixnetwork/samples",
+    "version": "0.0.1-alpha.0",
     "description": "Collection of samples useful in testing IOTA modules.",
     "main": "./out/samples/src/index.js",
     "typings": "typings/samples/src",
     "publishConfig": {
-        "access": "public"
+        "access": "private"
     },
     "scripts": {
         "prepare": "tsc",
@@ -27,10 +27,10 @@
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/iotaledger/iota.js/issues"
+        "url": "https://github.com/helixnetwork/helix.api/issues"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/iotaledger/iota.js.git/tree/develop/packages/crypto"
+        "url": "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
     }
 }

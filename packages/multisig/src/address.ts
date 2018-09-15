@@ -1,5 +1,5 @@
-import { trits, trytes } from '@helix/converter'
-import Kerl from '@helix/kerl'
+import { trits, trytes } from '@helixnetwork/converter'
+import Kerl from '@helixnetwork/kerl'
 import { asArray } from '../../types'
 
 /**

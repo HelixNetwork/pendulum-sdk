@@ -1,6 +1,6 @@
 import * as nock from 'nock'
 import { ProtocolCommand, BroadcastTransactionsCommand } from '../../../../types'
-import { bundleTrytes } from '@helix/samples'
+import { bundleTrytes } from '@helixnetwork/samples'
 import headers from './headers'
 
 export const broadcastTransactionsCommand: BroadcastTransactionsCommand = {

@@ -1,11 +1,11 @@
 {
-    "name": "@helix/kerl",
-    "version": "1.0.0-beta.5",
+    "name": "@helixnetwork/kerl",
+    "version": "0.0.1-alpha.0",
     "description": "IOTA-related cryptographic methods",
     "main": "./out/src/index.js",
     "typings": "typings/src",
     "publishConfig": {
-        "access": "public"
+        "access": "private"
     },
     "scripts": {
         "prepare": "tsc",
@@ -35,17 +35,17 @@
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/iotaledger/iota.js/issues"
+        "url": "https://github.com/helixnetwork/helix.api/issues"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/iotaledger/iota.js.git/tree/develop/packages/crypto"
+        "url": "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
     },
     "dependencies": {
         "@types/crypto-js": "^3.1.38",
         "crypto-js": "^3.1.9-1"
     },
     "devDependencies": {
-        "@helix/converter": "^1.0.0-beta.5"
+        "@helixnetwork/converter": "^0.0.1-alpha.0"
     }
 }

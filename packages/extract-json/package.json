@@ -1,11 +1,11 @@
 {
-    "name": "@helix/extract-json",
-    "version": "1.0.0-beta.5",
+    "name": "@helixnetwork/extract-json",
+    "version": "0.0.1-alpha.0",
     "description": "Extracts JSON encoded messages from signature message fragments",
     "main": "./out/extract-json/src/index.js",
     "typings": "./out/extract-json/src",
     "publishConfig": {
-        "access": "public"
+        "access": "private"
     },
     "scripts": {
         "prepare": "tsc",
@@ -57,16 +57,16 @@
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/iotaledger/iota.js/issues"
+        "url": "https://github.com/helixnetwork/helix.api/issues"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/iotaledger/iota.js.git/tree/develop/packages/crypto"
+        "url": "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
     },
     "dependencies": {
-        "@helix/converter": "^1.0.0-beta.5"
+        "@helixnetwork/converter": "^0.0.1-alpha.0"
     },
     "devDependencies": {
-        "@helix/samples": "^1.0.0-beta.5"
+        "@helixnetwork/samples": "^0.0.1-alpha.0"
     }
 }

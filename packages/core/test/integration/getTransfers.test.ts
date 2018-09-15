@@ -1,5 +1,5 @@
 import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
+import { createHttpClient } from '@helixnetwork/http-client'
 import { INVALID_SECURITY_LEVEL, INVALID_SEED, INVALID_START_END_OPTIONS, INVALID_START_OPTION } from '../../../errors'
 import { createGetTransfers } from '../../src/createGetTransfers'
 import './nocks/findTransactions'
@@ -8,7 +8,7 @@ import './nocks/getNodeInfo'
 import './nocks/getTrytes'
 import './nocks/wereAddressesSpentFrom'
 
-import { transfers } from '@helix/samples'
+import { transfers } from '@helixnetwork/samples'
 
 const getTransfers = createGetTransfers(createHttpClient(), 'lib')
 const seed = 'SEED'

@@ -1,6 +1,6 @@
 import * as Promise from 'bluebird'
-import { transactionHashValidator } from '@helix/transaction'
-import { asFinalTransactionTrytes, asTransactionObjects } from '@helix/transaction-converter'
+import { transactionHashValidator } from '@helixnetwork/transaction'
+import { asFinalTransactionTrytes, asTransactionObjects } from '@helixnetwork/transaction-converter'
 import { validate } from '../../guards'
 import { Callback, Hash, Provider, Trytes } from '../../types'
 import { createBroadcastTransactions, createGetBundle } from './'

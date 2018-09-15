@@ -1,7 +1,7 @@
 import * as Promise from 'bluebird'
-import { removeChecksum } from '@helix/checksum'
-import { padTagArray } from '@helix/pad'
-import { transactionHashValidator } from '@helix/transaction'
+import { removeChecksum } from '@helixnetwork/checksum'
+import { padTagArray } from '@helixnetwork/pad'
+import { transactionHashValidator } from '@helixnetwork/transaction'
 import * as errors from '../../errors'
 import { arrayValidator, hashValidator, tagValidator, validate } from '../../guards'
 import {

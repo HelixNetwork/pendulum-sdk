@@ -1,6 +1,6 @@
 import test from 'ava'
-import { trits } from '@helix/converter'
-import { bundle, bundleTrytes } from '@helix/samples'
+import { trits } from '@helixnetwork/converter'
+import { bundle, bundleTrytes } from '@helixnetwork/samples'
 import { transactionHash } from '../src'
 
 test('transactionHash() returns the correct transaction hash.', t => {

@@ -6,7 +6,7 @@ import {
     bundleWithMultipleJSONMessageFragments,
     parsedJSON,
     parsedJSONOfMultipleMessageFragments,
-} from '@helix/samples'
+} from '@helixnetwork/samples'
 import { extractJson, errors } from '../src'
 
 test('extractJson() parses JSON object.', t => {

@@ -1,5 +1,5 @@
 import test from 'ava'
-import { bundle, bundleWithInvalidSignature, bundleWithInvalidTransactionOrder } from '@helix/samples'
+import { bundle, bundleWithInvalidSignature, bundleWithInvalidTransactionOrder } from '@helixnetwork/samples'
 import { validateBundleSignatures } from '../src'
 
 test('validateSignatures() returns true for bundle with valid signatures.', t =>

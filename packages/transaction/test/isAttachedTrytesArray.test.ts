@@ -1,5 +1,5 @@
 import test from 'ava'
-import { attachedTrytes, attachedTrytesOfInvalidChars, attachedTrytesOfInvalidLength } from '@helix/samples'
+import { attachedTrytes, attachedTrytesOfInvalidChars, attachedTrytesOfInvalidLength } from '@helixnetwork/samples'
 import { isAttachedTrytesArray } from '../src'
 
 test('isAttachedTrytesArray()', t => {

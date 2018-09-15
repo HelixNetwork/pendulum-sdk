@@ -1,5 +1,5 @@
 import test from 'ava'
-import { bundle, bundleTrytes, transactionObject, transactionTrytes as trytes } from '@helix/samples'
+import { bundle, bundleTrytes, transactionObject, transactionTrytes as trytes } from '@helixnetwork/samples'
 import { asFinalTransactionTrytes, asTransactionTrytes, transactionTrytes } from '../src'
 
 test('asTransactionTrytes() converts transaction object to transaction trytes.', t => {

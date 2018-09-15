@@ -1,9 +1,9 @@
 /** @module bundle */
 
-import { trits, trytes } from '@helix/converter'
-import Kerl from '@helix/kerl'
-import { padTag, padTrits, padTrytes } from '@helix/pad'
-import { add, normalizedBundleHash } from '@helix/signing'
+import { trits, trytes } from '@helixnetwork/converter'
+import Kerl from '@helixnetwork/kerl'
+import { padTag, padTrits, padTrytes } from '@helixnetwork/pad'
+import { add, normalizedBundleHash } from '@helixnetwork/signing'
 import { Hash, Bundle, Transaction, Trytes } from '../../types'
 
 const NULL_HASH_TRYTES = '9'.repeat(81)

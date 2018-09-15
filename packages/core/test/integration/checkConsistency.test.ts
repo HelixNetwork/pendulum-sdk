@@ -1,5 +1,5 @@
 import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
+import { createHttpClient } from '@helixnetwork/http-client'
 import { inconsistentTransaction, INVALID_TRANSACTION_HASH } from '../../../errors'
 import { createCheckConsistency } from '../../src'
 import {

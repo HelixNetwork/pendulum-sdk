@@ -1,8 +1,8 @@
 /** @module signing */
 
-import { fromValue, trits, trytes, value } from '@helix/converter'
-import Kerl from '@helix/kerl'
-import { padTrits } from '@helix/pad'
+import { fromValue, trits, trytes, value } from '@helixnetwork/converter'
+import Kerl from '@helixnetwork/kerl'
+import { padTrits } from '@helixnetwork/pad'
 import add from './add'
 import * as errors from './errors'
 import { Hash } from '../../types'

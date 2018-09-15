@@ -1,5 +1,5 @@
 import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
+import { createHttpClient } from '@helixnetwork/http-client'
 import { composeAPI, API } from '../../src'
 import { getNodeInfoResponse } from './nocks/getNodeInfo'
 

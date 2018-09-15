@@ -1,5 +1,5 @@
 import test from 'ava'
-import { trits, trytes } from '@helix/converter'
+import { trits, trytes } from '@helixnetwork/converter'
 import Kerl from '../src'
 
 test('Kerl: absorb()/multi-squeeze(), Converter: trits()/trytes()', t => {

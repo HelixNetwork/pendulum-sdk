@@ -1,5 +1,5 @@
 import test from 'ava'
-import { trytes } from '@helix/samples'
+import { trytes } from '@helixnetwork/samples'
 import { isTrytesArray } from '../src'
 
 test('isTrytesArray()', t => {

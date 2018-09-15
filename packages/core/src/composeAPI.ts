@@ -1,5 +1,5 @@
 import * as Bluebird from 'bluebird'
-import { createHttpClient, HttpClientSettings } from '@helix/http-client'
+import { createHttpClient, HttpClientSettings } from '@helixnetwork/http-client'
 import {
     createAddNeighbors,
     createAttachToTangle,

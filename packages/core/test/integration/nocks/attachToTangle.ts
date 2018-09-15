@@ -1,6 +1,6 @@
 import * as nock from 'nock'
 import { ProtocolCommand, AttachToTangleCommand, AttachToTangleResponse } from '../../../../types'
-import { bundle, bundleTrytes } from '@helix/samples'
+import { bundle, bundleTrytes } from '@helixnetwork/samples'
 import headers from './headers'
 
 export const attachToTangleCommand: AttachToTangleCommand = {

@@ -1,6 +1,6 @@
 import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
-import { attachedTrytesOfInvalidLength } from '@helix/samples'
+import { createHttpClient } from '@helixnetwork/http-client'
+import { attachedTrytesOfInvalidLength } from '@helixnetwork/samples'
 import { INVALID_ATTACHED_TRYTES } from '../../../errors'
 import { createStoreAndBroadcast } from '../../src'
 import { storeTransactionsCommand } from './nocks/storeTransactions'

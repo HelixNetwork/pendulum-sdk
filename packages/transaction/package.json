@@ -1,11 +1,11 @@
 {
-    "name": "@helix/transaction",
-    "version": "1.0.0-beta.5",
+    "name": "@helixnetwork/transaction",
+    "version": "0.0.1-alpha.0",
     "description": "Utilities and validators for transactions.",
     "main": "./out/transaction/src/index.js",
     "typings": "typings/transaction/src",
     "publishConfig": {
-        "access": "public"
+        "access": "private"
     },
     "scripts": {
         "prepare": "tsc",
@@ -57,17 +57,17 @@
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/iotaledger/iota.js/issues"
+        "url": "https://github.com/helixnetwork/helix.api/issues"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/iotaledger/iota.js.git/tree/develop/packages/crypto"
+        "url": "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
     },
     "dependencies": {
-        "@helix/converter": "^1.0.0-beta.5",
-        "@helix/curl": "^1.0.0-beta.5"
+        "@helixnetwork/converter": "^0.0.1-alpha.0",
+        "@helixnetwork/curl": "^0.0.1-alpha.0"
     },
     "devDependencies": {
-        "@helix/samples": "^1.0.0-beta.5"
+        "@helixnetwork/samples": "^0.0.1-alpha.0"
     }
 }

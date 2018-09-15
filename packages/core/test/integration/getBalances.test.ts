@@ -1,5 +1,5 @@
 import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
+import { createHttpClient } from '@helixnetwork/http-client'
 import { INVALID_ADDRESS, INVALID_THRESHOLD } from '../../../errors'
 import { createGetBalances } from '../../src'
 import { getBalancesCommand, balancesResponse } from './nocks/getBalances'

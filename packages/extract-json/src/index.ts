@@ -1,6 +1,6 @@
 /** @module  extract-json */
 
-import { trytesToAscii } from '@helix/converter'
+import { trytesToAscii } from '@helixnetwork/converter'
 import { Transaction } from '../../types'
 
 export const errors = {

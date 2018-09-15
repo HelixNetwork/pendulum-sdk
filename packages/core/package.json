@@ -1,11 +1,11 @@
 {
-    "name": "@helix/core",
-    "version": "1.0.0-beta.5",
+    "name": "@helixnetwork/core",
+    "version": "0.0.1-alpha.0",
     "description": "Core functionality to interact with the IOTA network: generate addresses, create, broadcast and monitor transactions.",
     "main": "./out/core/src/index.js",
     "typings": "typings/core/src",
     "publishConfig": {
-        "access": "public"
+        "access": "private"
     },
     "scripts": {
         "prepare": "tsc",
@@ -65,30 +65,30 @@
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/iotaledger/iota.js/issues"
+        "url": "https://github.com/helixnetwork/helix.api/issues"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/iotaledger/iota.js.git"
+        "url": "https://github.com/helixnetwork/helix.api.git"
     },
     "dependencies": {
-        "@helix/bundle": "^1.0.0-beta.5",
-        "@helix/bundle-validator": "^1.0.0-beta.5",
-        "@helix/checksum": "^1.0.0-beta.5",
-        "@helix/converter": "^1.0.0-beta.5",
-        "@helix/curl": "^1.0.0-beta.5",
-        "@helix/http-client": "^1.0.0-beta.5",
-        "@helix/kerl": "^1.0.0-beta.5",
-        "@helix/pad": "^1.0.0-beta.5",
-        "@helix/signing": "^1.0.0-beta.5",
-        "@helix/transaction": "^1.0.0-beta.5",
-        "@helix/transaction-converter": "^1.0.0-beta.5",
+        "@helixnetwork/bundle": "^0.0.1-alpha.0",
+        "@helixnetwork/bundle-validator": "^0.0.1-alpha.0",
+        "@helixnetwork/checksum": "^0.0.1-alpha.0",
+        "@helixnetwork/converter": "^0.0.1-alpha.0",
+        "@helixnetwork/curl": "^0.0.1-alpha.0",
+        "@helixnetwork/http-client": "^0.0.1-alpha.0",
+        "@helixnetwork/kerl": "^0.0.1-alpha.0",
+        "@helixnetwork/pad": "^0.0.1-alpha.0",
+        "@helixnetwork/signing": "^0.0.1-alpha.0",
+        "@helixnetwork/transaction": "^0.0.1-alpha.0",
+        "@helixnetwork/transaction-converter": "^0.0.1-alpha.0",
         "@types/bluebird": "^3.5.20",
         "bluebird": "^3.5.1"
     },
     "devDependencies": {
         "@babel/plugin-syntax-async-generators": "^7.0.0-beta.49",
-        "@helix/samples": "^1.0.0-beta.5",
+        "@helixnetwork/samples": "^0.0.1-alpha.0",
         "@types/nock": "^9.1.2",
         "babel-cli": "^6.26.0",
         "babel-core": "^6.26.0",
