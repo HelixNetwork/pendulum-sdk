@@ -56,5 +56,7 @@
     "js-sha3": "^0.8.0",
     "types-bn": "0.0.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+	  "@helixnetwork/converter": "^0.0.1-alpha.0"
+  }
 }
