@@ -12,8 +12,7 @@ import * as crypto from 'js-sha3'
 import * as errors from './errors'
 
 const BIT_HASH_LENGTH = 256
-const BYTE_HASH_LENGTH = 32
-const HASH_LENGTH = 64
+const HASH_LENGTH= 32
 
 /**
  * @class SHA3
@@ -22,8 +21,8 @@ const HASH_LENGTH = 64
 
 export default class Sha3 {
   public static BIT_HASH_LENGTH = BIT_HASH_LENGTH
-  public static BYTE_HASH_LENGTH = BYTE_HASH_LENGTH
   public static HASH_LENGTH = HASH_LENGTH
+
 
   private sha3: any
 
@@ -51,7 +50,7 @@ export default class Sha3 {
    * @param {number} length
    **/
   public absorb(input: Uint8Array, offset: number, length: number) {
-    if (length && length % BYTE_HASH_LENGTH !== 0) {
+    if (length && length % HASH_LENGTH!== 0) {
       throw new Error(errors.ILLEGAL_HASH_LENGTH)
     }
 
@@ -84,7 +83,7 @@ export default class Sha3 {
   // @TODO add validation of limits
 
   public squeeze(input: Uint8Array, offset: number, length: number) {
-    if (length && length % BYTE_HASH_LENGTH !== 0) {
+    if (length && length % HASH_LENGTH!== 0) {
       throw new Error(errors.ILLEGAL_HASH_LENGTH)
     }
 
