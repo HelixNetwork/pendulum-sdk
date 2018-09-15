@@ -127,7 +127,7 @@ export default class Sha3 {
       return ''
     }
     let hexStr = ''
-    for (let i = 0 i < uint8arr.length i++) {
+    for (let i = 0; i < uint8arr.length; i++) {
       let hex = (uint8arr[i] & 0xff).toString(16)
       hex = hex.length === 1 ? '0' + hex : hex
       hexStr += hex
