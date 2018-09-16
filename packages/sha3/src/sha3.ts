@@ -1,8 +1,3 @@
-/**
- *
- * Copyright (c) 2017-2018 Helix Foundation. http://helix-foundation.org
- *
- */
 /* tslint:disable variable-name no-conditional-assignment */
 
 // @TODO investigate possibility of buffer inputs with js-sha3
@@ -15,7 +10,7 @@ const BIT_HASH_LENGTH = 256
 const HASH_LENGTH= 32
 
 /**
- * @class SHA3
+ * @class Sha3
  * @ignore
  */
 
