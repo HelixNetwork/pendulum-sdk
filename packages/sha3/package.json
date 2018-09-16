@@ -2,10 +2,10 @@
   "name": "@helixnetwork/sha3",
   "version": "0.0.1-alpha.0",
   "description": "Send commands to Helix Protocol over HTTP.",
-  "main": "./out/http-client/src/index.js",
-  "typings": "typings/http-client/src",
+  "main": "./out/src/index.js",
+  "typings": "typings/src",
   "publishConfig": {
-    "access": "public"
+    "access": "private"
   },
   "scripts": {
     "prepare": "tsc",

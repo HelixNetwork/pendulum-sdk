@@ -1,2 +1,2 @@
-import { default as SHA3 } from "./sha3";
-export default SHA3;
+import { default as Sha3 } from "./sha3";
+export default Sha3
