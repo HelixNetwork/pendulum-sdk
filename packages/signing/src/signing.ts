@@ -34,7 +34,7 @@ export function subseed(seed: Int8Array, index: number): Int8Array {
   const sha256 = new SHA256();
 
   sha256.initialize();
-  sha256.absorb(subseed, 0, subseed.length);
+  sha256.update(subseed, 0, subseed.length);
   sha256.final(subseed, 0, subseed.length);
 
   return subseed;
