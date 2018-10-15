@@ -49,11 +49,13 @@
     "@helix/checksum": "^1.0.0-beta.5",
     "@helix/converter": "^1.0.0-beta.5",
     "@helix/core": "^1.0.0-beta.5",
-    "@helix/sha256": "^1.0.0-beta.5",
     "@helix/kerl": "^1.0.0-beta.5",
+    "@helix/sha256": "^1.0.0-beta.5",
     "@helix/signing": "^1.0.0-beta.5",
     "@types/bluebird": "^3.5.20",
     "bluebird": "^3.5.1",
-    "isomorphic-fetch": "^2.2.1"
+    "isomorphic-fetch": "^2.2.1",
+    "python-shell": "^1.0.6",
+    "schnorr": "^0.4.0"
   }
 }
