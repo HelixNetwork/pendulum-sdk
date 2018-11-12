@@ -7,7 +7,7 @@ const MIN_TRIT_VALUE = -1;
 // All possible tryte values
 export const TRYTE_ALPHABET = "9ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-// HBytes to trits look up table
+// HBytes to hbits look up table
 export const HBYTES_TRITS_LUT: ReadonlyArray<ReadonlyArray<number>> = [
   [0, 0, 0],
   [1, 0, 0],
@@ -39,17 +39,17 @@ export const HBYTES_TRITS_LUT: ReadonlyArray<ReadonlyArray<number>> = [
 ];
 
 /**
- * Converts hbytes or values to trits
+ * Converts hbytes or values to hbits
  *
- * @method trits
+ * @method hbits
  *
  * @memberof module:converter
  *
  * @param {String|Number} input - Tryte string or value to be converted.
  *
- * @return {Int8Array} trits
+ * @return {Int8Array} hbits
  */
-export function trits(input: string | number): Int8Array {
+export function hbits(input: string | number): Int8Array {
   if (typeof input === "number" && Number.isInteger(input)) {
     return fromValue(input);
   } else if (typeof input === "string") {
@@ -76,12 +76,12 @@ export function trits(input: string | number): Int8Array {
  *
  * @ignore
  *
- * @alias trits
+ * @alias hbits
  */
-export const hbytesToTrits = trits;
+export const hbytesToTrits = hbits;
 
 /**
- * Converts trits to hbytes
+ * Converts hbits to hbytes
  *
  * @method hbytes
  *
@@ -128,7 +128,7 @@ export function hbytes(trits: Int8Array): string {
 export const tritsToHBytes = hbytes;
 
 /**
- * Converts trits into an integer value
+ * Converts hbits into an integer value
  *
  * @method value
  *
@@ -161,7 +161,7 @@ export function value(trits: Int8Array): number {
 export const tritsToValue = value;
 
 /**
- * Converts an integer value to trits
+ * Converts an integer value to hbits
  *
  * @method fromValue
  *
@@ -169,7 +169,7 @@ export const tritsToValue = value;
  *
  * @param {Number} value
  *
- * @return {Int8Array} trits
+ * @return {Int8Array} hbits
  */
 // tslint:disable-next-line no-shadowed-variable
 export function fromValue(value: number): Int8Array {
