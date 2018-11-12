@@ -1,100 +1,141 @@
-import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
-import { addChecksum } from '@helix/checksum'
-import { createPrepareTransfers } from '../../src'
-import { Transfer, Trytes } from '../../../types'
-import { addresses, trytes as expected } from '@helix/samples'
+import test from "ava";
+import { createHttpClient } from "@helix/http-client";
+import { addChecksum } from "@helix/checksum";
+import { createPrepareTransfers } from "../../src";
+import { Transfer, HBytes } from "../../../types";
+import { addresses, hbytes as expected } from "@helix/samples";
 
-import './nocks/prepareTransfers'
+import "./nocks/prepareTransfers";
 
 const inputs: ReadonlyArray<any> = [
-    {
-        address: 'FJHSSHBZTAKQNDTIKJYCZBOZDGSZANCZSWCNWUOCZXFADNOQSYAHEJPXRLOVPNOQFQXXGEGVDGICLMOXX',
-        keyIndex: 0,
-        security: 2,
-        balance: 3,
-    },
-    {
-        address: '9DZXPFSVCSSWXXQPFMWLGFKPBAFTHYMKMZCPFHBVHXPFNJEIJIEEPKXAUBKBNNLIKWHJIYQDFWQVELOCB',
-        keyIndex: 1,
-        security: 2,
-        balance: 4,
-    },
-]
+  {
+    address:
+      "FJHSSHBZTAKQNDTIKJYCZBOZDGSZANCZSWCNWUOCZXFADNOQSYAHEJPXRLOVPNOQFQXXGEGVDGICLMOXX",
+    keyIndex: 0,
+    security: 2,
+    balance: 3
+  },
+  {
+    address:
+      "9DZXPFSVCSSWXXQPFMWLGFKPBAFTHYMKMZCPFHBVHXPFNJEIJIEEPKXAUBKBNNLIKWHJIYQDFWQVELOCB",
+    keyIndex: 1,
+    security: 2,
+    balance: 4
+  }
+];
 
 const transfers: ReadonlyArray<Transfer> = [
-    {
-        address: addChecksum('A'.repeat(81)),
-        value: 3,
-        tag: 'TAG',
-        message: '9',
-    },
-    {
-        address: addChecksum('B'.repeat(81)),
-        value: 3,
-        tag: 'TAG',
-    },
-]
+  {
+    address: addChecksum("A".repeat(81)),
+    value: 3,
+    tag: "TAG",
+    message: "9"
+  },
+  {
+    address: addChecksum("B".repeat(81)),
+    value: 3,
+    tag: "TAG"
+  }
+];
 
 const zeroValueTransfer: ReadonlyArray<Transfer> = [
-    {
-        address: '9'.repeat(81),
-        value: 0,
-        message: 'TEST9MESSAGE',
-        tag: 'TEST9TAG',
-    },
-]
+  {
+    address: "9".repeat(81),
+    value: 0,
+    message: "TEST9MESSAGE",
+    tag: "TEST9TAG"
+  }
+];
 
-const expectedZeroValueTrytes: ReadonlyArray<Trytes> = [
-    'TEST9MESSAGE999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999UFST9TAG9999999999999999999MBIWC9999999999999999999999JAUJAZERXHKKZUOWISVT9DLBYCZ9WHKOEYIQSHDVXXLPEDCLXCYTHGBGWPBFZJUPGBGRFGHZAIWKZNERW999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999TEST9TAG9999999999999999999999999999999999999999999999999999999999999999999999999',
-]
+const expectedZeroValueHBytes: ReadonlyArray<HBytes> = [
+  "TEST9MESSAGE999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999UFST9TAG9999999999999999999MBIWC9999999999999999999999JAUJAZERXHKKZUOWISVT9DLBYCZ9WHKOEYIQSHDVXXLPEDCLXCYTHGBGWPBFZJUPGBGRFGHZAIWKZNERW999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999TEST9TAG9999999999999999999999999999999999999999999999999999999999999999999999999"
+];
 
-const remainderAddress = addresses[2]
+const remainderAddress = addresses[2];
 
-const now = () => 1522219924
-const prepareTransfers = createPrepareTransfers(undefined, now, 'lib')
-const prepareTransfersWithNetwork = createPrepareTransfers(createHttpClient(), now, 'lib')
+const now = () => 1522219924;
+const prepareTransfers = createPrepareTransfers(undefined, now, "lib");
+const prepareTransfersWithNetwork = createPrepareTransfers(
+  createHttpClient(),
+  now,
+  "lib"
+);
 
-test('prepareTransfers() prepares the correct array of trytes offline.', async t => {
-    const trytes = await prepareTransfers('SEED', transfers, { inputs, remainderAddress })
+test("prepareTransfers() prepares the correct array of hbytes offline.", async t => {
+  const hbytes = await prepareTransfers("SEED", transfers, {
+    inputs,
+    remainderAddress
+  });
 
-    t.deepEqual(trytes, expected, 'prepareTransfers() should prepare the correct array of trytes.')
-})
+  t.deepEqual(
+    hbytes,
+    expected,
+    "prepareTransfers() should prepare the correct array of hbytes."
+  );
+});
 
-test('prepareTransfers() does not mutate original transfers object offline.', async t => {
-    const transfersCopy = transfers.map(transfer => ({ ...transfer }))
+test("prepareTransfers() does not mutate original transfers object offline.", async t => {
+  const transfersCopy = transfers.map(transfer => ({ ...transfer }));
 
-    await prepareTransfers('SEED', transfersCopy, { inputs, remainderAddress, hmacKey: '9'.repeat(81) })
+  await prepareTransfers("SEED", transfersCopy, {
+    inputs,
+    remainderAddress,
+    hmacKey: "9".repeat(81)
+  });
 
-    t.deepEqual(transfers, transfersCopy, 'prepareTransfers() should not mutate original transfers object.')
-})
+  t.deepEqual(
+    transfers,
+    transfersCopy,
+    "prepareTransfers() should not mutate original transfers object."
+  );
+});
 
-test('prepareTransfers() with network prepares the correct array of trytes.', async t => {
-    const trytes = await prepareTransfersWithNetwork('SEED', transfers)
+test("prepareTransfers() with network prepares the correct array of hbytes.", async t => {
+  const hbytes = await prepareTransfersWithNetwork("SEED", transfers);
 
-    t.deepEqual(trytes, expected, 'prepareTranfers() should prepare the correct array of trytes.')
-})
+  t.deepEqual(
+    hbytes,
+    expected,
+    "prepareTranfers() should prepare the correct array of hbytes."
+  );
+});
 
-test('prepareTransfer() prepares correct trytes for zero value transfers', async t => {
-    const zeroValueTrytes = await prepareTransfersWithNetwork('SEED', zeroValueTransfer)
+test("prepareTransfer() prepares correct hbytes for zero value transfers", async t => {
+  const zeroValueHBytes = await prepareTransfersWithNetwork(
+    "SEED",
+    zeroValueTransfer
+  );
 
-    t.deepEqual(
-        zeroValueTrytes,
-        expectedZeroValueTrytes,
-        'prepareTransfers() should prepare the correct trytes for zero value transfers'
-    )
-})
+  t.deepEqual(
+    zeroValueHBytes,
+    expectedZeroValueHBytes,
+    "prepareTransfers() should prepare the correct hbytes for zero value transfers"
+  );
+});
 
-test.cb('prepareTransfers() invokes callback', t => {
-    prepareTransfers('SEED', transfers, { inputs, remainderAddress }, t.end)
-})
+test.cb("prepareTransfers() invokes callback", t => {
+  prepareTransfers("SEED", transfers, { inputs, remainderAddress }, t.end);
+});
 
-test.cb('prepareTransfers() passes correct arguments to callback', t => {
-    prepareTransfers('SEED', transfers, { inputs, remainderAddress }, (err, res) => {
-        t.is(err, null, 'prepareTransfers() should pass null as first argument in callback for successful calls.')
+test.cb("prepareTransfers() passes correct arguments to callback", t => {
+  prepareTransfers(
+    "SEED",
+    transfers,
+    { inputs, remainderAddress },
+    (err, res) => {
+      t.is(
+        err,
+        null,
+        "prepareTransfers() should pass null as first argument in callback for successful calls."
+      );
 
-        t.deepEqual(res, expected, 'prepareTransfers() should pass the correct trytes as second argument in callback')
+      t.deepEqual(
+        res,
+        expected,
+        "prepareTransfers() should pass the correct hbytes as second argument in callback"
+      );
 
-        t.end()
-    })
-})
+      t.end();
+    }
+  );
+});

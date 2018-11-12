@@ -1,5 +1,5 @@
-import { trits, trytes } from "@helix/converter";
-import SHA256 from "@helix/sha256";
+import { trits, hbytes } from "@helix/converter";
+import Kerl from "@helix/kerl";
 import { asArray } from "../../types";
 
 /**
@@ -7,11 +7,11 @@ import { asArray } from "../../types";
  * @memberof module:multisig
  */
 export default class Address {
-  private sha256: SHA256;
+  private kerl: Kerl;
 
   constructor(digests?: string | ReadonlyArray<string>) {
-    this.sha256 = new SHA256();
-    this.sha256.initialize();
+    this.kerl = new Kerl();
+    this.kerl.initialize();
 
     if (digests) {
       this.absorb(digests);
@@ -25,7 +25,7 @@ export default class Address {
    *
    * @memberof Address
    *
-   * @param {string|array} digest digest trytes
+   * @param {string|array} digest digest hbytes
    *
    * @return {object} address instance
    */
@@ -39,21 +39,21 @@ export default class Address {
       const digestTrits = trits(digestsArray[i]);
 
       // Absorb digest
-      this.sha256.update(digestTrits, 0, digestTrits.length);
+      this.kerl.absorb(digestTrits, 0, digestTrits.length);
     }
 
     return this;
   }
   /**
-   * Finalizes and returns the multisig address in trytes
+   * Finalizes and returns the multisig address in hbytes
    *
    * @member finalize
    *
    * @memberof Address
    *
-   * @param {string} digest digest trytes, optional
+   * @param {string} digest digest hbytes, optional
    *
-   * @return {string} address trytes
+   * @return {string} address hbytes
    */
   public finalize(digest?: string) {
     // Absorb last digest if provided
@@ -62,10 +62,10 @@ export default class Address {
     }
 
     // Squeeze the address trits
-    const addressTrits: Int8Array = new Int8Array(SHA256.HASH_LENGTH);
-    this.sha256.final(addressTrits, 0, SHA256.HASH_LENGTH);
+    const addressTrits: Int8Array = new Int8Array(Kerl.HASH_LENGTH);
+    this.kerl.squeeze(addressTrits, 0, Kerl.HASH_LENGTH);
 
-    // Convert trits into trytes and return the address
-    return trytes(addressTrits);
+    // Convert trits into hbytes and return the address
+    return hbytes(addressTrits);
   }
 }

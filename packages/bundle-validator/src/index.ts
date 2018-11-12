@@ -1,16 +1,16 @@
 /** @module bundle-validator */
 
-import { trits, trytes } from "@helix/converter";
-import SHA256 from "@helix/sha256";
+import { trits, hbytes } from "@helix/converter";
+import Kerl from "@helix/kerl";
 import { validateSignatures } from "@helix/signing";
 import { isTransaction } from "@helix/transaction";
-import { asTransactionTrytes } from "@helix/transaction-converter";
+import { asTransactionHBytes } from "@helix/transaction-converter";
 import * as errors from "../../errors";
 import { isArray, Validator } from "../../guards";
-import { Bundle, Hash, Transaction, Trytes } from "../../types";
+import { Bundle, Hash, Transaction, HBytes } from "../../types";
 
 interface SignatureFragments {
-  readonly [key: string]: ReadonlyArray<Trytes>;
+  readonly [key: string]: ReadonlyArray<HBytes>;
 }
 
 /**
@@ -70,13 +70,13 @@ export default function isBundle(bundle: Bundle) {
   let totalSum = 0;
   const bundleHash = bundle[0].bundle;
 
-  const sha256 = new SHA256();
-  sha256.initialize();
+  const kerl = new Kerl();
+  kerl.initialize();
 
   // Prepare for signature validation
   const signaturesToValidate: Array<{
     address: Hash;
-    signatureFragments: Trytes[];
+    signatureFragments: HBytes[];
   }> = [];
 
   bundle.forEach((bundleTx, index) => {
@@ -87,11 +87,11 @@ export default function isBundle(bundle: Bundle) {
       return false;
     }
 
-    // Get the transaction trytes
-    const thisTxTrytes = asTransactionTrytes(bundleTx);
+    // Get the transaction hbytes
+    const thisTxHBytes = asTransactionHBytes(bundleTx);
 
-    const thisTxTrits = trits(thisTxTrytes.slice(2187, 2187 + 162));
-    sha256.update(thisTxTrits, 0, thisTxTrits.length);
+    const thisTxTrits = trits(thisTxHBytes.slice(2187, 2187 + 162));
+    kerl.absorb(thisTxTrits, 0, thisTxTrits.length);
 
     // Check if input transaction
     if (bundleTx.value < 0) {
@@ -124,12 +124,12 @@ export default function isBundle(bundle: Bundle) {
   }
 
   // Prepare to absorb txs and get bundleHash
-  const bundleFromTxs: Int8Array = new Int8Array(SHA256.HASH_LENGTH);
+  const bundleFromTxs: Int8Array = new Int8Array(Kerl.HASH_LENGTH);
 
   // get the bundle hash from the bundle transactions
-  sha256.final(bundleFromTxs, 0, SHA256.HASH_LENGTH);
+  kerl.squeeze(bundleFromTxs, 0, Kerl.HASH_LENGTH);
 
-  const bundleHashFromTxs = trytes(bundleFromTxs);
+  const bundleHashFromTxs = hbytes(bundleFromTxs);
 
   // Check if bundle hash is the same as returned by tx object
   if (bundleHashFromTxs !== bundleHash) {

@@ -1,44 +1,45 @@
 {
-    "name": "@helix/curl",
-    "version": "1.0.0-beta.5",
-    "description": "Curl sponge function",
-    "main": "./out/index.js",
-    "typings": "typings",
-    "publishConfig": {
-        "access": "public"
-    },
-    "scripts": {
-        "prepare": "tsc",
-        "test": "tsc",
-        "format": "prettier"
-    },
-    "contributors": [
-        "Dominik Schiener <dom@iota.org> (https://iota.org)",
-        "Edward Greve <edward@iota.org> (https://github.com/anyong)",
-        "Chris Dukakis <chris.dukakis@iota.org> (https://github.com/chrisdukakis)"
-    ],
-    "ava": {
-        "files": "out/test/*.test.js",
-        "failFast": true,
-        "failWithoutAssertions": false,
-        "compileEnhancements": false,
-        "verbose": true
-    },
-    "keywords": [
-        "iota",
-        "tangle",
-        "library",
-        "browser",
-        "javascript",
-        "nodejs",
-        "API"
-    ],
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/iotaledger/iota.js/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/iotaledger/iota.js.git/tree/develop/packages/crypto"
-    }
+  "name": "@helix/curl",
+  "version": "0.0.1-alpha.0",
+  "description": "Curl sponge function",
+  "main": "./out/index.js",
+  "typings": "typings",
+  "publishConfig": {
+    "access": "private"
+  },
+  "scripts": {
+    "prepare": "tsc",
+    "test": "tsc",
+    "format": "prettier"
+  },
+  "contributors": [
+    "Dominik Schiener <dom@iota.org> (https://iota.org)",
+    "Edward Greve <edward@iota.org> (https://github.com/anyong)",
+    "Chris Dukakis <chris.dukakis@iota.org> (https://github.com/chrisdukakis)"
+  ],
+  "ava": {
+    "files": "out/test/*.test.js",
+    "failFast": true,
+    "failWithoutAssertions": false,
+    "compileEnhancements": false,
+    "verbose": true
+  },
+  "keywords": [
+    "iota",
+    "tangle",
+    "library",
+    "browser",
+    "javascript",
+    "nodejs",
+    "API"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/helixnetwork/helix.api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url":
+      "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
+  }
 }

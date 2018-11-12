@@ -1,54 +1,67 @@
-import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
-import { bundle } from '@helix/samples'
-import { INVALID_TRANSACTION_TRYTES } from '../../../errors'
-import { createSendTrytes } from '../../src'
-import { attachToTangleCommand } from './nocks/attachToTangle'
-import { getTransactionsToApproveCommand } from './nocks/getTransactionsToApprove'
-import './nocks/broadcastTransactions'
-import './nocks/storeTransactions'
+import test from "ava";
+import { createHttpClient } from "@helix/http-client";
+import { bundle } from "@helix/samples";
+import { INVALID_TRANSACTION_HBYTES } from "../../../errors";
+import { createSendHBytes } from "../../src";
+import { attachToTangleCommand } from "./nocks/attachToTangle";
+import { getTransactionsToApproveCommand } from "./nocks/getTransactionsToApprove";
+import "./nocks/broadcastTransactions";
+import "./nocks/storeTransactions";
 
-const { minWeightMagnitude, trytes } = attachToTangleCommand
-const { depth } = getTransactionsToApproveCommand
+const { minWeightMagnitude, hbytes } = attachToTangleCommand;
+const { depth } = getTransactionsToApproveCommand;
 
-const sendTrytes = createSendTrytes(createHttpClient())
+const sendHBytes = createSendHBytes(createHttpClient());
 
-test('sendTrytes() attaches to tangle, broadcasts, stores and resolves to transaction objects.', async t => {
-    t.deepEqual(
-        await sendTrytes(trytes, depth, minWeightMagnitude),
-        bundle,
-        'sendTrytes() should attach to tangle, broadcast, store and resolve to transaction objects.'
-    )
-})
+test("sendHBytes() attaches to tangle, broadcasts, stores and resolves to transaction objects.", async t => {
+  t.deepEqual(
+    await sendHBytes(hbytes, depth, minWeightMagnitude),
+    bundle,
+    "sendHBytes() should attach to tangle, broadcast, store and resolve to transaction objects."
+  );
+});
 
-test('sendTrytes() does not mutate original trytes.', async t => {
-    const trytesCopy = [...trytes]
+test("sendHBytes() does not mutate original hbytes.", async t => {
+  const hbytesCopy = [...hbytes];
 
-    await sendTrytes(trytesCopy, depth, minWeightMagnitude)
+  await sendHBytes(hbytesCopy, depth, minWeightMagnitude);
 
-    t.deepEqual(trytesCopy, trytes, 'sendTrytes() should not mutate original trytes.')
-})
+  t.deepEqual(
+    hbytesCopy,
+    hbytes,
+    "sendHBytes() should not mutate original hbytes."
+  );
+});
 
-test('sendTrytes() rejects with correct errors for invalid input.', t => {
-    const invalidTrytes = ['asdasDSFDAFD']
+test("sendHBytes() rejects with correct errors for invalid input.", t => {
+  const invalidHBytes = ["asdasDSFDAFD"];
 
+  t.is(
+    t.throws(() => sendHBytes(invalidHBytes, depth, minWeightMagnitude), Error)
+      .message,
+    `${INVALID_TRANSACTION_HBYTES}: ${invalidHBytes[0]}`,
+    "sendHBytes() should throw correct error for invalid hbytes."
+  );
+});
+
+test.cb("sendHBytes() invokes callback", t => {
+  sendHBytes(hbytes, depth, minWeightMagnitude, undefined, t.end);
+});
+
+test.cb("sendHBytes() passes correct arguments to callback", t => {
+  sendHBytes(hbytes, depth, minWeightMagnitude, undefined, (err, res) => {
     t.is(
-        t.throws(() => sendTrytes(invalidTrytes, depth, minWeightMagnitude), Error).message,
-        `${INVALID_TRANSACTION_TRYTES}: ${invalidTrytes[0]}`,
-        'sendTrytes() should throw correct error for invalid trytes.'
-    )
-})
+      err,
+      null,
+      "sendHBytes() should pass null as first argument in callback for successuful requests"
+    );
 
-test.cb('sendTrytes() invokes callback', t => {
-    sendTrytes(trytes, depth, minWeightMagnitude, undefined, t.end)
-})
+    t.deepEqual(
+      res,
+      bundle,
+      "sendHBytes() should pass the correct response as second argument in callback"
+    );
 
-test.cb('sendTrytes() passes correct arguments to callback', t => {
-    sendTrytes(trytes, depth, minWeightMagnitude, undefined, (err, res) => {
-        t.is(err, null, 'sendTrytes() should pass null as first argument in callback for successuful requests')
-
-        t.deepEqual(res, bundle, 'sendTrytes() should pass the correct response as second argument in callback')
-
-        t.end()
-    })
-})
+    t.end();
+  });
+});

@@ -1,19 +1,17 @@
 {
   "lerna": "2.10.1",
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "create": {
-    "homepage": "https://github.com/iotaledger/iota.lib.js",
+    "homepage": "https://github.com/helixnetwork/helix.api",
     "license": "MIT"
   },
   "publish": {
-    "allowBranch": "next",
+    "allowBranch": "lerna",
     "cdVersion": "prerelease",
     "conventionalCommits": true,
     "gitRemote": "upstream",
     "preid": "alpha",
     "message": "publish %s"
   },
-  "version": "1.0.0-beta.5"
+  "version": "0.0.1-alpha.0"
 }

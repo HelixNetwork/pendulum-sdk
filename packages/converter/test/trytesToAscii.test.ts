@@ -1,31 +1,35 @@
-import test from 'ava'
-import * as errors from '../src/errors'
-import { trytesToAscii } from '../src'
+import test from "ava";
+import * as errors from "../src/errors";
+import { hbytesToAscii } from "../src";
 
-const { INVALID_ODD_LENGTH, INVALID_TRYTES } = errors
+const { INVALID_ODD_LENGTH, INVALID_HBYTES } = errors;
 
-test('trytesToAscii()', t => {
-    const trytes = 'SBYBCCKB'
-    const expected = 'IOTA'
+test("hbytesToAscii()", t => {
+  const hbytes = "SBYBCCKB";
+  const expected = "IOTA";
 
-    const nonTrytes = 'AAAfasds'
-    const trytesOfOddLength = 'AAA'
+  const nonHBytes = "AAAfasds";
+  const hbytesOfOddLength = "AAA";
 
-    t.is(trytesToAscii(trytes), expected, 'fromTrytes() should convert trytes to ascii.')
+  t.is(
+    hbytesToAscii(hbytes),
+    expected,
+    "fromHBytes() should convert hbytes to ascii."
+  );
 
-    const invalidTrytesError = t.throws(
-        () => trytesToAscii(nonTrytes),
-        Error,
-        'fromTrytes() should throw error for non-trytes.'
-    )
+  const invalidHBytesError = t.throws(
+    () => hbytesToAscii(nonHBytes),
+    Error,
+    "fromHBytes() should throw error for non-hbytes."
+  );
 
-    t.is(invalidTrytesError.message, INVALID_TRYTES, 'incorrect error message')
+  t.is(invalidHBytesError.message, INVALID_HBYTES, "incorrect error message");
 
-    const oddLengthError = t.throws(
-        () => trytesToAscii(trytesOfOddLength),
-        Error,
-        'fromTrytes() should throw error for trytes of odd length.'
-    )
+  const oddLengthError = t.throws(
+    () => hbytesToAscii(hbytesOfOddLength),
+    Error,
+    "fromHBytes() should throw error for hbytes of odd length."
+  );
 
-    t.is(oddLengthError.message, INVALID_ODD_LENGTH, 'incorrect error message')
-})
+  t.is(oddLengthError.message, INVALID_ODD_LENGTH, "incorrect error message");
+});

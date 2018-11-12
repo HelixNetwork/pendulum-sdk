@@ -1,94 +1,105 @@
 /** @module transaction-converter */
 
-import { tritsToTrytes, trytesToTrits, value } from '@helix/converter'
-import { transactionHash } from '@helix/transaction'
-import Curl from '@helix/curl'
-import { padTrits, padTrytes } from '@helix/pad'
-import * as errors from '../../errors'
-import { isTrytesOfExactLength } from '../../guards'
-import { asArray, Hash, Transaction, Trytes } from '../../types'
+import { tritsToHBytes, hbytesToTrits, value } from "@helix/converter";
+import { transactionHash } from "@helix/transaction";
+import Curl from "@helix/curl";
+import { padTrits, padHBytes } from "@helix/pad";
+import * as errors from "../../errors";
+import { isHBytesOfExactLength } from "../../guards";
+import { asArray, Hash, Transaction, HBytes } from "../../types";
 
-export function asTransactionTrytes(transactions: Transaction): Trytes
-export function asTransactionTrytes(transactions: ReadonlyArray<Transaction>): ReadonlyArray<Trytes>
+export function asTransactionHBytes(transactions: Transaction): HBytes;
+export function asTransactionHBytes(
+  transactions: ReadonlyArray<Transaction>
+): ReadonlyArray<HBytes>;
 /**
- * Converts a transaction object or a list of those into transaction trytes.
+ * Converts a transaction object or a list of those into transaction hbytes.
  *
- * @method asTransactionTrytes
+ * @method asTransactionHBytes
  *
  * @param {Transaction | Transaction[]} transactions - Transaction object(s)
  *
- * @return {Trytes | Trytes[]} Transaction trytes
+ * @return {HBytes | HBytes[]} Transaction hbytes
  */
-export function asTransactionTrytes(
-    transactions: Transaction | ReadonlyArray<Transaction>
-): Trytes | ReadonlyArray<Trytes> {
-    const txTrytes = asArray(transactions).map(transaction =>
-        [
-            transaction.signatureMessageFragment,
-            transaction.address,
-            tritsToTrytes(padTrits(81)(trytesToTrits(transaction.value))),
-            padTrytes(27)(transaction.obsoleteTag),
-            tritsToTrytes(padTrits(27)(trytesToTrits(transaction.timestamp))),
-            tritsToTrytes(padTrits(27)(trytesToTrits(transaction.currentIndex))),
-            tritsToTrytes(padTrits(27)(trytesToTrits(transaction.lastIndex))),
-            transaction.bundle,
-            transaction.trunkTransaction,
-            transaction.branchTransaction,
-            padTrytes(27)(transaction.tag || transaction.obsoleteTag),
-            tritsToTrytes(padTrits(27)(trytesToTrits(transaction.attachmentTimestamp))),
-            tritsToTrytes(padTrits(27)(trytesToTrits(transaction.attachmentTimestampLowerBound))),
-            tritsToTrytes(padTrits(27)(trytesToTrits(transaction.attachmentTimestampUpperBound))),
-            transaction.nonce,
-        ].join('')
-    )
+export function asTransactionHBytes(
+  transactions: Transaction | ReadonlyArray<Transaction>
+): HBytes | ReadonlyArray<HBytes> {
+  const txHBytes = asArray(transactions).map(transaction =>
+    [
+      transaction.signatureMessageFragment,
+      transaction.address,
+      tritsToHBytes(padTrits(81)(hbytesToTrits(transaction.value))),
+      padHBytes(27)(transaction.obsoleteTag),
+      tritsToHBytes(padTrits(27)(hbytesToTrits(transaction.timestamp))),
+      tritsToHBytes(padTrits(27)(hbytesToTrits(transaction.currentIndex))),
+      tritsToHBytes(padTrits(27)(hbytesToTrits(transaction.lastIndex))),
+      transaction.bundle,
+      transaction.trunkTransaction,
+      transaction.branchTransaction,
+      padHBytes(27)(transaction.tag || transaction.obsoleteTag),
+      tritsToHBytes(
+        padTrits(27)(hbytesToTrits(transaction.attachmentTimestamp))
+      ),
+      tritsToHBytes(
+        padTrits(27)(hbytesToTrits(transaction.attachmentTimestampLowerBound))
+      ),
+      tritsToHBytes(
+        padTrits(27)(hbytesToTrits(transaction.attachmentTimestampUpperBound))
+      ),
+      transaction.nonce
+    ].join("")
+  );
 
-    return Array.isArray(transactions) ? txTrytes : txTrytes[0]
+  return Array.isArray(transactions) ? txHBytes : txHBytes[0];
 }
 
 /**
- * Converts transaction trytes of 2673 trytes into a transaction object.
+ * Converts transaction hbytes of 2673 hbytes into a transaction object.
  *
  * @method asTransactionObject
  *
- * @param {Trytes} trytes - Transaction trytes
+ * @param {HBytes} hbytes - Transaction hbytes
  *
  * @return {Transaction} Transaction object
  */
-export const asTransactionObject = (trytes: Trytes, hash?: Hash): Transaction => {
-    if (!isTrytesOfExactLength(trytes, 2673)) {
-        throw new Error(errors.INVALID_TRYTES)
-    }
+export const asTransactionObject = (
+  hbytes: HBytes,
+  hash?: Hash
+): Transaction => {
+  if (!isHBytesOfExactLength(hbytes, 2673)) {
+    throw new Error(errors.INVALID_HBYTES);
+  }
 
-    for (let i = 2279; i < 2295; i++) {
-        if (trytes.charAt(i) !== '9') {
-            throw new Error(errors.INVALID_TRYTES)
-        }
+  for (let i = 2279; i < 2295; i++) {
+    if (hbytes.charAt(i) !== "9") {
+      throw new Error(errors.INVALID_HBYTES);
     }
+  }
 
-    const trits = trytesToTrits(trytes)
+  const trits = hbytesToTrits(hbytes);
 
-    return {
-        hash: hash || transactionHash(trits),
-        signatureMessageFragment: trytes.slice(0, 2187),
-        address: trytes.slice(2187, 2268),
-        value: value(trits.slice(6804, 6837)),
-        obsoleteTag: trytes.slice(2295, 2322),
-        timestamp: value(trits.slice(6966, 6993)),
-        currentIndex: value(trits.slice(6993, 7020)),
-        lastIndex: value(trits.slice(7020, 7047)),
-        bundle: trytes.slice(2349, 2430),
-        trunkTransaction: trytes.slice(2430, 2511),
-        branchTransaction: trytes.slice(2511, 2592),
-        tag: trytes.slice(2592, 2619),
-        attachmentTimestamp: value(trits.slice(7857, 7884)),
-        attachmentTimestampLowerBound: value(trits.slice(7884, 7911)),
-        attachmentTimestampUpperBound: value(trits.slice(7911, 7938)),
-        nonce: trytes.slice(2646, 2673),
-    }
-}
+  return {
+    hash: hash || transactionHash(trits),
+    signatureMessageFragment: hbytes.slice(0, 2187),
+    address: hbytes.slice(2187, 2268),
+    value: value(trits.slice(6804, 6837)),
+    obsoleteTag: hbytes.slice(2295, 2322),
+    timestamp: value(trits.slice(6966, 6993)),
+    currentIndex: value(trits.slice(6993, 7020)),
+    lastIndex: value(trits.slice(7020, 7047)),
+    bundle: hbytes.slice(2349, 2430),
+    trunkTransaction: hbytes.slice(2430, 2511),
+    branchTransaction: hbytes.slice(2511, 2592),
+    tag: hbytes.slice(2592, 2619),
+    attachmentTimestamp: value(trits.slice(7857, 7884)),
+    attachmentTimestampLowerBound: value(trits.slice(7884, 7911)),
+    attachmentTimestampUpperBound: value(trits.slice(7911, 7938)),
+    nonce: hbytes.slice(2646, 2673)
+  };
+};
 
 /**
- * Converts a list of transaction trytes into list of transaction objects.
+ * Converts a list of transaction hbytes into list of transaction objects.
  * Accepts a list of hashes and returns a mapper. In cases hashes are given,
  * the mapper function map them to converted objects.
  *
@@ -101,33 +112,36 @@ export const asTransactionObject = (trytes: Trytes, hash?: Hash): Transaction =>
  * @return {Function} {@link #module_transaction.transactionObjectsMapper `transactionObjectsMapper`}
  */
 export const asTransactionObjects = (hashes?: ReadonlyArray<Hash>) => {
-    /**
-     * Maps the list of given hashes to a list of converted transaction objects.
-     *
-     * @method transactionObjectsMapper
-     *
-     * @param {Trytes[]} trytes - List of transaction trytes to convert
-     *
-     * @return {Transaction[]} List of transaction objects with hashes
-     */
-    return function transactionObjectsMapper(trytes: ReadonlyArray<Trytes>) {
-        return trytes.map((tryteString, i) => asTransactionObject(tryteString, hashes![i]))
-    }
-}
+  /**
+   * Maps the list of given hashes to a list of converted transaction objects.
+   *
+   * @method transactionObjectsMapper
+   *
+   * @param {HBytes[]} hbytes - List of transaction hbytes to convert
+   *
+   * @return {Transaction[]} List of transaction objects with hashes
+   */
+  return function transactionObjectsMapper(hbytes: ReadonlyArray<HBytes>) {
+    return hbytes.map((tryteString, i) =>
+      asTransactionObject(tryteString, hashes![i])
+    );
+  };
+};
 
-export const asFinalTransactionTrytes = (transactions: ReadonlyArray<Transaction>) =>
-    [...asTransactionTrytes(transactions)].reverse()
+export const asFinalTransactionHBytes = (
+  transactions: ReadonlyArray<Transaction>
+) => [...asTransactionHBytes(transactions)].reverse();
 
-export const transactionObject = (trytes: Trytes): Transaction => {
-    /* tslint:disable-next-line:no-console */
-    console.warn('`transactionObject` has been renamed to `asTransactionObject`')
+export const transactionObject = (hbytes: HBytes): Transaction => {
+  /* tslint:disable-next-line:no-console */
+  console.warn("`transactionObject` has been renamed to `asTransactionObject`");
 
-    return asTransactionObject(trytes)
-}
+  return asTransactionObject(hbytes);
+};
 
-export const transactionTrytes = (transaction: Transaction): Trytes => {
-    /* tslint:disable-next-line:no-console */
-    console.warn('`transactionTrytes` has been renamed to `asTransactionTrytes`')
+export const transactionHBytes = (transaction: Transaction): HBytes => {
+  /* tslint:disable-next-line:no-console */
+  console.warn("`transactionHBytes` has been renamed to `asTransactionHBytes`");
 
-    return asTransactionTrytes(transaction)
-}
+  return asTransactionHBytes(transaction);
+};

@@ -1,9 +1,9 @@
 import * as Promise from "bluebird";
 import { createGetBalances, Balances } from "@helix/core";
-import { trits, trytes } from "@helix/converter";
+import { trits, hbytes } from "@helix/converter";
 import { removeChecksum } from "@helix/checksum";
-import { addEntry, addTrytes, finalizeBundle } from "@helix/bundle";
-import SHA256 from "@helix/sha256";
+import { addEntry, addHBytes, finalizeBundle } from "@helix/bundle";
+import Kerl from "@helix/kerl";
 import {
   digests,
   key,
@@ -15,7 +15,7 @@ import * as errors from "../../errors";
 import {
   arrayValidator,
   isHash,
-  isNinesTrytes,
+  isNinesHBytes,
   isSecurityLevel,
   remainderAddressValidator,
   transferValidator,
@@ -72,9 +72,9 @@ export const createBundle = (
   for (let i = 0; i < transfers.length; i++) {
     let signatureMessageLength = 1;
 
-    // If message longer than 2187 trytes, increase signatureMessageLength (add multiple transactions)
+    // If message longer than 2187 hbytes, increase signatureMessageLength (add multiple transactions)
     if ((transfers[i].message || "").length > 2187) {
-      // Get total length, message / maxLength (2187 trytes)
+      // Get total length, message / maxLength (2187 hbytes)
       signatureMessageLength += Math.floor(
         (transfers[i].message || "").length / 2187
       );
@@ -94,7 +94,7 @@ export const createBundle = (
         signatureFragments.push(fragment);
       }
     } else {
-      // Else, get single fragment with 2187 of 9's trytes
+      // Else, get single fragment with 2187 of 9's hbytes
       let fragment = "";
 
       if (transfers[i].message) {
@@ -172,7 +172,7 @@ export const createBundle = (
     bundle = _bundle.slice();
   }
 
-  return addTrytes(
+  return addHBytes(
     finalizeBundle(bundle),
     signatureFragments,
     bundle.findIndex(tx => tx.value < 0)
@@ -203,10 +203,10 @@ export default class Multisig {
    * @param {number} index
    * @param {number} security Security level to be used for the private key / address. Can be 1, 2 or 3
    *
-   * @return {string} digest trytes
+   * @return {string} digest hbytes
    */
   public getKey(seed: string, index: number, security: number) {
-    return trytes(key(subseed(trits(seed), index), security));
+    return hbytes(key(subseed(trits(seed), index), security));
   }
 
   /**
@@ -220,12 +220,12 @@ export default class Multisig {
    * @param {number} index
    * @param {number} security Security level to be used for the private key / address. Can be 1, 2 or 3
    *
-   * @return {string} digest trytes
+   * @return {string} digest hbytes
    **/
   public getDigest(seed: string, index: number, security: number) {
     const keyTrits = key(subseed(trits(seed), index), security);
 
-    return trytes(digests(keyTrits));
+    return hbytes(digests(keyTrits));
   }
 
   /**
@@ -244,23 +244,23 @@ export default class Multisig {
     multisigAddress: string,
     digestsArr: ReadonlyArray<string>
   ) {
-    const sha256 = new SHA256();
+    const kerl = new Kerl();
 
-    // initialize SHA256 with the provided state
-    sha256.initialize();
+    // initialize Kerl with the provided state
+    kerl.initialize();
 
     // Absorb all key digests
     digestsArr.forEach(keyDigest => {
       const digestTrits = trits(keyDigest);
-      sha256.update(trits(keyDigest), 0, digestTrits.length);
+      kerl.absorb(trits(keyDigest), 0, digestTrits.length);
     });
 
     // Squeeze address trits
-    const addressTrits: Int8Array = new Int8Array(SHA256.HASH_LENGTH);
-    sha256.final(addressTrits, 0, SHA256.HASH_LENGTH);
+    const addressTrits: Int8Array = new Int8Array(Kerl.HASH_LENGTH);
+    kerl.squeeze(addressTrits, 0, Kerl.HASH_LENGTH);
 
-    // Convert trits into trytes and return the address
-    return trytes(addressTrits) === multisigAddress;
+    // Convert trits into hbytes and return the address
+    return hbytes(addressTrits) === multisigAddress;
   }
 
   /**
@@ -329,23 +329,23 @@ export default class Multisig {
    * @param {string} key
    * @param {function} callback
    *
-   * @return {array} trytes Returns bundle trytes
+   * @return {array} hbytes Returns bundle hbytes
    */
   public addSignature(
     bundleToSign: Bundle,
     inputAddress: string,
-    keyTrytes: string,
+    keyHBytes: string,
     callback: Callback
   ) {
     const bundle = bundleToSign;
     const _bundle: Array<Partial<Transaction>> = [];
 
     // Get the security used for the private key
-    // 1 security level = 2187 trytes
-    const security = keyTrytes.length / 2187;
+    // 1 security level = 2187 hbytes
+    const security = keyHBytes.length / 2187;
 
-    // convert private key trytes into trits
-    const keyTrits = trits(keyTrytes);
+    // convert private key hbytes into trits
+    const keyTrits = trits(keyHBytes);
 
     // First get the total number of already signed transactions
     // use that for the bundle hash calculation as well as knowing
@@ -355,7 +355,7 @@ export default class Multisig {
     for (let i = 0; i < bundle.length; i++) {
       if (bundle[i].address === inputAddress) {
         // If transaction is already signed, increase counter
-        if (!isNinesTrytes(bundle[i].signatureMessageFragment as string)) {
+        if (!isNinesHBytes(bundle[i].signatureMessageFragment as string)) {
           numSignedTxs++;
         } else {
           // Else sign the transactionse
@@ -376,7 +376,7 @@ export default class Multisig {
             );
           }
 
-          //  First bundle fragment uses 27 trytes
+          //  First bundle fragment uses 27 hbytes
           const firstBundleFragment =
             normalizedBundleFragments[numSignedTxs % 3];
 
@@ -386,16 +386,16 @@ export default class Multisig {
             firstFragment
           );
 
-          //  Convert signature to trytes and assign the new signatureFragment
+          //  Convert signature to hbytes and assign the new signatureFragment
           _bundle.push({
-            signatureMessageFragment: trytes(firstSignedFragment)
+            signatureMessageFragment: hbytes(firstSignedFragment)
           });
 
           for (let j = 1; j < security; j++) {
             //  Next 6561 trits for the firstFragment
             const nextFragment = keyTrits.slice(6561 * j, (j + 1) * 6561);
 
-            //  Use the next 27 trytes
+            //  Use the next 27 hbytes
             const nextBundleFragment =
               normalizedBundleFragments[(numSignedTxs + j) % 3];
 
@@ -405,10 +405,10 @@ export default class Multisig {
               nextFragment
             );
 
-            //  Convert signature to trytes and add new bundle entry at i + j position
+            //  Convert signature to hbytes and add new bundle entry at i + j position
             // Assign the signature fragment
             _bundle.push({
-              signatureMessageFragment: trytes(nextSignedFragment)
+              signatureMessageFragment: hbytes(nextSignedFragment)
             });
           }
 

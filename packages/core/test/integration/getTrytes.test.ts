@@ -1,43 +1,47 @@
-import test from 'ava'
-import { createHttpClient } from '@helix/http-client'
-import { INVALID_TRANSACTION_HASH } from '../../../errors'
-import { createGetTrytes } from '../../src'
-import { getTrytesCommand, getTrytesResponse } from './nocks/getTrytes'
+import test from "ava";
+import { createHttpClient } from "@helix/http-client";
+import { INVALID_TRANSACTION_HASH } from "../../../errors";
+import { createGetHBytes } from "../../src";
+import { getHBytesCommand, getHBytesResponse } from "./nocks/getHBytes";
 
-const getTrytes = createGetTrytes(createHttpClient())
+const getHBytes = createGetHBytes(createHttpClient());
 
-test('getTrytes() resolves to correct response', async t => {
-    t.deepEqual(
-        await getTrytes(getTrytesCommand.hashes),
-        getTrytesResponse.trytes,
-        'getTrytes() should resolve to correct tryte array'
-    )
-})
+test("getHBytes() resolves to correct response", async t => {
+  t.deepEqual(
+    await getHBytes(getHBytesCommand.hashes),
+    getHBytesResponse.hbytes,
+    "getHBytes() should resolve to correct tryte array"
+  );
+});
 
-test('getTrytes() rejects with correct error for invalid hashes', t => {
-    const invalidHashes = ['asdasDSFDAFD']
+test("getHBytes() rejects with correct error for invalid hashes", t => {
+  const invalidHashes = ["asdasDSFDAFD"];
 
+  t.is(
+    t.throws(() => getHBytes(invalidHashes), Error).message,
+    `${INVALID_TRANSACTION_HASH}: ${invalidHashes[0]}`,
+    "getHBytes() should throw error for invalid hashes"
+  );
+});
+
+test.cb("getHBytes() invokes callback", t => {
+  getHBytes(getHBytesCommand.hashes, t.end);
+});
+
+test.cb("getHBytes() passes correct arguments to callback", t => {
+  getHBytes(getHBytesCommand.hashes, (err, res) => {
     t.is(
-        t.throws(() => getTrytes(invalidHashes), Error).message,
-        `${INVALID_TRANSACTION_HASH}: ${invalidHashes[0]}`,
-        'getTrytes() should throw error for invalid hashes'
-    )
-})
+      err,
+      null,
+      "getHBytes() should pass null as first argument in callback for successuful requests"
+    );
 
-test.cb('getTrytes() invokes callback', t => {
-    getTrytes(getTrytesCommand.hashes, t.end)
-})
+    t.deepEqual(
+      res,
+      getHBytesResponse.hbytes,
+      "getHBytes() should pass the correct response as second argument in callback"
+    );
 
-test.cb('getTrytes() passes correct arguments to callback', t => {
-    getTrytes(getTrytesCommand.hashes, (err, res) => {
-        t.is(err, null, 'getTrytes() should pass null as first argument in callback for successuful requests')
-
-        t.deepEqual(
-            res,
-            getTrytesResponse.trytes,
-            'getTrytes() should pass the correct response as second argument in callback'
-        )
-
-        t.end()
-    })
-})
+    t.end();
+  });
+});

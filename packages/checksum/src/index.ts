@@ -1,65 +1,65 @@
 /** @module checksum */
 
-import { trits, trytes } from "@helix/converter";
-import SHA256 from "@helix/sha256";
+import { trits, hbytes } from "@helix/converter";
+import Kerl from "@helix/kerl";
 import {
   INVALID_ADDRESS,
   INVALID_CHECKSUM,
-  INVALID_TRYTES
+  INVALID_HBYTES
 } from "../../errors";
-import { isHash, isTrytes } from "../../guards";
-import { asArray, Trytes } from "../../types";
+import { isHash, isHBytes } from "../../guards";
+import { asArray, HBytes } from "../../types";
 
 export const errors = {
   INVALID_ADDRESS,
   INVALID_CHECKSUM,
-  INVALID_TRYTES,
+  INVALID_HBYTES,
   INVALID_CHECKSUM_LENGTH: "Invalid checksum length"
 };
 
-const HASH_TRYTES_LENGTH = 81;
-const ADDRESS_CHECKSUM_TRYTES_LENGTH = 9;
-const ADDRESS_WITH_CHECKSUM_TRYTES_LENGTH =
-  HASH_TRYTES_LENGTH + ADDRESS_CHECKSUM_TRYTES_LENGTH;
-const MIN_CHECKSUM_TRYTES_LENGTH = 3;
+const HASH_HBYTES_LENGTH = 81;
+const ADDRESS_CHECKSUM_HBYTES_LENGTH = 9;
+const ADDRESS_WITH_CHECKSUM_HBYTES_LENGTH =
+  HASH_HBYTES_LENGTH + ADDRESS_CHECKSUM_HBYTES_LENGTH;
+const MIN_CHECKSUM_HBYTES_LENGTH = 3;
 
 /**
- * Generates and appends the 9-tryte checksum of the given trytes, usually an address.
+ * Generates and appends the 9-tryte checksum of the given hbytes, usually an address.
  *
  * @method addChecksum
  *
- * @param {string | string[]} input - Input trytes
+ * @param {string | string[]} input - Input hbytes
  *
- * @param {number} [checksumLength=9] - Checksum trytes length
+ * @param {number} [checksumLength=9] - Checksum hbytes length
  *
  * @param {boolean} [isAddress=true] - Flag to denote if given input is address. Defaults to `true`.
  *
  * @returns {string | string[]} Address (with checksum)
  */
 export function addChecksum(
-  input: Trytes,
+  input: HBytes,
   checksumLength?: number,
   isAddress?: boolean
-): Trytes;
+): HBytes;
 export function addChecksum(
-  input: ReadonlyArray<Trytes>,
+  input: ReadonlyArray<HBytes>,
   checksumLength?: number,
   isAddress?: boolean
-): ReadonlyArray<Trytes>;
+): ReadonlyArray<HBytes>;
 export function addChecksum(
-  input: Trytes | ReadonlyArray<Trytes>,
-  checksumLength = ADDRESS_CHECKSUM_TRYTES_LENGTH,
+  input: HBytes | ReadonlyArray<HBytes>,
+  checksumLength = ADDRESS_CHECKSUM_HBYTES_LENGTH,
   isAddress = true
 ) {
-  const withChecksum: ReadonlyArray<Trytes> = asArray(input).map(
-    inputTrytes => {
-      if (!isTrytes(inputTrytes)) {
-        throw new Error(errors.INVALID_TRYTES);
+  const withChecksum: ReadonlyArray<HBytes> = asArray(input).map(
+    inputHBytes => {
+      if (!isHBytes(inputHBytes)) {
+        throw new Error(errors.INVALID_HBYTES);
       }
 
-      if (isAddress && inputTrytes.length !== HASH_TRYTES_LENGTH) {
-        if (inputTrytes.length === ADDRESS_WITH_CHECKSUM_TRYTES_LENGTH) {
-          return inputTrytes;
+      if (isAddress && inputHBytes.length !== HASH_HBYTES_LENGTH) {
+        if (inputHBytes.length === ADDRESS_WITH_CHECKSUM_HBYTES_LENGTH) {
+          return inputHBytes;
         }
 
         throw new Error(errors.INVALID_ADDRESS);
@@ -67,29 +67,29 @@ export function addChecksum(
 
       if (
         !Number.isInteger(checksumLength) ||
-        checksumLength < MIN_CHECKSUM_TRYTES_LENGTH ||
-        (isAddress && checksumLength !== ADDRESS_CHECKSUM_TRYTES_LENGTH)
+        checksumLength < MIN_CHECKSUM_HBYTES_LENGTH ||
+        (isAddress && checksumLength !== ADDRESS_CHECKSUM_HBYTES_LENGTH)
       ) {
         throw new Error(errors.INVALID_CHECKSUM_LENGTH);
       }
 
-      let paddedInputTrytes = inputTrytes;
+      let paddedInputHBytes = inputHBytes;
 
-      while (paddedInputTrytes.length % HASH_TRYTES_LENGTH !== 0) {
-        paddedInputTrytes += "9";
+      while (paddedInputHBytes.length % HASH_HBYTES_LENGTH !== 0) {
+        paddedInputHBytes += "9";
       }
 
-      const inputTrits = trits(paddedInputTrytes);
-      const checksumTrits = new Int8Array(SHA256.HASH_LENGTH);
+      const inputTrits = trits(paddedInputHBytes);
+      const checksumTrits = new Int8Array(Kerl.HASH_LENGTH);
 
-      const sha256 = new SHA256();
-      sha256.initialize();
+      const kerl = new Kerl();
+      kerl.initialize();
 
-      sha256.update(inputTrits, 0, inputTrits.length);
-      sha256.final(checksumTrits, 0, SHA256.HASH_LENGTH);
+      kerl.absorb(inputTrits, 0, inputTrits.length);
+      kerl.squeeze(checksumTrits, 0, Kerl.HASH_LENGTH);
 
-      return inputTrytes.concat(
-        trytes(checksumTrits.slice(243 - checksumLength * 3, 243))
+      return inputHBytes.concat(
+        hbytes(checksumTrits.slice(243 - checksumLength * 3, 243))
       );
     }
   );
@@ -98,34 +98,34 @@ export function addChecksum(
 }
 
 /**
- * Removes the 9-trytes checksum of the given input.
+ * Removes the 9-hbytes checksum of the given input.
  *
  * @method removeChecksum
  *
- * @param {string | string[]} input - Input trytes
+ * @param {string | string[]} input - Input hbytes
  *
- * @return {string | string[]} Trytes without checksum
+ * @return {string | string[]} HBytes without checksum
  */
-export function removeChecksum(input: Trytes): Trytes;
+export function removeChecksum(input: HBytes): HBytes;
 export function removeChecksum(
-  input: ReadonlyArray<Trytes>
-): ReadonlyArray<Trytes>;
-export function removeChecksum(input: Trytes | ReadonlyArray<Trytes>) {
+  input: ReadonlyArray<HBytes>
+): ReadonlyArray<HBytes>;
+export function removeChecksum(input: HBytes | ReadonlyArray<HBytes>) {
   const tryteArray = asArray(input);
 
   if (
     tryteArray.length === 0 ||
     !tryteArray.every(
       t =>
-        isTrytes(t, HASH_TRYTES_LENGTH) ||
-        isTrytes(t, ADDRESS_WITH_CHECKSUM_TRYTES_LENGTH)
+        isHBytes(t, HASH_HBYTES_LENGTH) ||
+        isHBytes(t, ADDRESS_WITH_CHECKSUM_HBYTES_LENGTH)
     )
   ) {
     throw new Error(errors.INVALID_ADDRESS);
   }
 
-  const noChecksum: ReadonlyArray<Trytes> = tryteArray.map(inputTrytes =>
-    inputTrytes.slice(0, HASH_TRYTES_LENGTH)
+  const noChecksum: ReadonlyArray<HBytes> = tryteArray.map(inputHBytes =>
+    inputHBytes.slice(0, HASH_HBYTES_LENGTH)
   );
 
   // return either string or the list
@@ -133,7 +133,7 @@ export function removeChecksum(input: Trytes | ReadonlyArray<Trytes>) {
 }
 
 /**
- * Validates the checksum of the given address trytes.
+ * Validates the checksum of the given address hbytes.
  *
  * @method isValidChecksum
  *
@@ -141,5 +141,5 @@ export function removeChecksum(input: Trytes | ReadonlyArray<Trytes>) {
  *
  * @return {boolean}
  */
-export const isValidChecksum = (addressWithChecksum: Trytes): boolean =>
+export const isValidChecksum = (addressWithChecksum: HBytes): boolean =>
   addressWithChecksum === addChecksum(removeChecksum(addressWithChecksum));

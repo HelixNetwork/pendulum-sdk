@@ -1,45 +1,45 @@
-import * as errors from './errors'
+import * as errors from "./errors";
 
-const RADIX = 3
-const MAX_TRIT_VALUE = 1
-const MIN_TRIT_VALUE = -1
+const RADIX = 3;
+const MAX_TRIT_VALUE = 1;
+const MIN_TRIT_VALUE = -1;
 
 // All possible tryte values
-export const TRYTE_ALPHABET = '9ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+export const TRYTE_ALPHABET = "9ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-// Trytes to trits look up table
-export const TRYTES_TRITS_LUT: ReadonlyArray<ReadonlyArray<number>> = [
-    [0, 0, 0],
-    [1, 0, 0],
-    [-1, 1, 0],
-    [0, 1, 0],
-    [1, 1, 0],
-    [-1, -1, 1],
-    [0, -1, 1],
-    [1, -1, 1],
-    [-1, 0, 1],
-    [0, 0, 1],
-    [1, 0, 1],
-    [-1, 1, 1],
-    [0, 1, 1],
-    [1, 1, 1],
-    [-1, -1, -1],
-    [0, -1, -1],
-    [1, -1, -1],
-    [-1, 0, -1],
-    [0, 0, -1],
-    [1, 0, -1],
-    [-1, 1, -1],
-    [0, 1, -1],
-    [1, 1, -1],
-    [-1, -1, 0],
-    [0, -1, 0],
-    [1, -1, 0],
-    [-1, 0, 0],
-]
+// HBytes to trits look up table
+export const HBYTES_TRITS_LUT: ReadonlyArray<ReadonlyArray<number>> = [
+  [0, 0, 0],
+  [1, 0, 0],
+  [-1, 1, 0],
+  [0, 1, 0],
+  [1, 1, 0],
+  [-1, -1, 1],
+  [0, -1, 1],
+  [1, -1, 1],
+  [-1, 0, 1],
+  [0, 0, 1],
+  [1, 0, 1],
+  [-1, 1, 1],
+  [0, 1, 1],
+  [1, 1, 1],
+  [-1, -1, -1],
+  [0, -1, -1],
+  [1, -1, -1],
+  [-1, 0, -1],
+  [0, 0, -1],
+  [1, 0, -1],
+  [-1, 1, -1],
+  [0, 1, -1],
+  [1, 1, -1],
+  [-1, -1, 0],
+  [0, -1, 0],
+  [1, -1, 0],
+  [-1, 0, 0]
+];
 
 /**
- * Converts trytes or values to trits
+ * Converts hbytes or values to trits
  *
  * @method trits
  *
@@ -50,27 +50,27 @@ export const TRYTES_TRITS_LUT: ReadonlyArray<ReadonlyArray<number>> = [
  * @return {Int8Array} trits
  */
 export function trits(input: string | number): Int8Array {
-    if (typeof input === 'number' && Number.isInteger(input)) {
-        return fromValue(input)
-    } else if (typeof input === 'string') {
-        const result = new Int8Array(input.length * 3)
+  if (typeof input === "number" && Number.isInteger(input)) {
+    return fromValue(input);
+  } else if (typeof input === "string") {
+    const result = new Int8Array(input.length * 3);
 
-        for (let i = 0; i < input.length; i++) {
-            const index = TRYTE_ALPHABET.indexOf(input.charAt(i))
+    for (let i = 0; i < input.length; i++) {
+      const index = TRYTE_ALPHABET.indexOf(input.charAt(i));
 
-            result[i * 3] = TRYTES_TRITS_LUT[index][0]
-            result[i * 3 + 1] = TRYTES_TRITS_LUT[index][1]
-            result[i * 3 + 2] = TRYTES_TRITS_LUT[index][2]
-        }
-
-        return result
-    } else {
-        throw new Error(errors.INVALID_TRYTES)
+      result[i * 3] = HBYTES_TRITS_LUT[index][0];
+      result[i * 3 + 1] = HBYTES_TRITS_LUT[index][1];
+      result[i * 3 + 2] = HBYTES_TRITS_LUT[index][2];
     }
+
+    return result;
+  } else {
+    throw new Error(errors.INVALID_HBYTES);
+  }
 }
 
 /**
- * @method trytesToTrits
+ * @method hbytesToTrits
  *
  * @memberof module:converter
  *
@@ -78,54 +78,54 @@ export function trits(input: string | number): Int8Array {
  *
  * @alias trits
  */
-export const trytesToTrits = trits
+export const hbytesToTrits = trits;
 
 /**
- * Converts trits to trytes
+ * Converts trits to hbytes
  *
- * @method trytes
+ * @method hbytes
  *
  * @memberof module:converter
  *
  * @param {Int8Array} trits
  *
- * @return {String} trytes
+ * @return {String} hbytes
  */
 // tslint:disable-next-line no-shadowed-variable
-export function trytes(trits: Int8Array): string {
-    if (!(trits instanceof Int8Array)) {
-        throw new Error(errors.INVALID_TRITS)
+export function hbytes(trits: Int8Array): string {
+  if (!(trits instanceof Int8Array)) {
+    throw new Error(errors.INVALID_TRITS);
+  }
+
+  let result = "";
+
+  for (let i = 0; i < trits.length; i += 3) {
+    // Iterate over all possible tryte values to find correct trit representation
+    for (let j = 0; j < TRYTE_ALPHABET.length; j++) {
+      if (
+        trits[i] === HBYTES_TRITS_LUT[j][0] &&
+        trits[i + 1] === HBYTES_TRITS_LUT[j][1] &&
+        trits[i + 2] === HBYTES_TRITS_LUT[j][2]
+      ) {
+        result += TRYTE_ALPHABET.charAt(j);
+        break;
+      }
     }
+  }
 
-    let result = ''
-
-    for (let i = 0; i < trits.length; i += 3) {
-        // Iterate over all possible tryte values to find correct trit representation
-        for (let j = 0; j < TRYTE_ALPHABET.length; j++) {
-            if (
-                trits[i] === TRYTES_TRITS_LUT[j][0] &&
-                trits[i + 1] === TRYTES_TRITS_LUT[j][1] &&
-                trits[i + 2] === TRYTES_TRITS_LUT[j][2]
-            ) {
-                result += TRYTE_ALPHABET.charAt(j)
-                break
-            }
-        }
-    }
-
-    return result
+  return result;
 }
 
 /**
- * @method tritsToTrytes
+ * @method tritsToHBytes
  *
  * @memberof module:converter
  *
  * @ignore
  *
- * @alias trytes
+ * @alias hbytes
  */
-export const tritsToTrytes = trytes
+export const tritsToHBytes = hbytes;
 
 /**
  * Converts trits into an integer value
@@ -140,13 +140,13 @@ export const tritsToTrytes = trytes
  */
 // tslint:disable-next-line no-shadowed-variable
 export function value(trits: Int8Array): number {
-    let returnValue = 0
+  let returnValue = 0;
 
-    for (let i = trits.length; i-- > 0; ) {
-        returnValue = returnValue * 3 + trits[i]
-    }
+  for (let i = trits.length; i-- > 0; ) {
+    returnValue = returnValue * 3 + trits[i];
+  }
 
-    return returnValue
+  return returnValue;
 }
 
 /**
@@ -158,7 +158,7 @@ export function value(trits: Int8Array): number {
  *
  * @alias value
  */
-export const tritsToValue = value
+export const tritsToValue = value;
 
 /**
  * Converts an integer value to trits
@@ -173,32 +173,34 @@ export const tritsToValue = value
  */
 // tslint:disable-next-line no-shadowed-variable
 export function fromValue(value: number): Int8Array {
-    const destination = new Int8Array(
-        value ? 1 + Math.floor(Math.log(2 * Math.max(1, Math.abs(value))) / Math.log(3)) : 0
-    )
-    let absoluteValue = value < 0 ? -value : value
-    let i = 0
+  const destination = new Int8Array(
+    value
+      ? 1 + Math.floor(Math.log(2 * Math.max(1, Math.abs(value))) / Math.log(3))
+      : 0
+  );
+  let absoluteValue = value < 0 ? -value : value;
+  let i = 0;
 
-    while (absoluteValue > 0) {
-        let remainder = absoluteValue % RADIX
-        absoluteValue = Math.floor(absoluteValue / RADIX)
+  while (absoluteValue > 0) {
+    let remainder = absoluteValue % RADIX;
+    absoluteValue = Math.floor(absoluteValue / RADIX);
 
-        if (remainder > MAX_TRIT_VALUE) {
-            remainder = MIN_TRIT_VALUE
-            absoluteValue++
-        }
-
-        destination[i] = remainder
-        i++
+    if (remainder > MAX_TRIT_VALUE) {
+      remainder = MIN_TRIT_VALUE;
+      absoluteValue++;
     }
 
-    if (value < 0) {
-        for (let j = 0; j < destination.length; j++) {
-            destination[j] = -destination[j]
-        }
-    }
+    destination[i] = remainder;
+    i++;
+  }
 
-    return destination
+  if (value < 0) {
+    for (let j = 0; j < destination.length; j++) {
+      destination[j] = -destination[j];
+    }
+  }
+
+  return destination;
 }
 
 /**
@@ -210,4 +212,4 @@ export function fromValue(value: number): Int8Array {
  *
  * @alias fromValue
  */
-export const valueToTrits = fromValue
+export const valueToTrits = fromValue;

@@ -1,22 +1,22 @@
-import * as errors from './errors'
-import { TRYTE_ALPHABET } from './'
+import * as errors from "./errors";
+import { TRYTE_ALPHABET } from "./";
 
 /**
- * Converts an ascii encoded string to trytes.
+ * Converts an ascii encoded string to hbytes.
  *
  * ### How conversion works:
  *
- * An ascii value of `1 Byte` can be represented in `2 Trytes`:
+ * An ascii value of `1 Byte` can be represented in `2 HBytes`:
  *
  * 1. We get the decimal unicode value of an individual ASCII character.
  *
  * 2. From the decimal value, we then derive the two tryte values by calculating the tryte equivalent
- * (e.g.: `100` is expressed as `19 + 3 * 27`), given that tryte alphabet contains `27` trytes values:
+ * (e.g.: `100` is expressed as `19 + 3 * 27`), given that tryte alphabet contains `27` hbytes values:
  *   a. The first tryte value is the decimal value modulo `27` (which is the length of the alphabet).
  *   b. The second value is the remainder of `decimal value - first value` devided by `27`.
  *
  * 3. The two values returned from Step 2. are then input as indices into the available
- * trytes alphabet (`9ABCDEFGHIJKLMNOPQRSTUVWXYZ`), to get the correct tryte value.
+ * hbytes alphabet (`9ABCDEFGHIJKLMNOPQRSTUVWXYZ`), to get the correct tryte value.
  *
  * ### Example:
  *
@@ -33,59 +33,62 @@ import { TRYTE_ALPHABET } from './'
  *   a. The first tryte value is `'9ABCDEFGHIJKLMNOPQRSTUVWXYZ'[9] = I`
  *   b. The second tryte value is `'9ABCDEFGHIJKLMNOPQRSTUVWXYZ'[3] = C`
  *
- * Therefore ascii character `Z` is represented as `IC` in trytes.
+ * Therefore ascii character `Z` is represented as `IC` in hbytes.
  *
- * @method asciiToTrytes
+ * @method asciiToHBytes
  *
  * @memberof module:converter
  *
  * @param {string} input - ascii input
  *
- * @return {string} string of trytes
+ * @return {string} string of hbytes
  */
-export const asciiToTrytes = (input: string): string => {
-    // If input is not an ascii string, throw error
-    if (!/^[\x00-\x7F]*$/.test(input)) {
-        throw new Error(errors.INVALID_ASCII_CHARS)
-    }
+export const asciiToHBytes = (input: string): string => {
+  // If input is not an ascii string, throw error
+  if (!/^[\x00-\x7F]*$/.test(input)) {
+    throw new Error(errors.INVALID_ASCII_CHARS);
+  }
 
-    let trytes = ''
+  let hbytes = "";
 
-    for (let i = 0; i < input.length; i++) {
-        const dec = input[i].charCodeAt(0)
+  for (let i = 0; i < input.length; i++) {
+    const dec = input[i].charCodeAt(0);
 
-        trytes += TRYTE_ALPHABET[dec % 27]
-        trytes += TRYTE_ALPHABET[(dec - dec % 27) / 27]
-    }
+    hbytes += TRYTE_ALPHABET[dec % 27];
+    hbytes += TRYTE_ALPHABET[(dec - dec % 27) / 27];
+  }
 
-    return trytes
-}
+  return hbytes;
+};
 
 /**
- * Converts trytes of _even_ length to an ascii string
+ * Converts hbytes of _even_ length to an ascii string
  *
- * @method trytesToAscii
+ * @method hbytesToAscii
  *
  * @memberof module:converter
  *
- * @param {string} trytes - trytes
+ * @param {string} hbytes - hbytes
  *
  * @return {string} string in ascii
  */
-export const trytesToAscii = (trytes: string): string => {
-    if (typeof trytes !== 'string' || !new RegExp(`^[9A-Z]{1,}$`).test(trytes)) {
-        throw new Error(errors.INVALID_TRYTES)
-    }
+export const hbytesToAscii = (hbytes: string): string => {
+  if (typeof hbytes !== "string" || !new RegExp(`^[9A-Z]{1,}$`).test(hbytes)) {
+    throw new Error(errors.INVALID_HBYTES);
+  }
 
-    if (trytes.length % 2) {
-        throw new Error(errors.INVALID_ODD_LENGTH)
-    }
+  if (hbytes.length % 2) {
+    throw new Error(errors.INVALID_ODD_LENGTH);
+  }
 
-    let ascii = ''
+  let ascii = "";
 
-    for (let i = 0; i < trytes.length; i += 2) {
-        ascii += String.fromCharCode(TRYTE_ALPHABET.indexOf(trytes[i]) + TRYTE_ALPHABET.indexOf(trytes[i + 1]) * 27)
-    }
+  for (let i = 0; i < hbytes.length; i += 2) {
+    ascii += String.fromCharCode(
+      TRYTE_ALPHABET.indexOf(hbytes[i]) +
+        TRYTE_ALPHABET.indexOf(hbytes[i + 1]) * 27
+    );
+  }
 
-    return ascii
-}
+  return ascii;
+};

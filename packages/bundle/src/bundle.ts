@@ -1,15 +1,15 @@
 /** @module bundle */
 
-import { trits, trytes } from "@helix/converter";
-import SHA256 from "@helix/sha256";
-import { padTag, padTrits, padTrytes } from "@helix/pad";
+import { trits, hbytes } from "@helix/converter";
+import Kerl from "@helix/kerl";
+import { padTag, padTrits, padHBytes } from "@helix/pad";
 import { add, normalizedBundleHash } from "@helix/signing";
-import { Hash, Bundle, Transaction, Trytes } from "../../types";
+import { Hash, Bundle, Transaction, HBytes } from "../../types";
 
-const NULL_HASH_TRYTES = "9".repeat(81);
-const NULL_TAG_TRYTES = "9".repeat(27);
-const NULL_NONCE_TRYTES = "9".repeat(27);
-const NULL_SIGNATURE_MESSAGE_FRAGMENT_TRYTES = "9".repeat(2187);
+const NULL_HASH_HBYTES = "9".repeat(81);
+const NULL_TAG_HBYTES = "9".repeat(27);
+const NULL_NONCE_HBYTES = "9".repeat(27);
+const NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES = "9".repeat(2187);
 
 export interface BundleEntry {
   readonly length: number;
@@ -17,20 +17,20 @@ export interface BundleEntry {
   readonly value: number;
   readonly tag: string;
   readonly timestamp: number;
-  readonly signatureMessageFragments: ReadonlyArray<Trytes>;
+  readonly signatureMessageFragments: ReadonlyArray<HBytes>;
 }
 
 export const getEntryWithDefaults = (
   entry: Partial<BundleEntry>
 ): BundleEntry => ({
   length: entry.length || 1,
-  address: entry.address || NULL_HASH_TRYTES,
+  address: entry.address || NULL_HASH_HBYTES,
   value: entry.value || 0,
-  tag: entry.tag || NULL_TAG_TRYTES,
+  tag: entry.tag || NULL_TAG_HBYTES,
   timestamp: entry.timestamp || Math.floor(Date.now() / 1000),
   signatureMessageFragments: entry.signatureMessageFragments
-    ? entry.signatureMessageFragments.map(padTrytes(2187))
-    : Array(entry.length || 1).fill(NULL_SIGNATURE_MESSAGE_FRAGMENT_TRYTES)
+    ? entry.signatureMessageFragments.map(padHBytes(2187))
+    : Array(entry.length || 1).fill(NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES)
 });
 
 /**
@@ -58,7 +58,7 @@ export const createBundle = (
  * @param {number} [entry.length=1] - Entry length, which indicates how many transactions in the bundle will occupy
  * @param {string} [entry.address] - Address, defaults to all-9s
  * @param {number} [entry.value = 0] - Value to transfer in _IOTAs_
- * @param {string[]} [entry.signatureMessageFragments] - Array of signature message fragments trytes, defaults to all-9s
+ * @param {string[]} [entry.signatureMessageFragments] - Array of signature message fragments hbytes, defaults to all-9s
  * @param {number} [entry.timestamp] - Transaction timestamp, defaults to `Math.floor(Date.now() / 1000)`
  * @param {string} [entry.tag] - Optional Tag, defaults to null tag (all-9s)
  *
@@ -94,34 +94,34 @@ export const addEntry = (
           lastIndex,
           timestamp,
           signatureMessageFragment: signatureMessageFragments[i],
-          trunkTransaction: NULL_HASH_TRYTES,
-          branchTransaction: NULL_HASH_TRYTES,
+          trunkTransaction: NULL_HASH_HBYTES,
+          branchTransaction: NULL_HASH_HBYTES,
           attachmentTimestamp: 0,
           attachmentTimestampLowerBound: 0,
           attachmentTimestampUpperBound: 0,
-          bundle: NULL_HASH_TRYTES,
-          nonce: NULL_NONCE_TRYTES,
-          hash: NULL_HASH_TRYTES
+          bundle: NULL_HASH_HBYTES,
+          nonce: NULL_NONCE_HBYTES,
+          hash: NULL_HASH_HBYTES
         }))
     );
 };
 
 /**
- * Adds a list of trytes in the bundle starting at offset
+ * Adds a list of hbytes in the bundle starting at offset
  *
- * @method addTrytes
+ * @method addHBytes
  *
  * @param {Transaction[]} transactions - Transactions in the bundle
  *
- * @param {Trytes[]} fragments - Message signature fragments to add
+ * @param {HBytes[]} fragments - Message signature fragments to add
  *
  * @param {number} [offset=0] - Optional offset to start appending signature message fragments
  *
  * @return {Transaction[]} Transactions of finalized bundle
  */
-export const addTrytes = (
+export const addHBytes = (
   transactions: Bundle,
-  fragments: ReadonlyArray<Trytes>,
+  fragments: ReadonlyArray<HBytes>,
   offset = 0
 ): Bundle =>
   transactions.map(
@@ -129,7 +129,7 @@ export const addTrytes = (
       i >= offset && i < offset + fragments.length
         ? {
             ...transaction,
-            signatureMessageFragment: padTrytes(27 * 81)(
+            signatureMessageFragment: padHBytes(27 * 81)(
               fragments[i - offset] || ""
             )
           }
@@ -166,24 +166,24 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
   let validBundle: boolean = false;
 
   while (!validBundle) {
-    const sha256 = new SHA256();
-    sha256.initialize();
+    const kerl = new Kerl();
+    kerl.initialize();
 
     for (let i = 0; i < transactions.length; i++) {
       const essence = trits(
         transactions[i].address +
-          trytes(valueTrits[i]) +
-          trytes(obsoleteTagTrits[i]) +
-          trytes(timestampTrits[i]) +
-          trytes(currentIndexTrits[i]) +
-          trytes(lastIndexTrits)
+          hbytes(valueTrits[i]) +
+          hbytes(obsoleteTagTrits[i]) +
+          hbytes(timestampTrits[i]) +
+          hbytes(currentIndexTrits[i]) +
+          hbytes(lastIndexTrits)
       );
-      sha256.update(essence, 0, essence.length);
+      kerl.absorb(essence, 0, essence.length);
     }
 
-    const bundleHashTrits = new Int8Array(SHA256.HASH_LENGTH);
-    sha256.final(bundleHashTrits, 0, SHA256.HASH_LENGTH);
-    bundleHash = trytes(bundleHashTrits);
+    const bundleHashTrits = new Int8Array(Kerl.HASH_LENGTH);
+    kerl.squeeze(bundleHashTrits, 0, Kerl.HASH_LENGTH);
+    bundleHash = hbytes(bundleHashTrits);
 
     if (normalizedBundleHash(bundleHash).indexOf(13) !== -1) {
       // Insecure bundle, increment obsoleteTag and recompute bundle hash
@@ -197,7 +197,7 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
     ...transaction,
     // overwrite obsoleteTag in first entry
     obsoleteTag:
-      i === 0 ? trytes(obsoleteTagTrits[0]) : transaction.obsoleteTag,
+      i === 0 ? hbytes(obsoleteTagTrits[0]) : transaction.obsoleteTag,
     bundle: bundleHash
   }));
 };
