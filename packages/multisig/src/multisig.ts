@@ -1,6 +1,6 @@
 import * as Promise from "bluebird";
 import { createGetBalances, Balances } from "@helix/core";
-import { trits, hbytes } from "@helix/converter";
+import { hbits, hbytes } from "@helix/converter";
 import { removeChecksum } from "@helix/checksum";
 import { addEntry, addHBytes, finalizeBundle } from "@helix/bundle";
 import Kerl from "@helix/kerl";
@@ -206,7 +206,7 @@ export default class Multisig {
    * @return {string} digest hbytes
    */
   public getKey(seed: string, index: number, security: number) {
-    return hbytes(key(subseed(trits(seed), index), security));
+    return hbytes(key(subseed(hbits(seed), index), security));
   }
 
   /**
@@ -223,7 +223,7 @@ export default class Multisig {
    * @return {string} digest hbytes
    **/
   public getDigest(seed: string, index: number, security: number) {
-    const keyTrits = key(subseed(trits(seed), index), security);
+    const keyTrits = key(subseed(hbits(seed), index), security);
 
     return hbytes(digests(keyTrits));
   }
@@ -251,15 +251,15 @@ export default class Multisig {
 
     // Absorb all key digests
     digestsArr.forEach(keyDigest => {
-      const digestTrits = trits(keyDigest);
-      kerl.absorb(trits(keyDigest), 0, digestTrits.length);
+      const digestTrits = hbits(keyDigest);
+      kerl.absorb(hbits(keyDigest), 0, digestTrits.length);
     });
 
-    // Squeeze address trits
+    // Squeeze address hbits
     const addressTrits: Int8Array = new Int8Array(Kerl.HASH_LENGTH);
     kerl.squeeze(addressTrits, 0, Kerl.HASH_LENGTH);
 
-    // Convert trits into hbytes and return the address
+    // Convert hbits into hbytes and return the address
     return hbytes(addressTrits) === multisigAddress;
   }
 
@@ -344,8 +344,8 @@ export default class Multisig {
     // 1 security level = 2187 hbytes
     const security = keyHBytes.length / 2187;
 
-    // convert private key hbytes into trits
-    const keyTrits = trits(keyHBytes);
+    // convert private key hbytes into hbits
+    const keyTrits = hbits(keyHBytes);
 
     // First get the total number of already signed transactions
     // use that for the bundle hash calculation as well as knowing
@@ -361,7 +361,7 @@ export default class Multisig {
           // Else sign the transactionse
           const bundleHash = bundle[i].bundle;
 
-          //  First 6561 trits for the firstFragment
+          //  First 6561 hbits for the firstFragment
           const firstFragment = keyTrits.slice(0, 6561);
 
           //  Get the normalized bundle hash
@@ -392,7 +392,7 @@ export default class Multisig {
           });
 
           for (let j = 1; j < security; j++) {
-            //  Next 6561 trits for the firstFragment
+            //  Next 6561 hbits for the firstFragment
             const nextFragment = keyTrits.slice(6561 * j, (j + 1) * 6561);
 
             //  Use the next 27 hbytes

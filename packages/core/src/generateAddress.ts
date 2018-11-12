@@ -1,5 +1,5 @@
 import { addChecksum } from "@helix/checksum";
-import { trits, hbytes } from "@helix/converter";
+import { hbits, hbytes } from "@helix/converter";
 import { address, digests, key, subseed } from "@helix/signing";
 import { Hash } from "../../types";
 
@@ -27,7 +27,7 @@ export const generateAddress = (
     seed += 9;
   }
 
-  const keyTrits = key(subseed(trits(seed), index), security);
+  const keyTrits = key(subseed(hbits(seed), index), security);
   const digestsTrits = digests(keyTrits);
   const addressHBytes = hbytes(address(digestsTrits));
 

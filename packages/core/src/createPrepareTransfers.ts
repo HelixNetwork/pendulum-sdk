@@ -1,6 +1,6 @@
 import * as Promise from "bluebird";
 
-import { trits, hbytes } from "@helix/converter";
+import { hbits, hbytes } from "@helix/converter";
 import { addEntry, addHBytes, finalizeBundle } from "@helix/bundle";
 import { isValidChecksum, removeChecksum } from "@helix/checksum";
 import {
@@ -411,7 +411,7 @@ export const addSignatures = (
       transactions,
       inputs.reduce((acc: ReadonlyArray<HBytes>, { keyIndex, security }) => {
         const keyTrits = key(
-          subseed(trits(seed), keyIndex),
+          subseed(hbits(seed), keyIndex),
           security || SECURITY_LEVEL
         );
 
@@ -445,7 +445,7 @@ export const addHMAC = (
   const { hmacKey, transactions } = props;
 
   return hmacKey
-    ? { ...props, transactions: HMAC(transactions, trits(hmacKey)) }
+    ? { ...props, transactions: HMAC(transactions, hbits(hmacKey)) }
     : props;
 };
 

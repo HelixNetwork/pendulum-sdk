@@ -1,15 +1,15 @@
 import test from "ava";
-import { trits, hbytes } from "@helix/converter";
+import { hbits, hbytes } from "@helix/converter";
 import Kerl from "../src";
 
-test("Kerl: absorb()/squeeze(), Converter: trits()/hbytes()", t => {
+test("Kerl: absorb()/squeeze(), Converter: hbits()/hbytes()", t => {
   const input =
     "GYOMKVTSNHVJNCNFBBAH9AAMXLPLLLROQY99QN9DLSJUHDPBLCFFAIQXZA9BKMBJCYSFHFPXAHDWZFEIZ";
   const expected =
     "OXJCNFHUNAHWDLKKPELTBFUCVW9KLXKOGWERKTJXQMXTKFKNWNNXYD9DMJJABSEIONOSJTTEVKVDQEWTW";
 
   const absorbSqueeze = (inputHBytes: string): string => {
-    const inputTrits: Int8Array = trits(inputHBytes);
+    const inputTrits: Int8Array = hbits(inputHBytes);
     const kerl: Kerl = new Kerl();
     kerl.initialize();
     kerl.absorb(inputTrits, 0, inputTrits.length);

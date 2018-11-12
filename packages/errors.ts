@@ -1,6 +1,6 @@
-export const ILLEGAL_LENGTH = "Illegal trits length";
+export const ILLEGAL_LENGTH = "Illegal hbits length";
 export const ILLEGAL_TRIT_CONVERSION_INPUT =
-  "Illegal conversion input. Expected trits as Int8Array.";
+  "Illegal conversion input. Expected hbits as Int8Array.";
 export const ILLEGAL_TRYTE_CONVERSION_INPUT =
   "Illegal conversion input. Expected hbytes string or integer.";
 export const INCONSISTENT_SUBTANGLE = "Inconsistent subtangle";

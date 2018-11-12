@@ -1,6 +1,6 @@
 /** @module bundle */
 
-import { trits, hbytes } from "@helix/converter";
+import { hbits, hbytes } from "@helix/converter";
 import Kerl from "@helix/kerl";
 import { padTag, padTrits, padHBytes } from "@helix/pad";
 import { add, normalizedBundleHash } from "@helix/signing";
@@ -146,20 +146,20 @@ export const addHBytes = (
  * @return {Transaction[]} Transactions of finalized bundle
  */
 export const finalizeBundle = (transactions: Bundle): Bundle => {
-  const valueTrits = transactions.map(tx => trits(tx.value)).map(padTrits(81));
+  const valueTrits = transactions.map(tx => hbits(tx.value)).map(padTrits(81));
 
   const timestampTrits = transactions
-    .map(tx => trits(tx.timestamp))
+    .map(tx => hbits(tx.timestamp))
     .map(padTrits(27));
 
   const currentIndexTrits = transactions
-    .map(tx => trits(tx.currentIndex))
+    .map(tx => hbits(tx.currentIndex))
     .map(padTrits(27));
 
-  const lastIndexTrits = padTrits(27)(trits(transactions[0].lastIndex));
+  const lastIndexTrits = padTrits(27)(hbits(transactions[0].lastIndex));
 
   const obsoleteTagTrits = transactions
-    .map(tx => trits(tx.obsoleteTag))
+    .map(tx => hbits(tx.obsoleteTag))
     .map(padTrits(81));
 
   let bundleHash: Hash;
@@ -170,7 +170,7 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
     kerl.initialize();
 
     for (let i = 0; i < transactions.length; i++) {
-      const essence = trits(
+      const essence = hbits(
         transactions[i].address +
           hbytes(valueTrits[i]) +
           hbytes(obsoleteTagTrits[i]) +

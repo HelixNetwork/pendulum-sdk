@@ -1,6 +1,6 @@
 /** @module signing */
 
-import { fromValue, trits, hbytes, value } from "@helix/converter";
+import { fromValue, hbits, hbytes, value } from "@helix/converter";
 import Kerl from "@helix/kerl";
 import { padTrits } from "@helix/pad";
 import add from "./add";
@@ -10,10 +10,10 @@ import { Hash } from "../../types";
 /**
  * @method subseed
  *
- * @param {Int8Array} seed - Seed trits
+ * @param {Int8Array} seed - Seed hbits
  * @param {number} index - Private key index
  *
- * @return {Int8Array} subseed trits
+ * @return {Int8Array} subseed hbits
  */
 export function subseed(seed: Int8Array, index: number): Int8Array {
   if (index < 0) {
@@ -43,10 +43,10 @@ export function subseed(seed: Int8Array, index: number): Int8Array {
 /**
  * @method key
  *
- * @param {Int8Array} subseed - Subseed trits
+ * @param {Int8Array} subseed - Subseed hbits
  * @param {number} length - Private key length
  *
- * @return {Int8Array} Private key trits
+ * @return {Int8Array} Private key hbits
  */
 export function key(subseed: Int8Array, length: number): Int8Array {
   if (subseed.length % 3 !== 0) {
@@ -76,7 +76,7 @@ export function key(subseed: Int8Array, length: number): Int8Array {
 /**
  * @method digests
  *
- * @param {Int8Array} key - Private key trits
+ * @param {Int8Array} key - Private key hbits
  *
  * @return {Int8Array}
  */
@@ -121,9 +121,9 @@ export function digests(key: Int8Array): Int8Array {
 /**
  * @method address
  *
- * @param {Int8Array} digests - Digests trits
+ * @param {Int8Array} digests - Digests hbits
  *
- * @return {Int8Array} Address trits
+ * @return {Int8Array} Address hbits
  */
 // tslint:disable-next-line no-shadowed-variable
 export function address(digests: Int8Array): Int8Array {
@@ -141,9 +141,9 @@ export function address(digests: Int8Array): Int8Array {
  * @method digest
  *
  * @param {array} normalizedBundleFragment - Normalized bundle fragment
- * @param {Int8Array} signatureFragment - Signature fragment trits
+ * @param {Int8Array} signatureFragment - Signature fragment hbits
  *
- * @return {Int8Array} Digest trits
+ * @return {Int8Array} Digest hbits
  */
 // tslint:disable-next-line no-shadowed-variable
 export function digest(
@@ -178,9 +178,9 @@ export function digest(
  * @method signatureFragment
  *
  * @param {array} normalizeBundleFragment - normalized bundle fragment
- * @param {keyFragment} keyFragment - key fragment trits
+ * @param {keyFragment} keyFragment - key fragment hbits
  *
- * @return {Int8Array} Signature Fragment trits
+ * @return {Int8Array} Signature Fragment hbits
  */
 export function signatureFragment(
   normalizedBundleFragment: Int8Array,
@@ -241,7 +241,7 @@ export function validateSignatures(
   for (let i = 0; i < signatureFragments.length; i++) {
     const digestBuffer = digest(
       normalizedBundleFragments[i % 3],
-      trits(signatureFragments[i])
+      hbits(signatureFragments[i])
     );
 
     for (let j = 0; j < 243; j++) {
@@ -268,7 +268,7 @@ export const normalizedBundleHash = (bundleHash: Hash): Int8Array => {
     let sum = 0;
     for (let j = 0; j < 27; j++) {
       sum += normalizedBundle[i * 27 + j] = value(
-        trits(bundleHash.charAt(i * 27 + j))
+        hbits(bundleHash.charAt(i * 27 + j))
       );
     }
 

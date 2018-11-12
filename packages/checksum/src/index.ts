@@ -1,6 +1,6 @@
 /** @module checksum */
 
-import { trits, hbytes } from "@helix/converter";
+import { hbits, hbytes } from "@helix/converter";
 import Kerl from "@helix/kerl";
 import {
   INVALID_ADDRESS,
@@ -79,7 +79,7 @@ export function addChecksum(
         paddedInputHBytes += "9";
       }
 
-      const inputTrits = trits(paddedInputHBytes);
+      const inputTrits = hbits(paddedInputHBytes);
       const checksumTrits = new Int8Array(Kerl.HASH_LENGTH);
 
       const kerl = new Kerl();

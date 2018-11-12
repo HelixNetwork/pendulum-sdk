@@ -1,6 +1,6 @@
 /** @module bundle-validator */
 
-import { trits, hbytes } from "@helix/converter";
+import { hbits, hbytes } from "@helix/converter";
 import Kerl from "@helix/kerl";
 import { validateSignatures } from "@helix/signing";
 import { isTransaction } from "@helix/transaction";
@@ -90,7 +90,7 @@ export default function isBundle(bundle: Bundle) {
     // Get the transaction hbytes
     const thisTxHBytes = asTransactionHBytes(bundleTx);
 
-    const thisTxTrits = trits(thisTxHBytes.slice(2187, 2187 + 162));
+    const thisTxTrits = hbits(thisTxHBytes.slice(2187, 2187 + 162));
     kerl.absorb(thisTxTrits, 0, thisTxTrits.length);
 
     // Check if input transaction

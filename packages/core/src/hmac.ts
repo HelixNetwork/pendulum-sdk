@@ -1,4 +1,4 @@
-import { trits, hbytes } from "@helix/converter";
+import { hbits, hbytes } from "@helix/converter";
 import Curl from "@helix/curl";
 import { Bundle } from "../../types";
 
@@ -6,7 +6,7 @@ const HMAC_ROUNDS = 27;
 
 export default function addHMAC(transactions: Bundle, key: Int8Array): Bundle {
   const curl = new Curl(HMAC_ROUNDS);
-  const bundleHashTrits = trits(transactions[0].bundle);
+  const bundleHashTrits = hbits(transactions[0].bundle);
   const hmac = new Int8Array(Curl.HASH_LENGTH);
 
   curl.initialize();

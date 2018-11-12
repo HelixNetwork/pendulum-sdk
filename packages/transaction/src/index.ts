@@ -23,11 +23,11 @@ import {
 } from "./constants";
 
 /**
- * Calculates the transaction hash out of 8019 transaction trits.
+ * Calculates the transaction hash out of 8019 transaction hbits.
  *
  * @method transactionHash
  *
- * @param {Int8Array} trits - Int8Array of 8019 transaction trits
+ * @param {Int8Array} trits - Int8Array of 8019 transaction hbits
  *
  * @return {Hash} Transaction hash
  */

@@ -1,15 +1,15 @@
 import test from "ava";
-import { trits, hbytes } from "@helix/converter";
+import { hbits, hbytes } from "@helix/converter";
 import Kerl from "../src";
 
-test("Kerl: multi-absorb()/multi-squeeze(), Converter: trits()/hbytes()", t => {
+test("Kerl: multi-absorb()/multi-squeeze(), Converter: hbits()/hbytes()", t => {
   const input: string =
     "G9JYBOMPUXHYHKSNRNMMSSZCSHOFYOYNZRSZMAAYWDYEIMVVOGKPJBVBM9TDPULSFUNMTVXRKFIDOHUXXVYDLFSZYZTWQYTE9SPYYWYTXJYQ9IFGYOLZXWZBKWZN9QOOTBQMWMUBLEWUEEASRHRTNIQWJQNDWRYLCA";
   const expected: string =
     "LUCKQVACOGBFYSPPVSSOXJEKNSQQRQKPZC9NXFSMQNRQCGGUL9OHVVKBDSKEQEBKXRNUJSRXYVHJTXBPDWQGNSCDCBAIRHAQCOWZEBSNHIJIGPZQITIBJQ9LNTDIBTCQ9EUWKHFLGFUVGGUWJONK9GBCDUIMAYMMQX";
 
   const multiAbsorbMultiSqueeze = (inputHBytes: string): string => {
-    const inputTrits: Int8Array = trits(inputHBytes);
+    const inputTrits: Int8Array = hbits(inputHBytes);
     const kerl: Kerl = new Kerl();
     kerl.initialize();
     kerl.absorb(inputTrits, 0, inputTrits.length);
