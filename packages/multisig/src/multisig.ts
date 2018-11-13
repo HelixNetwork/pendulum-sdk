@@ -24,6 +24,14 @@ import {
 } from "../../guards";
 import { Bundle, Callback, Provider, Transaction, Transfer } from "../../types";
 import Address from "./address";
+import {
+  ADDRESS_BYTE_SIZE,
+  NULL_TAG_HBYTES,
+  SIGNATURE_FRAGMENT_NO,
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS,
+  TAG_BYTE_SIZE
+} from "../../constants";
 
 export interface MultisigInput {
   readonly address: string;
@@ -65,7 +73,7 @@ export const createBundle = (
   const signatureFragments: string[] = [];
   const totalBalance: number = input.balance;
   let totalValue = 0;
-  let tag: string = "9".repeat(27);
+  let tag: string = NULL_TAG_HBYTES;
 
   //  Iterate over all transfers, get totalValue
   //  and prepare the signatureFragments, message and tag
@@ -73,21 +81,32 @@ export const createBundle = (
     let signatureMessageLength = 1;
 
     // If message longer than 2187 hbytes, increase signatureMessageLength (add multiple transactions)
-    if ((transfers[i].message || "").length > 2187) {
+    if (
+      (transfers[i].message || "").length >
+      SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+    ) {
       // Get total length, message / maxLength (2187 hbytes)
       signatureMessageLength += Math.floor(
-        (transfers[i].message || "").length / 2187
+        (transfers[i].message || "").length /
+          SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
       );
 
       let msgCopy = transfers[i].message;
 
       // While there is still a message, copy it
       while (msgCopy) {
-        let fragment = msgCopy.slice(0, 2187);
-        msgCopy = msgCopy.slice(2187, msgCopy.length);
+        let fragment = msgCopy.slice(0, SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE);
+        msgCopy = msgCopy.slice(
+          SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+          msgCopy.length
+        );
 
         // Pad remainder of fragment
-        for (let j = 0; fragment.length < 2187; j++) {
+        for (
+          let j = 0;
+          fragment.length < SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+          j++
+        ) {
           fragment += "9";
         }
 
@@ -98,10 +117,17 @@ export const createBundle = (
       let fragment = "";
 
       if (transfers[i].message) {
-        fragment = (transfers[i].message || "").slice(0, 2187);
+        fragment = (transfers[i].message || "").slice(
+          0,
+          SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+        );
       }
 
-      for (let j = 0; fragment.length < 2187; j++) {
+      for (
+        let j = 0;
+        fragment.length < SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+        j++
+      ) {
         fragment += "9";
       }
 
@@ -109,10 +135,10 @@ export const createBundle = (
     }
 
     // If no tag defined, get 27 tryte tag.
-    tag = transfers[i].tag || "9".repeat(27);
+    tag = transfers[i].tag || NULL_TAG_HBYTES;
 
     // Pad for required 27 tryte length
-    for (let j = 0; tag.length < 27; j++) {
+    for (let j = 0; tag.length < TAG_BYTE_SIZE; j++) {
       tag += "9";
     }
 
@@ -120,7 +146,7 @@ export const createBundle = (
     // Slice the address in case the user provided a checksummed one
     const _bundle = addEntry(bundle, {
       length: signatureMessageLength,
-      address: transfers[i].address.slice(0, 81),
+      address: transfers[i].address.slice(0, ADDRESS_BYTE_SIZE),
       value: transfers[i].value,
       tag,
       timestamp: Math.floor(Date.now() / 1000)
@@ -342,7 +368,7 @@ export default class Multisig {
 
     // Get the security used for the private key
     // 1 security level = 2187 hbytes
-    const security = keyHBytes.length / 2187;
+    const security = keyHBytes.length / SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
 
     // convert private key hbytes into hbits
     const keyHBits = hbits(keyHBytes);
@@ -362,7 +388,10 @@ export default class Multisig {
           const bundleHash = bundle[i].bundle;
 
           //  First 6561 hbits for the firstFragment
-          const firstFragment = keyHBits.slice(0, 6561);
+          const firstFragment = keyHBits.slice(
+            0,
+            SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS
+          );
 
           //  Get the normalized bundle hash
           const normalizedBundle = normalizedBundleHash(bundleHash as string);
@@ -371,8 +400,8 @@ export default class Multisig {
           // Split hash into 3 fragments
           for (let k = 0; k < 3; k++) {
             normalizedBundleFragments[k] = normalizedBundle.slice(
-              k * 27,
-              (k + 1) * 27
+              k * SIGNATURE_FRAGMENT_NO,
+              (k + 1) * SIGNATURE_FRAGMENT_NO
             );
           }
 
@@ -393,7 +422,10 @@ export default class Multisig {
 
           for (let j = 1; j < security; j++) {
             //  Next 6561 hbits for the firstFragment
-            const nextFragment = keyHBits.slice(6561 * j, (j + 1) * 6561);
+            const nextFragment = keyHBits.slice(
+              SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS * j,
+              (j + 1) * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS
+            );
 
             //  Use the next 27 hbytes
             const nextBundleFragment =

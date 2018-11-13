@@ -6,6 +6,11 @@ import { padHBits } from "@helix/pad";
 import add from "./add";
 import * as errors from "./errors";
 import { Hash } from "../../types";
+import {
+  HASH_BYTE_SIZE,
+  SIGNATURE_FRAGMENT_NO,
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS
+} from "../../constants";
 
 /**
  * @method subseed
@@ -27,7 +32,7 @@ export function subseed(seed: Int8Array, index: number): Int8Array {
   const indexHBits = fromValue(index);
   let subseed: Int8Array = add(seed, indexHBits);
 
-  while (subseed.length % 243 !== 0) {
+  while (subseed.length % Kerl.HASH_LENGTH !== 0) {
     subseed = padHBits(subseed.length + 3)(subseed);
   }
 
@@ -59,13 +64,15 @@ export function key(subseed: Int8Array, length: number): Int8Array {
   kerl.absorb(subseed, 0, subseed.length);
 
   const buffer = new Int8Array(Kerl.HASH_LENGTH);
-  const result = new Int8Array(length * 27 * 243);
+  const result = new Int8Array(
+    length * SIGNATURE_FRAGMENT_NO * Kerl.HASH_LENGTH
+  );
   let offset = 0;
 
   while (length-- > 0) {
-    for (let i = 0; i < 27; i++) {
+    for (let i = 0; i < SIGNATURE_FRAGMENT_NO; i++) {
       kerl.squeeze(buffer, 0, subseed.length);
-      for (let j = 0; j < 243; j++) {
+      for (let j = 0; j < Kerl.HASH_LENGTH; j++) {
         result[offset++] = buffer[j];
       }
     }
@@ -82,17 +89,23 @@ export function key(subseed: Int8Array, length: number): Int8Array {
  */
 // tslint:disable-next-line no-shadowed-variable
 export function digests(key: Int8Array): Int8Array {
-  const l = Math.floor(key.length / 6561);
-  const result = new Int8Array(l * 243);
+  const l = Math.floor(key.length / SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS);
+  const result = new Int8Array(l * Kerl.HASH_LENGTH);
   let buffer = new Int8Array(Kerl.HASH_LENGTH);
 
   for (let i = 0; i < l; i++) {
-    const keyFragment = key.slice(i * 6561, (i + 1) * 6561);
+    const keyFragment = key.slice(
+      i * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS,
+      (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS
+    );
 
-    for (let j = 0; j < 27; j++) {
-      buffer = keyFragment.slice(j * 243, (j + 1) * 243);
+    for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
+      buffer = keyFragment.slice(
+        j * Kerl.HASH_LENGTH,
+        (j + 1) * Kerl.HASH_LENGTH
+      );
 
-      for (let k = 0; k < 26; k++) {
+      for (let k = 0; k < SIGNATURE_FRAGMENT_NO - 1; k++) {
         const keyFragmentKerl = new Kerl();
 
         keyFragmentKerl.initialize();
@@ -100,8 +113,8 @@ export function digests(key: Int8Array): Int8Array {
         keyFragmentKerl.squeeze(buffer, 0, Kerl.HASH_LENGTH);
       }
 
-      for (let k = 0; k < 243; k++) {
-        keyFragment[j * 243 + k] = buffer[k];
+      for (let k = 0; k < Kerl.HASH_LENGTH; k++) {
+        keyFragment[j * Kerl.HASH_LENGTH + k] = buffer[k];
       }
     }
 
@@ -111,8 +124,8 @@ export function digests(key: Int8Array): Int8Array {
     digestsKerl.absorb(keyFragment, 0, keyFragment.length);
     digestsKerl.squeeze(buffer, 0, Kerl.HASH_LENGTH);
 
-    for (let j = 0; j < 243; j++) {
-      result[i * 243 + j] = buffer[j];
+    for (let j = 0; j < Kerl.HASH_LENGTH; j++) {
+      result[i * Kerl.HASH_LENGTH + j] = buffer[j];
     }
   }
   return result;
@@ -156,8 +169,11 @@ export function digest(
 
   let buffer = new Int8Array(Kerl.HASH_LENGTH);
 
-  for (let i = 0; i < 27; i++) {
-    buffer = signatureFragment.slice(i * 243, (i + 1) * 243);
+  for (let i = 0; i < SIGNATURE_FRAGMENT_NO; i++) {
+    buffer = signatureFragment.slice(
+      i * Kerl.HASH_LENGTH,
+      (i + 1) * Kerl.HASH_LENGTH
+    );
 
     for (let j = normalizedBundleFragment[i] + 13; j-- > 0; ) {
       const signatureFragmentKerl = new Kerl();
@@ -190,8 +206,11 @@ export function signatureFragment(
 
   const kerl = new Kerl();
 
-  for (let i = 0; i < 27; i++) {
-    const hash = sigFragment.slice(i * 243, (i + 1) * 243);
+  for (let i = 0; i < SIGNATURE_FRAGMENT_NO; i++) {
+    const hash = sigFragment.slice(
+      i * Kerl.HASH_LENGTH,
+      (i + 1) * Kerl.HASH_LENGTH
+    );
 
     for (let j = 0; j < 13 - normalizedBundleFragment[i]; j++) {
       kerl.initialize();
@@ -200,8 +219,8 @@ export function signatureFragment(
       kerl.squeeze(hash, 0, Kerl.HASH_LENGTH);
     }
 
-    for (let j = 0; j < 243; j++) {
-      sigFragment[i * 243 + j] = hash[j];
+    for (let j = 0; j < Kerl.HASH_LENGTH; j++) {
+      sigFragment[i * Kerl.HASH_LENGTH + j] = hash[j];
     }
   }
 
@@ -231,12 +250,15 @@ export function validateSignatures(
 
   // Split hash into 3 fragments
   for (let i = 0; i < 3; i++) {
-    normalizedBundleFragments[i] = normalizedBundle.slice(i * 27, (i + 1) * 27);
+    normalizedBundleFragments[i] = normalizedBundle.slice(
+      i * SIGNATURE_FRAGMENT_NO,
+      (i + 1) * SIGNATURE_FRAGMENT_NO
+    );
   }
 
   // Get digests
   // tslint:disable-next-line no-shadowed-variable
-  const digests = new Int8Array(signatureFragments.length * 243);
+  const digests = new Int8Array(signatureFragments.length * Kerl.HASH_LENGTH);
 
   for (let i = 0; i < signatureFragments.length; i++) {
     const digestBuffer = digest(
@@ -244,8 +266,8 @@ export function validateSignatures(
       hbits(signatureFragments[i])
     );
 
-    for (let j = 0; j < 243; j++) {
-      digests[i * 243 + j] = digestBuffer[j];
+    for (let j = 0; j < Kerl.HASH_LENGTH; j++) {
+      digests[i * Kerl.HASH_LENGTH + j] = digestBuffer[j];
     }
   }
 
@@ -262,30 +284,30 @@ export function validateSignatures(
  * @return {Int8Array} Normalized bundle hash
  */
 export const normalizedBundleHash = (bundleHash: Hash): Int8Array => {
-  const normalizedBundle = new Int8Array(81);
+  const normalizedBundle = new Int8Array(HASH_BYTE_SIZE);
 
   for (let i = 0; i < 3; i++) {
     let sum = 0;
-    for (let j = 0; j < 27; j++) {
-      sum += normalizedBundle[i * 27 + j] = value(
-        hbits(bundleHash.charAt(i * 27 + j))
+    for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
+      sum += normalizedBundle[i * SIGNATURE_FRAGMENT_NO + j] = value(
+        hbits(bundleHash.charAt(i * SIGNATURE_FRAGMENT_NO + j))
       );
     }
 
     if (sum >= 0) {
       while (sum-- > 0) {
-        for (let j = 0; j < 27; j++) {
-          if (normalizedBundle[i * 27 + j] > -13) {
-            normalizedBundle[i * 27 + j]--;
+        for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
+          if (normalizedBundle[i * SIGNATURE_FRAGMENT_NO + j] > -13) {
+            normalizedBundle[i * SIGNATURE_FRAGMENT_NO + j]--;
             break;
           }
         }
       }
     } else {
       while (sum++ < 0) {
-        for (let j = 0; j < 27; j++) {
-          if (normalizedBundle[i * 27 + j] < 13) {
-            normalizedBundle[i * 27 + j]++;
+        for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
+          if (normalizedBundle[i * SIGNATURE_FRAGMENT_NO + j] < 13) {
+            normalizedBundle[i * SIGNATURE_FRAGMENT_NO + j]++;
             break;
           }
         }
