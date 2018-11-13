@@ -14,13 +14,13 @@ import {
 } from "../../guards";
 import { Hash, Transaction, HBytes } from "../../types";
 import {
-  HASH_SIZE,
-  NONCE_HBYTES_SIZE,
-  OBSOLETE_TAG_HBYTES_SIZE,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTES_SIZE,
-  TAG_HBYTES_SIZE,
-  TRANSACTION_HBYTES_SIZE
-} from "./constants";
+  HASH_BYTE_SIZE,
+  NONCE_BYTE_SIZE,
+  OBSOLETE_TAG_BYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  TAG_BYTE_SIZE,
+  TRANSACTION_HBYTE_SIZE
+} from "../../constants";
 
 /**
  * Calculates the transaction hash out of 8019 transaction hbits.
@@ -58,11 +58,11 @@ export const isTransaction = (tx: any): tx is Transaction =>
   isHash(tx.hash) &&
   isHBytesOfExactLength(
     tx.signatureMessageFragment,
-    SIGNATURE_MESSAGE_FRAGMENT_HBYTES_SIZE
+    SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
   ) &&
   isHash(tx.address) &&
   Number.isInteger(tx.value) &&
-  isHBytesOfExactLength(tx.obsoleteTag, OBSOLETE_TAG_HBYTES_SIZE) &&
+  isHBytesOfExactLength(tx.obsoleteTag, OBSOLETE_TAG_BYTE_SIZE) &&
   Number.isInteger(tx.timestamp) &&
   (Number.isInteger(tx.currentIndex) &&
     tx.currentIndex >= 0 &&
@@ -71,11 +71,11 @@ export const isTransaction = (tx: any): tx is Transaction =>
   isHash(tx.bundle) &&
   isHash(tx.trunkTransaction) &&
   isHash(tx.branchTransaction) &&
-  isHBytesOfExactLength(tx.tag, TAG_HBYTES_SIZE) &&
+  isHBytesOfExactLength(tx.tag, TAG_BYTE_SIZE) &&
   Number.isInteger(tx.attachmentTimestamp) &&
   Number.isInteger(tx.attachmentTimestampLowerBound) &&
   Number.isInteger(tx.attachmentTimestampUpperBound) &&
-  isHBytesOfExactLength(tx.nonce, NONCE_HBYTES_SIZE);
+  isHBytesOfExactLength(tx.nonce, NONCE_BYTE_SIZE);
 
 /**
  * Checks if given transaction object is tail transaction.
@@ -106,7 +106,7 @@ export const isTransactionHash = (
   hash: any,
   minWeightMagnitude?: number
 ): hash is Hash => {
-  const hasCorrectHashLength = isHBytesOfExactLength(hash, HASH_SIZE);
+  const hasCorrectHashLength = isHBytesOfExactLength(hash, HASH_BYTE_SIZE);
 
   if (minWeightMagnitude) {
     return (
@@ -136,7 +136,7 @@ export const isTransactionHBytes = (
 ): hbytes is HBytes => {
   const hasCorrectHBytesLength = isHBytesOfExactLength(
     hbytes,
-    TRANSACTION_HBYTES_SIZE
+    TRANSACTION_HBYTE_SIZE
   );
 
   if (minWeightMagnitude) {
@@ -163,8 +163,8 @@ export const isTransactionHBytes = (
  * @return {boolean}
  */
 export const isAttachedHBytes = (hbytes: any): hbytes is HBytes =>
-  isHBytesOfExactLength(hbytes, TRANSACTION_HBYTES_SIZE) &&
-  !/^[9]+$/.test(hbytes.slice(TRANSACTION_HBYTES_SIZE - 3 * HASH_SIZE));
+  isHBytesOfExactLength(hbytes, TRANSACTION_HBYTE_SIZE) &&
+  !/^[9]+$/.test(hbytes.slice(TRANSACTION_HBYTE_SIZE - 3 * HASH_BYTE_SIZE));
 
 export const isAttachedHBytesArray = isArray(isAttachedHBytes);
 export const isTransactionArray = isArray(isTransaction);

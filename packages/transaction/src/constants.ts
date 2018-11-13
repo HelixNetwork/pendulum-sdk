@@ -1,6 +1,0 @@
-export const HASH_SIZE = 81;
-export const TRANSACTION_HBYTES_SIZE = 2673;
-export const SIGNATURE_MESSAGE_FRAGMENT_HBYTES_SIZE = 2187;
-export const TAG_HBYTES_SIZE = 27;
-export const OBSOLETE_TAG_HBYTES_SIZE = 27;
-export const NONCE_HBYTES_SIZE = 27;
