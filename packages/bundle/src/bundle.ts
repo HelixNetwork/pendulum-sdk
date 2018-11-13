@@ -2,7 +2,7 @@
 
 import { hbits, hbytes } from "@helix/converter";
 import Kerl from "@helix/kerl";
-import { padTag, padTrits, padHBytes } from "@helix/pad";
+import { padTag, padHBits, padHBytes } from "@helix/pad";
 import { add, normalizedBundleHash } from "@helix/signing";
 import { Hash, Bundle, Transaction, HBytes } from "../../types";
 
@@ -146,21 +146,21 @@ export const addHBytes = (
  * @return {Transaction[]} Transactions of finalized bundle
  */
 export const finalizeBundle = (transactions: Bundle): Bundle => {
-  const valueTrits = transactions.map(tx => hbits(tx.value)).map(padTrits(81));
+  const valueTrits = transactions.map(tx => hbits(tx.value)).map(padHBits(81));
 
   const timestampTrits = transactions
     .map(tx => hbits(tx.timestamp))
-    .map(padTrits(27));
+    .map(padHBits(27));
 
   const currentIndexTrits = transactions
     .map(tx => hbits(tx.currentIndex))
-    .map(padTrits(27));
+    .map(padHBits(27));
 
-  const lastIndexTrits = padTrits(27)(hbits(transactions[0].lastIndex));
+  const lastIndexTrits = padHBits(27)(hbits(transactions[0].lastIndex));
 
   const obsoleteTagTrits = transactions
     .map(tx => hbits(tx.obsoleteTag))
-    .map(padTrits(81));
+    .map(padHBits(81));
 
   let bundleHash: Hash;
   let validBundle: boolean = false;

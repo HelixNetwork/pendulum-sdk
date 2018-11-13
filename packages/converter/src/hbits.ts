@@ -117,7 +117,7 @@ export function hbytes(trits: Int8Array): string {
 }
 
 /**
- * @method tritsToHBytes
+ * @method hBitsToHBytes
  *
  * @memberof module:converter
  *
@@ -125,7 +125,7 @@ export function hbytes(trits: Int8Array): string {
  *
  * @alias hbytes
  */
-export const tritsToHBytes = hbytes;
+export const hBitsToHBytes = hbytes;
 
 /**
  * Converts hbits into an integer value
@@ -150,7 +150,7 @@ export function value(trits: Int8Array): number {
 }
 
 /**
- * @method tritsToValue
+ * @method hBitsToValue
  *
  * @memberof module:converter
  *
@@ -158,7 +158,7 @@ export function value(trits: Int8Array): number {
  *
  * @alias value
  */
-export const tritsToValue = value;
+export const hBitsToValue = value;
 
 /**
  * Converts an integer value to hbits

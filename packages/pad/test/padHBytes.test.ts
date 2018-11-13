@@ -7,7 +7,7 @@ test("padHBytes() adds padding to hbytes.", t => {
   t.is(
     padHBytes(6)(hbytes),
     expected,
-    "padTrits() should add padding to hbytes."
+    "padHBits() should add padding to hbytes."
   );
 });
 
@@ -18,6 +18,6 @@ test("padHBytes() returns the given string as is, if exceeds given length.", t =
   t.is(
     padHBytes(4)(hbytes),
     expected,
-    "padTrits() should return the given string as is, if exceeds given length."
+    "padHBits() should return the given string as is, if exceeds given length."
   );
 });

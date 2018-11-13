@@ -2,7 +2,7 @@
  * @module transaction
  */
 
-import { tritsToHBytes, hbytesToTrits } from "@helix/converter";
+import { hBitsToHBytes, hbytesToTrits } from "@helix/converter";
 import Curl from "@helix/curl";
 import * as errors from "../../errors";
 import {
@@ -40,7 +40,7 @@ export const transactionHash = (trits: Int8Array): Hash => {
   curl.absorb(trits, 0, trits.length);
   curl.squeeze(hash, 0, Curl.HASH_LENGTH);
 
-  return tritsToHBytes(hash);
+  return hBitsToHBytes(hash);
 };
 
 /* Type guards */

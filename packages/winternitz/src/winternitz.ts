@@ -26,7 +26,7 @@ export function subseed(seed: Uint8Array, index: number): Uint8Array {
   const subseed: Uint8Array = new Uint8Array(seedBN.add(indexBN).toBuffer());
   /*
   while (subseed.length % 32 !== 0) {
-      subseed = padTrits(subseed.length + 3)(subseed)
+      subseed = padHBits(subseed.length + 3)(subseed)
   }*/
 
   const sha3 = new Sha3();

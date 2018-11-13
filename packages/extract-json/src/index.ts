@@ -57,18 +57,18 @@ export const extractJson = (bundle: Transaction[]): string | number | null => {
   }
 
   // Sanity check: if the first tryte pair is not opening bracket, it's not a message
-  const firstTrytePair =
+  const firstHBytePair =
     bundle[0].signatureMessageFragment[0] +
     bundle[0].signatureMessageFragment[1];
 
-  let lastTrytePair = "";
+  let lastHBytePair = "";
 
-  if (firstTrytePair === "OD") {
-    lastTrytePair = "QD";
-  } else if (firstTrytePair === "GA") {
-    lastTrytePair = "GA";
-  } else if (firstTrytePair === "JC") {
-    lastTrytePair = "LC";
+  if (firstHBytePair === "OD") {
+    lastHBytePair = "QD";
+  } else if (firstHBytePair === "GA") {
+    lastHBytePair = "GA";
+  } else if (firstHBytePair === "JC") {
+    lastHBytePair = "LC";
   } else if (bundle[0].signatureMessageFragment.slice(0, 10) === "UCPC9DGDTC") {
     return "false";
   } else if (bundle[0].signatureMessageFragment.slice(0, 8) === "HDFDIDTC") {
@@ -128,7 +128,7 @@ export const extractJson = (bundle: Transaction[]): string | number | null => {
 
         // If tryte pair equals closing bracket char, we set a preliminary stop
         // the preliminaryStop is useful when we have a nested JSON object
-        if (trytePair === lastTrytePair) {
+        if (trytePair === lastHBytePair) {
           preliminaryStop = true;
         }
       }

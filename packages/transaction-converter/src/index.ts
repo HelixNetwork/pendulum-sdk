@@ -1,9 +1,9 @@
 /** @module transaction-converter */
 
-import { tritsToHBytes, hbytesToTrits, value } from "@helix/converter";
+import { hBitsToHBytes, hbytesToTrits, value } from "@helix/converter";
 import { transactionHash } from "@helix/transaction";
 import Curl from "@helix/curl";
-import { padTrits, padHBytes } from "@helix/pad";
+import { padHBits, padHBytes } from "@helix/pad";
 import * as errors from "../../errors";
 import { isHBytesOfExactLength } from "../../guards";
 import { asArray, Hash, Transaction, HBytes } from "../../types";
@@ -28,23 +28,23 @@ export function asTransactionHBytes(
     [
       transaction.signatureMessageFragment,
       transaction.address,
-      tritsToHBytes(padTrits(81)(hbytesToTrits(transaction.value))),
+      hBitsToHBytes(padHBits(81)(hbytesToTrits(transaction.value))),
       padHBytes(27)(transaction.obsoleteTag),
-      tritsToHBytes(padTrits(27)(hbytesToTrits(transaction.timestamp))),
-      tritsToHBytes(padTrits(27)(hbytesToTrits(transaction.currentIndex))),
-      tritsToHBytes(padTrits(27)(hbytesToTrits(transaction.lastIndex))),
+      hBitsToHBytes(padHBits(27)(hbytesToTrits(transaction.timestamp))),
+      hBitsToHBytes(padHBits(27)(hbytesToTrits(transaction.currentIndex))),
+      hBitsToHBytes(padHBits(27)(hbytesToTrits(transaction.lastIndex))),
       transaction.bundle,
       transaction.trunkTransaction,
       transaction.branchTransaction,
       padHBytes(27)(transaction.tag || transaction.obsoleteTag),
-      tritsToHBytes(
-        padTrits(27)(hbytesToTrits(transaction.attachmentTimestamp))
+      hBitsToHBytes(
+        padHBits(27)(hbytesToTrits(transaction.attachmentTimestamp))
       ),
-      tritsToHBytes(
-        padTrits(27)(hbytesToTrits(transaction.attachmentTimestampLowerBound))
+      hBitsToHBytes(
+        padHBits(27)(hbytesToTrits(transaction.attachmentTimestampLowerBound))
       ),
-      tritsToHBytes(
-        padTrits(27)(hbytesToTrits(transaction.attachmentTimestampUpperBound))
+      hBitsToHBytes(
+        padHBits(27)(hbytesToTrits(transaction.attachmentTimestampUpperBound))
       ),
       transaction.nonce
     ].join("")

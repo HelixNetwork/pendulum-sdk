@@ -5,10 +5,10 @@ export const padHBytes = (length: number) => (hbytes: HBytes) =>
     ? hbytes.concat("9".repeat(length - hbytes.length))
     : hbytes;
 
-export const padTrits = (length: number) => (trits: Int8Array) =>
-  trits.length < length
-    ? new Int8Array(length).map((n, i) => trits[i] || 0)
-    : trits;
+export const padHBits = (length: number) => (hbits: Int8Array) =>
+  hbits.length < length
+    ? new Int8Array(length).map((n, i) => hbits[i] || 0)
+    : hbits;
 
 export const padTag = padHBytes(27);
 

@@ -2,7 +2,7 @@
 
 import { fromValue, hbits, hbytes, value } from "@helix/converter";
 import Kerl from "@helix/kerl";
-import { padTrits } from "@helix/pad";
+import { padHBits } from "@helix/pad";
 import add from "./add";
 import * as errors from "./errors";
 import { Hash } from "../../types";
@@ -28,7 +28,7 @@ export function subseed(seed: Int8Array, index: number): Int8Array {
   let subseed: Int8Array = add(seed, indexTrits);
 
   while (subseed.length % 243 !== 0) {
-    subseed = padTrits(subseed.length + 3)(subseed);
+    subseed = padHBits(subseed.length + 3)(subseed);
   }
 
   const kerl = new Kerl();
