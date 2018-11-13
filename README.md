@@ -38,7 +38,7 @@ Once building on save is setup, you can start watching tests with `npm test --wa
 
 ### Generate docs
 
-Please update the documention when needed by editing [`JSDoc`](http://usejsdoc.org) annotations and running `npm run docs` from the _root directory_.
+Please update the documentation when needed by editing [`JSDoc`](http://usejsdoc.org) annotations and running `npm run docs` from the _root directory_.
 
 ## Using the API
 
