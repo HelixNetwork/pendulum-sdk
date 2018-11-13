@@ -1,7 +1,7 @@
 export const ILLEGAL_LENGTH = "Illegal hbits length";
-export const ILLEGAL_TRIT_CONVERSION_INPUT =
+export const ILLEGAL_HBIT_CONVERSION_INPUT =
   "Illegal conversion input. Expected hbits as Int8Array.";
-export const ILLEGAL_TRYTE_CONVERSION_INPUT =
+export const ILLEGAL_HBYTE_CONVERSION_INPUT =
   "Illegal conversion input. Expected hbytes string or integer.";
 export const INCONSISTENT_SUBTANGLE = "Inconsistent subtangle";
 export const INSUFFICIENT_BALANCE = "Insufficient balance";
@@ -41,7 +41,7 @@ export const INVALID_ASCII_INPUT =
   "Conversion to hbytes requires type of input to be encoded in ascii.";
 export const INVALID_ODD_LENGTH =
   "Conversion from hbytes requires length of hbytes to be even.";
-export const INVALID_TRYTE_ENCODED_JSON = "Invalid tryte encoded JSON message";
+export const INVALID_BYTE_ENCODED_JSON = "Invalid tryte encoded JSON message";
 export const NOT_INT = "One of the inputs is not integer";
 export const SENDING_BACK_TO_INPUTS =
   "One of the transaction inputs is used as output.";

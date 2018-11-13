@@ -55,7 +55,7 @@ export default class Kerl {
    **/
   public absorb(hBits: Int8Array, offset: number, length: number) {
     if (length && length % 243 !== 0) {
-      throw new Error(errors.ILLEGAL_TRITS_LENGTH);
+      throw new Error(errors.ILLEGAL_HBITS_LENGTH);
     }
 
     do {
@@ -85,7 +85,7 @@ export default class Kerl {
    **/
   public squeeze(trits: Int8Array, offset: number, length: number) {
     if (length && length % 243 !== 0) {
-      throw new Error(errors.ILLEGAL_TRITS_LENGTH);
+      throw new Error(errors.ILLEGAL_HBITS_LENGTH);
     }
     do {
       // get the hash digest

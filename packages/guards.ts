@@ -1,4 +1,4 @@
-import { HASH_TRYTE_SIZE, MAX_INDEX_DIFF, TAG_TRYTE_SIZE } from "./constants";
+import { HASH_BYTE_SIZE, MAX_INDEX_DIFF, TAG_BYTE_SIZE } from "./constants";
 import * as errors from "./errors";
 import { Address, Hash, Tag, Transfer, HBytes } from "./types";
 
@@ -69,8 +69,8 @@ export const isNinesHBytes = isEmpty;
  * @return {boolean}
  */
 export const isHash = (hash: any): hash is Hash =>
-  isHBytesOfExactLength(hash, HASH_TRYTE_SIZE) ||
-  isHBytesOfExactLength(hash, HASH_TRYTE_SIZE + 9); // address w/ checksum is valid hash
+  isHBytesOfExactLength(hash, HASH_BYTE_SIZE) ||
+  isHBytesOfExactLength(hash, HASH_BYTE_SIZE + 9); // address w/ checksum is valid hash
 
 /* Check if security level is positive integer */
 export const isSecurityLevel = (security: any): security is number =>
@@ -104,7 +104,7 @@ export const isInput = (input: any): input is Address =>
  * @return {boolean}
  */
 export const isTag = (tag: any): tag is Tag =>
-  isHBytesOfMaxLength(tag, TAG_TRYTE_SIZE);
+  isHBytesOfMaxLength(tag, TAG_BYTE_SIZE);
 
 /**
  * Checks if input is valid `transfer` object.

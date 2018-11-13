@@ -20,7 +20,7 @@ yarn add @helix/transaction
     
 * [transaction](#module_transaction)
 
-    * [~transactionHash(trits)](#module_transaction..transactionHash)
+    * [~transactionHash(hbits)](#module_transaction..transactionHash)
 
     * [~isTransaction(tx)](#module_transaction..isTransaction)
 
@@ -35,13 +35,13 @@ yarn add @helix/transaction
 
 <a name="module_transaction..transactionHash"></a>
 
-### *transaction*~transactionHash(trits)
+### *transaction*~transactionHash(hbits)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| trits | <code>Int8Array</code> | Int8Array of 8019 transaction trits |
+| hbits | <code>Int8Array</code> | Int8Array of 8019 transaction hbits |
 
-Calculates the transaction hash out of 8019 transaction trits.
+Calculates the transaction hash out of 8019 transaction hbits.
 
 **Returns**: <code>Hash</code> - Transaction hash  
 <a name="module_transaction..isTransaction"></a>
