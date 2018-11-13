@@ -1,6 +1,6 @@
 /** @module transaction-converter */
 
-import { hBitsToHBytes, hbytesToTrits, value } from "@helix/converter";
+import { hBitsToHBytes, hbytesToHBits, value } from "@helix/converter";
 import { transactionHash } from "@helix/transaction";
 import Curl from "@helix/curl";
 import { padHBits, padHBytes } from "@helix/pad";
@@ -28,23 +28,23 @@ export function asTransactionHBytes(
     [
       transaction.signatureMessageFragment,
       transaction.address,
-      hBitsToHBytes(padHBits(81)(hbytesToTrits(transaction.value))),
+      hBitsToHBytes(padHBits(81)(hbytesToHBits(transaction.value))),
       padHBytes(27)(transaction.obsoleteTag),
-      hBitsToHBytes(padHBits(27)(hbytesToTrits(transaction.timestamp))),
-      hBitsToHBytes(padHBits(27)(hbytesToTrits(transaction.currentIndex))),
-      hBitsToHBytes(padHBits(27)(hbytesToTrits(transaction.lastIndex))),
+      hBitsToHBytes(padHBits(27)(hbytesToHBits(transaction.timestamp))),
+      hBitsToHBytes(padHBits(27)(hbytesToHBits(transaction.currentIndex))),
+      hBitsToHBytes(padHBits(27)(hbytesToHBits(transaction.lastIndex))),
       transaction.bundle,
       transaction.trunkTransaction,
       transaction.branchTransaction,
       padHBytes(27)(transaction.tag || transaction.obsoleteTag),
       hBitsToHBytes(
-        padHBits(27)(hbytesToTrits(transaction.attachmentTimestamp))
+        padHBits(27)(hbytesToHBits(transaction.attachmentTimestamp))
       ),
       hBitsToHBytes(
-        padHBits(27)(hbytesToTrits(transaction.attachmentTimestampLowerBound))
+        padHBits(27)(hbytesToHBits(transaction.attachmentTimestampLowerBound))
       ),
       hBitsToHBytes(
-        padHBits(27)(hbytesToTrits(transaction.attachmentTimestampUpperBound))
+        padHBits(27)(hbytesToHBits(transaction.attachmentTimestampUpperBound))
       ),
       transaction.nonce
     ].join("")
@@ -76,7 +76,7 @@ export const asTransactionObject = (
     }
   }
 
-  const trits = hbytesToTrits(hbytes);
+  const trits = hbytesToHBits(hbytes);
 
   return {
     hash: hash || transactionHash(trits),

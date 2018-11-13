@@ -2,7 +2,7 @@
  * @module transaction
  */
 
-import { hBitsToHBytes, hbytesToTrits } from "@helix/converter";
+import { hBitsToHBytes, hbytesToHBits } from "@helix/converter";
 import Curl from "@helix/curl";
 import * as errors from "../../errors";
 import {
@@ -111,7 +111,7 @@ export const isTransactionHash = (
   if (minWeightMagnitude) {
     return (
       hasCorrectHashLength &&
-      hbytesToTrits(hash)
+      hbytesToHBits(hash)
         .slice(-Math.abs(minWeightMagnitude))
         .every(trit => trit === 0)
     );
@@ -143,7 +143,7 @@ export const isTransactionHBytes = (
     return (
       hasCorrectHBytesLength &&
       isTransactionHash(
-        transactionHash(hbytesToTrits(hbytes)),
+        transactionHash(hbytesToHBits(hbytes)),
         minWeightMagnitude
       )
     );

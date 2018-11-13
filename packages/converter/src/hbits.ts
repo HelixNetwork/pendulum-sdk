@@ -70,7 +70,7 @@ export function hbits(input: string | number): Int8Array {
 }
 
 /**
- * @method hbytesToTrits
+ * @method hbytesToHBits
  *
  * @memberof module:converter
  *
@@ -78,7 +78,7 @@ export function hbits(input: string | number): Int8Array {
  *
  * @alias hbits
  */
-export const hbytesToTrits = hbits;
+export const hbytesToHBits = hbits;
 
 /**
  * Converts hbits to hbytes
