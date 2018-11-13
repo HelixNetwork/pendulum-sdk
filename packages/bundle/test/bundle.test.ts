@@ -5,10 +5,20 @@ import {
   createBundle,
   finalizeBundle
 } from "../src/bundle";
+import {
+  ADDRESS_BYTE_SIZE,
+  HASH_BYTE_SIGNATURE_FRAGMENT,
+  HASH_BYTE_SIZE,
+  NULL_HASH_HBYTES,
+  NULL_NONCE_HBYTES
+} from "../../constants";
 
-const NULL_HASH = "9".repeat(81);
-const NULL_NONCE = "9".repeat(27);
-const addresses = ["A".repeat(81), "B".repeat(81)];
+const NULL_HASH = NULL_HASH_HBYTES;
+const NULL_NONCE = NULL_NONCE_HBYTES;
+const addresses = [
+  "A".repeat(ADDRESS_BYTE_SIZE),
+  "B".repeat(ADDRESS_BYTE_SIZE)
+];
 const tag = "TAG" + "9".repeat(24);
 
 const bundle = [
@@ -20,7 +30,7 @@ const bundle = [
     currentIndex: 0,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "9".repeat(81 * 27),
+    signatureMessageFragment: "9".repeat(HASH_BYTE_SIGNATURE_FRAGMENT),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -38,7 +48,7 @@ const bundle = [
     currentIndex: 1,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "9".repeat(81 * 27),
+    signatureMessageFragment: "9".repeat(HASH_BYTE_SIGNATURE_FRAGMENT),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -56,7 +66,7 @@ const bundle = [
     currentIndex: 2,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "9".repeat(81 * 27),
+    signatureMessageFragment: "9".repeat(HASH_BYTE_SIGNATURE_FRAGMENT),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -110,7 +120,8 @@ test("addHBytes() adds hbytes and returns correct transactions.", t => {
     addHBytes(bundle, ["HBYTES", "HBYTES", "HBYTES"]),
     bundle.map(transaction => ({
       ...transaction,
-      signatureMessageFragment: "HBYTES" + "9".repeat(81 * 27 - 6)
+      signatureMessageFragment:
+        "HBYTES" + "9".repeat(HASH_BYTE_SIGNATURE_FRAGMENT - 6)
     })),
     "addEntry should add hbytes and return correct transactions."
   );

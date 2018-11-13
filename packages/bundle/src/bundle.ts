@@ -5,11 +5,25 @@ import Kerl from "@helix/kerl";
 import { padTag, padHBits, padHBytes } from "@helix/pad";
 import { add, normalizedBundleHash } from "@helix/signing";
 import { Hash, Bundle, Transaction, HBytes } from "../../types";
+import {
+  HASH_BYTE_SIZE,
+  NULL_HASH_HBYTES,
+  NULL_NONCE_HBYTES,
+  NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES,
+  NULL_TAG_HBYTES,
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  SIGNATURE_FRAGMENT_NO,
+  TRANSACTION_CURRENT_INDEX_BITS_SIZE,
+  TRANSACTION_LAST_INDEX_BITS_SIZE,
+  TRANSACTION_TIMESTAMP_BITS_SIZE,
+  TRANSACTION_VALUE_BITS_SIZE,
+  TRANSACTION_OBSOLETE_TAG_BITS_SIZE
+} from "../../constants";
 
-const NULL_HASH_HBYTES = "9".repeat(81);
-const NULL_TAG_HBYTES = "9".repeat(27);
-const NULL_NONCE_HBYTES = "9".repeat(27);
-const NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES = "9".repeat(2187);
+//const NULL_HASH_HBYTES = "9".repeat(HASH_BYTE_SIZE);
+// const NULL_TAG_HBYTES = "9".repeat(27);
+// const NULL_NONCE_HBYTES = "9".repeat(27);
+// const NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES = "9".repeat(2187);
 
 export interface BundleEntry {
   readonly length: number;
@@ -29,7 +43,9 @@ export const getEntryWithDefaults = (
   tag: entry.tag || NULL_TAG_HBYTES,
   timestamp: entry.timestamp || Math.floor(Date.now() / 1000),
   signatureMessageFragments: entry.signatureMessageFragments
-    ? entry.signatureMessageFragments.map(padHBytes(2187))
+    ? entry.signatureMessageFragments.map(
+        padHBytes(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE)
+      )
     : Array(entry.length || 1).fill(NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES)
 });
 
@@ -129,9 +145,9 @@ export const addHBytes = (
       i >= offset && i < offset + fragments.length
         ? {
             ...transaction,
-            signatureMessageFragment: padHBytes(27 * 81)(
-              fragments[i - offset] || ""
-            )
+            signatureMessageFragment: padHBytes(
+              SIGNATURE_FRAGMENT_NO * HASH_BYTE_SIZE
+            )(fragments[i - offset] || "")
           }
         : transaction
   );
@@ -146,21 +162,25 @@ export const addHBytes = (
  * @return {Transaction[]} Transactions of finalized bundle
  */
 export const finalizeBundle = (transactions: Bundle): Bundle => {
-  const valueHBits = transactions.map(tx => hbits(tx.value)).map(padHBits(81));
+  const valueHBits = transactions
+    .map(tx => hbits(tx.value))
+    .map(padHBits(TRANSACTION_VALUE_BITS_SIZE));
 
   const timestampHBits = transactions
     .map(tx => hbits(tx.timestamp))
-    .map(padHBits(27));
+    .map(padHBits(TRANSACTION_TIMESTAMP_BITS_SIZE));
 
   const currentIndexHBits = transactions
     .map(tx => hbits(tx.currentIndex))
-    .map(padHBits(27));
+    .map(padHBits(TRANSACTION_CURRENT_INDEX_BITS_SIZE));
 
-  const lastIndexHBits = padHBits(27)(hbits(transactions[0].lastIndex));
+  const lastIndexHBits = padHBits(TRANSACTION_LAST_INDEX_BITS_SIZE)(
+    hbits(transactions[0].lastIndex)
+  );
 
   const obsoleteTagHBits = transactions
     .map(tx => hbits(tx.obsoleteTag))
-    .map(padHBits(81));
+    .map(padHBits(TRANSACTION_OBSOLETE_TAG_BITS_SIZE));
 
   let bundleHash: Hash;
   let validBundle: boolean = false;
