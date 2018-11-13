@@ -34,11 +34,15 @@ import {
 import { asyncPipe } from "../../utils";
 import { createGetInputs, createGetNewAddress } from "./";
 import HMAC from "./hmac";
+import {
+  HASH_BYTE_SIZE,
+  NULL_HASH_HBYTES,
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+} from "../../constants";
 
-const HASH_LENGTH = 81;
-const SIGNATURE_MESSAGE_FRAGMENT_LENGTH = 2187;
-const KEY_FRAGMENT_LENGTH = 6561;
-const NULL_HASH_HBYTES = "9".repeat(HASH_LENGTH);
+const HASH_LENGTH = HASH_BYTE_SIZE;
+const SIGNATURE_MESSAGE_FRAGMENT_LENGTH = SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+const KEY_FRAGMENT_LENGTH = 3 * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
 const SECURITY_LEVEL = 2;
 
 export interface PrepareTransfersOptions {

@@ -11,6 +11,7 @@ export const TRANSACTION_OBSOLETE_TAG_BITS_SIZE = 81;
 export const HASH_BYTE_SIGNATURE_FRAGMENT = 2187; // 27 * 81
 export const HASH_BYTE_SIZE = 81;
 export const ADDRESS_BYTE_SIZE = 81;
+export const ADDRESS_CHECKSUM_BYTE_SIZE = 9;
 export const TAG_BYTE_SIZE = 27;
 export const NONCE_BYTE_SIZE = 27;
 export const SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE = 2187;
@@ -21,6 +22,7 @@ export const TRANSACTION_HBYTE_SIZE = 2673;
 export const SIGNATURE_FRAGMENT_NO = 27;
 export const MAX_INDEX_DIFF = 1000;
 
+export const NULL_ADDRESS_HBYTES = "9".repeat(ADDRESS_BYTE_SIZE);
 export const NULL_HASH_HBYTES = "9".repeat(HASH_BYTE_SIZE);
 export const NULL_TAG_HBYTES = "9".repeat(TAG_BYTE_SIZE);
 export const NULL_NONCE_HBYTES = "9".repeat(NONCE_BYTE_SIZE);

@@ -2,6 +2,7 @@ import { addChecksum } from "@helix/checksum";
 import { hbits, hbytes } from "@helix/converter";
 import { address, digests, key, subseed } from "@helix/signing";
 import { Hash } from "../../types";
+import { ADDRESS_BYTE_SIZE, ADDRESS_CHECKSUM_BYTE_SIZE } from "../../constants";
 
 /**
  * Generates an address deterministically, according to the given seed, index and security level.
@@ -23,8 +24,8 @@ export const generateAddress = (
   security: number = 2,
   checksum: boolean = false
 ): Hash => {
-  while (seed.length % 81 !== 0) {
-    seed += 9;
+  while (seed.length % ADDRESS_BYTE_SIZE !== 0) {
+    seed += ADDRESS_CHECKSUM_BYTE_SIZE;
   }
 
   const keyHBits = key(subseed(hbits(seed), index), security);
