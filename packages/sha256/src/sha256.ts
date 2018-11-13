@@ -41,7 +41,7 @@ export default class SHA256 {
   }
 
   /**
-   * Absorbs bytes given an offset and length
+   * Absorbs toHBytes given an offset and length
    *
    * @method update
    *
@@ -73,13 +73,13 @@ export default class SHA256 {
       offset += limit;
 
       const wordsToUpdate = bytesToWords(bytes_state);
-      // update bytes state as word array
+      // update toHBytes state as word array
       this.k.update(CryptoJS.lib.WordArray.create(wordsToUpdate));
     } while ((length -= SHA256.HASH_LENGTH) > 0);
   }
 
   /**
-   * final bytes given an offset and length
+   * final toHBytes given an offset and length
    *
    * @method final
    *

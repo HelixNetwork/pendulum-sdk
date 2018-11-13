@@ -1,8 +1,7 @@
-import * as Promise from "bluebird";
-import { createGetBalances, Balances } from "@helix/core";
-import { hbits, hbytes } from "@helix/converter";
-import { removeChecksum } from "@helix/checksum";
 import { addEntry, addHBytes, finalizeBundle } from "@helix/bundle";
+import { removeChecksum } from "@helix/checksum";
+import { hbits, hbytes } from "@helix/converter";
+import { Balances, createGetBalances } from "@helix/core";
 import Kerl from "@helix/kerl";
 import {
   digests,
@@ -11,6 +10,7 @@ import {
   signatureFragment,
   subseed
 } from "@helix/signing";
+import * as Promise from "bluebird";
 import * as errors from "../../errors";
 import {
   arrayValidator,

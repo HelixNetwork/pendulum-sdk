@@ -1,5 +1,5 @@
 // by: Frauke Sophie Abben <fsa@hlx.ai> (https://hlx.ai)
-import { bytes, hex } from "@helix/converter";
+import { toHBytes, hex } from "@helix/converter";
 import Sha3 from "@helix/sha3";
 import * as BN from "bn.js";
 import * as errors from "./errors";
@@ -7,7 +7,7 @@ import * as errors from "./errors";
 /**
  * @method subseed
  *
- * @param {Uint8Array} seed - Seed bytes
+ * @param {Uint8Array} seed - Seed toHBytes
  * @param {number} index - Private key index
  *
  * @return {Uint8Array} subseed
@@ -214,7 +214,7 @@ export function validateSignatures(
   }
 
   const normalizedBundleFragments = Array<Uint8Array>(2);
-  const normalizedBundle = normalizedBundleHash(bytes(bundleHash));
+  const normalizedBundle = normalizedBundleHash(toHBytes(bundleHash));
 
   // Split hash into 2 fragments
   for (let i = 0; i < 2; i++) {
@@ -227,7 +227,7 @@ export function validateSignatures(
   for (let i = 0; i < signatureFragments.length; i++) {
     const digestBuffer = digest(
       normalizedBundleFragments[i],
-      bytes(signatureFragments[i])
+      toHBytes(signatureFragments[i])
     );
 
     for (let j = 0; j < 32; j++) {
@@ -243,7 +243,7 @@ export function validateSignatures(
  *
  * @method normalizedBundleHash
  *
- * @param {Uint8Array} bundlehash - Bundle hash bytes
+ * @param {Uint8Array} bundlehash - Bundle hash toHBytes
  *
  * @return {Uint8Array} Normalized bundle hash
  */

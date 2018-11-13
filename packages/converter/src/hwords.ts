@@ -1,7 +1,7 @@
 import * as errors from "./errors";
 
 /**
- * Converts the given bytes to word array
+ * Converts the given toHBytes to word array
  *
  * @method bytesToWord
  *
@@ -29,13 +29,13 @@ export function bytesToWords(bytes: Uint8Array | Int8Array): Uint32Array {
 }
 
 /**
- * Converts the given byte array to bytes
+ * Converts the given byte array to toHBytes
  *
  * @method wordsToBytes
  *
  * @param {Uint32Array} words
  *
- * @return {Uint8Array} bytes
+ * @return {Uint8Array} toHBytes
  */
 export function wordsToBytes(words: Uint32Array): Uint8Array {
   let size = words.length;

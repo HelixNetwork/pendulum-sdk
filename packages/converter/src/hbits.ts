@@ -94,7 +94,7 @@ export const hbytesToTrits = hbits;
 // tslint:disable-next-line no-shadowed-variable
 export function hbytes(trits: Int8Array): string {
   if (!(trits instanceof Int8Array)) {
-    throw new Error(errors.INVALID_TRITS);
+    throw new Error(errors.INVALID_HBITS);
   }
 
   let result = "";
@@ -204,7 +204,7 @@ export function fromValue(value: number): Int8Array {
 }
 
 /**
- * @method valueToTrits
+ * @method valueToHBits
  *
  * @memberof module:converter
  *
@@ -212,4 +212,4 @@ export function fromValue(value: number): Int8Array {
  *
  * @alias fromValue
  */
-export const valueToTrits = fromValue;
+export const valueToHBits = fromValue;
