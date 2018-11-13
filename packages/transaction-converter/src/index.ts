@@ -76,24 +76,24 @@ export const asTransactionObject = (
     }
   }
 
-  const trits = hbytesToHBits(hbytes);
+  const hbits = hbytesToHBits(hbytes);
 
   return {
-    hash: hash || transactionHash(trits),
+    hash: hash || transactionHash(hbits),
     signatureMessageFragment: hbytes.slice(0, 2187),
     address: hbytes.slice(2187, 2268),
-    value: value(trits.slice(6804, 6837)),
+    value: value(hbits.slice(6804, 6837)),
     obsoleteTag: hbytes.slice(2295, 2322),
-    timestamp: value(trits.slice(6966, 6993)),
-    currentIndex: value(trits.slice(6993, 7020)),
-    lastIndex: value(trits.slice(7020, 7047)),
+    timestamp: value(hbits.slice(6966, 6993)),
+    currentIndex: value(hbits.slice(6993, 7020)),
+    lastIndex: value(hbits.slice(7020, 7047)),
     bundle: hbytes.slice(2349, 2430),
     trunkTransaction: hbytes.slice(2430, 2511),
     branchTransaction: hbytes.slice(2511, 2592),
     tag: hbytes.slice(2592, 2619),
-    attachmentTimestamp: value(trits.slice(7857, 7884)),
-    attachmentTimestampLowerBound: value(trits.slice(7884, 7911)),
-    attachmentTimestampUpperBound: value(trits.slice(7911, 7938)),
+    attachmentTimestamp: value(hbits.slice(7857, 7884)),
+    attachmentTimestampLowerBound: value(hbits.slice(7884, 7911)),
+    attachmentTimestampUpperBound: value(hbits.slice(7911, 7938)),
     nonce: hbytes.slice(2646, 2673)
   };
 };
@@ -122,8 +122,8 @@ export const asTransactionObjects = (hashes?: ReadonlyArray<Hash>) => {
    * @return {Transaction[]} List of transaction objects with hashes
    */
   return function transactionObjectsMapper(hbytes: ReadonlyArray<HBytes>) {
-    return hbytes.map((tryteString, i) =>
-      asTransactionObject(tryteString, hashes![i])
+    return hbytes.map((hByteString, i) =>
+      asTransactionObject(hByteString, hashes![i])
     );
   };
 };
@@ -132,11 +132,11 @@ export const asFinalTransactionHBytes = (
   transactions: ReadonlyArray<Transaction>
 ) => [...asTransactionHBytes(transactions)].reverse();
 
-export const transactionObject = (hbytes: HBytes): Transaction => {
+export const transactionObject = (hBytes: HBytes): Transaction => {
   /* tslint:disable-next-line:no-console */
   console.warn("`transactionObject` has been renamed to `asTransactionObject`");
 
-  return asTransactionObject(hbytes);
+  return asTransactionObject(hBytes);
 };
 
 export const transactionHBytes = (transaction: Transaction): HBytes => {

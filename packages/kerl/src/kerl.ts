@@ -49,11 +49,11 @@ export default class Kerl {
    *
    * @ignore
    *
-   * @param {Int8Array} trits
+   * @param {Int8Array} hBits
    * @param {number} offset
    * @param {number} length
    **/
-  public absorb(trits: Int8Array, offset: number, length: number) {
+  public absorb(hBits: Int8Array, offset: number, length: number) {
     if (length && length % 243 !== 0) {
       throw new Error(errors.ILLEGAL_TRITS_LENGTH);
     }
@@ -61,7 +61,7 @@ export default class Kerl {
     do {
       const limit = length < Kerl.HASH_LENGTH ? length : Kerl.HASH_LENGTH;
 
-      const trit_state = trits.slice(offset, offset + limit);
+      const trit_state = hBits.slice(offset, offset + limit);
       offset += limit;
 
       // convert trit state to words

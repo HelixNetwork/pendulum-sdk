@@ -79,17 +79,17 @@ export function addChecksum(
         paddedInputHBytes += "9";
       }
 
-      const inputTrits = hbits(paddedInputHBytes);
-      const checksumTrits = new Int8Array(Kerl.HASH_LENGTH);
+      const inputHBits = hbits(paddedInputHBytes);
+      const checksumHBits = new Int8Array(Kerl.HASH_LENGTH);
 
       const kerl = new Kerl();
       kerl.initialize();
 
-      kerl.absorb(inputTrits, 0, inputTrits.length);
-      kerl.squeeze(checksumTrits, 0, Kerl.HASH_LENGTH);
+      kerl.absorb(inputHBits, 0, inputHBits.length);
+      kerl.squeeze(checksumHBits, 0, Kerl.HASH_LENGTH);
 
       return inputHBytes.concat(
-        hbytes(checksumTrits.slice(243 - checksumLength * 3, 243))
+        hbytes(checksumHBits.slice(243 - checksumLength * 3, 243))
       );
     }
   );
@@ -111,11 +111,11 @@ export function removeChecksum(
   input: ReadonlyArray<HBytes>
 ): ReadonlyArray<HBytes>;
 export function removeChecksum(input: HBytes | ReadonlyArray<HBytes>) {
-  const tryteArray = asArray(input);
+  const hByteArray = asArray(input);
 
   if (
-    tryteArray.length === 0 ||
-    !tryteArray.every(
+    hByteArray.length === 0 ||
+    !hByteArray.every(
       t =>
         isHBytes(t, HASH_HBYTES_LENGTH) ||
         isHBytes(t, ADDRESS_WITH_CHECKSUM_HBYTES_LENGTH)
@@ -124,7 +124,7 @@ export function removeChecksum(input: HBytes | ReadonlyArray<HBytes>) {
     throw new Error(errors.INVALID_ADDRESS);
   }
 
-  const noChecksum: ReadonlyArray<HBytes> = tryteArray.map(inputHBytes =>
+  const noChecksum: ReadonlyArray<HBytes> = hByteArray.map(inputHBytes =>
     inputHBytes.slice(0, HASH_HBYTES_LENGTH)
   );
 

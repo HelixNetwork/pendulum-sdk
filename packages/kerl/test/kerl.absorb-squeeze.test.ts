@@ -9,13 +9,13 @@ test("Kerl: absorb()/squeeze(), Converter: hbits()/hbytes()", t => {
     "OXJCNFHUNAHWDLKKPELTBFUCVW9KLXKOGWERKTJXQMXTKFKNWNNXYD9DMJJABSEIONOSJTTEVKVDQEWTW";
 
   const absorbSqueeze = (inputHBytes: string): string => {
-    const inputTrits: Int8Array = hbits(inputHBytes);
+    const inputHBits: Int8Array = hbits(inputHBytes);
     const kerl: Kerl = new Kerl();
     kerl.initialize();
-    kerl.absorb(inputTrits, 0, inputTrits.length);
-    const hashTrits = new Int8Array(Kerl.HASH_LENGTH);
-    kerl.squeeze(hashTrits, 0, Kerl.HASH_LENGTH);
-    return hbytes(hashTrits);
+    kerl.absorb(inputHBits, 0, inputHBits.length);
+    const hashHBits = new Int8Array(Kerl.HASH_LENGTH);
+    kerl.squeeze(hashHBits, 0, Kerl.HASH_LENGTH);
+    return hbytes(hashHBits);
   };
 
   t.is(

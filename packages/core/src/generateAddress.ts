@@ -27,9 +27,9 @@ export const generateAddress = (
     seed += 9;
   }
 
-  const keyTrits = key(subseed(hbits(seed), index), security);
-  const digestsTrits = digests(keyTrits);
-  const addressHBytes = hbytes(address(digestsTrits));
+  const keyHBits = key(subseed(hbits(seed), index), security);
+  const digestsHBits = digests(keyHBits);
+  const addressHBytes = hbytes(address(digestsHBits));
 
   return checksum ? addChecksum(addressHBytes) : addressHBytes;
 };

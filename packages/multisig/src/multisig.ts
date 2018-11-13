@@ -223,9 +223,9 @@ export default class Multisig {
    * @return {string} digest hbytes
    **/
   public getDigest(seed: string, index: number, security: number) {
-    const keyTrits = key(subseed(hbits(seed), index), security);
+    const keyHBits = key(subseed(hbits(seed), index), security);
 
-    return hbytes(digests(keyTrits));
+    return hbytes(digests(keyHBits));
   }
 
   /**
@@ -251,16 +251,16 @@ export default class Multisig {
 
     // Absorb all key digests
     digestsArr.forEach(keyDigest => {
-      const digestTrits = hbits(keyDigest);
-      kerl.absorb(hbits(keyDigest), 0, digestTrits.length);
+      const digesHBits = hbits(keyDigest);
+      kerl.absorb(hbits(keyDigest), 0, digesHBits.length);
     });
 
     // Squeeze address hbits
-    const addressTrits: Int8Array = new Int8Array(Kerl.HASH_LENGTH);
-    kerl.squeeze(addressTrits, 0, Kerl.HASH_LENGTH);
+    const addressHBits: Int8Array = new Int8Array(Kerl.HASH_LENGTH);
+    kerl.squeeze(addressHBits, 0, Kerl.HASH_LENGTH);
 
     // Convert hbits into hbytes and return the address
-    return hbytes(addressTrits) === multisigAddress;
+    return hbytes(addressHBits) === multisigAddress;
   }
 
   /**
@@ -345,7 +345,7 @@ export default class Multisig {
     const security = keyHBytes.length / 2187;
 
     // convert private key hbytes into hbits
-    const keyTrits = hbits(keyHBytes);
+    const keyHBits = hbits(keyHBytes);
 
     // First get the total number of already signed transactions
     // use that for the bundle hash calculation as well as knowing
@@ -362,7 +362,7 @@ export default class Multisig {
           const bundleHash = bundle[i].bundle;
 
           //  First 6561 hbits for the firstFragment
-          const firstFragment = keyTrits.slice(0, 6561);
+          const firstFragment = keyHBits.slice(0, 6561);
 
           //  Get the normalized bundle hash
           const normalizedBundle = normalizedBundleHash(bundleHash as string);
@@ -393,7 +393,7 @@ export default class Multisig {
 
           for (let j = 1; j < security; j++) {
             //  Next 6561 hbits for the firstFragment
-            const nextFragment = keyTrits.slice(6561 * j, (j + 1) * 6561);
+            const nextFragment = keyHBits.slice(6561 * j, (j + 1) * 6561);
 
             //  Use the next 27 hbytes
             const nextBundleFragment =

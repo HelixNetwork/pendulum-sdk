@@ -146,19 +146,19 @@ export const addHBytes = (
  * @return {Transaction[]} Transactions of finalized bundle
  */
 export const finalizeBundle = (transactions: Bundle): Bundle => {
-  const valueTrits = transactions.map(tx => hbits(tx.value)).map(padHBits(81));
+  const valueHBits = transactions.map(tx => hbits(tx.value)).map(padHBits(81));
 
-  const timestampTrits = transactions
+  const timestampHBits = transactions
     .map(tx => hbits(tx.timestamp))
     .map(padHBits(27));
 
-  const currentIndexTrits = transactions
+  const currentIndexHBits = transactions
     .map(tx => hbits(tx.currentIndex))
     .map(padHBits(27));
 
-  const lastIndexTrits = padHBits(27)(hbits(transactions[0].lastIndex));
+  const lastIndexHBits = padHBits(27)(hbits(transactions[0].lastIndex));
 
-  const obsoleteTagTrits = transactions
+  const obsoleteTagHBits = transactions
     .map(tx => hbits(tx.obsoleteTag))
     .map(padHBits(81));
 
@@ -172,22 +172,22 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
     for (let i = 0; i < transactions.length; i++) {
       const essence = hbits(
         transactions[i].address +
-          hbytes(valueTrits[i]) +
-          hbytes(obsoleteTagTrits[i]) +
-          hbytes(timestampTrits[i]) +
-          hbytes(currentIndexTrits[i]) +
-          hbytes(lastIndexTrits)
+          hbytes(valueHBits[i]) +
+          hbytes(obsoleteTagHBits[i]) +
+          hbytes(timestampHBits[i]) +
+          hbytes(currentIndexHBits[i]) +
+          hbytes(lastIndexHBits)
       );
       kerl.absorb(essence, 0, essence.length);
     }
 
-    const bundleHashTrits = new Int8Array(Kerl.HASH_LENGTH);
-    kerl.squeeze(bundleHashTrits, 0, Kerl.HASH_LENGTH);
-    bundleHash = hbytes(bundleHashTrits);
+    const bundleHashHBits = new Int8Array(Kerl.HASH_LENGTH);
+    kerl.squeeze(bundleHashHBits, 0, Kerl.HASH_LENGTH);
+    bundleHash = hbytes(bundleHashHBits);
 
     if (normalizedBundleHash(bundleHash).indexOf(13) !== -1) {
       // Insecure bundle, increment obsoleteTag and recompute bundle hash
-      obsoleteTagTrits[0] = add(obsoleteTagTrits[0], new Int8Array(1).fill(1));
+      obsoleteTagHBits[0] = add(obsoleteTagHBits[0], new Int8Array(1).fill(1));
     } else {
       validBundle = true;
     }
@@ -197,7 +197,7 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
     ...transaction,
     // overwrite obsoleteTag in first entry
     obsoleteTag:
-      i === 0 ? hbytes(obsoleteTagTrits[0]) : transaction.obsoleteTag,
+      i === 0 ? hbytes(obsoleteTagHBits[0]) : transaction.obsoleteTag,
     bundle: bundleHash
   }));
 };

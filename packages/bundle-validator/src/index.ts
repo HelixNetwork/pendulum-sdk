@@ -90,8 +90,8 @@ export default function isBundle(bundle: Bundle) {
     // Get the transaction hbytes
     const thisTxHBytes = asTransactionHBytes(bundleTx);
 
-    const thisTxTrits = hbits(thisTxHBytes.slice(2187, 2187 + 162));
-    kerl.absorb(thisTxTrits, 0, thisTxTrits.length);
+    const thisTxHBits = hbits(thisTxHBytes.slice(2187, 2187 + 162));
+    kerl.absorb(thisTxHBits, 0, thisTxHBits.length);
 
     // Check if input transaction
     if (bundleTx.value < 0) {

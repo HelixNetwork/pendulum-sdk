@@ -36,10 +36,10 @@ export default class Address {
     // Add digests
     for (let i = 0; i < digestsArray.length; i++) {
       // Get hbits of digest
-      const digestTrits = hbits(digestsArray[i]);
+      const digestHBits = hbits(digestsArray[i]);
 
       // Absorb digest
-      this.kerl.absorb(digestTrits, 0, digestTrits.length);
+      this.kerl.absorb(digestHBits, 0, digestHBits.length);
     }
 
     return this;
@@ -62,10 +62,10 @@ export default class Address {
     }
 
     // Squeeze the address hbits
-    const addressTrits: Int8Array = new Int8Array(Kerl.HASH_LENGTH);
-    this.kerl.squeeze(addressTrits, 0, Kerl.HASH_LENGTH);
+    const addressHBits: Int8Array = new Int8Array(Kerl.HASH_LENGTH);
+    this.kerl.squeeze(addressHBits, 0, Kerl.HASH_LENGTH);
 
     // Convert hbits into hbytes and return the address
-    return hbytes(addressTrits);
+    return hbytes(addressHBits);
   }
 }

@@ -27,17 +27,17 @@ import {
  *
  * @method transactionHash
  *
- * @param {Int8Array} trits - Int8Array of 8019 transaction hbits
+ * @param {Int8Array} hBits - Int8Array of 8019 transaction hbits
  *
  * @return {Hash} Transaction hash
  */
-export const transactionHash = (trits: Int8Array): Hash => {
+export const transactionHash = (hBits: Int8Array): Hash => {
   const hash: Int8Array = new Int8Array(Curl.HASH_LENGTH);
   const curl = new Curl();
 
   // generate the transaction hash
   curl.initialize();
-  curl.absorb(trits, 0, trits.length);
+  curl.absorb(hBits, 0, hBits.length);
   curl.squeeze(hash, 0, Curl.HASH_LENGTH);
 
   return hBitsToHBytes(hash);
@@ -113,7 +113,7 @@ export const isTransactionHash = (
       hasCorrectHashLength &&
       hbytesToHBits(hash)
         .slice(-Math.abs(minWeightMagnitude))
-        .every(trit => trit === 0)
+        .every(hBit => hBit === 0)
     );
   }
 

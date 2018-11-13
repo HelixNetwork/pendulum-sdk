@@ -410,7 +410,7 @@ export const addSignatures = (
     transactions: addHBytes(
       transactions,
       inputs.reduce((acc: ReadonlyArray<HBytes>, { keyIndex, security }) => {
-        const keyTrits = key(
+        const keyHBits = key(
           subseed(hbits(seed), keyIndex),
           security || SECURITY_LEVEL
         );
@@ -425,7 +425,7 @@ export const addSignatures = (
                     i * HASH_LENGTH / 3,
                     (i + 1) * HASH_LENGTH / 3
                   ),
-                  keyTrits.slice(
+                  keyHBits.slice(
                     i * KEY_FRAGMENT_LENGTH,
                     (i + 1) * KEY_FRAGMENT_LENGTH
                   )

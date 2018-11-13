@@ -24,8 +24,8 @@ export function subseed(seed: Int8Array, index: number): Int8Array {
     throw new Error(errors.ILLEGAL_SEED_LENGTH);
   }
 
-  const indexTrits = fromValue(index);
-  let subseed: Int8Array = add(seed, indexTrits);
+  const indexHBits = fromValue(index);
+  let subseed: Int8Array = add(seed, indexHBits);
 
   while (subseed.length % 243 !== 0) {
     subseed = padHBits(subseed.length + 3)(subseed);
@@ -127,14 +127,14 @@ export function digests(key: Int8Array): Int8Array {
  */
 // tslint:disable-next-line no-shadowed-variable
 export function address(digests: Int8Array): Int8Array {
-  const addressTrits = new Int8Array(Kerl.HASH_LENGTH);
+  const addressHBits = new Int8Array(Kerl.HASH_LENGTH);
   const kerl = new Kerl();
 
   kerl.initialize();
   kerl.absorb(digests.slice(), 0, digests.length);
-  kerl.squeeze(addressTrits, 0, Kerl.HASH_LENGTH);
+  kerl.squeeze(addressHBits, 0, Kerl.HASH_LENGTH);
 
-  return addressTrits;
+  return addressHBits;
 }
 
 /**
