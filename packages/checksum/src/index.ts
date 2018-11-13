@@ -9,6 +9,11 @@ import {
 } from "../../errors";
 import { isHash, isHBytes } from "../../guards";
 import { asArray, HBytes } from "../../types";
+import {
+  ADDRESS_CHECKSUM_BYTE_SIZE,
+  ADDRESS_MIN_CHECKSUM_BYTE_SIZE,
+  HASH_BYTE_SIZE
+} from "../../constants";
 
 export const errors = {
   INVALID_ADDRESS,
@@ -17,11 +22,11 @@ export const errors = {
   INVALID_CHECKSUM_LENGTH: "Invalid checksum length"
 };
 
-const HASH_HBYTES_LENGTH = 81;
-const ADDRESS_CHECKSUM_HBYTES_LENGTH = 9;
+const HASH_HBYTES_LENGTH = HASH_BYTE_SIZE;
+const ADDRESS_CHECKSUM_HBYTES_LENGTH = ADDRESS_CHECKSUM_BYTE_SIZE;
 const ADDRESS_WITH_CHECKSUM_HBYTES_LENGTH =
   HASH_HBYTES_LENGTH + ADDRESS_CHECKSUM_HBYTES_LENGTH;
-const MIN_CHECKSUM_HBYTES_LENGTH = 3;
+const MIN_CHECKSUM_HBYTES_LENGTH = ADDRESS_MIN_CHECKSUM_BYTE_SIZE;
 
 /**
  * Generates and appends the 9-tryte checksum of the given hbytes, usually an address.
@@ -89,7 +94,12 @@ export function addChecksum(
       kerl.squeeze(checksumHBits, 0, Kerl.HASH_LENGTH);
 
       return inputHBytes.concat(
-        hbytes(checksumHBits.slice(243 - checksumLength * 3, 243))
+        hbytes(
+          checksumHBits.slice(
+            Kerl.HASH_LENGTH - checksumLength * 3,
+            Kerl.HASH_LENGTH
+          )
+        )
       );
     }
   );

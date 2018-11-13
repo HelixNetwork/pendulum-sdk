@@ -7,7 +7,7 @@ import {
 } from "../src/bundle";
 import {
   ADDRESS_BYTE_SIZE,
-  HASH_BYTE_SIGNATURE_FRAGMENT,
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
   HASH_BYTE_SIZE,
   NULL_HASH_HBYTES,
   NULL_NONCE_HBYTES
@@ -30,7 +30,7 @@ const bundle = [
     currentIndex: 0,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "9".repeat(HASH_BYTE_SIGNATURE_FRAGMENT),
+    signatureMessageFragment: "9".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -48,7 +48,7 @@ const bundle = [
     currentIndex: 1,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "9".repeat(HASH_BYTE_SIGNATURE_FRAGMENT),
+    signatureMessageFragment: "9".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -66,7 +66,7 @@ const bundle = [
     currentIndex: 2,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "9".repeat(HASH_BYTE_SIGNATURE_FRAGMENT),
+    signatureMessageFragment: "9".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -121,7 +121,7 @@ test("addHBytes() adds hbytes and returns correct transactions.", t => {
     bundle.map(transaction => ({
       ...transaction,
       signatureMessageFragment:
-        "HBYTES" + "9".repeat(HASH_BYTE_SIGNATURE_FRAGMENT - 6)
+        "HBYTES" + "9".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 6)
     })),
     "addEntry should add hbytes and return correct transactions."
   );

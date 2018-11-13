@@ -8,7 +8,7 @@ import { asTransactionHBytes } from "@helix/transaction-converter";
 import * as errors from "../../errors";
 import { isArray, Validator } from "../../guards";
 import { Bundle, Hash, Transaction, HBytes } from "../../types";
-import { HASH_BYTE_SIGNATURE_FRAGMENT } from "../../constants";
+import { SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE } from "../../constants";
 
 interface SignatureFragments {
   readonly [key: string]: ReadonlyArray<HBytes>;
@@ -94,8 +94,8 @@ export default function isBundle(bundle: Bundle) {
 
     const thisTxHBits = hbits(
       thisTxHBytes.slice(
-        HASH_BYTE_SIGNATURE_FRAGMENT,
-        HASH_BYTE_SIGNATURE_FRAGMENT + BYTE_SIZE_USED_FOR_VALIDATION
+        SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+        SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE + BYTE_SIZE_USED_FOR_VALIDATION
       )
     );
     kerl.absorb(thisTxHBits, 0, thisTxHBits.length);
