@@ -1,5 +1,5 @@
 import { hbits, hbytes } from "@helix/converter";
-import Kerl from "@helix/kerl";
+import HHash from "@helix/hash-module";
 import { asArray } from "../../types";
 
 /**
@@ -7,11 +7,11 @@ import { asArray } from "../../types";
  * @memberof module:multisig
  */
 export default class Address {
-  private kerl: Kerl;
+  private hHash: HHash;
 
   constructor(digests?: string | ReadonlyArray<string>) {
-    this.kerl = new Kerl();
-    this.kerl.initialize();
+    this.hHash = new HHash(HHash.HASH_ALGORITHM_1);
+    this.hHash.initialize();
 
     if (digests) {
       this.absorb(digests);
@@ -39,7 +39,7 @@ export default class Address {
       const digestHBits = hbits(digestsArray[i]);
 
       // Absorb digest
-      this.kerl.absorb(digestHBits, 0, digestHBits.length);
+      this.hHash.absorb(digestHBits, 0, digestHBits.length);
     }
 
     return this;
@@ -62,8 +62,8 @@ export default class Address {
     }
 
     // Squeeze the address hbits
-    const addressHBits: Int8Array = new Int8Array(Kerl.HASH_LENGTH);
-    this.kerl.squeeze(addressHBits, 0, Kerl.HASH_LENGTH);
+    const addressHBits: Int8Array = new Int8Array(this.hHash.getHashLength());
+    this.hHash.squeeze(addressHBits, 0, this.hHash.getHashLength());
 
     // Convert hbits into hbytes and return the address
     return hbytes(addressHBits);

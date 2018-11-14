@@ -3,7 +3,7 @@
  */
 
 import { hBitsToHBytes, hbytesToHBits } from "@helix/converter";
-import Curl from "@helix/curl";
+import HHash from "@helix/hash-module";
 import * as errors from "../../errors";
 import {
   isArray,
@@ -32,13 +32,13 @@ import {
  * @return {Hash} Transaction hash
  */
 export const transactionHash = (hBits: Int8Array): Hash => {
-  const hash: Int8Array = new Int8Array(Curl.HASH_LENGTH);
-  const curl = new Curl();
+  const hHash = new HHash(HHash.HASH_ALGORITHM_2);
+  const hash: Int8Array = new Int8Array(hHash.getHashLength());
 
   // generate the transaction hash
-  curl.initialize();
-  curl.absorb(hBits, 0, hBits.length);
-  curl.squeeze(hash, 0, Curl.HASH_LENGTH);
+  hHash.initialize();
+  hHash.absorb(hBits, 0, hBits.length);
+  hHash.squeeze(hash, 0, hHash.getHashLength());
 
   return hBitsToHBytes(hash);
 };

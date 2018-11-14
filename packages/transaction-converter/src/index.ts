@@ -2,7 +2,7 @@
 
 import { hBitsToHBytes, hbytesToHBits, value } from "@helix/converter";
 import { transactionHash } from "@helix/transaction";
-import Curl from "@helix/curl";
+import HHash from "@helix/hash-module";
 import { padHBits, padHBytes } from "@helix/pad";
 import * as errors from "../../errors";
 import { isHBytesOfExactLength } from "../../guards";
@@ -22,7 +22,9 @@ import {
   HASH_BYTE_SIZE,
   TAG_BYTE_SIZE,
   TRANSACTION_LAST_INDEX_BYTE_SIZE,
-  NONCE_BYTE_SIZE
+  NONCE_BYTE_SIZE,
+  TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE,
+  TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE
 } from "../../constants";
 
 export function asTransactionHBytes(transactions: Transaction): HBytes;
@@ -152,9 +154,9 @@ export const asTransactionObject = (
   const startIndexTimestampLowTrasnBytes =
     startIndexTimestampTrasnBytes + TRANSACTION_TIMESTAMP_BYTE_SIZE;
   const startIndexTimestampUpTrasnBytes =
-    startIndexTimestampLowTrasnBytes + TRANSACTION_TIMESTAMP_BYTE_SIZE;
+    startIndexTimestampLowTrasnBytes + TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE;
   const startIndexNonceBytes =
-    startIndexTimestampUpTrasnBytes + TRANSACTION_TIMESTAMP_BYTE_SIZE;
+    startIndexTimestampUpTrasnBytes + TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE;
 
   // Can be removed after the model is fully converted
   // signatureMessageFragment: hbytes.slice(0, 2187),
@@ -241,14 +243,16 @@ export const asTransactionObject = (
       hbits.slice(
         noOfBitsInBytes * startIndexTimestampLowTrasnBytes,
         noOfBitsInBytes *
-          (startIndexTimestampLowTrasnBytes + TRANSACTION_TIMESTAMP_BYTE_SIZE)
+          (startIndexTimestampLowTrasnBytes +
+            TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE)
       )
     ), //27 trits
     attachmentTimestampUpperBound: value(
       hbits.slice(
         noOfBitsInBytes * startIndexTimestampUpTrasnBytes,
         noOfBitsInBytes *
-          (startIndexTimestampUpTrasnBytes + TRANSACTION_TIMESTAMP_BYTE_SIZE)
+          (startIndexTimestampUpTrasnBytes +
+            TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE)
       )
     ), //27 trits
     nonce: hbytes.slice(

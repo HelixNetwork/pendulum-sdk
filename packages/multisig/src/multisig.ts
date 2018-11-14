@@ -2,7 +2,7 @@ import { addEntry, addHBytes, finalizeBundle } from "@helix/bundle";
 import { removeChecksum } from "@helix/checksum";
 import { hbits, hbytes } from "@helix/converter";
 import { Balances, createGetBalances } from "@helix/core";
-import Kerl from "@helix/kerl";
+import HHash from "@helix/hash-module";
 import {
   digests,
   key,
@@ -270,20 +270,20 @@ export default class Multisig {
     multisigAddress: string,
     digestsArr: ReadonlyArray<string>
   ) {
-    const kerl = new Kerl();
+    const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
     // initialize Kerl with the provided state
-    kerl.initialize();
+    hHash.initialize();
 
     // Absorb all key digests
     digestsArr.forEach(keyDigest => {
       const digesHBits = hbits(keyDigest);
-      kerl.absorb(hbits(keyDigest), 0, digesHBits.length);
+      hHash.absorb(hbits(keyDigest), 0, digesHBits.length);
     });
 
     // Squeeze address hbits
-    const addressHBits: Int8Array = new Int8Array(Kerl.HASH_LENGTH);
-    kerl.squeeze(addressHBits, 0, Kerl.HASH_LENGTH);
+    const addressHBits: Int8Array = new Int8Array(hHash.getHashLength());
+    hHash.squeeze(addressHBits, 0, hHash.getHashLength());
 
     // Convert hbits into hbytes and return the address
     return hbytes(addressHBits) === multisigAddress;

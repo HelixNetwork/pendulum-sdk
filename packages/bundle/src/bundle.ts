@@ -1,7 +1,7 @@
 /** @module bundle */
 
 import { hbits, hbytes } from "@helix/converter";
-import Kerl from "@helix/kerl";
+import HHash from "@helix/hash-module";
 import { padTag, padHBits, padHBytes } from "@helix/pad";
 import { add, normalizedBundleHash } from "@helix/signing";
 import { Hash, Bundle, Transaction, HBytes } from "../../types";
@@ -186,8 +186,8 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
   let validBundle: boolean = false;
 
   while (!validBundle) {
-    const kerl = new Kerl();
-    kerl.initialize();
+    const hHash = new HHash(HHash.HASH_ALGORITHM_1);
+    hHash.initialize();
 
     for (let i = 0; i < transactions.length; i++) {
       const essence = hbits(
@@ -198,11 +198,11 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
           hbytes(currentIndexHBits[i]) +
           hbytes(lastIndexHBits)
       );
-      kerl.absorb(essence, 0, essence.length);
+      hHash.absorb(essence, 0, essence.length);
     }
 
-    const bundleHashHBits = new Int8Array(Kerl.HASH_LENGTH);
-    kerl.squeeze(bundleHashHBits, 0, Kerl.HASH_LENGTH);
+    const bundleHashHBits = new Int8Array(hHash.getHashLength());
+    hHash.squeeze(bundleHashHBits, 0, hHash.getHashLength());
     bundleHash = hbytes(bundleHashHBits);
 
     if (normalizedBundleHash(bundleHash).indexOf(13) !== -1) {

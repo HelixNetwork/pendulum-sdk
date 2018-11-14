@@ -1,19 +1,16 @@
 {
-  "name": "@helix/multisig",
+  "name": "@helix/hash-module",
   "version": "0.0.1-alpha.0",
-  "description":
-    "Methods for generating multisig addresses and co-signing transactions.",
-  "main": "./out/multisig/src/index.js",
-  "typings": "typings/multisig/src",
+  "description": "IOTA-related cryptographic methods",
+  "main": "./out/src/index.js",
+  "typings": "typings/src",
   "publishConfig": {
     "access": "private"
   },
   "scripts": {
     "prepare": "tsc",
-    "test": "tsc",
-    "format": "prettier",
-    "docs":
-      "tsc && jsdoc2md --no-cache --plugin dmd-clear -t README_tpl.hbs --files './out/**/*.js' > README.md"
+    "test": "tsc && ava",
+    "format": "prettier"
   },
   "contributors": [
     "Dominik Schiener <dom@iota.org> (https://iota.org)",
@@ -21,7 +18,7 @@
     "Chris Dukakis <chris.dukakis@iota.org> (https://github.com/chrisdukakis)"
   ],
   "ava": {
-    "files": "out/multisig/test/*.test.js",
+    "files": "out/test/*.test.js",
     "failFast": true,
     "failWithoutAssertions": false,
     "compileEnhancements": false,
@@ -42,17 +39,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/helixnetwork/helix.api.git"
+    "url":
+      "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
   },
   "dependencies": {
-    "@helix/bundle": "^0.0.1-alpha.0",
-    "@helix/checksum": "^0.0.1-alpha.0",
+    "@types/crypto-js": "^3.1.38",
+    "crypto-js": "^3.1.9-1"
+  },
+  "devDependencies": {
     "@helix/converter": "^0.0.1-alpha.0",
-    "@helix/core": "^0.0.1-alpha.0",
-    "@helix/hash-module": "^0.0.1-alpha.0",
-    "@helix/signing": "^0.0.1-alpha.0",
-    "@types/bluebird": "^3.5.20",
-    "bluebird": "^3.5.1",
-    "isomorphic-fetch": "^2.2.1"
+    "@helix/kerl": "^0.0.1-alpha.0",
+    "@helix/curl": "^0.0.1-alpha.0",
+    "@helix/sha256": "^0.0.1-alpha.0"
   }
 }

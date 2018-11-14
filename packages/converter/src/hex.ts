@@ -1,6 +1,6 @@
 import * as errors from "./errors";
 
-export function hex(uint8arr: Uint8Array): string {
+export function hex(uint8arr: Uint8Array | Int8Array): string {
   if (!uint8arr) {
     return "";
   }

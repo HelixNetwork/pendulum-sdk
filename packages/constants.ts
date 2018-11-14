@@ -1,32 +1,40 @@
 /** We will provide sizes for this */
 
+//HBYTES constants from transactionȘ
+export const SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE = 2187;
+export const ADDRESS_BYTE_SIZE = 81;
+export const TRANSACTION_VALUE_BYTE_SIZE = 27;
+export const OBSOLETE_TAG_BYTE_SIZE = 27; //
+export const TRANSACTION_TIMESTAMP_BYTE_SIZE = 9;
+export const TRANSACTION_CURRENT_INDEX_BYTE_SIZE = 9;
+export const TRANSACTION_LAST_INDEX_BYTE_SIZE = 9;
+export const HASH_BYTE_SIZE = 81;
+export const TAG_BYTE_SIZE = 27;
+export const TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE = 9;
+export const TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE = 9;
+export const NONCE_BYTE_SIZE = 27;
+
+export const TRANSACTION_HBYTE_SIZE = 2673;
+// Address checksum constants:
+export const ADDRESS_CHECKSUM_BYTE_SIZE = 9;
+export const ADDRESS_MIN_CHECKSUM_BYTE_SIZE = 3;
+
 //HBITS constants
+export const HASH_BITS_SIZE = 243;
+export const ADDRESS_SIZE_BITS = 243;
 export const TRANSACTION_VALUE_BITS_SIZE = 81;
 export const TRANSACTION_TIMESTAMP_BITS_SIZE = 27;
 export const TRANSACTION_CURRENT_INDEX_BITS_SIZE = 27;
 export const TRANSACTION_LAST_INDEX_BITS_SIZE = 27;
 export const TRANSACTION_OBSOLETE_TAG_BITS_SIZE = 81;
-
-//HBYTES constants
-export const OBSOLETE_TAG_BYTE_SIZE = 27; //
-export const HASH_BYTE_SIZE = 81;
-export const TRANSACTION_VALUE_BYTE_SIZE = 27;
-export const ADDRESS_BYTE_SIZE = 81;
-export const ADDRESS_CHECKSUM_BYTE_SIZE = 9;
-export const ADDRESS_MIN_CHECKSUM_BYTE_SIZE = 3;
-export const TAG_BYTE_SIZE = 27;
-export const NONCE_BYTE_SIZE = 27;
-export const SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE = 2187;
 export const SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS =
   3 * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE; // 6561
-export const TRANSACTION_HBYTE_SIZE = 2673;
-export const TRANSACTION_CURRENT_INDEX_BYTE_SIZE = 9;
-export const TRANSACTION_LAST_INDEX_BYTE_SIZE = 9;
-export const TRANSACTION_TIMESTAMP_BYTE_SIZE = 9;
 
+// Other constants:
 export const SIGNATURE_FRAGMENT_NO = 27;
 export const MAX_INDEX_DIFF = 1000;
 
+// Empty initialization:
 export const NULL_ADDRESS_HBYTES = "9".repeat(ADDRESS_BYTE_SIZE);
 export const NULL_HASH_HBYTES = "9".repeat(HASH_BYTE_SIZE);
 export const NULL_TAG_HBYTES = "9".repeat(TAG_BYTE_SIZE);

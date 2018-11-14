@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@helix/converter": "^0.0.1-alpha.0",
-    "@helix/kerl": "^0.0.1-alpha.0",
+    "@helix/hash-module": "^0.0.1-alpha.0",
     "@helix/pad": "^0.0.1-alpha.0"
   }
 }

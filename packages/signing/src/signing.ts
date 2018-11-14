@@ -1,12 +1,14 @@
 /** @module signing */
 
 import { fromValue, hbits, hbytes, value } from "@helix/converter";
-import Kerl from "@helix/kerl";
+import HHash from "@helix/hash-module";
 import { padHBits } from "@helix/pad";
 import add from "./add";
 import * as errors from "./errors";
 import { Hash } from "../../types";
 import {
+  ADDRESS_SIZE_BITS,
+  HASH_BITS_SIZE,
   HASH_BYTE_SIZE,
   SIGNATURE_FRAGMENT_NO,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS
@@ -32,15 +34,15 @@ export function subseed(seed: Int8Array, index: number): Int8Array {
   const indexHBits = fromValue(index);
   let subseed: Int8Array = add(seed, indexHBits);
 
-  while (subseed.length % Kerl.HASH_LENGTH !== 0) {
+  const hHash = new HHash(HHash.HASH_ALGORITHM_1);
+
+  while (subseed.length % hHash.getHashLength() !== 0) {
     subseed = padHBits(subseed.length + 3)(subseed);
   }
 
-  const kerl = new Kerl();
-
-  kerl.initialize();
-  kerl.absorb(subseed, 0, subseed.length);
-  kerl.squeeze(subseed, 0, subseed.length);
+  hHash.initialize();
+  hHash.absorb(subseed, 0, subseed.length);
+  hHash.squeeze(subseed, 0, subseed.length);
 
   return subseed;
 }
@@ -58,21 +60,21 @@ export function key(subseed: Int8Array, length: number): Int8Array {
     throw new Error(errors.ILLEGAL_SUBSEED_LENGTH);
   }
 
-  const kerl = new Kerl();
+  const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
-  kerl.initialize();
-  kerl.absorb(subseed, 0, subseed.length);
+  hHash.initialize();
+  hHash.absorb(subseed, 0, subseed.length);
 
-  const buffer = new Int8Array(Kerl.HASH_LENGTH);
+  const buffer = new Int8Array(hHash.getHashLength());
   const result = new Int8Array(
-    length * SIGNATURE_FRAGMENT_NO * Kerl.HASH_LENGTH
+    length * SIGNATURE_FRAGMENT_NO * hHash.getHashLength()
   );
   let offset = 0;
 
   while (length-- > 0) {
     for (let i = 0; i < SIGNATURE_FRAGMENT_NO; i++) {
-      kerl.squeeze(buffer, 0, subseed.length);
-      for (let j = 0; j < Kerl.HASH_LENGTH; j++) {
+      hHash.squeeze(buffer, 0, subseed.length);
+      for (let j = 0; j < hHash.getHashLength(); j++) {
         result[offset++] = buffer[j];
       }
     }
@@ -90,8 +92,8 @@ export function key(subseed: Int8Array, length: number): Int8Array {
 // tslint:disable-next-line no-shadowed-variable
 export function digests(key: Int8Array): Int8Array {
   const l = Math.floor(key.length / SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS);
-  const result = new Int8Array(l * Kerl.HASH_LENGTH);
-  let buffer = new Int8Array(Kerl.HASH_LENGTH);
+  const result = new Int8Array(l * HASH_BITS_SIZE);
+  let buffer = new Int8Array(HASH_BITS_SIZE);
 
   for (let i = 0; i < l; i++) {
     const keyFragment = key.slice(
@@ -100,32 +102,29 @@ export function digests(key: Int8Array): Int8Array {
     );
 
     for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
-      buffer = keyFragment.slice(
-        j * Kerl.HASH_LENGTH,
-        (j + 1) * Kerl.HASH_LENGTH
-      );
+      buffer = keyFragment.slice(j * HASH_BITS_SIZE, (j + 1) * HASH_BITS_SIZE);
 
       for (let k = 0; k < SIGNATURE_FRAGMENT_NO - 1; k++) {
-        const keyFragmentKerl = new Kerl();
+        const keyFragmentHash = new HHash(HHash.HASH_ALGORITHM_1);
 
-        keyFragmentKerl.initialize();
-        keyFragmentKerl.absorb(buffer, 0, buffer.length);
-        keyFragmentKerl.squeeze(buffer, 0, Kerl.HASH_LENGTH);
+        keyFragmentHash.initialize();
+        keyFragmentHash.absorb(buffer, 0, buffer.length);
+        keyFragmentHash.squeeze(buffer, 0, keyFragmentHash.getHashLength());
       }
 
-      for (let k = 0; k < Kerl.HASH_LENGTH; k++) {
-        keyFragment[j * Kerl.HASH_LENGTH + k] = buffer[k];
+      for (let k = 0; k < HASH_BITS_SIZE; k++) {
+        keyFragment[j * HASH_BITS_SIZE + k] = buffer[k];
       }
     }
 
-    const digestsKerl = new Kerl();
+    const digestsKerl = new HHash(HHash.HASH_ALGORITHM_1);
 
     digestsKerl.initialize();
     digestsKerl.absorb(keyFragment, 0, keyFragment.length);
-    digestsKerl.squeeze(buffer, 0, Kerl.HASH_LENGTH);
+    digestsKerl.squeeze(buffer, 0, HASH_BITS_SIZE);
 
-    for (let j = 0; j < Kerl.HASH_LENGTH; j++) {
-      result[i * Kerl.HASH_LENGTH + j] = buffer[j];
+    for (let j = 0; j < HASH_BITS_SIZE; j++) {
+      result[i * HASH_BITS_SIZE + j] = buffer[j];
     }
   }
   return result;
@@ -140,12 +139,12 @@ export function digests(key: Int8Array): Int8Array {
  */
 // tslint:disable-next-line no-shadowed-variable
 export function address(digests: Int8Array): Int8Array {
-  const addressHBits = new Int8Array(Kerl.HASH_LENGTH);
-  const kerl = new Kerl();
+  const addressHBits = new Int8Array(ADDRESS_SIZE_BITS);
+  const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
-  kerl.initialize();
-  kerl.absorb(digests.slice(), 0, digests.length);
-  kerl.squeeze(addressHBits, 0, Kerl.HASH_LENGTH);
+  hHash.initialize();
+  hHash.absorb(digests.slice(), 0, digests.length);
+  hHash.squeeze(addressHBits, 0, hHash.getHashLength());
 
   return addressHBits;
 }
@@ -163,30 +162,38 @@ export function digest(
   normalizedBundleFragment: Int8Array,
   signatureFragment: Int8Array
 ): Int8Array {
-  const digestKerl = new Kerl();
+  const digestHash = new HHash(HHash.HASH_ALGORITHM_1);
 
-  digestKerl.initialize();
+  digestHash.initialize();
 
-  let buffer = new Int8Array(Kerl.HASH_LENGTH);
+  let buffer = new Int8Array(HASH_BITS_SIZE);
 
   for (let i = 0; i < SIGNATURE_FRAGMENT_NO; i++) {
     buffer = signatureFragment.slice(
-      i * Kerl.HASH_LENGTH,
-      (i + 1) * Kerl.HASH_LENGTH
+      i * digestHash.getHashLength(),
+      (i + 1) * digestHash.getHashLength()
     );
 
     for (let j = normalizedBundleFragment[i] + 13; j-- > 0; ) {
-      const signatureFragmentKerl = new Kerl();
+      const signatureFragmentHash = new HHash(HHash.HASH_ALGORITHM_1);
 
-      signatureFragmentKerl.initialize();
-      signatureFragmentKerl.absorb(buffer, 0, Kerl.HASH_LENGTH);
-      signatureFragmentKerl.squeeze(buffer, 0, Kerl.HASH_LENGTH);
+      signatureFragmentHash.initialize();
+      signatureFragmentHash.absorb(
+        buffer,
+        0,
+        signatureFragmentHash.getHashLength()
+      );
+      signatureFragmentHash.squeeze(
+        buffer,
+        0,
+        signatureFragmentHash.getHashLength()
+      );
     }
 
-    digestKerl.absorb(buffer, 0, Kerl.HASH_LENGTH);
+    digestHash.absorb(buffer, 0, digestHash.getHashLength());
   }
 
-  digestKerl.squeeze(buffer, 0, Kerl.HASH_LENGTH);
+  digestHash.squeeze(buffer, 0, digestHash.getHashLength());
   return buffer;
 }
 
@@ -204,23 +211,23 @@ export function signatureFragment(
 ): Int8Array {
   const sigFragment = keyFragment.slice();
 
-  const kerl = new Kerl();
+  const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
   for (let i = 0; i < SIGNATURE_FRAGMENT_NO; i++) {
     const hash = sigFragment.slice(
-      i * Kerl.HASH_LENGTH,
-      (i + 1) * Kerl.HASH_LENGTH
+      i * hHash.getHashLength(),
+      (i + 1) * hHash.getHashLength()
     );
 
     for (let j = 0; j < 13 - normalizedBundleFragment[i]; j++) {
-      kerl.initialize();
-      kerl.reset();
-      kerl.absorb(hash, 0, Kerl.HASH_LENGTH);
-      kerl.squeeze(hash, 0, Kerl.HASH_LENGTH);
+      hHash.initialize();
+      hHash.reset();
+      hHash.absorb(hash, 0, hHash.getHashLength());
+      hHash.squeeze(hash, 0, hHash.getHashLength());
     }
 
-    for (let j = 0; j < Kerl.HASH_LENGTH; j++) {
-      sigFragment[i * Kerl.HASH_LENGTH + j] = hash[j];
+    for (let j = 0; j < hHash.getHashLength(); j++) {
+      sigFragment[i * hHash.getHashLength() + j] = hash[j];
     }
   }
 
@@ -258,7 +265,7 @@ export function validateSignatures(
 
   // Get digests
   // tslint:disable-next-line no-shadowed-variable
-  const digests = new Int8Array(signatureFragments.length * Kerl.HASH_LENGTH);
+  const digests = new Int8Array(signatureFragments.length * HASH_BITS_SIZE);
 
   for (let i = 0; i < signatureFragments.length; i++) {
     const digestBuffer = digest(
@@ -266,8 +273,8 @@ export function validateSignatures(
       hbits(signatureFragments[i])
     );
 
-    for (let j = 0; j < Kerl.HASH_LENGTH; j++) {
-      digests[i * Kerl.HASH_LENGTH + j] = digestBuffer[j];
+    for (let j = 0; j < HASH_BITS_SIZE; j++) {
+      digests[i * HASH_BITS_SIZE + j] = digestBuffer[j];
     }
   }
 

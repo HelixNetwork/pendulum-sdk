@@ -1,7 +1,7 @@
 /** @module bundle-validator */
 
 import { hbits, hbytes } from "@helix/converter";
-import Kerl from "@helix/kerl";
+import HHash from "@helix/hash-module";
 import { validateSignatures } from "@helix/signing";
 import { isTransaction } from "@helix/transaction";
 import { asTransactionHBytes } from "@helix/transaction-converter";
@@ -71,9 +71,8 @@ export default function isBundle(bundle: Bundle) {
 
   let totalSum = 0;
   const bundleHash = bundle[0].bundle;
-
-  const kerl = new Kerl();
-  kerl.initialize();
+  const hhash = new HHash(HHash.HASH_ALGORITHM_1);
+  hhash.initialize();
 
   // Prepare for signature validation
   const signaturesToValidate: Array<{
@@ -98,7 +97,7 @@ export default function isBundle(bundle: Bundle) {
         SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE + BYTE_SIZE_USED_FOR_VALIDATION
       )
     );
-    kerl.absorb(thisTxHBits, 0, thisTxHBits.length);
+    hhash.absorb(thisTxHBits, 0, thisTxHBits.length);
 
     // Check if input transaction
     if (bundleTx.value < 0) {
@@ -131,10 +130,10 @@ export default function isBundle(bundle: Bundle) {
   }
 
   // Prepare to absorb txs and get bundleHash
-  const bundleFromTxs: Int8Array = new Int8Array(Kerl.HASH_LENGTH);
+  const bundleFromTxs: Int8Array = new Int8Array(hhash.getHashLength());
 
   // get the bundle hash from the bundle transactions
-  kerl.squeeze(bundleFromTxs, 0, Kerl.HASH_LENGTH);
+  hhash.squeeze(bundleFromTxs, 0, hhash.getHashLength());
 
   const bundleHashFromTxs = hbytes(bundleFromTxs);
 

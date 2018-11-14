@@ -36,12 +36,6 @@ test("SHA256: Test sha256 input string (update/final), Converter: bytesToWords()
   const expected =
     "71c480df93d6ae2f1efad1447c66c9525e316218cf51fc8d9ed832f2daf18b73";
 
-  let sha256org = (CryptoJS.algo as any).SHA256.create();
-  var expectedResult = sha256org
-    .update(input)
-    .clone()
-    .finalize();
-
   const simpleSHA256 = (input: string): string => {
     const sha256: SHA256 = new SHA256();
     sha256.initialize();

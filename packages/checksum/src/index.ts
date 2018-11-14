@@ -1,7 +1,7 @@
 /** @module checksum */
 
 import { hbits, hbytes } from "@helix/converter";
-import Kerl from "@helix/kerl";
+import HHash from "@helix/hash-module";
 import {
   INVALID_ADDRESS,
   INVALID_CHECKSUM,
@@ -83,21 +83,20 @@ export function addChecksum(
       while (paddedInputHBytes.length % HASH_HBYTES_LENGTH !== 0) {
         paddedInputHBytes += "9";
       }
+      const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
       const inputHBits = hbits(paddedInputHBytes);
-      const checksumHBits = new Int8Array(Kerl.HASH_LENGTH);
+      const checksumHBits = new Int8Array(hHash.getHashLength());
+      hHash.initialize();
 
-      const kerl = new Kerl();
-      kerl.initialize();
-
-      kerl.absorb(inputHBits, 0, inputHBits.length);
-      kerl.squeeze(checksumHBits, 0, Kerl.HASH_LENGTH);
+      hHash.absorb(inputHBits, 0, inputHBits.length);
+      hHash.squeeze(checksumHBits, 0, hHash.getHashLength());
 
       return inputHBytes.concat(
         hbytes(
           checksumHBits.slice(
-            Kerl.HASH_LENGTH - checksumLength * 3,
-            Kerl.HASH_LENGTH
+            hHash.getHashLength() - checksumLength * 3,
+            hHash.getHashLength()
           )
         )
       );
