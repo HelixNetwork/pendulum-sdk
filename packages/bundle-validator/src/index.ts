@@ -14,7 +14,7 @@ interface SignatureFragments {
   readonly [key: string]: ReadonlyArray<HBytes>;
 }
 
-const BYTE_SIZE_USED_FOR_VALIDATION = 162;
+const BYTE_SIZE_USED_FOR_VALIDATION = 64; // previous 162
 /**
  * Validates all signatures of a bundle.
  *
@@ -66,6 +66,7 @@ export const validateBundleSignatures = (bundle: Bundle): boolean => {
  */
 export default function isBundle(bundle: Bundle) {
   if (!isArray(isTransaction)(bundle)) {
+    console.log("isTransaction return false");
     return false;
   }
 
@@ -85,6 +86,7 @@ export default function isBundle(bundle: Bundle) {
 
     // currentIndex has to be equal to the index in the array
     if (bundleTx.currentIndex !== index) {
+      console.log("currentIndex return false");
       return false;
     }
 
@@ -126,6 +128,7 @@ export default function isBundle(bundle: Bundle) {
 
   // Check for total sum, if not equal 0 return error
   if (totalSum !== 0) {
+    console.log("sum return false");
     return false;
   }
 
@@ -139,6 +142,9 @@ export default function isBundle(bundle: Bundle) {
 
   // Check if bundle hash is the same as returned by tx object
   if (bundleHashFromTxs !== bundleHash) {
+    console.log(
+      "bundleHashFromTxs return false " + bundleHashFromTxs + " - " + bundleHash
+    );
     return false;
   }
 
