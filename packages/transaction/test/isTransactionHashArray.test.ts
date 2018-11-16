@@ -3,7 +3,7 @@ import { isTransactionHashArray } from "../src";
 
 test("isTransactionHashArray() returns true for valid transaction hashes.", t => {
   const hashes = [
-    "OZQCYCGHUJHNLDUOKXUPEDCDJCPEWEDXFAFPCGKKDVHVTGUEKBW9VUYDUVEAPZZGPHYMVHABOWZHA9999"
+    "abcdef123454223423423abcdabcdef123454223423423abcdabcdef12345422"
   ];
   t.is(
     isTransactionHashArray(hashes),
@@ -14,10 +14,10 @@ test("isTransactionHashArray() returns true for valid transaction hashes.", t =>
 
 test("isTransactionHash() returns false for invalid transaction hashes.", t => {
   const invalidLength = [
-    "OZQCYCGHUJHNLDUOKXUPEDCDJCPEWEDXFAFPCGKKDVHVTGUEKBW9VUYDUVEAPZZGPHYMVHABOWZHA9999ASDFASDFA"
+    "abcdef123454223423423abcdabcdef123454223423423abcdabcdef1234542278878"
   ];
   const invalidHBytes = [
-    "sadfYCGHUJHNLDUOKXUPEDCDJCPEWEDXFAFPCGKKDVHVTGUEKBW9VUYDUVEAPZZGPHYMVHABOWZHA9999"
+    "abcdef123454223423423abcdabcdef12345422342342bcdabcdef12345422bn"
   ];
 
   t.is(

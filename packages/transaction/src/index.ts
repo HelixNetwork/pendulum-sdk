@@ -2,7 +2,7 @@
  * @module transaction
  */
 
-import { hBitsToHBytes, hbytesToHBits } from "@helix/converter";
+import { hbytesToHBits, hex } from "@helix/converter";
 import HHash from "@helix/hash-module";
 import * as errors from "../../errors";
 import {
@@ -39,8 +39,7 @@ export const transactionHash = (hBits: Int8Array): Hash => {
   hHash.initialize();
   hHash.absorb(hBits, 0, hBits.length);
   hHash.squeeze(hash, 0, hHash.getHashLength());
-
-  return hBitsToHBytes(hash);
+  return hex(hash);
 };
 
 /* Type guards */
@@ -54,28 +53,31 @@ export const transactionHash = (hBits: Int8Array): Hash => {
  *
  * @return {boolean}
  */
-export const isTransaction = (tx: any): tx is Transaction =>
-  isHash(tx.hash) &&
-  isHBytesOfExactLength(
-    tx.signatureMessageFragment,
-    SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
-  ) &&
-  isHash(tx.address) &&
-  Number.isInteger(tx.value) &&
-  isHBytesOfExactLength(tx.obsoleteTag, OBSOLETE_TAG_BYTE_SIZE) &&
-  Number.isInteger(tx.timestamp) &&
-  (Number.isInteger(tx.currentIndex) &&
-    tx.currentIndex >= 0 &&
-    tx.currentIndex <= tx.lastIndex) &&
-  Number.isInteger(tx.lastIndex) &&
-  isHash(tx.bundle) &&
-  isHash(tx.trunkTransaction) &&
-  isHash(tx.branchTransaction) &&
-  isHBytesOfExactLength(tx.tag, TAG_BYTE_SIZE) &&
-  Number.isInteger(tx.attachmentTimestamp) &&
-  Number.isInteger(tx.attachmentTimestampLowerBound) &&
-  Number.isInteger(tx.attachmentTimestampUpperBound) &&
-  isHBytesOfExactLength(tx.nonce, NONCE_BYTE_SIZE);
+export const isTransaction = (tx: any): tx is Transaction => {
+  return (
+    isHash(tx.hash) &&
+    isHBytesOfExactLength(
+      tx.signatureMessageFragment,
+      SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+    ) &&
+    isHash(tx.address) &&
+    Number.isInteger(tx.value) &&
+    isHBytesOfExactLength(tx.obsoleteTag, OBSOLETE_TAG_BYTE_SIZE) &&
+    Number.isInteger(tx.timestamp) &&
+    (Number.isInteger(tx.currentIndex) &&
+      tx.currentIndex >= 0 &&
+      tx.currentIndex <= tx.lastIndex) &&
+    Number.isInteger(tx.lastIndex) &&
+    isHash(tx.bundle) &&
+    isHash(tx.trunkTransaction) &&
+    isHash(tx.branchTransaction) &&
+    isHBytesOfExactLength(tx.tag, TAG_BYTE_SIZE) &&
+    Number.isInteger(tx.attachmentTimestamp) &&
+    Number.isInteger(tx.attachmentTimestampLowerBound) &&
+    Number.isInteger(tx.attachmentTimestampUpperBound) &&
+    isHBytesOfExactLength(tx.nonce, NONCE_BYTE_SIZE)
+  );
+};
 
 /**
  * Checks if given transaction object is tail transaction.
@@ -93,7 +95,7 @@ export const isTailTransaction = (
   isTransaction(transaction) && transaction.currentIndex === 0;
 
 /**
- * Checks if input is correct transaction hash (81 hbytes)
+ * Checks if input is correct transaction hash (32 hbytes)
  *
  * @method isTransactionHash
  *
@@ -164,7 +166,7 @@ export const isTransactionHBytes = (
  */
 export const isAttachedHBytes = (hbytes: any): hbytes is HBytes =>
   isHBytesOfExactLength(hbytes, TRANSACTION_HBYTE_SIZE) &&
-  !/^[9]+$/.test(hbytes.slice(TRANSACTION_HBYTE_SIZE - 3 * HASH_BYTE_SIZE));
+  !/^[0]+$/.test(hbytes.slice(TRANSACTION_HBYTE_SIZE - 2 * HASH_BYTE_SIZE));
 
 export const isAttachedHBytesArray = isArray(isAttachedHBytes);
 export const isTransactionArray = isArray(isTransaction);

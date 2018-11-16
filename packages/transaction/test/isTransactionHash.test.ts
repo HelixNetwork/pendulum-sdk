@@ -4,7 +4,7 @@ import { isTransactionHash } from "../src";
 
 test("isTransactionHash() returns true for valid transaction hash.", t => {
   const hash =
-    "OZQCYCGHUJHNLDUOKXUPEDCDJCPEWEDXFAFPCGKKDVHVTGUEKBW9VUYDUVEAPZZGPHYMVHABOWZHA9999";
+    "9d401b6a8c0d611da988c7e077d347d2fd160c1dad96efe0c9f02aebdc0b7d2d";
   t.is(
     isTransactionHash(hash),
     true,
@@ -14,7 +14,7 @@ test("isTransactionHash() returns true for valid transaction hash.", t => {
 
 test("isTransactionHash() returns true if provided hash is valid and minWeightMagnitude <= weightMagnitude.", t => {
   t.is(
-    isTransactionHash(transactionObject.hash, 3),
+    isTransactionHash(transactionObject.hash, 2),
     true,
     "isTransactionHash() returns true if provided hash is valid and minWeightMagnitude <= weightMagnitude."
   );
@@ -38,9 +38,9 @@ test("isTransactionHash() returns false if provided hash is valid and minWeightM
 
 test("isTransactionHash() returns false for invalid transaction hash.", t => {
   const invalidLength =
-    "OZQCYCGHUJHNLDUOKXUPEDCDJCPEWEDXFAFPCGKKDVHVTGUEKBW9VUYDUVEAPZZGPHYMVHABOWZHA9999ASDFASDFA";
+    "abcdef123454223423423abcdabcdef123454223423423abcdabcdef123454224545";
   const invalidHBytes =
-    "sadfYCGHUJHNLDUOKXUPEDCDJCPEWEDXFAFPCGKKDVHVTGUEKBW9VUYDUVEAPZZGPHYMVHABOWZHA9999";
+    "abcdef123454223423423abcdabcdef123454223423423abcdabcdef1234542n";
 
   t.is(
     isTransactionHash(invalidLength),

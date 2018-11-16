@@ -113,9 +113,10 @@ export const asTransactionObject = (
 
   const hbits = hbytesToHBits(hbytes);
 
-  const noOfBitsInBytes = 3;
+  const noOfBitsInBytes = 4;
+  // todo: check this magic number
   const usefulBytesFromValue = 11;
-  const noOfBitsInValue = noOfBitsInBytes * usefulBytesFromValue;
+  const noOfBitsInValue = 2 * usefulBytesFromValue;
 
   const startIndexSignMsgFragBytes = 0;
 
@@ -134,7 +135,7 @@ export const asTransactionObject = (
     i < startIndexObsoleteTagBytes;
     i++
   ) {
-    if (hbytes.charAt(i) !== "9") {
+    if (hbytes.charAt(i) !== "0") {
       throw new Error(errors.INVALID_HBYTES);
     }
   }
@@ -174,6 +175,39 @@ export const asTransactionObject = (
   //   attachmentTimestampLowerBound: value(hbits.slice(7884, 7911)),
   //   attachmentTimestampUpperBound: value(hbits.slice(7911, 7938)),
   //   nonce: hbytes.slice(2646, 2673)
+  console.log(
+    "lastIndex " +
+      startIndexLastIndexBytes * noOfBitsInBytes +
+      " " +
+      noOfBitsInBytes *
+        (startIndexLastIndexBytes + TRANSACTION_LAST_INDEX_BYTE_SIZE)
+  );
+  console.log(
+    hbits.slice(
+      startIndexLastIndexBytes * noOfBitsInBytes,
+      noOfBitsInBytes *
+        (startIndexLastIndexBytes + TRANSACTION_LAST_INDEX_BYTE_SIZE)
+    )
+  );
+  console.log(
+    value(
+      hbytesToHBits(
+        hbytes.slice(
+          startIndexLastIndexBytes,
+          startIndexLastIndexBytes + TRANSACTION_LAST_INDEX_BYTE_SIZE
+        )
+      )
+    )
+  );
+  console.log(
+    value(
+      hbits.slice(
+        startIndexLastIndexBytes * noOfBitsInBytes,
+        noOfBitsInBytes *
+          (startIndexLastIndexBytes + TRANSACTION_LAST_INDEX_BYTE_SIZE)
+      )
+    )
+  );
 
   return {
     hash: hash || transactionHash(hbits),
