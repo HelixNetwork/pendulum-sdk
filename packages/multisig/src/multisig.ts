@@ -107,7 +107,7 @@ export const createBundle = (
           fragment.length < SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
           j++
         ) {
-          fragment += "9";
+          fragment += "0";
         }
 
         signatureFragments.push(fragment);
@@ -128,7 +128,7 @@ export const createBundle = (
         fragment.length < SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
         j++
       ) {
-        fragment += "9";
+        fragment += "0";
       }
 
       signatureFragments.push(fragment);
@@ -139,7 +139,7 @@ export const createBundle = (
 
     // Pad for required 27 tryte length
     for (let j = 0; tag.length < TAG_BYTE_SIZE; j++) {
-      tag += "9";
+      tag += "0";
     }
 
     // Add first entries to the bundle
@@ -437,7 +437,7 @@ export default class Multisig {
               nextFragment
             );
 
-            //  Convert signature to hbytes and add new bundle entry at i + j position
+            //  Convert signature to hbytes and add new bundle entry at h + j position
             // Assign the signature fragment
             _bundle.push({
               signatureMessageFragment: hbytes(nextSignedFragment)
