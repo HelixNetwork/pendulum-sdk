@@ -148,7 +148,7 @@ function is_null(arr: Uint32Array) {
   return true;
 }
 
-// adds a small (i.e. <32bit) number to base
+// adds a small (h.e. <32bit) number to base
 function bigint_add_small(base: Uint32Array, other: number) {
   const vc = full_add(base[0], other, false);
   let carry: boolean;

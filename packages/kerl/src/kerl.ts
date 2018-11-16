@@ -2,9 +2,10 @@
 import * as CryptoJS from "crypto-js";
 import * as errors from "./errors";
 import { tritsToWords, wordsToTrits } from "./word-converter";
+import { bytesToWords, wordsToBytes } from "@helix/converter";
 
 const BIT_HASH_LENGTH = 384;
-const HASH_LENGTH = 243;
+const HASH_LENGTH = 256; // 243
 
 /**
  * @class kerl
@@ -54,21 +55,19 @@ export default class Kerl {
    * @param {number} length
    **/
   public absorb(hBits: Int8Array, offset: number, length: number) {
-    if (length && length % 243 !== 0) {
+    if (length && length % HASH_LENGTH !== 0) {
       throw new Error(errors.ILLEGAL_HBITS_LENGTH);
     }
 
     do {
       const limit = length < Kerl.HASH_LENGTH ? length : Kerl.HASH_LENGTH;
 
-      const trit_state = hBits.slice(offset, offset + limit);
+      const bytes_state = hBits.slice(offset, offset + limit);
       offset += limit;
 
-      // convert trit state to words
-      const wordsToAbsorb = tritsToWords(trit_state);
-
-      // absorb the trit stat as wordarray
-      this.k.update(CryptoJS.lib.WordArray.create(wordsToAbsorb));
+      const wordsToUpdate = bytesToWords(bytes_state);
+      // update toHBytes state as word array
+      this.k.update(CryptoJS.lib.WordArray.create(wordsToUpdate));
     } while ((length -= Kerl.HASH_LENGTH) > 0);
   }
 
@@ -79,12 +78,12 @@ export default class Kerl {
    *
    * @ignore
    *
-   * @param {Int8Array} trits
+   * @param {Int8Array} hbits
    * @param {number} offset
    * @param {number} length
    **/
-  public squeeze(trits: Int8Array, offset: number, length: number) {
-    if (length && length % 243 !== 0) {
+  public squeeze(hbits: Int8Array, offset: number, length: number) {
+    if (length && length % HASH_LENGTH !== 0) {
       throw new Error(errors.ILLEGAL_HBITS_LENGTH);
     }
     do {
@@ -92,14 +91,18 @@ export default class Kerl {
       const kCopy = this.k.clone();
       const final = kCopy.finalize();
 
-      // Convert words to hbits and then map it into the internal state
-      const trit_state = wordsToTrits(final.words);
+      let test: Uint32Array = new Uint32Array(final.words.length);
+      for (let j = 0; j < final.words.length; j++) {
+        test[j] = final.words[j];
+      }
+
+      const bytes_state = wordsToBytes(final.words);
 
       let i = 0;
       const limit = length < Kerl.HASH_LENGTH ? length : Kerl.HASH_LENGTH;
 
       while (i < limit) {
-        trits[offset++] = trit_state[i++];
+        hbits[offset++] = bytes_state[i++];
       }
 
       this.reset();
