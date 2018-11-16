@@ -18,7 +18,7 @@ describe("Generate new address", () => {
   it("It should return a new address of type string", async () => {
     assert.typeOf(addr, "string");
   });
-  it("It should return a new address of containing Characters A-Z OR 9 and should only havelength 81", async () => {
-    expect(addr).to.match(/^([A-Z]|[9]){81}$/); // checks whether the address generated is valid one
+  it("It should return a new address of containing Characters A-Z OR 9 and should only havelength 2 * 32", async () => {
+    expect(addr).to.match(/^([A-Z]|[9]){2 * 32}$/); // checks whether the address generated is valid one
   });
 });

@@ -36,13 +36,13 @@ before("Running removeNeighbors API Call", async function() {
 });
 
 describe("removeNeighbors  test", () => {
-  it("it should return no of succesfull neighbors removed in the node i.e zero", () => {
+  it("it should return no of succesfull neighbors removed in the node h.e zero", () => {
     assert.equal(removeNeighborsZero, "0");
   });
-  it("it should return no of succesfull neighbors removed in the node i.e one", () => {
+  it("it should return no of succesfull neighbors removed in the node h.e one", () => {
     assert.equal(removeNeighborsOne, "1");
   });
-  it("it should return no of succesfull neighbors removed in the node i.e two", () => {
+  it("it should return no of succesfull neighbors removed in the node h.e two", () => {
     assert.equal(removeNeighborsTwo, "2");
   });
   it("it should throw an error", () => {
