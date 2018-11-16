@@ -26,13 +26,13 @@ const inputs: ReadonlyArray<any> = [
 
 const transfers: ReadonlyArray<Transfer> = [
   {
-    address: addChecksum("A".repeat(81)),
+    address: addChecksum("a".repeat(2 * 32)),
     value: 3,
     tag: "TAG",
-    message: "9"
+    message: "0"
   },
   {
-    address: addChecksum("B".repeat(81)),
+    address: addChecksum("b".repeat(2 * 32)),
     value: 3,
     tag: "TAG"
   }
@@ -40,7 +40,7 @@ const transfers: ReadonlyArray<Transfer> = [
 
 const zeroValueTransfer: ReadonlyArray<Transfer> = [
   {
-    address: "9".repeat(81),
+    address: "0".repeat(2 * 32),
     value: 0,
     message: "TEST9MESSAGE",
     tag: "TEST9TAG"
@@ -80,7 +80,7 @@ test("prepareTransfers() does not mutate original transfers object offline.", as
   await prepareTransfers("SEED", transfersCopy, {
     inputs,
     remainderAddress,
-    hmacKey: "9".repeat(81)
+    hmacKey: "0".repeat(2 * 32)
   });
 
   t.deepEqual(

@@ -13,7 +13,6 @@ export default function addHMAC(transactions: Bundle, key: Int8Array): Bundle {
 
   const hHash = new HHash(HHash.HASH_ALGORITHM_2, HMAC_ROUNDS);
   const hmac = new Int8Array(hHash.getHashLength());
-  console.log(hHash.getHashLength());
 
   hHash.initialize();
   hHash.absorb(key, 0, hHash.getHashLength());
