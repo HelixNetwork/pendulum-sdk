@@ -48,7 +48,7 @@ Install using [npm](https://www.npmjs.org/):
 > @helix scope
 
 ```
-npm i @helix/core
+npm h @helix/core
 ```
 
 ### Connecting to network

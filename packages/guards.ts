@@ -1,4 +1,9 @@
-import { HASH_BYTE_SIZE, MAX_INDEX_DIFF, TAG_BYTE_SIZE } from "./constants";
+import {
+  ADDRESS_CHECKSUM_BYTE_SIZE,
+  HASH_BYTE_SIZE,
+  MAX_INDEX_DIFF,
+  TAG_BYTE_SIZE
+} from "./constants";
 import * as errors from "./errors";
 import { Address, Hash, Tag, Transfer, HBytes } from "./types";
 
@@ -22,8 +27,8 @@ export const isHBytes = (
   hbytes: string,
   length: string | number = "1,"
 ): hbytes is HBytes =>
-  typeof hbytes === "string" && new RegExp(`^[9A-Z]{${length}}$`).test(hbytes);
-
+  typeof hbytes === "string" &&
+  new RegExp(`^[0-9a-f]{${length}}$`).test(hbytes);
 /**
  * @method isHBytesOfExactLength
  *
@@ -33,7 +38,8 @@ export const isHBytes = (
  * @return {boolean}
  */
 export const isHBytesOfExactLength = (hbytes: string, length: number) =>
-  typeof hbytes === "string" && new RegExp(`^[9A-Z]{${length}}$`).test(hbytes);
+  typeof hbytes === "string" &&
+  new RegExp(`^[0-9a-f]{${length}}$`).test(hbytes);
 
 /**
  * @method isHBytesOfMaxLength
@@ -45,7 +51,7 @@ export const isHBytesOfExactLength = (hbytes: string, length: number) =>
  */
 export const isHBytesOfMaxLength = (hbytes: string, length: number) =>
   typeof hbytes === "string" &&
-  new RegExp(`^[9A-Z]{1,${length}}$`).test(hbytes);
+  new RegExp(`^[0-9a-f]{1,${length}}$`).test(hbytes);
 
 /**
  * Checks if input contains `9`s only.
@@ -56,7 +62,8 @@ export const isHBytesOfMaxLength = (hbytes: string, length: number) =>
  * @return {boolean}
  */
 export const isEmpty = (hbytes: any): hbytes is HBytes =>
-  typeof hbytes === "string" && /^[9]+$/.test(hbytes);
+  typeof hbytes === "string" && /^[00]+$/.test(hbytes);
+
 export const isNinesHBytes = isEmpty;
 
 /**
@@ -70,7 +77,7 @@ export const isNinesHBytes = isEmpty;
  */
 export const isHash = (hash: any): hash is Hash =>
   isHBytesOfExactLength(hash, HASH_BYTE_SIZE) ||
-  isHBytesOfExactLength(hash, HASH_BYTE_SIZE + 9); // address w/ checksum is valid hash
+  isHBytesOfExactLength(hash, HASH_BYTE_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE); // address w/ checksum is valid hash
 
 /* Check if security level is positive integer */
 export const isSecurityLevel = (security: any): security is number =>
