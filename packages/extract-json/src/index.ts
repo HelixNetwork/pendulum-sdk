@@ -8,8 +8,7 @@ export const errors = {
   INVALID_BUNDLE: "Invalid bundle"
 };
 
-const numericHBytesRegex = /^(RA|PA)?(UA|VA|WA|XA|YA|ZA|9B|AB|BB|CB)+((SA)(UA|VA|WA|XA|YA|ZA|9B|AB|BB|CB)+)?((TC|OB)(RA|PA)?(UA|VA|WA|XA|YA|ZA|9B|AB|BB|CB)+)?99/;
-
+const numericHBytesRegex = /^(2d|2b)?(30|31|32|33|34|35|36|37|38|39)+((2e)(30|31|32|33|34|35|36|37|38|39)+)?((65|45)(2d|2b)?(30|31|32|33|34|35|36|37|38|39)+)?00/;
 /**
  * Takes a bundle as input and from the signatureMessageFragments extracts the correct JSON
  * data which was encoded and sent with the transaction.
@@ -55,7 +54,6 @@ export const extractJson = (bundle: Transaction[]): string | number | null => {
   if (!Array.isArray(bundle) || bundle[0] === undefined) {
     throw new Error(errors.INVALID_BUNDLE);
   }
-
   // Sanity check: if the first tryte pair is not opening bracket, it's not a message
   const firstHBytePair =
     bundle[0].signatureMessageFragment[0] +
@@ -63,23 +61,27 @@ export const extractJson = (bundle: Transaction[]): string | number | null => {
 
   let lastHBytePair = "";
 
-  if (firstHBytePair === "OD") {
-    lastHBytePair = "QD";
-  } else if (firstHBytePair === "GA") {
-    lastHBytePair = "GA";
-  } else if (firstHBytePair === "JC") {
-    lastHBytePair = "LC";
-  } else if (bundle[0].signatureMessageFragment.slice(0, 10) === "UCPC9DGDTC") {
+  if (firstHBytePair === "7b") {
+    // encoding for {
+    lastHBytePair = "7d"; // encoding for }
+  } else if (firstHBytePair === "22") {
+    // encoding for "
+    lastHBytePair = "22"; // encoding for "
+  } else if (firstHBytePair === "5b") {
+    // enconding for [
+    lastHBytePair = "5d"; // encoding for ]
+  } else if (bundle[0].signatureMessageFragment.slice(0, 10) === "66616c7365") {
     return "false";
-  } else if (bundle[0].signatureMessageFragment.slice(0, 8) === "HDFDIDTC") {
+  } else if (bundle[0].signatureMessageFragment.slice(0, 8) === "74727565") {
     return "true";
-  } else if (bundle[0].signatureMessageFragment.slice(0, 8) === "BDID9D9D") {
+  } else if (bundle[0].signatureMessageFragment.slice(0, 8) === "6e756c6c") {
     return "null";
   } else if (numericHBytesRegex.test(bundle[0].signatureMessageFragment)) {
     // Parse numbers, source: https://github.com/iotaledger/iota.lib.js/issues/231#issuecomment-402383449
-    const num = bundle[0].signatureMessageFragment.match(/^(.*)99/);
+    // todo recheck regex it's not like in IOTA, that one didn't work after conversion: /^(.*)00/
+    const num = bundle[0].signatureMessageFragment.match(/^(.*?)(0{2})+/);
     if (num) {
-      return parseFloat(hbytesToAscii(num[1].slice(0, -1)));
+      return parseFloat(hbytesToAscii(num[1]));
     }
     throw new Error(errors.INVALID_JSON);
   } else {
@@ -95,11 +97,10 @@ export const extractJson = (bundle: Transaction[]): string | number | null => {
 
   while (index < bundle.length && notEnded) {
     const messageChunk = bundle[index].signatureMessageFragment;
-
     // We iterate over the message chunk, reading 9 hbytes at a time
-    for (let i = 0; i < messageChunk.length; i += 9) {
+    for (let i = 0; i < messageChunk.length; i += 8) {
       // get 9 hbytes
-      const hbytes = messageChunk.slice(i, i + 9);
+      const hbytes = messageChunk.slice(i, i + 8);
       hbytesChunk += hbytes;
 
       // Get the upper limit of the tytes that need to be checked
@@ -110,11 +111,11 @@ export const extractJson = (bundle: Transaction[]): string | number | null => {
 
       // We read 2 hbytes at a time and check if it equals the closing bracket character
       for (let j = 0; j < hbytesToCheck.length; j += 2) {
-        const trytePair = hbytesToCheck[j] + hbytesToCheck[j + 1];
+        const hbytePair = hbytesToCheck[j] + hbytesToCheck[j + 1];
 
         // If closing bracket char was found, and there are only trailing 9's
         // we quit and remove the 9's from the hbytesChunk.
-        if (preliminaryStop && trytePair === "99") {
+        if (preliminaryStop && hbytePair === "00") {
           notEnded = false;
           // TODO: Remove the trailing 9's from hbytesChunk
           // var closingBracket = hbytesToCheck.indexOf('QD') + 1;
@@ -124,11 +125,11 @@ export const extractJson = (bundle: Transaction[]): string | number | null => {
           break;
         }
 
-        finalJson += hbytesToAscii(trytePair);
+        finalJson += hbytesToAscii(hbytePair);
 
-        // If tryte pair equals closing bracket char, we set a preliminary stop
+        // If hbyte pair equals closing bracket char, we set a preliminary stop
         // the preliminaryStop is useful when we have a nested JSON object
-        if (trytePair === lastHBytePair) {
+        if (hbytePair === lastHBytePair) {
           preliminaryStop = true;
         }
       }
@@ -136,7 +137,6 @@ export const extractJson = (bundle: Transaction[]): string | number | null => {
       if (!notEnded) {
         break;
       }
-
       hbytesChecked += hbytesToCheck.length;
     }
 
