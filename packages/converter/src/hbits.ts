@@ -1,43 +1,5 @@
 import * as errors from "./errors";
 
-const RADIX = 3;
-const MAX_TRIT_VALUE = 1;
-const MIN_TRIT_VALUE = -1;
-
-// All possible tryte values
-export const TRYTE_ALPHABET = "9ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-// HBytes to hbits look up table
-export const HBYTES_TRITS_LUT: ReadonlyArray<ReadonlyArray<number>> = [
-  [0, 0, 0],
-  [1, 0, 0],
-  [-1, 1, 0],
-  [0, 1, 0],
-  [1, 1, 0],
-  [-1, -1, 1],
-  [0, -1, 1],
-  [1, -1, 1],
-  [-1, 0, 1],
-  [0, 0, 1],
-  [1, 0, 1],
-  [-1, 1, 1],
-  [0, 1, 1],
-  [1, 1, 1],
-  [-1, -1, -1],
-  [0, -1, -1],
-  [1, -1, -1],
-  [-1, 0, -1],
-  [0, 0, -1],
-  [1, 0, -1],
-  [-1, 1, -1],
-  [0, 1, -1],
-  [1, 1, -1],
-  [-1, -1, 0],
-  [0, -1, 0],
-  [1, -1, 0],
-  [-1, 0, 0]
-];
-
 /**
  * Converts hbytes or values to hbits
  *
@@ -45,28 +7,23 @@ export const HBYTES_TRITS_LUT: ReadonlyArray<ReadonlyArray<number>> = [
  *
  * @memberof module:converter
  *
- * @param {String|Number} input - Tryte string or value to be converted.
+ * @param {String|Number} input - HByte string or value to be converted.
  *
- * @return {Int8Array} hbits
+ * @return {Int8Array} hbitsŁ
  */
 export function hbits(input: string | number): Int8Array {
-  if (typeof input === "number" && Number.isInteger(input)) {
-    return fromValue(input);
-  } else if (typeof input === "string") {
-    const result = new Int8Array(input.length * 3);
-
-    for (let i = 0; i < input.length; i++) {
-      const index = TRYTE_ALPHABET.indexOf(input.charAt(i));
-
-      result[i * 3] = HBYTES_TRITS_LUT[index][0];
-      result[i * 3 + 1] = HBYTES_TRITS_LUT[index][1];
-      result[i * 3 + 2] = HBYTES_TRITS_LUT[index][2];
+  let hbits;
+  if (typeof input === "string") {
+    hbits = new Int8Array(input.length * 4);
+    for (let i = 0; i < hbits.length; i++) {
+      let ct = Math.floor(i / 4);
+      let halfByte = parseInt(input.substr(ct, 1), 16);
+      //hbits[i] = ( halfByte >>>  i % 4) & 0x01;
+      hbits[i] = (halfByte >>> (3 - i % 4)) & 0x01;
     }
-
-    return result;
-  } else {
-    throw new Error(errors.INVALID_HBYTES);
+    return hbits;
   }
+  return fromValue(input);
 }
 
 /**
@@ -91,29 +48,18 @@ export const hbytesToHBits = hbits;
  *
  * @return {String} hbytes
  */
-// tslint:disable-next-line no-shadowed-variable
-export function hbytes(trits: Int8Array): string {
-  if (!(trits instanceof Int8Array)) {
-    throw new Error(errors.INVALID_HBITS);
+export function hbytes(hbits: Int8Array): string {
+  if (hbits.length % 4 !== 0) {
+    throw new Error(errors.INVALID_HBITS_LENGTH);
   }
+  let hexStr = "";
 
-  let result = "";
-
-  for (let i = 0; i < trits.length; i += 3) {
-    // Iterate over all possible tryte values to find correct trit representation
-    for (let j = 0; j < TRYTE_ALPHABET.length; j++) {
-      if (
-        trits[i] === HBYTES_TRITS_LUT[j][0] &&
-        trits[i + 1] === HBYTES_TRITS_LUT[j][1] &&
-        trits[i + 2] === HBYTES_TRITS_LUT[j][2]
-      ) {
-        result += TRYTE_ALPHABET.charAt(j);
-        break;
-      }
-    }
+  for (let i = 0; i < hbits.length; i += 4) {
+    const val = value(hbits.slice(i, i + 4).reverse());
+    const hex = (val & 0xff).toString(16);
+    hexStr += hex;
   }
-
-  return result;
+  return hexStr;
 }
 
 /**
@@ -134,16 +80,15 @@ export const hBitsToHBytes = hbytes;
  *
  * @memberof module:converter
  *
- * @param {Int8Array} trits
+ * @param {Int8Array} hbits
  *
  * @return {Number}
  */
 // tslint:disable-next-line no-shadowed-variable
-export function value(trits: Int8Array): number {
+export function value(hbits: Int8Array): number {
   let returnValue = 0;
-
-  for (let i = trits.length; i-- > 0; ) {
-    returnValue = returnValue * 3 + trits[i];
+  for (let i = hbits.length; i-- > 0; ) {
+    returnValue = (returnValue << 1) | (hbits[i] & 0x01);
   }
 
   return returnValue;
@@ -173,33 +118,14 @@ export const hBitsToValue = value;
  */
 // tslint:disable-next-line no-shadowed-variable
 export function fromValue(value: number): Int8Array {
-  const destination = new Int8Array(
-    value
-      ? 1 + Math.floor(Math.log(2 * Math.max(1, Math.abs(value))) / Math.log(3))
-      : 0
-  );
-  let absoluteValue = value < 0 ? -value : value;
-  let i = 0;
-
-  while (absoluteValue > 0) {
-    let remainder = absoluteValue % RADIX;
-    absoluteValue = Math.floor(absoluteValue / RADIX);
-
-    if (remainder > MAX_TRIT_VALUE) {
-      remainder = MIN_TRIT_VALUE;
-      absoluteValue++;
-    }
-
-    destination[i] = remainder;
-    i++;
+  const binary = (value >>> 0)
+    .toString(2)
+    .split("")
+    .reverse();
+  const destination = new Int8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    destination[i] = parseInt(binary[i], 10);
   }
-
-  if (value < 0) {
-    for (let j = 0; j < destination.length; j++) {
-      destination[j] = -destination[j];
-    }
-  }
-
   return destination;
 }
 

@@ -4,6 +4,9 @@ export function hex(uint8arr: Uint8Array | Int8Array): string {
   if (!uint8arr) {
     return "";
   }
+  if (uint8arr.length % 2 !== 0) {
+    throw new Error(errors.INVALID_HBYTES);
+  }
   let hexStr = "";
   for (let i = 0; i < uint8arr.length; i++) {
     let hexs = (uint8arr[i] & 0xff).toString(16);

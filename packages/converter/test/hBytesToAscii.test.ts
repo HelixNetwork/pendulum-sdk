@@ -5,11 +5,11 @@ import { hbytesToAscii } from "../src";
 const { INVALID_ODD_LENGTH, INVALID_HBYTES } = errors;
 
 test("hbytesToAscii()", t => {
-  const hbytes = "SBYBCCKB";
+  const hbytes = "494f5441";
   const expected = "IOTA";
 
   const nonHBytes = "AAAfasds";
-  const hbytesOfOddLength = "AAA";
+  const hbytesOfOddLength = "aaa";
 
   t.is(
     hbytesToAscii(hbytes),

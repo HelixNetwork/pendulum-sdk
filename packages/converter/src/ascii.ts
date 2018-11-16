@@ -1,4 +1,4 @@
-import { TRYTE_ALPHABET } from "./";
+import { hex, toHBytes } from "./";
 import * as errors from "./errors";
 
 /**
@@ -8,15 +8,9 @@ import * as errors from "./errors";
  *
  * An ascii value of `1 Byte` can be represented in `2 HBytes`:
  *
- * 1. We get the decimal unicode value of an individual ASCII character.
+ * 1. We get the decimal unicode value of an individual ASCII character this code can be represented in a Byte
  *
- * 2. From the decimal value, we then derive the two tryte values by calculating the tryte equivalent
- * (e.g.: `100` is expressed as `19 + 3 * 27`), given that tryte alphabet contains `27` hbytes values:
- *   a. The first tryte value is the decimal value modulo `27` (which is the length of the alphabet).
- *   b. The second value is the remainder of `decimal value - first value` devided by `27`.
- *
- * 3. The two values returned from Step 2. are then input as indices into the available
- * hbytes alphabet (`9ABCDEFGHIJKLMNOPQRSTUVWXYZ`), to get the correct tryte value.
+ * 2. Decimal value is then converted into hexadecimal value
  *
  * ### Example:
  *
@@ -24,16 +18,9 @@ import * as errors from "./errors";
  *
  * 1. `Z` has a decimal unicode value of `90`.
  *
- * 2. `90` can be represented as `9 + 3 * 27`. To make it simpler:
- *   a. First value is `90 % 27 = 9`.
- *   b. Second value is `(90 - 9) / 27 = 3`.
+ * 2. `90` in hexadecimal is 5a
  *
- * 3. Our two values are `9` and `3`. To get the tryte value now we simply insert it as indices
- * into the tryte alphabet:
- *   a. The first tryte value is `'9ABCDEFGHIJKLMNOPQRSTUVWXYZ'[9] = I`
- *   b. The second tryte value is `'9ABCDEFGHIJKLMNOPQRSTUVWXYZ'[3] = C`
- *
- * Therefore ascii character `Z` is represented as `IC` in hbytes.
+ * Therefore ascii character `Z` is represented as `IC` in 5a.
  *
  * @method asciiToHBytes
  *
@@ -45,20 +32,15 @@ import * as errors from "./errors";
  */
 export const asciiToHBytes = (input: string): string => {
   // If input is not an ascii string, throw error
-  if (!/^[\x00-\x7F]*$/.test(input)) {
+  if (!/^[\x00-\x7f]*$/.test(input)) {
     throw new Error(errors.INVALID_ASCII_CHARS);
   }
 
-  let hbytes = "";
-
+  let hbytes = new Uint8Array(input.length);
   for (let i = 0; i < input.length; i++) {
-    const dec = input[i].charCodeAt(0);
-
-    hbytes += TRYTE_ALPHABET[dec % 27];
-    hbytes += TRYTE_ALPHABET[(dec - dec % 27) / 27];
+    hbytes[i] = input[i].charCodeAt(0);
   }
-
-  return hbytes;
+  return hex(hbytes);
 };
 
 /**
@@ -73,7 +55,10 @@ export const asciiToHBytes = (input: string): string => {
  * @return {string} string in ascii
  */
 export const hbytesToAscii = (hbytes: string): string => {
-  if (typeof hbytes !== "string" || !new RegExp(`^[9A-Z]{1,}$`).test(hbytes)) {
+  if (
+    typeof hbytes !== "string" ||
+    !new RegExp(`^[0-9abcdef]{1,}$`).test(hbytes)
+  ) {
     throw new Error(errors.INVALID_HBYTES);
   }
 
@@ -83,11 +68,9 @@ export const hbytesToAscii = (hbytes: string): string => {
 
   let ascii = "";
 
-  for (let i = 0; i < hbytes.length; i += 2) {
-    ascii += String.fromCharCode(
-      TRYTE_ALPHABET.indexOf(hbytes[i]) +
-        TRYTE_ALPHABET.indexOf(hbytes[i + 1]) * 27
-    );
+  const bytes = toHBytes(hbytes);
+  for (let i = 0; i < bytes.length; i++) {
+    ascii += String.fromCharCode(bytes[i]);
   }
 
   return ascii;
