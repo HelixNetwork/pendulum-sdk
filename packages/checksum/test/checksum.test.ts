@@ -6,21 +6,22 @@ import {
   addressWithInvalidChecksum
 } from "@helix/samples";
 import { addChecksum, errors, isValidChecksum, removeChecksum } from "../src";
+import { ADDRESS_BYTE_SIZE } from "../../constants";
 
 const invalidAddress =
-  "UYEEERFQYTPFAHIPXDQAQYWYMSMCLMGBTYAXLWFRFFWPYFOICOVLK9A9VYNCKK9TQUNBTARCEQXJHD";
+  "62633132333334343532333432333432333261616161616363616333453454334543";
 
-test("addChecksum() adds 9-hbytes checksum", t => {
+test("addChecksum() adds 8-hbytes checksum", t => {
   t.is(
     addChecksum(addresses[0]),
     addressesWithChecksum[0],
-    "addChecksum() should add 9-hbytes checksum to the end of address."
+    "addChecksum() should add 8-hbytes checksum to the end of address."
   );
 
   t.deepEqual(
     addChecksum(addresses.slice(0, 1)),
     addressesWithChecksum.slice(0, 1),
-    "addChecksum() should add 9-hbytes checksum to the end of each address in a given array."
+    "addChecksum() should add 8-hbytes checksum to the end of each address in a given array."
   );
 });
 
@@ -47,7 +48,9 @@ test("addChecksum() throws error for invalid addresses", t => {
 });
 
 test("addChecksum() does not mutate the original array", t => {
-  const arr = [...addresses.slice(0, 1).map(a => a.slice(0, 81))];
+  const arr = [
+    ...addresses.slice(0, 1).map(a => a.slice(0, ADDRESS_BYTE_SIZE))
+  ];
 
   addChecksum(arr);
 
@@ -59,11 +62,11 @@ test("addChecksum() does not mutate the original array", t => {
 });
 
 test("addChecksum() adds checksum of arbitrary length", t => {
-  const hbytes = "9".repeat(81);
-  const hbytesWithChecksum = hbytes + "KZW";
+  const hbytes = "0".repeat(ADDRESS_BYTE_SIZE);
+  const hbytesWithChecksum = hbytes + "2925";
 
   t.is(
-    addChecksum(hbytes, 3, false),
+    addChecksum(hbytes, 4, false),
     hbytesWithChecksum,
     "addChecsum() should add checksum of arbitrary length."
   );

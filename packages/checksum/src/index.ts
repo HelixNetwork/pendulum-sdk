@@ -1,6 +1,6 @@
 /** @module checksum */
 
-import { hbits, hbytes } from "@helix/converter";
+import { hbits, hbytes, hex, toHBytes } from "@helix/converter";
 import HHash from "@helix/hash-module";
 import {
   INVALID_ADDRESS,
@@ -10,6 +10,7 @@ import {
 import { isHash, isHBytes } from "../../guards";
 import { asArray, HBytes } from "../../types";
 import {
+  ADDRESS_BYTE_SIZE,
   ADDRESS_CHECKSUM_BYTE_SIZE,
   ADDRESS_MIN_CHECKSUM_BYTE_SIZE,
   HASH_BYTE_SIZE
@@ -73,6 +74,7 @@ export function addChecksum(
       if (
         !Number.isInteger(checksumLength) ||
         checksumLength < MIN_CHECKSUM_HBYTES_LENGTH ||
+        checksumLength % 2 !== 0 ||
         (isAddress && checksumLength !== ADDRESS_CHECKSUM_HBYTES_LENGTH)
       ) {
         throw new Error(errors.INVALID_CHECKSUM_LENGTH);
@@ -81,28 +83,26 @@ export function addChecksum(
       let paddedInputHBytes = inputHBytes;
 
       while (paddedInputHBytes.length % HASH_HBYTES_LENGTH !== 0) {
-        paddedInputHBytes += "9";
+        paddedInputHBytes += "0";
       }
       const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
-      const inputHBits = hbits(paddedInputHBytes);
-      const checksumHBits = new Int8Array(hHash.getHashLength());
+      const checksumHBytes = new Int8Array(hHash.getHashLength());
       hHash.initialize();
 
-      hHash.absorb(inputHBits, 0, inputHBits.length);
-      hHash.squeeze(checksumHBits, 0, hHash.getHashLength());
-
+      const inputHBYtes = toHBytes(paddedInputHBytes);
+      hHash.absorb(inputHBYtes, 0, inputHBYtes.length);
+      hHash.squeeze(checksumHBytes, 0, hHash.getHashLength());
       return inputHBytes.concat(
-        hbytes(
-          checksumHBits.slice(
-            hHash.getHashLength() - checksumLength * 3,
+        hex(
+          checksumHBytes.slice(
+            hHash.getHashLength() - checksumLength / 2,
             hHash.getHashLength()
           )
         )
       );
     }
   );
-
   return Array.isArray(input) ? withChecksum : withChecksum[0];
 }
 
@@ -126,7 +126,7 @@ export function removeChecksum(input: HBytes | ReadonlyArray<HBytes>) {
     hByteArray.length === 0 ||
     !hByteArray.every(
       t =>
-        isHBytes(t, HASH_HBYTES_LENGTH) ||
+        isHBytes(t, ADDRESS_BYTE_SIZE) ||
         isHBytes(t, ADDRESS_WITH_CHECKSUM_HBYTES_LENGTH)
     )
   ) {
@@ -134,7 +134,7 @@ export function removeChecksum(input: HBytes | ReadonlyArray<HBytes>) {
   }
 
   const noChecksum: ReadonlyArray<HBytes> = hByteArray.map(inputHBytes =>
-    inputHBytes.slice(0, HASH_HBYTES_LENGTH)
+    inputHBytes.slice(0, ADDRESS_BYTE_SIZE)
   );
 
   // return either string or the list
