@@ -5,10 +5,10 @@ test("isTransferArray() returns true for valid transfer.", t => {
   const transfers = [
     {
       address:
-        "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLSJMPIVGPNE",
+        "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
       value: 1234,
-      message: "AFDSA",
-      tag: "ASDFDSAFDFDSA"
+      message: "abcd",
+      tag: "abcdef"
     }
   ];
 
@@ -23,10 +23,10 @@ test("isTransferArray() returns false for transfer with invalid address.", t => 
   const transfers = [
     {
       address:
-        "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLSJMPIVGPNEFSAF",
+        "uic1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
       value: 1234,
-      message: "AFDSA",
-      tag: "ASDFDSAFDFDSA"
+      message: "abcd",
+      tag: "abcdef"
     }
   ];
 
@@ -41,10 +41,10 @@ test("isTransferArray() returns false for transfer with invalid value.", t => {
   const transfers = [
     {
       address:
-        "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLSJMPIVGPNE",
+        "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
       value: -10,
-      message: "AFDSA",
-      tag: "ASDFDSAFDFDSA"
+      message: "abcd",
+      tag: "abcdef"
     }
   ];
 
@@ -55,21 +55,21 @@ test("isTransferArray() returns false for transfer with invalid value.", t => {
   );
 });
 
-test("isTransferArray() returns false for message of invalid hbytes.", t => {
+test("isTransferArray() returns false for message of invalid bytes.", t => {
   const transfers = [
     {
       address:
-        "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLSJMPIVGPNE",
+        "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
       value: 1234,
-      message: "dffsA",
-      tag: "ASDFDSAFDFDSA"
+      message: "abcdg",
+      tag: "abcdef"
     }
   ];
 
   t.is(
     isTransferArray(transfers),
     false,
-    "isTransferArray() should return false for message of invalid hbytes."
+    "isTransferArray() should return false for message of invalid bytes."
   );
 });
 
@@ -77,10 +77,10 @@ test("isTransferArray() returns false for tag of invalid length.", t => {
   const transfers = [
     {
       address:
-        "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLSJMPIVGPNE",
+        "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
       value: 1234,
-      message: "AFDSA",
-      tag: "ASDFDSAFDFDSAASFSDFSDFSDFSDF"
+      message: "abcd",
+      tag: "abcdefabcdefabcdefabcdefabcdef"
     }
   ];
 
@@ -91,20 +91,20 @@ test("isTransferArray() returns false for tag of invalid length.", t => {
   );
 });
 
-test("isTransferArray() returns false for tag of invalid hbytes.", t => {
+test("isTransferArray() returns false for tag of invalid bytes.", t => {
   const transfers = [
     {
       address:
-        "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLSJMPIVGPNE",
+        "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
       value: 1234,
-      message: "AFDSA",
-      tag: "sdfASDF"
+      message: "abcd",
+      tag: "abcdEF"
     }
   ];
 
   t.is(
     isTransferArray(transfers),
     false,
-    "isTransferArray() should return false for tag of invalid hbytes."
+    "isTransferArray() should return false for tag of invalid bytes."
   );
 });

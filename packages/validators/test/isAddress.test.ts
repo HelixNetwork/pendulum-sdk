@@ -3,15 +3,15 @@ import { isAddress } from "../src";
 
 test("isAddress()", t => {
   const validAddressWithChecksum =
-    "UYEEERFQYTPFAHIPXDQAQYWYMSMCLMGBTYAXLWFRFFWPYFOICOVLK9A9VYNCKK9TQUNBTARCEQXJHD9VYXOEDEOMRC";
+    "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523eed101b796";
   const validAddressWithoutChecksum =
-    "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLS";
+    "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee";
   const validAddressWithInvalidChecksum =
-    "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLSJMPIVGPNF";
+    "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee11111111";
   const addressOfInvalidLength =
-    "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNR";
-  const addressOfInvalidHBytes =
-    "123adfdsafLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLASD";
+    "aabc1233445234234232aaaaaccac1233445234234232adedeadea123344523eeaccaaaaaaaaaaaaaeeeeee";
+  const addressOfInvalidTrytes =
+    "XVDD1233445234234232BDFESABCD1233445234234232BDFESABCD123344523E";
 
   t.is(
     isAddress(validAddressWithChecksum),
@@ -38,8 +38,8 @@ test("isAddress()", t => {
   );
 
   t.is(
-    isAddress(addressOfInvalidHBytes),
+    isAddress(addressOfInvalidTrytes),
     false,
-    "isAddress() should return false for input of invalid hbytes."
+    "isAddress() should return false for input of invalid hBytes."
   );
 });

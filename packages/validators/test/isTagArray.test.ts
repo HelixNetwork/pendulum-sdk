@@ -3,13 +3,13 @@ import { isTagArray } from "../src";
 
 test("isTagArray() returns true for valid tag.", t => {
   t.is(
-    isTagArray(["TAG"]),
+    isTagArray(["aaaa"]),
     true,
     "isTagArray() should return true for valid tag."
   );
 
   t.is(
-    isTagArray(["TAG".repeat(9)]),
+    isTagArray(["aaaa".repeat(4)]),
     true,
     "isTagArray() should return true for valid tag."
   );
@@ -17,14 +17,14 @@ test("isTagArray() returns true for valid tag.", t => {
 
 test("isTagArray() returns false for tag tag.", t => {
   t.is(
-    isTagArray(["Tag"]),
+    isTagArray(["aaaaER"]),
     false,
-    "isTagArray() should return false for tag of invalid hbytes."
+    "isTagArray() should return false for tag of invalid bytes."
   );
 
   t.is(
-    isTagArray(["TAG".repeat(9) + "A"]),
+    isTagArray(["aaaa".repeat(4) + "a"]),
     false,
-    "isTagArray() shoud return false for tag of invalid length."
+    "isTagArray() should return false for tag of invalid length."
   );
 });

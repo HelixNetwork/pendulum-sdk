@@ -1,44 +1,43 @@
 import test from "ava";
 import { isHBytes } from "../src";
 
-test("isHBytes() returns true for valid hbytes.", t => {
+test("isHByte() returns true for valid bytes string in hex.", t => {
   const validHBytes =
-    "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLS";
+    "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee";
 
   t.is(
     isHBytes(validHBytes),
     true,
-    "isHBytes() should return true for valid hbytes."
+    "isHBytes() should return true for valid bytes."
   );
 });
 
-test("isHBytes() returns true for valid hbytes and length.", t => {
-  const hbytes = "ABCDEFGHI";
+test("isHByte() returns true for valid bytes and length.", t => {
+  const bytes = "abcdef12";
 
   t.is(
-    isHBytes(hbytes, 9),
+    isHBytes(bytes, 8),
     true,
-    "isHBytes() should return true for valid hbytes and valid length."
+    "isHBytes() should return true for valid bytes and valid length."
   );
 });
 
-test("isHBytes() returns false for hbytes of invalid length.", t => {
-  const hbytes = "ABCDEFGHI";
-
+test("isHBytes() returns false for bytes of invalid length.", t => {
+  const bytes = "abcdef123";
   t.is(
-    isHBytes(hbytes, 10),
+    isHBytes(bytes, 10),
     false,
-    "isHBytes() should return false for hbytes of invalid length."
+    "isHBytes() should return false for bytes of invalid length."
   );
 });
 
-test("isHBytes() returns false for invalid hbytes.", t => {
+test("isHBytes() returns false for invalid bytes.", t => {
   const invalidHBytes =
-    "134asdfLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLASD";
+    "ghbnabc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee";
 
   t.is(
     isHBytes(invalidHBytes),
     false,
-    "isHBytes() should return false for invalid hbytes."
+    "isHBytes() should return false for invalid bytes."
   );
 });

@@ -3,11 +3,10 @@ import { isTransfer } from "../src";
 
 test("isTransfer() returns true for valid transfer.", t => {
   const transfer = {
-    address:
-      "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLSJMPIVGPNE",
+    address: "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
     value: 1234,
-    message: "AFDSA",
-    tag: "ASDFDSAFDFDSA"
+    message: "abcd",
+    tag: "abcdef"
   };
 
   t.is(
@@ -40,10 +39,10 @@ test("isTransfer() returns true for valid transfer.", t => {
 test("isTransfer() returns false for transfer with invalid address.", t => {
   const transfer = {
     address:
-      "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLSJMPIVGPNEFSAF",
+      "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee234",
     value: 1234,
-    message: "AFDSA",
-    tag: "ASDFDSAFDFDSA"
+    message: "abcd",
+    tag: "abcdef"
   };
 
   t.is(
@@ -55,11 +54,10 @@ test("isTransfer() returns false for transfer with invalid address.", t => {
 
 test("isTransfer() returns false for transfer with invalid value.", t => {
   const transfer = {
-    address:
-      "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLSJMPIVGPNE",
+    address: "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
     value: -10,
-    message: "AFDSA",
-    tag: "ASDFDSAFDFDSA"
+    message: "abcd",
+    tag: "abcdef"
   };
 
   t.is(
@@ -69,29 +67,27 @@ test("isTransfer() returns false for transfer with invalid value.", t => {
   );
 });
 
-test("isTransfer() returns false for message of invalid hbytes.", t => {
+test("isTransfer() returns false for message of invalid hBytes.", t => {
   const transfer = {
-    address:
-      "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLSJMPIVGPNE",
+    address: "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
     value: 1234,
-    message: "dffsA",
-    tag: "ASDFDSAFDFDSA"
+    message: "abcdA",
+    tag: "abcdef"
   };
 
   t.is(
     isTransfer(transfer),
     false,
-    "isTransfer() should return false for message of invalid hbytes."
+    "isTransfer() should return false for message of invalid hBytes."
   );
 });
 
 test("isTransfer() returns false for tag of invalid length.", t => {
   const transfer = {
-    address:
-      "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLSJMPIVGPNE",
+    address: "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
     value: 1234,
-    message: "AFDSA",
-    tag: "ASDFDSAFDFDSAASFSDFSDFSDFSDF"
+    message: "abcd",
+    tag: "abcdefabcdefabcdefabcdefabcdefabcdefabcdef"
   };
 
   t.is(
@@ -101,18 +97,17 @@ test("isTransfer() returns false for tag of invalid length.", t => {
   );
 });
 
-test("isTransfer() returns false for tag of invalid hbytes.", t => {
+test("isTransfer() returns false for tag of invalid hBytes.", t => {
   const transfer = {
-    address:
-      "JALLWDUOSTSJVL9EEHKW9YQFPBVBJAGLNKRVGSQZCGHQWEMIIILJMTHVAGVDXJVZMBAMOZTSBQNRVNLLSJMPIVGPNE",
+    address: "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
     value: 1234,
-    message: "AFDSA",
-    tag: "sdfASDF"
+    message: "abcd",
+    tag: "abcdefGA"
   };
 
   t.is(
     isTransfer(transfer),
     false,
-    "isTransfer() should return false for tag of invalid hbytes."
+    "isTransfer() should return false for tag of invalid hBytes."
   );
 });
