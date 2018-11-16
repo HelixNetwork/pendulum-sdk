@@ -16,10 +16,10 @@ import {
 const NULL_HASH = NULL_HASH_HBYTES;
 const NULL_NONCE = NULL_NONCE_HBYTES;
 const addresses = [
-  "A".repeat(ADDRESS_BYTE_SIZE),
-  "B".repeat(ADDRESS_BYTE_SIZE)
+  "a".repeat(ADDRESS_BYTE_SIZE),
+  "b".repeat(ADDRESS_BYTE_SIZE)
 ];
-const tag = "TAG" + "9".repeat(24);
+const tag = "aaaa" + "0".repeat(12);
 
 const bundle = [
   {
@@ -30,7 +30,7 @@ const bundle = [
     currentIndex: 0,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "9".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
+    signatureMessageFragment: "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -48,7 +48,7 @@ const bundle = [
     currentIndex: 1,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "9".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
+    signatureMessageFragment: "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -66,7 +66,7 @@ const bundle = [
     currentIndex: 2,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "9".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
+    signatureMessageFragment: "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -85,14 +85,14 @@ test("createBundle() returns correct transactions.", t => {
         length: 2,
         address: addresses[0],
         value: -2,
-        tag: "TAG",
+        tag: "aaaa",
         timestamp: 1522219
       },
       {
         length: 1,
         address: addresses[1],
         value: 2,
-        tag: "TAG",
+        tag: "aaaa",
         timestamp: 1522219
       }
     ]),
@@ -107,7 +107,7 @@ test("addEntry() adds new entry and returns correct transactions.", t => {
       length: 1,
       address: addresses[1],
       value: 2,
-      tag: "TAG",
+      tag: "aaaa",
       timestamp: 1522219
     }),
     bundle,
@@ -117,11 +117,11 @@ test("addEntry() adds new entry and returns correct transactions.", t => {
 
 test("addHBytes() adds hbytes and returns correct transactions.", t => {
   t.deepEqual(
-    addHBytes(bundle, ["HBYTES", "HBYTES", "HBYTES"]),
+    addHBytes(bundle, ["abcdef", "abcdef", "abcdef"]),
     bundle.map(transaction => ({
       ...transaction,
       signatureMessageFragment:
-        "HBYTES" + "9".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 6)
+        "abcdef" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 6)
     })),
     "addEntry should add hbytes and return correct transactions."
   );
@@ -129,8 +129,8 @@ test("addHBytes() adds hbytes and returns correct transactions.", t => {
 
 test("finalizeBundle() adds correct bundle hash.", t => {
   const bundleHash =
-    "VRGXKZDODWIVGFYFCCXJRNDCQJVYUVBRIWJXKFGBIEWUPHHTJLTKH99JW9OLJ9JCIXCEIRRXJKLWOBDZZ";
-  const incrObsoleteTag = "ZUH".concat("9".repeat(24));
+    "bbf786593438fd4db237e93020d5e3022022f3e43545c83571de8203fdc852b9";
+  const incrObsoleteTag = "7aaa".concat("0".repeat(12));
 
   const expected = bundle.map((transaction, i) => ({
     ...transaction,

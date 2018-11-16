@@ -1,6 +1,6 @@
 /** @module bundle */
 
-import { hbits, hbytes } from "@helix/converter";
+import { hbits, hbytes, hex } from "@helix/converter";
 import HHash from "@helix/hash-module";
 import { padTag, padHBits, padHBytes } from "@helix/pad";
 import { add, normalizedBundleHash } from "@helix/signing";
@@ -146,7 +146,7 @@ export const addHBytes = (
         ? {
             ...transaction,
             signatureMessageFragment: padHBytes(
-              SIGNATURE_FRAGMENT_NO * HASH_BYTE_SIZE
+              32 * HASH_BYTE_SIZE // todo check this 32 expected to be SIGNATURE_FRAGMENT_NO
             )(fragments[i - offset] || "")
           }
         : transaction
@@ -201,11 +201,11 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
       hHash.absorb(essence, 0, essence.length);
     }
 
-    const bundleHashHBits = new Int8Array(hHash.getHashLength());
-    hHash.squeeze(bundleHashHBits, 0, hHash.getHashLength());
-    bundleHash = hbytes(bundleHashHBits);
+    const bundleHashHBytes = new Int8Array(hHash.getHashLength());
+    hHash.squeeze(bundleHashHBytes, 0, hHash.getHashLength());
+    bundleHash = hex(bundleHashHBytes);
 
-    if (normalizedBundleHash(bundleHash).indexOf(13) !== -1) {
+    if (normalizedBundleHash(bundleHash).indexOf(8) !== -1) {
       // Insecure bundle, increment obsoleteTag and recompute bundle hash
       obsoleteTagHBits[0] = add(obsoleteTagHBits[0], new Int8Array(1).fill(1));
     } else {
