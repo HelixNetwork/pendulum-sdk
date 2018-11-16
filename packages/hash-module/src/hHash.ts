@@ -3,6 +3,7 @@
 import Kerl from "@helix/kerl";
 import Curl from "@helix/curl";
 import SHA256 from "@helix/sha256";
+import { hbits, hex } from "@helix/converter";
 
 const HASH_KERL = "kerl";
 const HASH_CURL = "curl";
@@ -13,8 +14,8 @@ const HASH_SHA256 = "sha256";
  * @ignore
  */
 export default class HHash {
-  public static HASH_ALGORITHM_1 = HASH_KERL;
-  public static HASH_ALGORITHM_2 = HASH_CURL;
+  public static HASH_ALGORITHM_1 = HASH_SHA256;
+  public static HASH_ALGORITHM_2 = HASH_SHA256;
   public static HASH_ALGORITHM_3 = HASH_SHA256;
 
   private h: any;
@@ -83,6 +84,21 @@ export default class HHash {
    **/
   public squeeze(bytes: Int8Array, offset: number, length: number) {
     this.h.squeeze(bytes, offset, length);
+  }
+
+  /**
+   * final toHBytes given an offset and length
+   *
+   * @method final
+   *
+   * @ignore
+   *
+   * @param {Uint8Array} bytes
+   * @param {number} offset
+   * @param {number} length
+   **/
+  public squeezeBits(bytes: Int8Array, offset: number, length: number) {
+    hbits(hex(this.h.squeeze(bytes, offset, length / 8)));
   }
 
   public getHashLength(): number {
