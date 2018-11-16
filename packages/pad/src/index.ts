@@ -3,7 +3,7 @@ import { TAG_BYTE_SIZE } from "../../constants";
 
 export const padHBytes = (length: number) => (hbytes: HBytes) =>
   hbytes.length < length
-    ? hbytes.concat("9".repeat(length - hbytes.length))
+    ? hbytes.concat("0".repeat(length - hbytes.length))
     : hbytes;
 
 export const padHBits = (length: number) => (hbits: Int8Array) =>

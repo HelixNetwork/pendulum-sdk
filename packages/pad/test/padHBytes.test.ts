@@ -2,8 +2,8 @@ import test from "ava";
 import { padHBytes } from "../src";
 
 test("padHBytes() adds padding to hbytes.", t => {
-  const hbytes = "IOTA";
-  const expected = "IOTA99";
+  const hbytes = "abcd";
+  const expected = "abcd00";
   t.is(
     padHBytes(6)(hbytes),
     expected,
@@ -12,8 +12,8 @@ test("padHBytes() adds padding to hbytes.", t => {
 });
 
 test("padHBytes() returns the given string as is, if exceeds given length.", t => {
-  const hbytes = "IOTA";
-  const expected = "IOTA";
+  const hbytes = "abcd";
+  const expected = "abcd";
 
   t.is(
     padHBytes(4)(hbytes),
