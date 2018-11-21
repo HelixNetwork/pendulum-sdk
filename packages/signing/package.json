@@ -9,7 +9,7 @@
   },
   "scripts": {
     "prepare": "tsc",
-    "test": "tsc",
+    "test": "tsc && ava",
     "format": "prettier",
     "docs":
       "tsc && jsdoc2md --no-cache --plugin dmd-clear -t README_tpl.hbs --files './out/**/*.js' > README.md"
@@ -47,6 +47,7 @@
   "dependencies": {
     "@helix/converter": "^0.0.1-alpha.0",
     "@helix/hash-module": "^0.0.1-alpha.0",
-    "@helix/pad": "^0.0.1-alpha.0"
+    "@helix/pad": "^0.0.1-alpha.0",
+    "schnorr": "^0.4.0"
   }
 }
