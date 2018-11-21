@@ -6,6 +6,7 @@ import {
   wereAddressesSpentFromCommand,
   wereAddressesSpentFromResponse
 } from "./nocks/wereAddressesSpentFrom";
+import { ADDRESS_CHECKSUM_BYTE_SIZE } from "../../../constants";
 
 const wereAddressesSpentFrom = createWereAddressesSpentFrom(
   createHttpClient(),
@@ -13,7 +14,7 @@ const wereAddressesSpentFrom = createWereAddressesSpentFrom(
 );
 
 const addressesWithChecksum = wereAddressesSpentFromCommand.addresses.map(
-  (address: string) => address.concat("0".repeat(9))
+  (address: string) => address.concat("0".repeat(ADDRESS_CHECKSUM_BYTE_SIZE))
 );
 
 test("wereAddressesSpentFrom() resolves to correct balances response", async t => {

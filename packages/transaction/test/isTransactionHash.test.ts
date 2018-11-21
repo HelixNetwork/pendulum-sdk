@@ -4,7 +4,7 @@ import { isTransactionHash } from "../src";
 
 test("isTransactionHash() returns true for valid transaction hash.", t => {
   const hash =
-    "9d401b6a8c0d611da988c7e077d347d2fd160c1dad96efe0c9f02aebdc0b7d2d";
+    "a2949ae3a9d5320a4944fbe7b14226af7c6a91b9de09a660ebc029f03515085f";
   t.is(
     isTransactionHash(hash),
     true,

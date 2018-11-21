@@ -1,6 +1,6 @@
 /** @module bundle-validator */
 
-import { hbits, hbytes } from "@helix/converter";
+import { hbits, hbytes, hex } from "@helix/converter";
 import HHash from "@helix/hash-module";
 import { validateSignatures } from "@helix/signing";
 import { isTransaction } from "@helix/transaction";
@@ -8,13 +8,18 @@ import { asTransactionHBytes } from "@helix/transaction-converter";
 import * as errors from "../../errors";
 import { isArray, Validator } from "../../guards";
 import { Bundle, Hash, Transaction, HBytes } from "../../types";
-import { SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE } from "../../constants";
+import {
+  ADDRESS_BYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  TRANSACTION_VALUE_BYTE_SIZE
+} from "../../constants";
 
 interface SignatureFragments {
   readonly [key: string]: ReadonlyArray<HBytes>;
 }
 
-const BYTE_SIZE_USED_FOR_VALIDATION = 64; // previous 162
+const BYTE_SIZE_USED_FOR_VALIDATION =
+  ADDRESS_BYTE_SIZE + TRANSACTION_VALUE_BYTE_SIZE; // previous 162
 /**
  * Validates all signatures of a bundle.
  *
@@ -48,10 +53,9 @@ export const validateBundleSignatures = (bundle: Bundle): boolean => {
             : acc,
       {}
     );
-
-  return Object.keys(signatures).every(address =>
-    validateSignatures(address, signatures[address], bundle[0].bundle)
-  );
+  return Object.keys(signatures).every(address => {
+    return validateSignatures(address, signatures[address], bundle[0].bundle);
+  });
 };
 
 /**
@@ -66,7 +70,6 @@ export const validateBundleSignatures = (bundle: Bundle): boolean => {
  */
 export default function isBundle(bundle: Bundle) {
   if (!isArray(isTransaction)(bundle)) {
-    console.log("isTransaction return false");
     return false;
   }
 
@@ -80,19 +83,16 @@ export default function isBundle(bundle: Bundle) {
     address: Hash;
     signatureFragments: HBytes[];
   }> = [];
-
   bundle.forEach((bundleTx, index) => {
     totalSum += bundleTx.value;
 
     // currentIndex has to be equal to the index in the array
     if (bundleTx.currentIndex !== index) {
-      console.log("currentIndex return false");
       return false;
     }
 
     // Get the transaction hbytes
     const thisTxHBytes = asTransactionHBytes(bundleTx);
-
     const thisTxHBits = hbits(
       thisTxHBytes.slice(
         SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
@@ -128,7 +128,6 @@ export default function isBundle(bundle: Bundle) {
 
   // Check for total sum, if not equal 0 return error
   if (totalSum !== 0) {
-    console.log("sum return false");
     return false;
   }
 
@@ -138,12 +137,15 @@ export default function isBundle(bundle: Bundle) {
   // get the bundle hash from the bundle transactions
   hhash.squeeze(bundleFromTxs, 0, hhash.getHashLength());
 
-  const bundleHashFromTxs = hbytes(bundleFromTxs);
+  const bundleHashFromTxs = hex(bundleFromTxs);
 
   // Check if bundle hash is the same as returned by tx object
   if (bundleHashFromTxs !== bundleHash) {
     console.log(
-      "bundleHashFromTxs return false " + bundleHashFromTxs + " - " + bundleHash
+      "bundleHashFromTxs return false should be: " +
+        bundleHashFromTxs +
+        " - not: " +
+        bundleHash
     );
     return false;
   }
@@ -155,7 +157,6 @@ export default function isBundle(bundle: Bundle) {
   ) {
     return false;
   }
-
   return validateBundleSignatures(bundle);
 }
 

@@ -3,7 +3,7 @@
 import { hBitsToHBytes, hbytesToHBits, value } from "@helix/converter";
 import { transactionHash } from "@helix/transaction";
 import HHash from "@helix/hash-module";
-import { padHBits, padHBytes } from "@helix/pad";
+import { padHBits, padHBytes, padSignedHBits } from "@helix/pad";
 import * as errors from "../../errors";
 import { isHBytesOfExactLength } from "../../guards";
 import { asArray, Hash, Transaction, HBytes } from "../../types";
@@ -48,7 +48,9 @@ export function asTransactionHBytes(
       transaction.signatureMessageFragment,
       transaction.address,
       hBitsToHBytes(
-        padHBits(TRANSACTION_VALUE_BITS_SIZE)(hbytesToHBits(transaction.value))
+        padSignedHBits(TRANSACTION_VALUE_BITS_SIZE)(
+          hbytesToHBits(transaction.value)
+        )
       ),
       padHBytes(OBSOLETE_TAG_BYTE_SIZE)(transaction.obsoleteTag),
       hBitsToHBytes(
@@ -108,6 +110,9 @@ export const asTransactionObject = (
   hash?: Hash
 ): Transaction => {
   if (!isHBytesOfExactLength(hbytes, TRANSACTION_HBYTE_SIZE)) {
+    console.log(
+      "asTransactionObject - isHBytesOfExactLength -ERROR-   : " + hbytes
+    );
     throw new Error(errors.INVALID_HBYTES);
   }
 
@@ -115,8 +120,8 @@ export const asTransactionObject = (
 
   const noOfBitsInBytes = 4;
   // todo: check this magic number
-  const usefulBytesFromValue = 11;
-  const noOfBitsInValue = 2 * usefulBytesFromValue;
+  const usefulBytesFromValue = 8;
+  const noOfBitsInValue = 4 * usefulBytesFromValue;
 
   const startIndexSignMsgFragBytes = 0;
 
@@ -130,15 +135,15 @@ export const asTransactionObject = (
   // Value is represented using 27 trytes: 2268 -> 2295
   // Trits index 6804 -> 6885
   // Only first 11 trytes are used to store value all the other are expected to be 0
-  for (
-    let i = startIndexValueBytes + usefulBytesFromValue;
-    i < startIndexObsoleteTagBytes;
-    i++
-  ) {
-    if (hbytes.charAt(i) !== "0") {
-      throw new Error(errors.INVALID_HBYTES);
-    }
-  }
+  // for (
+  //   let i = startIndexValueBytes + usefulBytesFromValue;
+  //   i < startIndexObsoleteTagBytes;
+  //   i++
+  // ) {
+  //   if (hbytes.charAt(i) !== "0") {
+  //     throw new Error(errors.INVALID_HBYTES);
+  //   }
+  // }
 
   const startIndexTimestampBytes =
     startIndexObsoleteTagBytes + OBSOLETE_TAG_BYTE_SIZE;
@@ -158,56 +163,6 @@ export const asTransactionObject = (
     startIndexTimestampLowTrasnBytes + TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE;
   const startIndexNonceBytes =
     startIndexTimestampUpTrasnBytes + TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE;
-
-  // Can be removed after the model is fully converted
-  // signatureMessageFragment: hbytes.slice(0, 2187),
-  //   address: hbytes.slice(2187, 2268),
-  //   value: value(hbits.slice(6804, 6837)),
-  //   obsoleteTag: hbytes.slice(2295, 2322),
-  //   timestamp: value(hbits.slice(6966, 6993)),
-  //   currentIndex: value(hbits.slice(6993, 7020)),
-  //   lastIndex: value(hbits.slice(7020, 7047)),
-  //   bundle: hbytes.slice(2349, 2430),
-  //   trunkTransaction: hbytes.slice(2430, 2511),
-  //   branchTransaction: hbytes.slice(2511, 2592),
-  //   tag: hbytes.slice(2592, 2619),
-  //   attachmentTimestamp: value(hbits.slice(7857, 7884)),
-  //   attachmentTimestampLowerBound: value(hbits.slice(7884, 7911)),
-  //   attachmentTimestampUpperBound: value(hbits.slice(7911, 7938)),
-  //   nonce: hbytes.slice(2646, 2673)
-  console.log(
-    "lastIndex " +
-      startIndexLastIndexBytes * noOfBitsInBytes +
-      " " +
-      noOfBitsInBytes *
-        (startIndexLastIndexBytes + TRANSACTION_LAST_INDEX_BYTE_SIZE)
-  );
-  console.log(
-    hbits.slice(
-      startIndexLastIndexBytes * noOfBitsInBytes,
-      noOfBitsInBytes *
-        (startIndexLastIndexBytes + TRANSACTION_LAST_INDEX_BYTE_SIZE)
-    )
-  );
-  console.log(
-    value(
-      hbytesToHBits(
-        hbytes.slice(
-          startIndexLastIndexBytes,
-          startIndexLastIndexBytes + TRANSACTION_LAST_INDEX_BYTE_SIZE
-        )
-      )
-    )
-  );
-  console.log(
-    value(
-      hbits.slice(
-        startIndexLastIndexBytes * noOfBitsInBytes,
-        noOfBitsInBytes *
-          (startIndexLastIndexBytes + TRANSACTION_LAST_INDEX_BYTE_SIZE)
-      )
-    )
-  );
 
   return {
     hash: hash || transactionHash(hbits),

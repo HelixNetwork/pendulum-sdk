@@ -156,7 +156,7 @@ export const isTransactionHBytes = (
 
 /**
  * Checks if input is valid attached transaction hbytes.
- * For attached transactions last 241 hbytes are non-zero.
+ * For attached transactions last 64 hbytes are non-zero. // 241
  *
  * @method isAttachedHBytes
  *

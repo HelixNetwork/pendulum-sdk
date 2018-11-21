@@ -18,14 +18,14 @@ const { send } = createHttpClient({
 
 export const command: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
-  addresses: ["a".repeat(2 * 32), "b".repeat(2 * 32), "c".repeat(2 * 32)],
-  tags: ["a".repeat(2 * 8), "b".repeat(2 * 8), "c".repeat(2 * 8)],
-  approvees: ["D".repeat(2 * 32)]
+  addresses: ["a".repeat(2 * 32), "a".repeat(2 * 32), "c".repeat(2 * 32)],
+  tags: ["a".repeat(2 * 8), "a".repeat(2 * 8), "c".repeat(2 * 8)],
+  approvees: ["d".repeat(2 * 32)]
 };
 
 export const command_1: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
-  addresses: ["a".repeat(2 * 32), "b".repeat(2 * 32)]
+  addresses: ["a".repeat(2 * 32), "a".repeat(2 * 32)]
 };
 export const command_2: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
@@ -34,7 +34,7 @@ export const command_2: FindTransactionsCommand = {
 
 export const command_3: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
-  tags: ["a".repeat(2 * 8), "b".repeat(2 * 8)]
+  tags: ["a".repeat(2 * 8), "a".repeat(2 * 8)]
 };
 
 export const command_4: FindTransactionsCommand = {
@@ -44,20 +44,20 @@ export const command_4: FindTransactionsCommand = {
 
 export const command_5: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
-  approvees: ["D".repeat(2 * 32)]
+  approvees: ["d".repeat(2 * 32)]
 };
 
 export const response_1: FindTransactionsResponse = {
   hashes: ["a".repeat(2 * 32), "c".repeat(2 * 32)]
 };
 export const response_2: FindTransactionsResponse = {
-  hashes: ["b".repeat(2 * 32), "D".repeat(2 * 32)]
+  hashes: ["a".repeat(2 * 32), "d".repeat(2 * 32)]
 };
 export const response_3: FindTransactionsResponse = {
-  hashes: ["a".repeat(2 * 32), "D".repeat(2 * 32), "E".repeat(2 * 32)]
+  hashes: ["a".repeat(2 * 32), "d".repeat(2 * 32), "e".repeat(2 * 32)]
 };
 export const response_4: FindTransactionsResponse = {
-  hashes: ["b".repeat(2 * 32), "a".repeat(2 * 32)]
+  hashes: ["a".repeat(2 * 32), "a".repeat(2 * 32)]
 };
 export const response_5: FindTransactionsResponse = {
   hashes: ["a".repeat(2 * 32), "c".repeat(2 * 32)]

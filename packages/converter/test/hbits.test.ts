@@ -22,14 +22,34 @@ test("Converter: Test number to bits and back to number conversion) ", t => {
 });
 
 test("Converter: Test number to bits and back to number conversion) ", t => {
-  const expected: number = 0x6d559fb; //114645499
-  let hbits: Int8Array = fromValue(expected);
-  let result1 = value(hbits.slice(0, hbits.length));
-  let paddedBits =
+  const expected: number = 1522184104751; //1522184057 114645499
+  const hbits: Int8Array = fromValue(expected);
+  const paddedBits =
     hbits.length < 64 ? new Int8Array(64).map((n, i) => hbits[i] || 0) : hbits;
   let bytes = hBitsToHBytes(paddedBits);
+
   let againToBits = hbytesToHBits(bytes);
-  let result = value(againToBits.slice(0, hbits.length));
+  const result = value(againToBits.slice(0, hbits.length));
+  t.deepEqual(
+    result,
+    expected,
+    "Function hbytesToHBits() then back to value should return the same value"
+  );
+});
+
+test("Converter: Test number to bits and back to number conversion for negative number) ", t => {
+  const expected: number = -6473274; //1522184057 114645499
+  const hbits: Int8Array = fromValue(expected);
+  const paddedBits =
+    hbits.length < 64
+      ? new Int8Array(64).map((n, i) => {
+          return i < hbits.length ? hbits[i] || 0 : hbits[hbits.length - 1];
+        })
+      : hbits;
+  let bytes = hBitsToHBytes(paddedBits);
+
+  let againToBits = hbytesToHBits(bytes);
+  const result = value(againToBits);
   t.deepEqual(
     result,
     expected,
@@ -106,7 +126,8 @@ test("Function: hbits - from number) ", t => {
     0x01,
     0x01,
     0x01,
-    0x01
+    0x01,
+    0x00
   ]);
 
   t.deepEqual(
@@ -128,7 +149,8 @@ test("Function: hbits - from number more than one byte) ", t => {
     0x00,
     0x00,
     0x00,
-    0x01
+    0x01,
+    0x00
   ]);
 
   t.deepEqual(
@@ -163,7 +185,7 @@ test("Converter: Test value) ", t => {
 });
 
 test("Converter: Test value) ", t => {
-  const input: Int8Array = new Int8Array([0x00, 0x00, 0x01, 0x01]);
+  const input: Int8Array = new Int8Array([0x00, 0x00, 0x01, 0x01, 0x00]);
 
   const expected: number = 0xc;
 
@@ -218,7 +240,8 @@ test("Converter: Test value) ", t => {
     0x01,
     0x01,
     0x01,
-    0x01
+    0x01,
+    0x00
   ]);
   const expected: number = 241;
 

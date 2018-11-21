@@ -11,6 +11,13 @@ export const padHBits = (length: number) => (hbits: Int8Array) =>
     ? new Int8Array(length).map((n, i) => hbits[i] || 0)
     : hbits;
 
+export const padSignedHBits = (length: number) => (hbits: Int8Array) =>
+  hbits.length < length
+    ? new Int8Array(length).map(
+        (n, i) => (i < hbits.length ? hbits[i] || 0 : hbits[hbits.length - 1])
+      )
+    : hbits;
+
 export const padTag = padHBytes(TAG_BYTE_SIZE);
 
 export const padTagArray = (tags: ReadonlyArray<Tag>) => tags.map(padTag);

@@ -17,8 +17,8 @@ const { send } = createHttpClient({
 
 export const command: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
-  addresses: ["a".repeat(2 * 32), "b".repeat(2 * 32), "c".repeat(2 * 32)],
-  tags: ["a".repeat(2 * 8), "b".repeat(2 * 8), "c".repeat(2 * 8)],
+  addresses: ["a".repeat(2 * 32), "a".repeat(2 * 32), "c".repeat(2 * 32)],
+  tags: ["a".repeat(2 * 8), "a".repeat(2 * 8), "c".repeat(2 * 8)],
   approvees: ["d".repeat(2 * 32), "e".repeat(2 * 32), "f".repeat(2 * 32)]
 };
 
@@ -47,7 +47,7 @@ test("send() returns correct response.", async t => {
 
 export const invalidCommand: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
-  addresses: ["asdfsf"]
+  addresses: ["abcdsf"]
 };
 
 export const badSendNock = nock("http://localhost:24265", headers(API_VERSION))

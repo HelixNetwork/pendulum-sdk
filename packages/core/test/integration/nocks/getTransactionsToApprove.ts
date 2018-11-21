@@ -17,7 +17,7 @@ export const getTransactionsToApproveCommand: GetTransactionsToApproveCommand = 
 export const getTransactionsToApproveWithReferenceCommand: GetTransactionsToApproveCommand = {
   command: ProtocolCommand.GET_TRANSACTIONS_TO_APPROVE,
   depth,
-  reference: "R".repeat(2 * 32)
+  reference: "a".repeat(2 * 32)
 };
 
 export const getTransactionsToApproveResponse: GetTransactionsToApproveResponse = {

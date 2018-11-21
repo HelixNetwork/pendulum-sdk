@@ -11,7 +11,7 @@ export const getTipsCommand: GetTipsCommand = {
 };
 
 export const getTipsResponse: GetTipsResponse = {
-  hashes: ["T".repeat(2 * 32), "U".repeat(2 * 32)],
+  hashes: ["d".repeat(2 * 32), "e".repeat(2 * 32)],
   duration: 10
 };
 

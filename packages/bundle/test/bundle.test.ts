@@ -129,8 +129,8 @@ test("addHBytes() adds hbytes and returns correct transactions.", t => {
 
 test("finalizeBundle() adds correct bundle hash.", t => {
   const bundleHash =
-    "bbf786593438fd4db237e93020d5e3022022f3e43545c83571de8203fdc852b9";
-  const incrObsoleteTag = "7aaa".concat("0".repeat(12));
+    "5ff53aa6a4f94e9075c1290fa12d9a94c09d920a76fcbe66c9150cbc70f194ef";
+  const incrObsoleteTag = "eaaa".concat("0".repeat(12));
 
   const expected = bundle.map((transaction, i) => ({
     ...transaction,

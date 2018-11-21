@@ -8,8 +8,8 @@ import headers from "./headers";
 
 export const getInclusionStatesCommand: GetInclusionStatesCommand = {
   command: ProtocolCommand.GET_INCLUSION_STATES,
-  transactions: ["A".repeat(2 * 32), "B".repeat(2 * 32)],
-  tips: ["M".repeat(2 * 32)]
+  transactions: ["a".repeat(2 * 32), "b".repeat(2 * 32)],
+  tips: ["f".repeat(2 * 32)]
 };
 
 export const getInclusionStatesResponse: GetInclusionStatesResponse = {
@@ -26,7 +26,7 @@ nock("http://localhost:14265", headers)
   .persist()
   .post("/", {
     command: ProtocolCommand.GET_INCLUSION_STATES,
-    transactions: ["9".repeat(2 * 32), "9".repeat(2 * 32)],
-    tips: ["M".repeat(2 * 32)]
+    transactions: ["0".repeat(2 * 32), "0".repeat(2 * 32)],
+    tips: ["f".repeat(2 * 32)]
   })
   .reply(200, getInclusionStatesResponse);

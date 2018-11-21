@@ -18,7 +18,6 @@ export function hbits(input: string | number): Int8Array {
     for (let i = 0; i < hbits.length; i++) {
       let ct = Math.floor(i / 4);
       let halfByte = parseInt(input.substr(ct, 1), 16);
-      //hbits[i] = ( halfByte >>>  i % 4) & 0x01;
       hbits[i] = (halfByte >>> (3 - i % 4)) & 0x01;
     }
     return hbits;
@@ -55,7 +54,12 @@ export function hbytes(hbits: Int8Array): string {
   let hexStr = "";
 
   for (let i = 0; i < hbits.length; i += 4) {
-    const val = value(hbits.slice(i, i + 4).reverse());
+    let val = 0;
+    const partHbits = hbits.slice(i, i + 4).reverse();
+    for (let j = partHbits.length; j-- > 0; ) {
+      val = (val << 1) | (partHbits[j] & 0x01);
+    }
+
     const hex = (val & 0xff).toString(16);
     hexStr += hex;
   }
@@ -87,11 +91,12 @@ export const hBitsToHBytes = hbytes;
 // tslint:disable-next-line no-shadowed-variable
 export function value(hbits: Int8Array): number {
   let returnValue = 0;
+  let isNegative = hbits[hbits.length - 1] == 1 ? true : false;
+  let strBits = "";
   for (let i = hbits.length; i-- > 0; ) {
-    returnValue = (returnValue << 1) | (hbits[i] & 0x01);
+    strBits += isNegative ? ~hbits[i] & 0x01 : hbits[i] & 0x01;
   }
-
-  return returnValue;
+  return (isNegative ? -1 : 1) * parseInt(strBits, 2);
 }
 
 /**
@@ -118,13 +123,20 @@ export const hBitsToValue = value;
  */
 // tslint:disable-next-line no-shadowed-variable
 export function fromValue(value: number): Int8Array {
-  const binary = (value >>> 0)
+  let isNegative = value < 0 ? true : false;
+  const binary = value
     .toString(2)
     .split("")
     .reverse();
-  const destination = new Int8Array(binary.length);
+  let extraBitForSign = 0;
+  if (!isNegative) {
+    extraBitForSign = binary[binary.length - 1] == "1" ? 1 : 0;
+  }
+  const destination = new Int8Array(binary.length + extraBitForSign);
   for (let i = 0; i < binary.length; i++) {
-    destination[i] = parseInt(binary[i], 10);
+    destination[i] = isNegative
+      ? ~parseInt(binary[i], 10) & 0x01
+      : parseInt(binary[i], 10);
   }
   return destination;
 }

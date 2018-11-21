@@ -3,11 +3,12 @@ import { createHttpClient } from "@helix/http-client";
 import { INVALID_ADDRESS, INVALID_THRESHOLD } from "../../../errors";
 import { createGetBalances } from "../../src";
 import { getBalancesCommand, balancesResponse } from "./nocks/getBalances";
+import { ADDRESS_CHECKSUM_BYTE_SIZE } from "../../../constants";
 
 const getBalances = createGetBalances(createHttpClient());
 
 const addressesWithChecksum = getBalancesCommand.addresses.map(address =>
-  address.concat("0".repeat(9))
+  address.concat("0".repeat(ADDRESS_CHECKSUM_BYTE_SIZE))
 );
 
 test("getBalances() resolves to correct balances response", async t => {

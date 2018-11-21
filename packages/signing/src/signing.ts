@@ -1,6 +1,13 @@
 /** @module signing */
 
-import { fromValue, hbits, hbytes, value } from "@helix/converter";
+import {
+  fromValue,
+  hbits,
+  hbytes,
+  hbytesToHBits,
+  hex,
+  value
+} from "@helix/converter";
 import HHash from "@helix/hash-module";
 import { padHBits } from "@helix/pad";
 import add from "./add";
@@ -41,7 +48,7 @@ export function subseed(seed: Int8Array, index: number): Int8Array {
   }
 
   hHash.initialize();
-  hHash.absorb(subseed, 0, subseed.length);
+  hHash.absorbBits(subseed, 0, subseed.length);
   hHash.squeezeBits(subseed, 0, subseed.length);
 
   return subseed;
@@ -63,7 +70,7 @@ export function key(subseed: Int8Array, length: number): Int8Array {
   const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
   hHash.initialize();
-  hHash.absorb(subseed, 0, subseed.length);
+  hHash.absorbBits(subseed, 0, subseed.length);
 
   const buffer = new Int8Array(hHash.getHashLength());
   const result = new Int8Array(
@@ -73,13 +80,13 @@ export function key(subseed: Int8Array, length: number): Int8Array {
 
   while (length-- > 0) {
     for (let i = 0; i < SIGNATURE_FRAGMENT_NO; i++) {
-      hHash.squeezeBits(buffer, 0, subseed.length);
+      hHash.squeeze(buffer, 0, subseed.length);
       for (let j = 0; j < hHash.getHashLength(); j++) {
         result[offset++] = buffer[j];
       }
     }
   }
-  return result;
+  return hbytesToHBits(hex(result));
 }
 
 /**
@@ -108,7 +115,7 @@ export function digests(key: Int8Array): Int8Array {
         const keyFragmentHash = new HHash(HHash.HASH_ALGORITHM_1);
 
         keyFragmentHash.initialize();
-        keyFragmentHash.absorb(buffer, 0, buffer.length);
+        keyFragmentHash.absorbBits(buffer, 0, buffer.length);
         keyFragmentHash.squeezeBits(
           buffer,
           0,
@@ -124,7 +131,7 @@ export function digests(key: Int8Array): Int8Array {
     const digestsKerl = new HHash(HHash.HASH_ALGORITHM_1);
 
     digestsKerl.initialize();
-    digestsKerl.absorb(keyFragment, 0, keyFragment.length);
+    digestsKerl.absorbBits(keyFragment, 0, keyFragment.length);
     digestsKerl.squeezeBits(buffer, 0, HASH_BITS_SIZE);
 
     for (let j = 0; j < HASH_BITS_SIZE; j++) {
@@ -147,9 +154,8 @@ export function address(digests: Int8Array): Int8Array {
   const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
   hHash.initialize();
-  hHash.absorb(digests.slice(), 0, digests.length);
+  hHash.absorbBits(digests.slice(), 0, digests.length);
   hHash.squeezeBits(addressHBits, 0, hHash.getHashLength() * 8);
-
   return addressHBits;
 }
 
@@ -167,25 +173,23 @@ export function digest(
   signatureFragment: Int8Array
 ): Int8Array {
   const digestHash = new HHash(HHash.HASH_ALGORITHM_1);
-
   digestHash.initialize();
 
   let buffer = new Int8Array(HASH_BITS_SIZE);
 
   for (let i = 0; i < SIGNATURE_FRAGMENT_NO; i++) {
     buffer = signatureFragment.slice(
-      i * digestHash.getHashLength(),
-      (i + 1) * digestHash.getHashLength()
+      i * HASH_BITS_SIZE,
+      (i + 1) * HASH_BITS_SIZE
     );
 
-    for (let j = normalizedBundleFragment[i] + 8; j-- > 0; ) {
+    for (let j = normalizedBundleFragment[i]; j-- > 0; ) {
       const signatureFragmentHash = new HHash(HHash.HASH_ALGORITHM_1);
-
       signatureFragmentHash.initialize();
-      signatureFragmentHash.absorb(
+      signatureFragmentHash.absorbBits(
         buffer,
         0,
-        signatureFragmentHash.getHashLength()
+        signatureFragmentHash.getHashLength() * 8
       );
       signatureFragmentHash.squeezeBits(
         buffer,
@@ -194,7 +198,7 @@ export function digest(
       );
     }
 
-    digestHash.absorb(buffer, 0, digestHash.getHashLength());
+    digestHash.absorbBits(buffer, 0, digestHash.getHashLength() * 8);
   }
 
   digestHash.squeezeBits(buffer, 0, digestHash.getHashLength() * 8);
@@ -226,7 +230,7 @@ export function signatureFragment(
     for (let j = 0; j < 8 - normalizedBundleFragment[i]; j++) {
       hHash.initialize();
       hHash.reset();
-      hHash.absorb(hash, 0, hHash.getHashLength());
+      hHash.absorbBits(hash, 0, hHash.getHashLength());
       hHash.squeezeBits(hash, 0, hHash.getHashLength() * 8);
     }
 
@@ -258,7 +262,6 @@ export function validateSignatures(
 
   const normalizedBundleFragments = [];
   const normalizedBundle = normalizedBundleHash(bundleHash);
-
   // Split hash into 3 fragments
   for (let i = 0; i < 3; i++) {
     normalizedBundleFragments[i] = normalizedBundle.slice(
@@ -266,26 +269,21 @@ export function validateSignatures(
       (i + 1) * SIGNATURE_FRAGMENT_NO
     );
   }
-
   // Get digests
   // tslint:disable-next-line no-shadowed-variable
-  const digests = new Int8Array(signatureFragments.length * HASH_BITS_SIZE);
+  const digests = new Int8Array(
+    signatureFragments.length * 32 * HASH_BITS_SIZE
+  );
   for (let i = 0; i < signatureFragments.length; i++) {
     const digestBuffer = digest(
       normalizedBundleFragments[i % 3],
       hbits(signatureFragments[i])
     );
-
     for (let j = 0; j < HASH_BITS_SIZE; j++) {
       digests[i * HASH_BITS_SIZE + j] = digestBuffer[j];
     }
   }
-  console.log("digest " + digests);
-  console.log("signature address: " + hbytes(address(digests)));
-  console.log(
-    "expectedAddress:" + expectedAddress + " " + expectedAddress ===
-      hbytes(address(digests))
-  );
+
   return expectedAddress === hbytes(address(digests));
 }
 

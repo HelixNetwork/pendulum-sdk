@@ -14,11 +14,11 @@ import headers from "./headers";
 
 export const getHBytesCommand: GetHBytesCommand = {
   command: ProtocolCommand.GET_HBYTES,
-  hashes: ["A".repeat(81), "B".repeat(81)]
+  hashes: ["a".repeat(2 * 32), "b".repeat(2 * 32)]
 };
 
 export const getHBytesResponse: GetHBytesResponse = {
-  hbytes: ["9".repeat(2673), "9".repeat(2673)]
+  hbytes: ["0".repeat(2646), "0".repeat(2646)]
 };
 
 export const getBalancesNock = nock("http://localhost:14265", headers)

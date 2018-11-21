@@ -3,7 +3,7 @@
 import Kerl from "@helix/kerl";
 import Curl from "@helix/curl";
 import SHA256 from "@helix/sha256";
-import { hbits, hex } from "@helix/converter";
+import { hbits, hbytes, hex } from "@helix/converter";
 
 const HASH_KERL = "kerl";
 const HASH_CURL = "curl";
@@ -70,6 +70,9 @@ export default class HHash {
   ) {
     this.h.absorb(data, offset, length);
   }
+  public absorbBits(data: Int8Array, offset: number, length: number) {
+    this.h.absorb(hbytes(data), offset, length);
+  }
 
   /**
    * final toHBytes given an offset and length
@@ -97,8 +100,9 @@ export default class HHash {
    * @param {number} offset
    * @param {number} length
    **/
-  public squeezeBits(bytes: Int8Array, offset: number, length: number) {
-    hbits(hex(this.h.squeeze(bytes, offset, length / 8)));
+  public squeezeBits(bits: Int8Array, offset: number, length: number) {
+    hbits(hex(this.h.squeeze(bits, offset, length / 8)));
+    bits.forEach((element, index, array) => (array[index] &= 0x01));
   }
 
   public getHashLength(): number {

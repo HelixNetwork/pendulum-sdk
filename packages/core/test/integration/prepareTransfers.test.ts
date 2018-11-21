@@ -9,15 +9,13 @@ import "./nocks/prepareTransfers";
 
 const inputs: ReadonlyArray<any> = [
   {
-    address:
-      "FJHSSHBZTAKQNDTIKJYCZBOZDGSZANCZSWCNWUOCZXFADNOQSYAHEJPXRLOVPNOQFQXXGEGVDGICLMOXX",
+    address: "464a48535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356",
     keyIndex: 0,
     security: 2,
     balance: 3
   },
   {
-    address:
-      "9DZXPFSVCSSWXXQPFMWLGFKPBAFTHYMKMZCPFHBVHXPFNJEIJIEEPKXAUBKBNNLIKWHJIYQDFWQVELOCB",
+    address: "343448535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356",
     keyIndex: 1,
     security: 2,
     balance: 4
@@ -62,7 +60,7 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
 );
 
 test("prepareTransfers() prepares the correct array of hbytes offline.", async t => {
-  const hbytes = await prepareTransfers("SEED", transfers, {
+  const hbytes = await prepareTransfers("abcd", transfers, {
     inputs,
     remainderAddress
   });
@@ -77,7 +75,7 @@ test("prepareTransfers() prepares the correct array of hbytes offline.", async t
 test("prepareTransfers() does not mutate original transfers object offline.", async t => {
   const transfersCopy = transfers.map(transfer => ({ ...transfer }));
 
-  await prepareTransfers("SEED", transfersCopy, {
+  await prepareTransfers("abcd", transfersCopy, {
     inputs,
     remainderAddress,
     hmacKey: "0".repeat(2 * 32)
@@ -91,7 +89,7 @@ test("prepareTransfers() does not mutate original transfers object offline.", as
 });
 
 test("prepareTransfers() with network prepares the correct array of hbytes.", async t => {
-  const hbytes = await prepareTransfersWithNetwork("SEED", transfers);
+  const hbytes = await prepareTransfersWithNetwork("abcd", transfers);
 
   t.deepEqual(
     hbytes,
@@ -102,7 +100,7 @@ test("prepareTransfers() with network prepares the correct array of hbytes.", as
 
 test("prepareTransfer() prepares correct hbytes for zero value transfers", async t => {
   const zeroValueHBytes = await prepareTransfersWithNetwork(
-    "SEED",
+    "abcd",
     zeroValueTransfer
   );
 
@@ -114,12 +112,12 @@ test("prepareTransfer() prepares correct hbytes for zero value transfers", async
 });
 
 test.cb("prepareTransfers() invokes callback", t => {
-  prepareTransfers("SEED", transfers, { inputs, remainderAddress }, t.end);
+  prepareTransfers("abcd", transfers, { inputs, remainderAddress }, t.end);
 });
 
 test.cb("prepareTransfers() passes correct arguments to callback", t => {
   prepareTransfers(
-    "SEED",
+    "abcd",
     transfers,
     { inputs, remainderAddress },
     (err, res) => {

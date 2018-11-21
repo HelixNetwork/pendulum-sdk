@@ -8,7 +8,7 @@ import headers from "./headers";
 
 export const checkConsistencyCommand: CheckConsistencyCommand = {
   command: ProtocolCommand.CHECK_CONSISTENCY,
-  tails: ["A".repeat(2 * 32), "B".repeat(2 * 32)]
+  tails: ["a".repeat(2 * 32), "b".repeat(2 * 32)]
 };
 
 export const checkConsistencyResponse: CheckConsistencyResponse = {
@@ -23,7 +23,7 @@ export const checkConsistencyNock = nock("http://localhost:14265", headers)
 
 export const checkConsistencyWithInfoCommand: CheckConsistencyCommand = {
   command: ProtocolCommand.CHECK_CONSISTENCY,
-  tails: ["A".repeat(2 * 32), "B".repeat(2 * 32), "C".repeat(2 * 32)]
+  tails: ["a".repeat(2 * 32), "b".repeat(2 * 32), "c".repeat(2 * 32)]
 };
 
 export const checkConsistencyWithInfoResponse: CheckConsistencyResponse = {

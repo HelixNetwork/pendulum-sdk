@@ -12,7 +12,7 @@ import "./nocks/getHBytes";
 import "./nocks/wereAddressesSpentFrom";
 
 const getAccountData = createGetAccountData(createHttpClient(), "lib");
-const seed = "SEED";
+const seed = "abcd";
 
 const { balances } = balancesResponse;
 

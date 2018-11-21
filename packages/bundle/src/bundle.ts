@@ -20,11 +20,6 @@ import {
   TRANSACTION_OBSOLETE_TAG_BITS_SIZE
 } from "../../constants";
 
-//const NULL_HASH_HBYTES = "9".repeat(HASH_BYTE_SIZE);
-// const NULL_TAG_HBYTES = "9".repeat(27);
-// const NULL_NONCE_HBYTES = "9".repeat(27);
-// const NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES = "9".repeat(2187);
-
 export interface BundleEntry {
   readonly length: number;
   readonly address: Hash;

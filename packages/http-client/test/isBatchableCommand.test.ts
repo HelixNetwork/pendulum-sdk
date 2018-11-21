@@ -8,7 +8,7 @@ import { isBatchableCommand } from "../src/httpClient";
 
 const batchableCommand: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
-  addresses: ["a".repeat(2 * 32), "b".repeat(2 * 32)]
+  addresses: ["a".repeat(2 * 32), "a".repeat(2 * 32)]
 };
 
 interface CustomCommand extends BaseCommand {

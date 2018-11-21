@@ -6,13 +6,13 @@ const BATCH_SIZE = 2;
 
 const tags: string[] = [
   "a" + "0".repeat(15),
-  "b" + "0".repeat(15),
+  "a" + "0".repeat(15),
   "c" + "0".repeat(15)
 ];
 
 const approvees: string[] = [
   "a".repeat(2 * 32),
-  "b".repeat(2 * 32),
+  "a".repeat(2 * 32),
   "c".repeat(2 * 32)
 ];
 
@@ -25,7 +25,7 @@ const command: FindTransactionsCommand = {
 
 const commandWithoutBatchableKeys: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
-  addresses: ["a".repeat(2 * 32), "b".repeat(2 * 32)]
+  addresses: ["a".repeat(2 * 32), "a".repeat(2 * 32)]
 };
 
 test("getKeysToBatch() should return correct keys.", t => {

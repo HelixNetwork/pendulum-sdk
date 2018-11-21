@@ -9,16 +9,16 @@ import headers from "./headers";
 export const getBalancesCommand: GetBalancesCommand = {
   command: ProtocolCommand.GET_BALANCES,
   addresses: [
-    "FJHSSHBZTAKQNDTIKJYCZBOZDGSZANCZSWCNWUOCZXFADNOQSYAHEJPXRLOVPNOQFQXXGEGVDGICLMOXX",
-    "9DZXPFSVCSSWXXQPFMWLGFKPBAFTHYMKMZCPFHBVHXPFNJEIJIEEPKXAUBKBNNLIKWHJIYQDFWQVELOCB",
-    "OTSZGTNPKFSGJLUPUNGGXFBYF9GVUEHOADZZTDEOJPWNEIVBLHOMUWPILAHTQHHVSBKTDVQIAEQOZXGFB"
+    "464a48535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356",
+    "343448535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356",
+    "abcd48535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356"
   ],
   threshold: 100
 };
 
 const getBalancesResponse: GetBalancesResponse = {
   balances: ["3", "4", "10"],
-  milestone: "M".repeat(2 * 32),
+  milestone: "f".repeat(2 * 32),
   milestoneIndex: 1,
   duration: 10
 };
@@ -28,7 +28,7 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
     addresses: [
-      "FJHSSHBZTAKQNDTIKJYCZBOZDGSZANCZSWCNWUOCZXFADNOQSYAHEJPXRLOVPNOQFQXXGEGVDGICLMOXX"
+      "464a48535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356"
     ]
   })
   .reply(200, {
@@ -40,7 +40,7 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
     addresses: [
-      "9DZXPFSVCSSWXXQPFMWLGFKPBAFTHYMKMZCPFHBVHXPFNJEIJIEEPKXAUBKBNNLIKWHJIYQDFWQVELOCB"
+      "343448535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356"
     ]
   })
   .reply(200, {
@@ -52,7 +52,7 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
     addresses: [
-      "OTSZGTNPKFSGJLUPUNGGXFBYF9GVUEHOADZZTDEOJPWNEIVBLHOMUWPILAHTQHHVSBKTDVQIAEQOZXGFB"
+      "abcd48535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356"
     ]
   })
   .reply(200, {
@@ -69,11 +69,11 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.FIND_TRANSACTIONS,
     addresses: [
-      "9DZXPFSVCSSWXXQPFMWLGFKPBAFTHYMKMZCPFHBVHXPFNJEIJIEEPKXAUBKBNNLIKWHJIYQDFWQVELOCB"
+      "343448535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356"
     ]
   })
   .reply(200, {
-    hashes: ["A".repeat(2 * 32)]
+    hashes: ["a".repeat(2 * 32)]
   });
 
 nock("http://localhost:14265", headers)
@@ -81,7 +81,7 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.FIND_TRANSACTIONS,
     addresses: [
-      "OTSZGTNPKFSGJLUPUNGGXFBYF9GVUEHOADZZTDEOJPWNEIVBLHOMUWPILAHTQHHVSBKTDVQIAEQOZXGFB"
+      "abcd48535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356"
     ]
   })
   .reply(200, {

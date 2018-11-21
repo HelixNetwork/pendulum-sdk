@@ -16,7 +16,7 @@ import "./nocks/wereAddressesSpentFrom";
 import { transfers } from "@helix/samples";
 
 const getTransfers = createGetTransfers(createHttpClient(), "lib");
-const seed = "SEED";
+const seed = "abcd";
 
 test("getTransfers() resolves to correct account data", async t => {
   t.deepEqual(
