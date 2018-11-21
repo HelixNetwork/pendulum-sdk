@@ -102,7 +102,7 @@ export default class HHash {
    **/
   public squeezeBits(bits: Int8Array, offset: number, length: number) {
     hbits(hex(this.h.squeeze(bits, offset, length / 8)));
-    bits.forEach((element, index, array) => (array[index] &= 0x01));
+    bits.forEach((_element, index, array) => (array[index] &= 0x01));
   }
 
   public getHashLength(): number {

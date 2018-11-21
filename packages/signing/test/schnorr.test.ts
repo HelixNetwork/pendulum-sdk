@@ -1,29 +1,24 @@
 import test from "ava";
-//import * as Schnorr from "../src";
 import Schnorr from "../src/schnorr";
 import { hex, toHBytes } from "@helix/converter";
-import { type } from "os";
 
-test("Signing test schnorr signature!", t => {
+test("Signing test schnorr signature with HByte conversion!", t => {
   let sch = new Schnorr("abcdeadddaaaaaaaaaaaa2322423333333333333333");
   let msg: string = "this is a random text that will be signed";
-  let signature = sch.sign(msg);
+  let signature = Schnorr.sign(msg, sch.secreteKey);
 
-  console.log("sig.r: " + signature.r);
-  console.log("sig.s: " + signature.s);
+  // console.log("sig.r: " + signature.r);
+  // console.log("sig.s: " + signature.s);
 
   let signatureSBytes = hex(signature.s);
   let signatureRBytes = hex(signature.r);
   // convert to HBytes:
-  let privateKeyBytes = hex(sch.key);
-  console.log("hex privatekey: " + privateKeyBytes);
+  let privateKeyBytes = hex(sch.secreteKey);
+  // console.log("hex privatekey: " + privateKeyBytes);
   let publicKeyBytes = hex(sch.publicKey);
-  console.log("hex publicKeyBytes: " + publicKeyBytes);
-  let signatureBytes = hex(signature);
-  console.log(
-    "hex signatureKeyBytes: r: " + signatureSBytes + " s: " + signatureRBytes
-  );
-  console.log(typeof signatureSBytes);
+  // console.log("hex publicKeyBytes: " + publicKeyBytes);
+  // console.log("hex signatureKeyBytes: r: " + signatureSBytes + " s: " + signatureRBytes);
+  // console.log(typeof signatureSBytes);
 
   // convert back to list of bytes
   const privateKeyFromBytes: Uint8Array = toHBytes(privateKeyBytes);
@@ -32,7 +27,53 @@ test("Signing test schnorr signature!", t => {
   const sigFromBytesR: Uint8Array = toHBytes(signatureRBytes);
 
   t.is(
-    sch.verify(msg, { s: sigFromBytesS, r: sigFromBytesR }, publicKeyFromBytes),
+    Schnorr.verify(msg, signature, publicKeyFromBytes),
+    true,
+    "Schnorr signature should be correct!"
+  );
+});
+
+test("Signing aggregation with schnorr!", t => {
+  let msg: string = "this is a random text that will be signed";
+
+  const sch1 = new Schnorr("abcdeadddaaaaaaaaaaaa2322423333333333333333");
+  const sch2 = new Schnorr("thisisanotherseedjustfortest12345544");
+
+  const noncePair1 = sch1.generateNoncePair(
+    msg,
+    sch1.secreteKey,
+    "thisisjustarandomstringasdfasdfs"
+  );
+  const noncePair2 = sch2.generateNoncePair(
+    msg,
+    sch2.secreteKey,
+    "thisisjustarandomstringasdfasdfs"
+  );
+
+  let signature1 = Schnorr.partialSign(
+    msg,
+    sch1.secreteKey,
+    noncePair1.k,
+    noncePair2.buff
+  );
+  let signature2 = Schnorr.partialSign(
+    msg,
+    sch2.secreteKey,
+    noncePair2.k,
+    noncePair1.buff
+  );
+
+  const aggregatedPublicKey = Schnorr.aggregatePublicKey([
+    sch1.publicKey,
+    sch2.publicKey
+  ]);
+  const aggreatedSignature = Schnorr.aggregateSignature([
+    signature1,
+    signature2
+  ]);
+
+  t.is(
+    Schnorr.verify(msg, aggreatedSignature, aggregatedPublicKey),
     true,
     "Schnorr signature should be correct!"
   );

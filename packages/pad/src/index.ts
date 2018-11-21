@@ -20,4 +20,9 @@ export const padSignedHBits = (length: number) => (hbits: Int8Array) =>
 
 export const padTag = padHBytes(TAG_BYTE_SIZE);
 
+export const padByteArray = (length: number) => (bytes: Uint8Array) =>
+  bytes.length < length
+    ? new Uint8Array(length).map((n, i) => bytes[i] || 0)
+    : bytes;
+
 export const padTagArray = (tags: ReadonlyArray<Tag>) => tags.map(padTag);

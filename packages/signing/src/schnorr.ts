@@ -1,31 +1,24 @@
-//import * as Schn from 'schnorr';
-//import {elliptic} from 'bcrypto/vendor/elliptic';
-//import * as Signature from 'schnorr/bcrypto/vendor/elliptic/lib/elliptic/ec/signature';
-//import {BN} from 'bcrypto/lib/bn.js';
-//import {secp256k1} from 'bcrypto/lib/secp256k1';
-//import SHA256 from "../../sha256/src";
 import HHash from "@helix/hash-module";
+import HSign from "./hsign";
 
 const elliptic = require("bcrypto/vendor/elliptic");
-//const Signature = require('schnorr/bcrypto/vendor/elliptic/lib/elliptic/ec/signature');
 const BN = require("bcrypto/lib/bn.js");
 const secp256k1 = require("bcrypto/lib/secp256k1");
-//const hash256 = require('bcrypto/lib/hash256');
 const Schn = require("schnorr");
 
 export default class Schnorr {
   public curve = elliptic.ec("secp256k1").curve;
 
-  public key: Uint8Array;
+  public secreteKey: Uint8Array;
   public publicKey: Uint8Array;
   public signature: any;
 
   constructor(seed: string) {
-    this.key = this.getPrivateKey(seed);
-    this.publicKey = Schnorr.computePublicKey(this.key);
+    this.secreteKey = this.computePrivateKey(seed);
+    this.publicKey = Schnorr.computePublicKey(this.secreteKey);
   }
 
-  public getPrivateKey(seed: string): Uint8Array {
+  public computePrivateKey(seed: string): Uint8Array {
     const hHash = new HHash(HHash.HASH_ALGORITHM_3);
     hHash.initialize();
     hHash.absorb(seed, 0, hHash.getHashLength());
@@ -36,7 +29,6 @@ export default class Schnorr {
       hHash.squeeze(hashBytes, 0, hHash.getHashLength());
       privateKey = new BN(hashBytes);
     }
-    //  return secp256k1.privateKeyGenerate(); //
     return privateKey.toArrayLike(Buffer, "be");
   }
 
@@ -48,25 +40,71 @@ export default class Schnorr {
     return secp256k1.publicKeyCreate(privateKey, true);
   }
 
-  public sign(message: string): any {
-    console.log(message);
-    console.log(this.key);
-    let signature = Schn.sign(Buffer.from(message), this.key);
-    console.log("signature object " + signature + " " + typeof signature);
-    //  console.log('signature[0]: ' + signature[0]);
-    // console.log('buffer signature[0]: ' + Buffer.from(signature[0]));
-    let r = new BN(signature.r).toArrayLike(Buffer, "be");
-    let s = new BN(signature.s).toArrayLike(Buffer, "be");
-
-    return { r, s };
+  public static aggregatePublicKey(publicKeys: Array<Uint8Array>) {
+    return Schn.combineKeys(publicKeys);
   }
 
-  public verify(message: string, signature: any, pubKey: Uint8Array): boolean {
-    console.log(
-      "--------------schnorr message: " + message + " typeof " + typeof message
+  public static aggregateSignature(publicKeys: Array<HSign>) {
+    let signature = Schn.combineSigs(publicKeys.map(k => k.getSignature()));
+    let r = new BN(signature.r).toArrayLike(Buffer, "be");
+    let s = new BN(signature.s).toArrayLike(Buffer, "be");
+    return new HSign(r, s);
+  }
+
+  public static sign(message: string, secreteKey: Uint8Array): HSign {
+    let signature = Schn.sign(Buffer.from(message), secreteKey);
+    let r = new BN(signature.r).toArrayLike(Buffer, "be");
+    let s = new BN(signature.s).toArrayLike(Buffer, "be");
+    return new HSign(r, s);
+  }
+
+  public static partialSign(
+    message: string,
+    secreteKey: Uint8Array,
+    privateNonce: Uint8Array,
+    publicNonce: Uint8Array
+  ): HSign {
+    let signature = Schn.partialSign(
+      Buffer.from(message),
+      secreteKey,
+      privateNonce,
+      publicNonce
     );
-    const bla: string = message;
-    console.log("signature: " + signature + " typeof: " + typeof signature);
-    return Schn.verify(Buffer.from(message), signature, pubKey);
+    let r = new BN(signature.r).toArrayLike(Buffer, "be");
+    let s = new BN(signature.s).toArrayLike(Buffer, "be");
+    return new HSign(r, s);
+  }
+
+  public static verify(
+    message: string,
+    signature: HSign,
+    pubKey: Uint8Array
+  ): boolean {
+    return Schn.verify(Buffer.from(message), signature.getSignature(), pubKey);
+  }
+
+  public generateNoncePair(message: string, secreteKey: Uint8Array, data: any) {
+    const drbg = Schn.drbg(
+      Buffer.from(message),
+      Buffer.from(secreteKey),
+      Buffer.from(data)
+    );
+    const len = this.curve.n.byteLength();
+
+    let k = null;
+
+    for (;;) {
+      k = new BN(drbg.generate(len));
+
+      if (k.isZero()) continue;
+
+      if (k.gte(this.curve.n)) continue;
+      break;
+    }
+
+    return {
+      k: k,
+      buff: Buffer.from(this.curve.g.mul(k).encode("array", true))
+    };
   }
 }
