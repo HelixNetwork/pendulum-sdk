@@ -110,9 +110,9 @@ export const asTransactionObject = (
   hash?: Hash
 ): Transaction => {
   if (!isHBytesOfExactLength(hbytes, TRANSACTION_HBYTE_SIZE)) {
-    console.log(
-      "asTransactionObject - isHBytesOfExactLength -ERROR-   : " + hbytes
-    );
+    // console.log(
+    //   "asTransactionObject - isHBytesOfExactLength -ERROR-   : " + hbytes
+    // );
     throw new Error(errors.INVALID_HBYTES);
   }
 
