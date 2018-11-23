@@ -1,4 +1,4 @@
-import { hbits, hbytes } from "@helix/converter";
+import { hbits, hex } from "@helix/converter";
 import HHash from "@helix/hash-module";
 import { asArray } from "../../types";
 
@@ -62,10 +62,10 @@ export default class Address {
     }
 
     // Squeeze the address hbits
-    const addressHBits: Int8Array = new Int8Array(this.hHash.getHashLength());
-    this.hHash.squeeze(addressHBits, 0, this.hHash.getHashLength());
+    const addressHBytes: Int8Array = new Int8Array(this.hHash.getHashLength());
+    this.hHash.squeeze(addressHBytes, 0, this.hHash.getHashLength());
 
     // Convert hbits into hbytes and return the address
-    return hbytes(addressHBits);
+    return hex(addressHBytes);
   }
 }

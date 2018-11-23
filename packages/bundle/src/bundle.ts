@@ -141,7 +141,7 @@ export const addHBytes = (
         ? {
             ...transaction,
             signatureMessageFragment: padHBytes(
-              32 * HASH_BYTE_SIZE // todo check this 32 expected to be SIGNATURE_FRAGMENT_NO
+              SIGNATURE_FRAGMENT_NO * HASH_BYTE_SIZE
             )(fragments[i - offset] || "")
           }
         : transaction

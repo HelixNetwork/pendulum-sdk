@@ -1,13 +1,14 @@
 import * as Promise from "bluebird";
 
-import { hbits, hbytes } from "@helix/converter";
+import { hbits, hbytes, hex } from "@helix/converter";
 import { addEntry, addHBytes, finalizeBundle } from "@helix/bundle";
 import { isValidChecksum, removeChecksum } from "@helix/checksum";
 import {
   key,
   normalizedBundleHash,
   signatureFragment,
-  subseed
+  subseed,
+  computePublicNonces
 } from "@helix/signing";
 import { asFinalTransactionHBytes } from "@helix/transaction-converter";
 import * as errors from "../../errors";
@@ -414,29 +415,34 @@ export const addSignatures = (
     transactions: addHBytes(
       transactions,
       inputs.reduce((acc: ReadonlyArray<HBytes>, { keyIndex, security }) => {
-        const keyHBits = key(
+        const keyHBytes = key(
           subseed(hbits(seed), keyIndex),
           security || SECURITY_LEVEL
         );
-
-        return acc.concat(
-          Array(security)
-            .fill(null)
-            .map((_, i) =>
-              hbytes(
-                signatureFragment(
-                  normalizedBundle.slice(
-                    i * HASH_LENGTH / 3,
-                    (i + 1) * HASH_LENGTH / 3
-                  ),
-                  keyHBits.slice(
-                    i * KEY_FRAGMENT_LENGTH,
-                    (i + 1) * KEY_FRAGMENT_LENGTH
-                  )
-                )
-              )
-            )
-        );
+        const publicNonces = computePublicNonces(keyHBytes, normalizedBundle);
+        return Array(security)
+          .fill(null)
+          .map((_, i) =>
+            hex(signatureFragment(normalizedBundle, keyHBytes, publicNonces))
+          );
+        // return acc.concat(
+        //   Array(security)
+        //     .fill(null)
+        //     .map((_, i) =>
+        //       hbytes(
+        //         signatureFragment(
+        //           normalizedBundle.slice(
+        //             i * HASH_LENGTH / 3,
+        //             (i + 1) * HASH_LENGTH / 3
+        //           ),
+        //           keyHBits.slice(
+        //             i * KEY_FRAGMENT_LENGTH,
+        //             (i + 1) * KEY_FRAGMENT_LENGTH
+        //           )
+        //         )
+        //       )
+        //     )
+        // );
       }, []),
       transactions.findIndex(({ value }) => value < 0)
     )

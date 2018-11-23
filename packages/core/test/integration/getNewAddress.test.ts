@@ -28,6 +28,9 @@ const isAddressUsed = createIsAddressUsed(client);
 // })
 //todo: check test
 test("getNewAddress() with total option resolves to correct addresses", async t => {
+  // console.log('address: ' + getNewAddress(seed, { index: 0}));
+  // console.log('address: ' + getNewAddress(seed, { index: 1}));
+  // console.log('address: ' + getNewAddress(seed, { index: 2}));
   t.deepEqual(
     addresses.slice(0, 2), //await getNewAddress(seed, { index: 0, total: 2 }),
     addresses.slice(0, 2),

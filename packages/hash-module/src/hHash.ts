@@ -70,6 +70,7 @@ export default class HHash {
   ) {
     this.h.absorb(data, offset, length);
   }
+
   public absorbBits(data: Int8Array, offset: number, length: number) {
     this.h.absorb(hbytes(data), offset, length);
   }
@@ -85,7 +86,11 @@ export default class HHash {
    * @param {number} offset
    * @param {number} length
    **/
-  public squeeze(bytes: Int8Array, offset: number, length: number) {
+  public squeeze(
+    bytes: Int8Array | Uint8Array,
+    offset: number,
+    length: number
+  ) {
     this.h.squeeze(bytes, offset, length);
   }
 

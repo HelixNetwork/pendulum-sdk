@@ -2,6 +2,11 @@
 
 import { concatenate } from "@helix/converter";
 import * as errors from "./errors";
+import {
+  SIGNATURE_TOTAL_BYTE_SIZE,
+  SIGNATURE_R_BYTE_SIZE
+} from "../../constants";
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
 
 const Schn = require("schnorr");
 
@@ -21,7 +26,7 @@ export default class HSign {
     if (this.s === undefined) {
       throw new Error(errors.ILLEGAL_S_IN_SIGNATURE);
     }
-    return concatenate(this.r, this.s);
+    return concatenate(Uint8Array, this.r, this.s);
   }
 
   public getSignature(): any {
@@ -32,5 +37,14 @@ export default class HSign {
       throw new Error(errors.ILLEGAL_S_IN_SIGNATURE);
     }
     return { r: this.r, s: this.s };
+  }
+
+  public static generateSignatureFromArray(arr: Uint8Array): HSign {
+    if (arr.length != SIGNATURE_TOTAL_BYTE_SIZE) {
+      throw new Error(errors.ILLEGAL_SIGNATURE_LENGTH_SCH + " " + arr.length);
+    }
+    const r = arr.slice(0, SIGNATURE_R_BYTE_SIZE);
+    const s = arr.slice(SIGNATURE_R_BYTE_SIZE, arr.length);
+    return new HSign(r, s);
   }
 }

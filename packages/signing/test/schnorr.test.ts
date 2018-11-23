@@ -39,12 +39,12 @@ test("Signing aggregation with schnorr!", t => {
   const sch1 = new Schnorr("abcdeadddaaaaaaaaaaaa2322423333333333333333");
   const sch2 = new Schnorr("thisisanotherseedjustfortest12345544");
 
-  const noncePair1 = sch1.generateNoncePair(
+  const noncePair1 = Schnorr.generateNoncePair(
     msg,
     sch1.secreteKey,
     "thisisjustarandomstringasdfasdfs"
   );
-  const noncePair2 = sch2.generateNoncePair(
+  const noncePair2 = Schnorr.generateNoncePair(
     msg,
     sch2.secreteKey,
     "thisisjustarandomstringasdfasdfs"
