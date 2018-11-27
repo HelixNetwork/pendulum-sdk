@@ -3,7 +3,8 @@ import { isTransfer } from "../src";
 
 test("isTransfer() returns true for valid transfer.", t => {
   const transfer = {
-    address: "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
+    address:
+      "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db",
     value: 1234,
     message: "abcd",
     tag: "abcdef"
@@ -39,7 +40,7 @@ test("isTransfer() returns true for valid transfer.", t => {
 test("isTransfer() returns false for transfer with invalid address.", t => {
   const transfer = {
     address:
-      "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee234",
+      "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db1",
     value: 1234,
     message: "abcd",
     tag: "abcdef"
@@ -54,7 +55,8 @@ test("isTransfer() returns false for transfer with invalid address.", t => {
 
 test("isTransfer() returns false for transfer with invalid value.", t => {
   const transfer = {
-    address: "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
+    address:
+      "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db",
     value: -10,
     message: "abcd",
     tag: "abcdef"
@@ -69,7 +71,8 @@ test("isTransfer() returns false for transfer with invalid value.", t => {
 
 test("isTransfer() returns false for message of invalid hBytes.", t => {
   const transfer = {
-    address: "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
+    address:
+      "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db",
     value: 1234,
     message: "abcdA",
     tag: "abcdef"
@@ -84,7 +87,8 @@ test("isTransfer() returns false for message of invalid hBytes.", t => {
 
 test("isTransfer() returns false for tag of invalid length.", t => {
   const transfer = {
-    address: "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
+    address:
+      "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db",
     value: 1234,
     message: "abcd",
     tag: "abcdefabcdefabcdefabcdefabcdefabcdefabcdef"
@@ -99,7 +103,8 @@ test("isTransfer() returns false for tag of invalid length.", t => {
 
 test("isTransfer() returns false for tag of invalid hBytes.", t => {
   const transfer = {
-    address: "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
+    address:
+      "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db",
     value: 1234,
     message: "abcd",
     tag: "abcdefGA"

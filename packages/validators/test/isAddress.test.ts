@@ -3,15 +3,15 @@ import { isAddress } from "../src";
 
 test("isAddress()", t => {
   const validAddressWithChecksum =
-    "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523eed101b796";
+    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db9bfb3cdc";
   const validAddressWithoutChecksum =
-    "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee";
+    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db";
   const validAddressWithInvalidChecksum =
-    "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee11111111";
+    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db12345678";
   const addressOfInvalidLength =
-    "aabc1233445234234232aaaaaccac1233445234234232adedeadea123344523eeaccaaaaaaaaaaaaaeeeeee";
-  const addressOfInvalidTrytes =
-    "XVDD1233445234234232BDFESABCD1233445234234232BDFESABCD123344523E";
+    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db12345678123";
+  const addressOfInvalidHBytes =
+    "TRc1233445234234232aaaaaccac1233445234234232adedeadea123344523eed101b796";
 
   t.is(
     isAddress(validAddressWithChecksum),
@@ -38,7 +38,7 @@ test("isAddress()", t => {
   );
 
   t.is(
-    isAddress(addressOfInvalidTrytes),
+    isAddress(addressOfInvalidHBytes),
     false,
     "isAddress() should return false for input of invalid hBytes."
   );

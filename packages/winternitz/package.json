@@ -20,7 +20,7 @@
   ],
   "ava": {
     "files": "out/winternitz/test/*.test.js",
-    "failFast": true,
+    "failFast": false,
     "failWithoutAssertions": false,
     "compileEnhancements": false,
     "verbose": true

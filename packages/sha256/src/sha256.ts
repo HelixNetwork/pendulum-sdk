@@ -63,9 +63,9 @@ export default class SHA256 {
     // if (data.constructor === Int8Array) {
     //   throw new Error(errors.ILLEGAL_TYPE_INT8);
     // }
-    if (length && length % 4 !== 0) {
-      throw new Error(errors.ILLEGAL_BYTES_LENGTH);
-    }
+    // if (length && length % 4 !== 0) {
+    //   throw new Error(errors.ILLEGAL_BYTES_LENGTH);
+    // }
     do {
       const limit = length < SHA256.HASH_LENGTH ? length : SHA256.HASH_LENGTH;
 

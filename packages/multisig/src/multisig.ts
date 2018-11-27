@@ -21,7 +21,8 @@ import {
   remainderAddressValidator,
   transferValidator,
   validate,
-  Validator
+  Validator,
+  isAddress
 } from "../../guards";
 import { Bundle, Callback, Provider, Transaction, Transfer } from "../../types";
 import Address from "./address";
@@ -30,7 +31,7 @@ import {
   NULL_TAG_HBYTES,
   SIGNATURE_FRAGMENT_NO,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS,
+  //SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS,
   TAG_BYTE_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE,
   SIGNATURE_SECRETE_KEY_BYTE_SIZE
@@ -48,7 +49,7 @@ export const multisigInputValidator: Validator<MultisigInput> = (
   multisigInput,
   ({ address, balance, securitySum }: MultisigInput) =>
     isSecurityLevel(securitySum) &&
-    isHash(address) &&
+    isAddress(address) &&
     Number.isInteger(balance) &&
     balance > 0,
   errors.INVALID_INPUT

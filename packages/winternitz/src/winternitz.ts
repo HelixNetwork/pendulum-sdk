@@ -77,8 +77,6 @@ export function key(subseed: Uint8Array, length: number): Uint8Array {
 // tslint:disable-next-line no-shadowed-variable
 export function digests(key: Uint8Array): Uint8Array {
   const l = Math.floor(key.length / 512); // security level (1 or 2)
-  console.log("private key length: " + key.length);
-  console.log("security: " + l);
   const result = new Uint8Array(l * 32);
   let buffer = new Uint8Array(Sha3.HASH_LENGTH);
 

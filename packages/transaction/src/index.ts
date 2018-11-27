@@ -10,7 +10,8 @@ import {
   isHash,
   isHBytesOfExactLength,
   validate,
-  Validator
+  Validator,
+  isAddress
 } from "../../guards";
 import { Hash, Transaction, HBytes } from "../../types";
 import {
@@ -60,7 +61,7 @@ export const isTransaction = (tx: any): tx is Transaction => {
       tx.signatureMessageFragment,
       SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
     ) &&
-    isHash(tx.address) &&
+    isAddress(tx.address) &&
     Number.isInteger(tx.value) &&
     isHBytesOfExactLength(tx.obsoleteTag, OBSOLETE_TAG_BYTE_SIZE) &&
     Number.isInteger(tx.timestamp) &&

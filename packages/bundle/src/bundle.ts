@@ -134,18 +134,20 @@ export const addHBytes = (
   transactions: Bundle,
   fragments: ReadonlyArray<HBytes>,
   offset = 0
-): Bundle =>
-  transactions.map(
+): Bundle => {
+  console.log("addHBytes - fragmentsSignature: " + fragments);
+  return transactions.map(
     (transaction, i) =>
       i >= offset && i < offset + fragments.length
         ? {
             ...transaction,
             signatureMessageFragment: padHBytes(
-              SIGNATURE_FRAGMENT_NO * HASH_BYTE_SIZE
+              SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
             )(fragments[i - offset] || "")
           }
         : transaction
   );
+};
 
 /**
  * Finalizes the bundle by calculating the bundle hash

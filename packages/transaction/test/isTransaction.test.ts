@@ -41,7 +41,7 @@ test("isTransaction() returns true for valid transaction with address (with chec
   t.is(
     isTransaction({
       ...transactionObject,
-      address: `${transactionObject.address}abcdef12`
+      address: `${transactionObject.address}9bfb3cdc`
     }),
     true,
     "isTransaction() should return true for valid transaction with address (with checksum)."

@@ -5,7 +5,7 @@ test("isTransferArray() returns true for valid transfer.", t => {
   const transfers = [
     {
       address:
-        "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
+        "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db",
       value: 1234,
       message: "abcd",
       tag: "abcdef"
@@ -23,7 +23,7 @@ test("isTransferArray() returns false for transfer with invalid address.", t => 
   const transfers = [
     {
       address:
-        "uic1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
+        "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db2",
       value: 1234,
       message: "abcd",
       tag: "abcdef"
@@ -41,7 +41,7 @@ test("isTransferArray() returns false for transfer with invalid value.", t => {
   const transfers = [
     {
       address:
-        "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
+        "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db",
       value: -10,
       message: "abcd",
       tag: "abcdef"
@@ -59,7 +59,7 @@ test("isTransferArray() returns false for message of invalid bytes.", t => {
   const transfers = [
     {
       address:
-        "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
+        "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db",
       value: 1234,
       message: "abcdg",
       tag: "abcdef"
@@ -77,7 +77,7 @@ test("isTransferArray() returns false for tag of invalid length.", t => {
   const transfers = [
     {
       address:
-        "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
+        "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db",
       value: 1234,
       message: "abcd",
       tag: "abcdefabcdefabcdefabcdefabcdef"
@@ -95,7 +95,7 @@ test("isTransferArray() returns false for tag of invalid bytes.", t => {
   const transfers = [
     {
       address:
-        "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee",
+        "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db",
       value: 1234,
       message: "abcd",
       tag: "abcdEF"

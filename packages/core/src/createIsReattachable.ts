@@ -4,6 +4,7 @@ import { INVALID_ADDRESS } from "../../errors";
 import {
   arrayValidator,
   hashValidator,
+  addressValidator,
   hbytesValidator,
   validate
 } from "../../guards";
@@ -71,7 +72,7 @@ export const createIsReattachable = (provider: Provider) => {
 
         addresses = inputAddressArray.map(addr => removeChecksum(addr));
 
-        validate(arrayValidator(hashValidator)(addresses));
+        validate(arrayValidator(addressValidator)(addresses));
       })
         // 2. Find all transactions for these addresses
         .then(() => findTransactionObjects({ addresses }))

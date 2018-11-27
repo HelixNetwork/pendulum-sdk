@@ -4,7 +4,8 @@ import { concatenate } from "@helix/converter";
 import * as errors from "./errors";
 import {
   SIGNATURE_TOTAL_BYTE_SIZE,
-  SIGNATURE_R_BYTE_SIZE
+  SIGNATURE_R_BYTE_SIZE,
+  SIGNATURE_S_BYTE_SIZE
 } from "../../constants";
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
 
@@ -26,6 +27,13 @@ export default class HSign {
     if (this.s === undefined) {
       throw new Error(errors.ILLEGAL_S_IN_SIGNATURE);
     }
+    if (this.r.length != SIGNATURE_R_BYTE_SIZE) {
+      throw new Error(errors.ILLEGAL_R_IN_SIGNATURE + " " + this.r.length);
+    }
+    if (this.s.length != SIGNATURE_S_BYTE_SIZE) {
+      throw new Error(errors.ILLEGAL_S_IN_SIGNATURE + " " + this.s.length);
+    }
+
     return concatenate(Uint8Array, this.r, this.s);
   }
 

@@ -18,7 +18,7 @@ export const getHBytesCommand: GetHBytesCommand = {
 };
 
 export const getHBytesResponse: GetHBytesResponse = {
-  hbytes: ["0".repeat(2646), "0".repeat(2646)]
+  hbytes: ["0".repeat(2 * 273), "0".repeat(2 * 273)]
 };
 
 export const getBalancesNock = nock("http://localhost:14265", headers)

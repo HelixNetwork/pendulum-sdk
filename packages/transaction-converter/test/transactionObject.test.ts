@@ -1,5 +1,5 @@
 import test from "ava";
-import { bundle, bundleHBytes } from "@helix/samples";
+import { bundle, bundleHBytes, hbytes } from "@helix/samples";
 import {
   asTransactionObject,
   asTransactionObjects,
@@ -31,6 +31,7 @@ test("transactionObject() converts transaction hbytes to transaction object.", t
 });
 
 test("asTransactionObjects() converts array of transaction hbytes to array of transaction objects.", t => {
+  // console.log(asTransactionObjects(bundle.map(tx => tx.hash))(hbytes));
   t.deepEqual(
     asTransactionObjects(bundle.map(tx => tx.hash))(bundleHBytes),
     bundle,

@@ -7,18 +7,11 @@ test("Signing test schnorr signature with HByte conversion!", t => {
   let msg: string = "this is a random text that will be signed";
   let signature = Schnorr.sign(msg, sch.secreteKey);
 
-  // console.log("sig.r: " + signature.r);
-  // console.log("sig.s: " + signature.s);
-
   let signatureSBytes = hex(signature.s);
   let signatureRBytes = hex(signature.r);
   // convert to HBytes:
   let privateKeyBytes = hex(sch.secreteKey);
-  // console.log("hex privatekey: " + privateKeyBytes);
   let publicKeyBytes = hex(sch.publicKey);
-  // console.log("hex publicKeyBytes: " + publicKeyBytes);
-  // console.log("hex signatureKeyBytes: r: " + signatureSBytes + " s: " + signatureRBytes);
-  // console.log(typeof signatureSBytes);
 
   // convert back to list of bytes
   const privateKeyFromBytes: Uint8Array = toHBytes(privateKeyBytes);

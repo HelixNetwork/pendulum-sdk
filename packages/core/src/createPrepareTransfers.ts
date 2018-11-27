@@ -420,7 +420,7 @@ export const addSignatures = (
           security || SECURITY_LEVEL
         );
         const publicNonces = computePublicNonces(keyHBytes, normalizedBundle);
-        return Array(security)
+        return Array(1) //security
           .fill(null)
           .map((_, i) =>
             hex(signatureFragment(normalizedBundle, keyHBytes, publicNonces))

@@ -12,8 +12,8 @@ import { asArray, HBytes } from "../../types";
 import {
   ADDRESS_BYTE_SIZE,
   ADDRESS_CHECKSUM_BYTE_SIZE,
-  ADDRESS_MIN_CHECKSUM_BYTE_SIZE,
-  HASH_BYTE_SIZE
+  ADDRESS_BYTE_SIZE_PADDING,
+  ADDRESS_MIN_CHECKSUM_BYTE_SIZE
 } from "../../constants";
 
 export const errors = {
@@ -23,10 +23,9 @@ export const errors = {
   INVALID_CHECKSUM_LENGTH: "Invalid checksum length"
 };
 
-const HASH_HBYTES_LENGTH = HASH_BYTE_SIZE;
 const ADDRESS_CHECKSUM_HBYTES_LENGTH = ADDRESS_CHECKSUM_BYTE_SIZE;
 const ADDRESS_WITH_CHECKSUM_HBYTES_LENGTH =
-  HASH_HBYTES_LENGTH + ADDRESS_CHECKSUM_HBYTES_LENGTH;
+  ADDRESS_BYTE_SIZE + ADDRESS_CHECKSUM_HBYTES_LENGTH;
 const MIN_CHECKSUM_HBYTES_LENGTH = ADDRESS_MIN_CHECKSUM_BYTE_SIZE;
 
 /**
@@ -63,7 +62,7 @@ export function addChecksum(
         throw new Error(errors.INVALID_HBYTES);
       }
 
-      if (isAddress && inputHBytes.length !== HASH_HBYTES_LENGTH) {
+      if (isAddress && inputHBytes.length !== ADDRESS_BYTE_SIZE) {
         if (inputHBytes.length === ADDRESS_WITH_CHECKSUM_HBYTES_LENGTH) {
           return inputHBytes;
         }
@@ -82,7 +81,7 @@ export function addChecksum(
 
       let paddedInputHBytes = inputHBytes;
 
-      while (paddedInputHBytes.length % HASH_HBYTES_LENGTH !== 0) {
+      while (paddedInputHBytes.length % ADDRESS_BYTE_SIZE_PADDING !== 0) {
         paddedInputHBytes += "0";
       }
       const hHash = new HHash(HHash.HASH_ALGORITHM_1);

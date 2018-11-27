@@ -2,10 +2,12 @@ import {
   ADDRESS_CHECKSUM_BYTE_SIZE,
   HASH_BYTE_SIZE,
   MAX_INDEX_DIFF,
-  TAG_BYTE_SIZE
+  TAG_BYTE_SIZE,
+  ADDRESS_BYTE_SIZE
 } from "./constants";
 import * as errors from "./errors";
 import { Address, Hash, Tag, Transfer, HBytes } from "./types";
+import { ADDRCONFIG } from "dns";
 
 // Required for markdown generation with JSDoc
 /**
@@ -64,6 +66,20 @@ export const isHBytesOfMaxLength = (hbytes: string, length: number) =>
 export const isEmpty = (hbytes: any): hbytes is HBytes =>
   typeof hbytes === "string" && /^[00]+$/.test(hbytes);
 
+/**
+ * Checks if input contains `9`s only.
+ * @method isEmptyBytes
+ *
+ * @param {Uint8Array} bytes
+ *
+ * @return {boolean}
+ */
+export const isEmptyBytes = (bytes: Uint8Array) => {
+  let isValid = true;
+  bytes.forEach(val => (isValid = isValid && val == 0));
+  return isValid;
+};
+
 export const isNinesHBytes = isEmpty;
 
 /**
@@ -77,7 +93,19 @@ export const isNinesHBytes = isEmpty;
  */
 export const isHash = (hash: any): hash is Hash =>
   isHBytesOfExactLength(hash, HASH_BYTE_SIZE) ||
-  isHBytesOfExactLength(hash, HASH_BYTE_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE); // address w/ checksum is valid hash
+  isHBytesOfExactLength(hash, HASH_BYTE_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE);
+/**
+ * Checks if input is correct address or address with checksum (90 hbytes)
+ *
+ * @method isAddress
+ *
+ * @param {string} hash
+ *
+ * @return {boolean}
+ */
+export const isAddress = (hash: any): hash is Hash =>
+  isHBytesOfExactLength(hash, ADDRESS_BYTE_SIZE) ||
+  isHBytesOfExactLength(hash, ADDRESS_BYTE_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE); // address w/ checksum is valid hash
 
 /* Check if security level is positive integer */
 export const isSecurityLevel = (security: any): security is number =>
@@ -93,13 +121,17 @@ export const isSecurityLevel = (security: any): security is number =>
  *
  * @return {boolean}
  */
-export const isInput = (input: any): input is Address =>
-  isHash(input.address) &&
-  (typeof input.security === "undefined" || isSecurityLevel(input.security)) &&
-  (typeof input.balance === "undefined" ||
-    (Number.isInteger(input.balance) && input.balance > 0)) &&
-  Number.isInteger(input.keyIndex) &&
-  input.keyIndex >= 0;
+export const isInput = (input: any): input is Address => {
+  return (
+    isAddress(input.address) &&
+    (typeof input.security === "undefined" ||
+      isSecurityLevel(input.security)) &&
+    (typeof input.balance === "undefined" ||
+      (Number.isInteger(input.balance) && input.balance > 0)) &&
+    Number.isInteger(input.keyIndex) &&
+    input.keyIndex >= 0
+  );
+};
 
 /**
  * Checks that input is valid tag hbytes.
@@ -123,7 +155,7 @@ export const isTag = (tag: any): tag is Tag =>
  * @return {boolean}
  */
 export const isTransfer = (transfer: Transfer): transfer is Transfer =>
-  isHash(transfer.address) &&
+  isAddress(transfer.address) &&
   Number.isInteger(transfer.value) &&
   transfer.value >= 0 &&
   (!transfer.message || isHBytes(transfer.message, "0,")) &&
@@ -271,8 +303,14 @@ export const inputValidator: Validator<Address> = input => [
 
 export const remainderAddressValidator: Validator<string> = input => [
   input,
-  isHash,
+  isAddress,
   errors.INVALID_REMAINDER_ADDRESS
+];
+
+export const addressValidator: Validator<string> = input => [
+  input,
+  isAddress,
+  errors.INVALID_ADDRESS
 ];
 
 export const tagValidator: Validator<string> = tag => [

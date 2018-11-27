@@ -8,6 +8,7 @@ import {
   SIGNATURE_PUBLIC_KEY_BYTE_SIZE,
   SIGNATURE_S_BYTE_SIZE
 } from "../../constants";
+import { isEmptyBytes } from "../../guards";
 
 const elliptic = require("bcrypto/vendor/elliptic");
 const BN = require("bcrypto/lib/bn.js");
@@ -44,10 +45,16 @@ export default class Schnorr {
     const hashBytes: Int8Array = new Int8Array(hHash.getHashLength());
     hHash.squeeze(hashBytes, 0, hHash.getHashLength());
     let privateKey: any = new BN(hashBytes);
-    while (!Schnorr.validateBN(privateKey)) {
+    let buffer;
+    while (
+      !Schnorr.validateBN(privateKey) &&
+      privateKey.toArrayLike(Buffer, "be").length !=
+        SIGNATURE_SECRETE_KEY_BYTE_SIZE
+    ) {
       hHash.squeeze(hashBytes, 0, hHash.getHashLength());
       privateKey = new BN(hashBytes);
     }
+
     return privateKey.toArrayLike(Buffer, "be");
   }
 
@@ -60,21 +67,45 @@ export default class Schnorr {
   }
 
   public static computePublicKey(privateKey: Uint8Array) {
-    return secp256k1.publicKeyCreate(privateKey, true);
+    if (
+      privateKey == null ||
+      privateKey.length != SIGNATURE_SECRETE_KEY_BYTE_SIZE
+    ) {
+      throw new Error(errors.ILLEGAL_SECRET_KEY_LENGTH_SCH);
+    }
+    const buffer = Buffer.alloc(privateKey.length);
+    for (let i = 0; i < privateKey.length; i++) {
+      buffer[i] = privateKey[i];
+    }
+    return secp256k1.publicKeyCreate(buffer, true);
   }
 
   public static aggregatePublicKey(publicKeys: Array<Uint8Array>) {
     return Schn.combineKeys(publicKeys);
   }
 
-  public static aggregateSignature(publicKeys: Array<HSign>) {
-    let signature = Schn.combineSigs(publicKeys.map(k => k.getSignature()));
+  public static aggregatePubicNonces(nonces: Array<Uint8Array>) {
+    const agg = Schn.combineKeys(nonces);
+    if (Schnorr.curve.decodePoint(agg).y.odd) {
+      return null;
+    }
+    console.log(
+      "------ Aggregated public nonce.x ---------- " +
+        Schnorr.curve.decodePoint(agg).x
+    );
+    return agg;
+  }
+
+  public static aggregateSignature(signs: Array<HSign>) {
+    let signature = Schn.combineSigs(signs.map(k => k.getSignature()));
     let r = new BN(signature.r).toArrayLike(Buffer, "be");
     let s = new BN(signature.s).toArrayLike(Buffer, "be");
     return new HSign(r, s);
   }
 
   public static sign(message: string, secreteKey: Uint8Array): HSign {
+    console.log("SchnorrSign: message:" + message);
+    console.log("secreteKey");
     let msg;
     if (typeof message === "string") {
       msg = Buffer.from(message);
@@ -90,6 +121,9 @@ export default class Schnorr {
     if (s.length != SIGNATURE_S_BYTE_SIZE) {
       throw new Error(errors.ILLEGAL_S_IN_SIGNATURE + " " + s.length);
     }
+    console.log(
+      "-----------------------------------------sign - message: " + message
+    );
     return new HSign(r, s);
   }
 
@@ -121,12 +155,20 @@ export default class Schnorr {
     signature: HSign,
     pubKey: Uint8Array
   ): boolean {
+    console.log("signature: " + signature.getSignatureArray());
     if (!Schnorr.isValidSiganture(signature)) {
-      throw new Error(errors.ILLEGAL_SIGNATURE_CONTENT);
+      //throw new Error(errors.ILLEGAL_SIGNATURE_CONTENT);
+      console.warn(errors.ILLEGAL_SIGNATURE_CONTENT);
+      return false;
     }
     if (!Schnorr.isValidPoint(pubKey)) {
-      throw new Error(errors.ILLEGAL_PUBLIC_KEY_CONTENT);
+      //throw new Error(errors.ILLEGAL_PUBLIC_KEY_CONTENT);
+      console.warn(errors.ILLEGAL_PUBLIC_KEY_CONTENT);
+      return false;
     }
+    console.log(
+      "-----------------------------------------verify - message: " + message
+    );
     if (typeof message === "string") {
       return Schn.verify(
         Buffer.from(message),
@@ -138,10 +180,14 @@ export default class Schnorr {
   }
 
   private static isValidSiganture(signature: HSign): boolean {
-    let isValid: boolean = true; // Schnorr.validateBN(new BN( signature.s));
-    isValid =
-      isValid && Schnorr.curve.pointFromX(new BN(signature.r), false) != null;
-    return isValid;
+    if (isEmptyBytes(signature.r) || isEmptyBytes(signature.s)) {
+      return false;
+    }
+    try {
+      return Schnorr.curve.pointFromX(new BN(signature.r), false) != null;
+    } catch {
+      return false;
+    }
   }
 
   public static generateNoncePair(

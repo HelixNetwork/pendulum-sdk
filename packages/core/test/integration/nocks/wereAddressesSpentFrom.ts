@@ -30,7 +30,7 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
     addresses: [
-      "464a48535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356"
+      "0258f8e961479d7867155450a5720e3c982ace5d0ce7c4feb3bd606afaa79d6e92"
     ]
   })
   .reply(200, {
@@ -42,7 +42,7 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
     addresses: [
-      "343448535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356"
+      "03d044566789d180990214ffd70afc60453aee9bf844d4d779974bea4bfa55ade4"
     ]
   })
   .reply(200, {
@@ -66,7 +66,7 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
     addresses: [
-      "343448535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356",
+      "03d044566789d180990214ffd70afc60453aee9bf844d4d779974bea4bfa55ade4",
       "abcd48535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356"
     ]
   })

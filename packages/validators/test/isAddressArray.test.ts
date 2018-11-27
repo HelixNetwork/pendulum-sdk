@@ -3,18 +3,22 @@ import { isAddressArray } from "../src";
 
 test("isAddressArray()", t => {
   const addresses = [
-    "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee"
+    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db"
   ];
   const addressesWithChecksum = [
-    "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523eed101b796"
+    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db9bfb3cdc"
   ];
-  const addressesOfInvalidLength = ["abc12334452344523ee"];
-  const addressesOfInvalidTrytes = ["SDFSDAFdasfaSDF"];
+  const addressesOfInvalidLength = [
+    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db9bfb3cdc123"
+  ];
+  const addressesOfInvalidHBytes = [
+    "03f549072c534a49fTB5cd9229eab76748478158ee7097c6a8dcdd3a84000596db"
+  ];
   const addressesOfInvalidSecurity = [
-    "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee21456398"
+    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db123123123"
   ];
   const addressesOfInvalidIndex = [
-    "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee21456398"
+    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db1234443221"
   ];
 
   t.is(
@@ -36,7 +40,7 @@ test("isAddressArray()", t => {
   );
 
   t.is(
-    isAddressArray(addressesOfInvalidTrytes),
+    isAddressArray(addressesOfInvalidHBytes),
     false,
     "isAddressArray() should return false for addresses of invalid hBytes."
   );
