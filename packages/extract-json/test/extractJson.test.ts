@@ -182,12 +182,12 @@ test("extractJson() parses numbers", t => {
         .map(tx => ({
           ...tx,
           signatureMessageFragment:
-            "313233303031" +
+            "313233303030" +
             "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 12)
         }))
         .slice(0, 1)
     ),
-    123001,
+    123000,
     "extractJson() should parse exponential"
   );
 });
