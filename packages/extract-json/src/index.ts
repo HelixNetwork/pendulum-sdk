@@ -78,10 +78,11 @@ export const extractJson = (bundle: Transaction[]): string | number | null => {
     return "null";
   } else if (numericHBytesRegex.test(bundle[0].signatureMessageFragment)) {
     // Parse numbers, source: https://github.com/iotaledger/iota.lib.js/issues/231#issuecomment-402383449
-    // todo recheck regex it's not like in IOTA, that one didn't work after conversion: /^(.*)00/
-    const num = bundle[0].signatureMessageFragment.match(/^(.*?)(0{2})+/);
+    const num = bundle[0].signatureMessageFragment.match(
+      /^([0-9a-f][0-9a-f])*?(0{2})/
+    );
     if (num) {
-      return parseFloat(hbytesToAscii(num[1]));
+      return parseFloat(hbytesToAscii(num[0]));
     }
     throw new Error(errors.INVALID_JSON);
   } else {
