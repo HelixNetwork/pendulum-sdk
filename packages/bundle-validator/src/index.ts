@@ -43,16 +43,17 @@ export const validateBundleSignatures = (bundle: Bundle): boolean => {
               ...acc,
               [address]: [signatureMessageFragment]
             }
-          : value === 0 &&
-            acc.hasOwnProperty(address) &&
-            address === bundle[i - 1].address
-            ? {
-                ...acc,
-                [address]: acc[address].concat(signatureMessageFragment)
-              }
-            : acc,
+          : // : value === 0 &&
+            //   acc.hasOwnProperty(address) &&
+            //   address === bundle[i - 1].address
+            //   ? {
+            //       ...acc,
+            //       [address]: acc[address].concat(signatureMessageFragment)
+            //     }
+            acc,
       {}
     );
+  console.log("validateBundleSignatures: " + signatures);
   return Object.keys(signatures).every(address => {
     return validateSignatures(address, signatures[address], bundle[0].bundle);
   });

@@ -30,8 +30,5 @@ export const generateAddress = (
   const keyHBytes = key(subseed(hbits(seed), index), security);
   const digestsHBytes = digests(keyHBytes);
   const addressHBytes = hex(digestsHBytes); // hbytes(address(digestsHBits));
-  // console.log("generatedAddress: " + addressHBytes);
-  // console.log("generatedAddressWithChecksum: " + addChecksum(addressHBytes));
-  // console.log("generateNewAddress: ------------- end ---------------");
   return checksum ? addChecksum(addressHBytes) : addressHBytes;
 };

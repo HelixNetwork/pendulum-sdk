@@ -20,8 +20,6 @@ import {
   HASH_BYTE_SIZE,
   SIGNATURE_FRAGMENT_NO,
   //SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS,
-  SIGNATURE_R_BYTE_SIZE,
-  SIGNATURE_PUBLIC_KEY_BYTE_SIZE,
   SIGNATURE_SECRETE_KEY_BYTE_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE
 } from "../../constants";
@@ -137,7 +135,6 @@ export function digests(key: Uint8Array): Uint8Array {
         j * SIGNATURE_SECRETE_KEY_BYTE_SIZE,
         (j + 1) * SIGNATURE_SECRETE_KEY_BYTE_SIZE
       );
-      //  console.log('secreteKey' + secreteKey);
       publicKeys[i * SIGNATURE_FRAGMENT_NO + j] = Schnorr.computePublicKey(
         secreteKey
       );
@@ -158,6 +155,8 @@ export function computePublicNonces(
   const publicNonces: Array<Uint8Array> = new Array<Uint8Array>(
     SIGNATURE_FRAGMENT_NO * securityLevel
   );
+  const msg = hex(normalizedBundle);
+
   const nonces = Array<Uint8Array>(SIGNATURE_FRAGMENT_NO - 1);
   for (let k = 0, i = 0; i < securityLevel; i++) {
     for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
@@ -166,7 +165,7 @@ export function computePublicNonces(
         (i * SIGNATURE_FRAGMENT_NO + j + 1) * SIGNATURE_SECRETE_KEY_BYTE_SIZE
       );
       let noncePair = Schnorr.generateNoncePair(
-        normalizedBundle,
+        msg,
         secreteKey,
         hex(secreteKey.slice(0, 16))
       );
@@ -174,11 +173,6 @@ export function computePublicNonces(
       nonces[k++] = noncePair.buff;
     }
   }
-  console.log(
-    "*****************aggregated nonces:" +
-      hex(Schnorr.aggregatePubicNonces(nonces))
-  );
-
   return publicNonces;
 }
 
@@ -240,14 +234,12 @@ export function signatureFragment(
 
   const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
-  const signatures: Array<HSign> = new Array<HSign>(SIGNATURE_FRAGMENT_NO);
-  const privateNonces: Array<Uint8Array> = new Array<Uint8Array>(
-    SIGNATURE_FRAGMENT_NO
-  );
-
   const securityLevel = Math.floor(
     keyFragment.length /
       (SIGNATURE_SECRETE_KEY_BYTE_SIZE * SIGNATURE_FRAGMENT_NO)
+  );
+  const signatures: Array<HSign> = new Array<HSign>(
+    securityLevel * SIGNATURE_FRAGMENT_NO
   );
 
   // calculate partial signature for each fragment
@@ -258,7 +250,9 @@ export function signatureFragment(
         (secLev * SIGNATURE_FRAGMENT_NO + j + 1) *
           SIGNATURE_SECRETE_KEY_BYTE_SIZE
       );
-      const nonces = Array<Uint8Array>(SIGNATURE_FRAGMENT_NO - 1);
+      const nonces = Array<Uint8Array>(
+        SIGNATURE_FRAGMENT_NO * securityLevel - 1
+      );
       // compute nonces for the other fragments
       for (let i = 0, k = 0; i < SIGNATURE_FRAGMENT_NO * securityLevel; i++) {
         if (secLev * SIGNATURE_FRAGMENT_NO + j == i) {
@@ -272,24 +266,16 @@ export function signatureFragment(
         hex(secreteKey.slice(0, 16))
       );
 
-      signatures[j] = Schnorr.partialSign(
+      signatures[secLev * SIGNATURE_FRAGMENT_NO + j] = Schnorr.partialSign(
         hex(normalizedBundleFragment),
         secreteKey,
         noncePair.k,
-        Schnorr.aggregatePublicKey(nonces)
+        Schnorr.aggregatePublicNonces(nonces)
       );
     }
   }
 
   const aggregatedSignature: HSign = Schnorr.aggregateSignature(signatures);
-  //console.log('aggregatedSignature.getSignatureArray(): ' + hex(aggregatedSignature.getSignatureArray()));
-  const digestKey = digests(keyFragment);
-  const pubKey: Uint8Array = new Uint8Array(35).map(
-    (val, i, arr) => (arr[i] = digestKey[i])
-  );
-  // console.log('publicKey: ');
-  // console.log(hex(pubKey));
-
   return aggregatedSignature.getSignatureArray();
 }
 
@@ -310,21 +296,18 @@ export function validateSignatures(
   if (!bundleHash) {
     throw new Error(errors.INVALID_BUNDLE_HASH);
   }
-  const normalizedBundle = toHBytes(bundleHash); //normalizedBundleHash(bundleHash);
+  const normalizedBundle: string = hex(normalizedBundleHash(bundleHash));
 
   const publicKey = toHBytes(expectedAddress);
 
   // validate schnorr signature:
   let isValid: boolean = true;
   signatureFragments.forEach(value => {
-    console.log("signatureFragments: " + value);
     const signature: HSign = HSign.generateSignatureFromArray(
       toHBytes(value.slice(0, SIGNATURE_TOTAL_BYTE_SIZE * 2))
     );
-    isValid =
-      isValid && Schnorr.verify(hex(normalizedBundle), signature, publicKey);
+    isValid = isValid && Schnorr.verify(normalizedBundle, signature, publicKey);
   });
-
   return isValid; //expectedAddress === hbytes(address(digests));
 }
 
@@ -368,6 +351,5 @@ export const normalizedBundleHash = (bundleHash: Hash): Int8Array => {
       }
     }
   }
-
   return normalizedBundle;
 };

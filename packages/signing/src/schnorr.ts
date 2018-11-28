@@ -71,7 +71,7 @@ export default class Schnorr {
       privateKey == null ||
       privateKey.length != SIGNATURE_SECRETE_KEY_BYTE_SIZE
     ) {
-      throw new Error(errors.ILLEGAL_SECRET_KEY_LENGTH_SCH);
+      throw new Error(errors.ILLEGAL_SECRET_KEY_LENGTH_SCH + privateKey.length);
     }
     const buffer = Buffer.alloc(privateKey.length);
     for (let i = 0; i < privateKey.length; i++) {
@@ -84,15 +84,11 @@ export default class Schnorr {
     return Schn.combineKeys(publicKeys);
   }
 
-  public static aggregatePubicNonces(nonces: Array<Uint8Array>) {
+  public static aggregatePublicNonces(nonces: Array<Uint8Array>) {
     const agg = Schn.combineKeys(nonces);
     if (Schnorr.curve.decodePoint(agg).y.odd) {
       return null;
     }
-    console.log(
-      "------ Aggregated public nonce.x ---------- " +
-        Schnorr.curve.decodePoint(agg).x
-    );
     return agg;
   }
 
@@ -104,8 +100,6 @@ export default class Schnorr {
   }
 
   public static sign(message: string, secreteKey: Uint8Array): HSign {
-    console.log("SchnorrSign: message:" + message);
-    console.log("secreteKey");
     let msg;
     if (typeof message === "string") {
       msg = Buffer.from(message);
@@ -121,9 +115,6 @@ export default class Schnorr {
     if (s.length != SIGNATURE_S_BYTE_SIZE) {
       throw new Error(errors.ILLEGAL_S_IN_SIGNATURE + " " + s.length);
     }
-    console.log(
-      "-----------------------------------------sign - message: " + message
-    );
     return new HSign(r, s);
   }
 
@@ -147,6 +138,7 @@ export default class Schnorr {
     );
     let r = new BN(signature.r).toArrayLike(Buffer, "be");
     let s = new BN(signature.s).toArrayLike(Buffer, "be");
+
     return new HSign(r, s);
   }
 
@@ -155,28 +147,26 @@ export default class Schnorr {
     signature: HSign,
     pubKey: Uint8Array
   ): boolean {
-    console.log("signature: " + signature.getSignatureArray());
-    if (!Schnorr.isValidSiganture(signature)) {
-      //throw new Error(errors.ILLEGAL_SIGNATURE_CONTENT);
-      console.warn(errors.ILLEGAL_SIGNATURE_CONTENT);
+    try {
+      if (!Schnorr.isValidSiganture(signature)) {
+        console.warn(errors.ILLEGAL_SIGNATURE_CONTENT);
+        return false;
+      }
+      if (!Schnorr.isValidPoint(pubKey)) {
+        console.warn(errors.ILLEGAL_PUBLIC_KEY_CONTENT);
+        return false;
+      }
+      if (typeof message === "string") {
+        return Schn.verify(
+          Buffer.from(message),
+          signature.getSignature(),
+          pubKey
+        );
+      }
+      return Schn.verify(message, signature.getSignature(), pubKey);
+    } catch {
       return false;
     }
-    if (!Schnorr.isValidPoint(pubKey)) {
-      //throw new Error(errors.ILLEGAL_PUBLIC_KEY_CONTENT);
-      console.warn(errors.ILLEGAL_PUBLIC_KEY_CONTENT);
-      return false;
-    }
-    console.log(
-      "-----------------------------------------verify - message: " + message
-    );
-    if (typeof message === "string") {
-      return Schn.verify(
-        Buffer.from(message),
-        signature.getSignature(),
-        pubKey
-      );
-    }
-    return Schn.verify(message, signature.getSignature(), pubKey);
   }
 
   private static isValidSiganture(signature: HSign): boolean {
@@ -220,9 +210,8 @@ export default class Schnorr {
       if (k.gte(Schnorr.curve.n)) continue;
       break;
     }
-
     return {
-      k: k,
+      k: k.toArrayLike(Buffer, "be"),
       buff: Buffer.from(Schnorr.curve.g.mul(k).encode("array", true))
     };
   }

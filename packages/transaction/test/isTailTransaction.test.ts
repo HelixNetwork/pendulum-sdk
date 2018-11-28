@@ -1,7 +1,6 @@
 import test from "ava";
 import { bundle } from "@helix/samples";
 import { isTailTransaction } from "../src";
-// todo check tests
 test("isTailTransaction() returns true for valid tail transaction.", t => {
   t.is(
     isTailTransaction(bundle[0]),

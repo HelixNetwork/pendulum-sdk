@@ -302,7 +302,7 @@ export const createAddInputs = (provider?: Provider) => {
       transactions: res.reduce(
         (acc, input) =>
           addEntry(acc, {
-            length: input.security,
+            length: 1, //input.security, one entry even if security level is higher than 1
             address: removeChecksum(input.address),
             value: -input.balance,
             timestamp: timestamp || Math.floor(Date.now() / 1000)
@@ -419,6 +419,10 @@ export const addSignatures = (
           subseed(hbits(seed), keyIndex),
           security || SECURITY_LEVEL
         );
+        console.log(
+          "seed: " + seed + " keyIndex: " + keyIndex + " security: " + security
+        );
+        console.log("msg: " + hex(normalizedBundle));
         const publicNonces = computePublicNonces(keyHBytes, normalizedBundle);
         return Array(1) //security
           .fill(null)
