@@ -1,4 +1,3 @@
-import test from "ava";
 import {
   bundleWithEmptyJSON,
   bundleWithInvalidJSON,
@@ -7,8 +6,9 @@ import {
   parsedJSON,
   parsedJSONOfMultipleMessageFragments
 } from "@helix/samples";
-import { extractJson, errors } from "../src";
+import test from "ava";
 import { SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE } from "../../constants";
+import { errors, extractJson } from "../src";
 
 test("extractJson() parses JSON object.", t => {
   t.is(
@@ -176,20 +176,20 @@ test("extractJson() parses numbers", t => {
     "extractJson() should parse negative floats"
   );
   // todo recheck regex for this
-  // t.is(
-  //   extractJson(
-  //     bundleWithEmptyJSON
-  //       .map(tx => ({
-  //         ...tx,
-  //         signatureMessageFragment:
-  //           "313233303030" +
-  //           "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 12)
-  //       }))
-  //       .slice(0, 1)
-  //   ),
-  //   123000,
-  //   "extractJson() should parse exponential"
-  // );
+  t.is(
+    extractJson(
+      bundleWithEmptyJSON
+        .map(tx => ({
+          ...tx,
+          signatureMessageFragment:
+            "313233303031" +
+            "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 12)
+        }))
+        .slice(0, 1)
+    ),
+    123001,
+    "extractJson() should parse exponential"
+  );
 });
 
 test("extractJson() throws error for invalid bundle.", t => {
