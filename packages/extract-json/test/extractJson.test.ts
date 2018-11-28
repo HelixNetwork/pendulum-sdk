@@ -175,7 +175,6 @@ test("extractJson() parses numbers", t => {
     -3.14,
     "extractJson() should parse negative floats"
   );
-  // todo recheck regex for this
   t.is(
     extractJson(
       bundleWithEmptyJSON
