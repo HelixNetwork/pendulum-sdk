@@ -276,6 +276,8 @@ export function signatureFragment(
   }
 
   const aggregatedSignature: HSign = Schnorr.aggregateSignature(signatures);
+  //console.log('signing - signatureFragment: ' + hex(aggregatedSignature.getSignatureArray()) );
+  //console.log('normalizeBundleFragment: ' + hex(normalizedBundleFragment));
   return aggregatedSignature.getSignatureArray();
 }
 
@@ -308,6 +310,7 @@ export function validateSignatures(
     );
     isValid = isValid && Schnorr.verify(normalizedBundle, signature, publicKey);
   });
+  //console.log('verify sign normalizedBundle ' + normalizedBundle);
   return isValid; //expectedAddress === hbytes(address(digests));
 }
 
