@@ -1,8 +1,8 @@
 import * as nock from "nock";
 import {
-  ProtocolCommand,
   FindTransactionsCommand,
-  FindTransactionsResponse
+  FindTransactionsResponse,
+  ProtocolCommand
 } from "../../../../types";
 import headers from "./headers";
 

@@ -1,10 +1,10 @@
+import { bundle } from "@helix/samples";
 import * as nock from "nock";
 import {
-  ProtocolCommand,
   GetTransactionsToApproveCommand,
-  GetTransactionsToApproveResponse
+  GetTransactionsToApproveResponse,
+  ProtocolCommand
 } from "../../../../types";
-import { bundle } from "@helix/samples";
 import headers from "./headers";
 
 export const depth = 3;

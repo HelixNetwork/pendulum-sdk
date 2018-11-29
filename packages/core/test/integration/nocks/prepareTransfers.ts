@@ -1,8 +1,8 @@
 import * as nock from "nock";
 import {
-  ProtocolCommand,
   GetBalancesCommand,
-  GetBalancesResponse
+  GetBalancesResponse,
+  ProtocolCommand
 } from "../../../../types";
 import headers from "./headers";
 

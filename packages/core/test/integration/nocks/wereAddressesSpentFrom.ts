@@ -1,9 +1,9 @@
 import * as nock from "nock";
+import { ProtocolCommand } from "../../../../types";
 import {
   WereAddressesSpentFromCommand,
   WereAddressesSpentFromResponse
 } from "../../../src/createWereAddressesSpentFrom";
-import { ProtocolCommand } from "../../../../types";
 import headers from "./headers";
 
 import { addresses } from "@helix/samples";
