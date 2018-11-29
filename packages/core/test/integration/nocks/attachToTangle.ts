@@ -1,10 +1,10 @@
+import { bundle, bundleHBytes } from "@helix/samples";
 import * as nock from "nock";
 import {
-  ProtocolCommand,
   AttachToTangleCommand,
-  AttachToTangleResponse
+  AttachToTangleResponse,
+  ProtocolCommand
 } from "../../../../types";
-import { bundle, bundleHBytes } from "@helix/samples";
 import headers from "./headers";
 
 export const attachToTangleCommand: AttachToTangleCommand = {

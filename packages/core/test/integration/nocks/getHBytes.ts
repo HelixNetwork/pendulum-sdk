@@ -1,15 +1,15 @@
-import * as nock from "nock";
-import {
-  ProtocolCommand,
-  GetHBytesCommand,
-  GetHBytesResponse
-} from "../../../../types";
 import {
   bundle,
   bundleHBytes,
   bundleWithZeroValue,
   bundleWithZeroValueHBytes
 } from "@helix/samples";
+import * as nock from "nock";
+import {
+  GetHBytesCommand,
+  GetHBytesResponse,
+  ProtocolCommand
+} from "../../../../types";
 import headers from "./headers";
 
 export const getHBytesCommand: GetHBytesCommand = {

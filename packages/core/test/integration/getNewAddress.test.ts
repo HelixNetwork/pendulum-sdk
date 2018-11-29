@@ -1,5 +1,5 @@
-import test from "ava";
 import { createHttpClient } from "@helix/http-client";
+import test from "ava";
 import { INVALID_SEED, INVALID_TOTAL_OPTION } from "../../../errors";
 import {
   applyChecksumOption,
@@ -26,10 +26,10 @@ const isAddressUsed = createIsAddressUsed(client);
 // test('getNewAddress() resolves to correct new address', async t => {
 //     t.is(await getNewAddress(seed, { index: 0 }), newAddress, 'getNewAddress() should resolve to correct new address')
 // })
-// todo_this : check test
+// todo: check test
 test("getNewAddress() with total option resolves to correct addresses", async t => {
   t.deepEqual(
-    addresses.slice(0, 2), //await getNewAddress(seed, { index: 0, total: 2 }),
+    addresses.slice(0, 2), // await getNewAddress(seed, { index: 0, total: 2 }),
     addresses.slice(0, 2),
     "getNewAddress() with `total` option resolves to correct addresses"
   );

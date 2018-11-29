@@ -1,5 +1,5 @@
-import test from "ava";
 import { createHttpClient } from "@helix/http-client";
+import test from "ava";
 import {
   INVALID_SECURITY_LEVEL,
   INVALID_SEED,
@@ -8,9 +8,9 @@ import {
 } from "../../../errors";
 import { createGetTransfers } from "../../src/createGetTransfers";
 import "./nocks/findTransactions";
+import "./nocks/getHBytes";
 import "./nocks/getInclusionStates";
 import "./nocks/getNodeInfo";
-import "./nocks/getHBytes";
 import "./nocks/wereAddressesSpentFrom";
 
 import { transfers } from "@helix/samples";
@@ -20,7 +20,7 @@ const seed = "abcd";
 // todo_this : check test
 test("getTransfers() resolves to correct account data", async t => {
   t.deepEqual(
-    transfers, //await getTransfers(seed, { start: 0, inclusionStates: true }),
+    transfers, // await getTransfers(seed, { start: 0, inclusionStates: true }),
     transfers,
     "getTransfers() should resolve to correct account data"
   );
@@ -68,13 +68,13 @@ test("getTransfers() rejects with correct errors for invalid inputs", t => {
 test.cb("getTransfers() passes correct arguments to callback", t => {
   getTransfers(seed, { start: 0, inclusionStates: true }, (err, res) => {
     t.is(
-      null, //err,
+      null, // err,
       null,
       "getTransfers() should pass null as first argument in callback for successuful requests"
     );
 
     t.deepEqual(
-      transfers, //res,
+      transfers, // res,
       transfers,
       "getTransfers() should pass the correct response as second argument in callback"
     );

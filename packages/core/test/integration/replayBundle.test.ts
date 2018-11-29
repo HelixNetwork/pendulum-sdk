@@ -1,12 +1,12 @@
-import test from "ava";
 import { createHttpClient } from "@helix/http-client";
 import { bundle, bundleWithZeroValue } from "@helix/samples";
+import test from "ava";
 import { INVALID_TRANSACTION_HASH } from "../../../errors";
 import { createReplayBundle } from "../../src";
 import { attachToTangleCommand } from "./nocks/attachToTangle";
-import { getTransactionsToApproveCommand } from "./nocks/getTransactionsToApprove";
 import "./nocks/broadcastTransactions";
 import "./nocks/getHBytes";
+import { getTransactionsToApproveCommand } from "./nocks/getTransactionsToApprove";
 import "./nocks/storeTransactions";
 
 const replayBundle = createReplayBundle(createHttpClient());
@@ -16,7 +16,7 @@ const { depth } = getTransactionsToApproveCommand;
 // todo_this : check test
 test("replayBundle() replays the bundle and resolves to correct transaction objects.", async t => {
   t.deepEqual(
-    bundle, //await replayBundle(tail, depth, minWeightMagnitude),
+    bundle, // await replayBundle(tail, depth, minWeightMagnitude),
     bundle,
     "replayBundle() should replay the bundle should resolve to correct bundle."
   );

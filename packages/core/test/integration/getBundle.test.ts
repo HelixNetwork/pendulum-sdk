@@ -1,8 +1,8 @@
-import test from "ava";
 import { createHttpClient } from "@helix/http-client";
+import { bundle, bundleWithZeroValue } from "@helix/samples";
+import test from "ava";
 import { INVALID_TRANSACTION_HASH } from "../../../errors";
 import { createGetBundle } from "../../src";
-import { bundle, bundleWithZeroValue } from "@helix/samples";
 import "./nocks/getHBytes";
 
 const getBundle = createGetBundle(createHttpClient());

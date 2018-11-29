@@ -1,9 +1,9 @@
-import test from "ava";
-import { createHttpClient } from "@helix/http-client";
 import { addChecksum } from "@helix/checksum";
-import { createPrepareTransfers } from "../../src";
-import { Transfer, HBytes } from "../../../types";
+import { createHttpClient } from "@helix/http-client";
 import { addresses, hbytes as expected } from "@helix/samples";
+import test from "ava";
+import { HBytes, Transfer } from "../../../types";
+import { createPrepareTransfers } from "../../src";
 
 import "./nocks/prepareTransfers";
 
@@ -111,7 +111,6 @@ test("prepareTransfer() prepares correct hbytes for zero value transfers", async
   );
 });
 
-// todo_this : check test
 test.cb("prepareTransfers() invokes callback", t => {
   prepareTransfers("abcd", transfers, { inputs, remainderAddress }, t.end);
 });

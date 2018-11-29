@@ -1,9 +1,9 @@
-import test from "ava";
 import { createHttpClient } from "@helix/http-client";
+import test from "ava";
+import { ADDRESS_CHECKSUM_BYTE_SIZE } from "../../../constants";
 import { INVALID_ADDRESS, INVALID_THRESHOLD } from "../../../errors";
 import { createGetBalances } from "../../src";
-import { getBalancesCommand, balancesResponse } from "./nocks/getBalances";
-import { ADDRESS_CHECKSUM_BYTE_SIZE } from "../../../constants";
+import { balancesResponse, getBalancesCommand } from "./nocks/getBalances";
 
 const getBalances = createGetBalances(createHttpClient());
 

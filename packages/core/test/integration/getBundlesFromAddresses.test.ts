@@ -1,17 +1,17 @@
-import test from "ava";
 import { createHttpClient } from "@helix/http-client";
 import { bundle, bundleWithZeroValue, transfers } from "@helix/samples";
+import test from "ava";
 import { INVALID_ADDRESS } from "../../../errors";
 import {
   createGetBundlesFromAddresses,
   getBundleSync,
   groupTransactionsIntoBundles
 } from "../../src/createGetBundlesFromAddresses";
-import { getBalancesCommand } from "./nocks/getBalances";
 import "./nocks/findTransactions";
+import { getBalancesCommand } from "./nocks/getBalances";
+import "./nocks/getHBytes";
 import "./nocks/getInclusionStates";
 import "./nocks/getNodeInfo";
-import "./nocks/getHBytes";
 
 const getBundlesFromAddresses = createGetBundlesFromAddresses(
   createHttpClient(),
@@ -26,7 +26,7 @@ const addresses = [
 // todo_this : check test
 test("getBundlesFromAddresses() resolves to correct transactions.", async t => {
   t.deepEqual(
-    transfers, //await getBundlesFromAddresses(addresses, true),
+    transfers, // await getBundlesFromAddresses(addresses, true),
     transfers,
     "getBundlesFromAddresses() should resolve to correct transactions."
   );

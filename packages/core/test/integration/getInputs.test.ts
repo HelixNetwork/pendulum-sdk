@@ -1,5 +1,5 @@
-import test from "ava";
 import { createHttpClient } from "@helix/http-client";
+import test from "ava";
 import {
   INSUFFICIENT_BALANCE,
   INVALID_SEED,
@@ -12,8 +12,8 @@ import {
   hasSufficientBalance,
   inputsToAddressOptions
 } from "../../src/createGetInputs";
-import { getBalancesCommand, balancesResponse } from "./nocks/getBalances";
 import "./nocks/findTransactions";
+import { balancesResponse, getBalancesCommand } from "./nocks/getBalances";
 import "./nocks/wereAddressesSpentFrom";
 
 const getInputs = createGetInputs(createHttpClient());
@@ -93,7 +93,7 @@ test("hasSufficientBalance() throws error for insufficient balance", t => {
 // todo_this : check test
 test("getInputs() resolves to correct inputs", async t => {
   t.deepEqual(
-    inputs, //await getInputs(seed, { start: 0, threshold: 100 }),
+    inputs, // await getInputs(seed, { start: 0, threshold: 100 }),
     inputs,
     "getInputs() should resolve to correct balances"
   );
@@ -122,7 +122,7 @@ test("getInputs() rejects with correct errors for invalid input", t => {
 test("getInputs() with threshold rejects with correct error if balance is insufficient", t => {
   return getInputs(seed, { start: 0, threshold: 110 }).catch((err: Error) =>
     t.is(
-      `${INSUFFICIENT_BALANCE}`, //err.message,
+      `${INSUFFICIENT_BALANCE}`, // err.message,
       `${INSUFFICIENT_BALANCE}`,
       "getInputs() with threshold should reject with correct error if balance is insufficient"
     )
@@ -132,13 +132,13 @@ test("getInputs() with threshold rejects with correct error if balance is insuff
 test.cb("getInputs() passes correct arguments to callback", t => {
   getInputs(seed, { start: 0, threshold: 100 }, (err, res) => {
     t.is(
-      null, //err,
+      null, // err,
       null,
       "getInputs() should pass null as first argument in callback for successuful requests"
     );
 
     t.deepEqual(
-      inputs, //res,
+      inputs, // res,
       inputs,
       "getInputs() should pass the correct response as second argument in callback"
     );
