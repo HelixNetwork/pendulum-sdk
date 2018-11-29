@@ -1,17 +1,17 @@
-import test from "ava";
 import { createHttpClient } from "@helix/http-client";
 import { bundle, bundleWithZeroValue, transfers } from "@helix/samples";
+import test from "ava";
 import { INVALID_ADDRESS } from "../../../errors";
 import {
   createGetBundlesFromAddresses,
   getBundleSync,
   groupTransactionsIntoBundles
 } from "../../src/createGetBundlesFromAddresses";
-import { getBalancesCommand } from "./nocks/getBalances";
 import "./nocks/findTransactions";
+import { getBalancesCommand } from "./nocks/getBalances";
+import "./nocks/getHBytes";
 import "./nocks/getInclusionStates";
 import "./nocks/getNodeInfo";
-import "./nocks/getHBytes";
 
 const getBundlesFromAddresses = createGetBundlesFromAddresses(
   createHttpClient(),
@@ -26,7 +26,7 @@ const addresses = [
 
 test("getBundlesFromAddresses() resolves to correct transactions.", async t => {
   t.deepEqual(
-    transfers, //await getBundlesFromAddresses(addresses, true),
+    transfers, // await getBundlesFromAddresses(addresses, true),
     transfers,
     "getBundlesFromAddresses() should resolve to correct transactions."
   );
@@ -42,7 +42,7 @@ test("getBundlesFromAddresses() rejects with correct errors for invalid addresse
     "getBundlesFromAddresses() should throw correct error for invalid addresses."
   );
 });
-//todo: check test
+// todo: check test
 // test.cb("getBundlesFromAddresses() invokes callback", t => {
 //   getBundlesFromAddresses(addresses, true, t.end);
 // });

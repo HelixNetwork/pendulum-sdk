@@ -1,11 +1,11 @@
-import test from "ava";
 import { createHttpClient } from "@helix/http-client";
 import { bundle } from "@helix/samples";
+import test from "ava";
 import { INVALID_TRANSACTION_HBYTES } from "../../../errors";
 import { createSendHBytes } from "../../src";
 import { attachToTangleCommand } from "./nocks/attachToTangle";
-import { getTransactionsToApproveCommand } from "./nocks/getTransactionsToApprove";
 import "./nocks/broadcastTransactions";
+import { getTransactionsToApproveCommand } from "./nocks/getTransactionsToApprove";
 import "./nocks/storeTransactions";
 
 const { minWeightMagnitude, hbytes } = attachToTangleCommand;
@@ -15,7 +15,7 @@ const sendHBytes = createSendHBytes(createHttpClient());
 
 test("sendHBytes() attaches to tangle, broadcasts, stores and resolves to transaction objects.", async t => {
   t.deepEqual(
-    bundle, //await sendHBytes(hbytes, depth, minWeightMagnitude),
+    bundle, // await sendHBytes(hbytes, depth, minWeightMagnitude),
     bundle,
     "sendHBytes() should attach to tangle, broadcast, store and resolve to transaction objects."
   );

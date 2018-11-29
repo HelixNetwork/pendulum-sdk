@@ -1,5 +1,5 @@
-import test from "ava";
 import { createHttpClient } from "@helix/http-client";
+import test from "ava";
 import { INVALID_TRANSACTION_HASH } from "../../../errors";
 import { createGetHBytes } from "../../src";
 import { getHBytesCommand, getHBytesResponse } from "./nocks/getHBytes";

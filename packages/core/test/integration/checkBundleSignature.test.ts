@@ -1,11 +1,11 @@
-import test from "ava";
-import { createHttpClient } from "@helix/http-client";
-import { addChecksum } from "@helix/checksum";
-import { asTransactionObjects } from "@helix/transaction-converter";
-import { createPrepareTransfers } from "../../src";
-import { Transfer, HBytes, Transaction } from "../../../types";
-import { addresses } from "@helix/samples";
 import { validateBundleSignatures } from "@helix/bundle-validator";
+import { addChecksum } from "@helix/checksum";
+import { createHttpClient } from "@helix/http-client";
+import { addresses } from "@helix/samples";
+import { asTransactionObjects } from "@helix/transaction-converter";
+import test from "ava";
+import { HBytes, Transaction, Transfer } from "../../../types";
+import { createPrepareTransfers } from "../../src";
 
 import "./nocks/prepareTransfers";
 
@@ -59,7 +59,7 @@ test("checkBundleSignature() prepares the correct array of hbytes offline.", asy
   );
   const transaction: Transaction[] = new Array<Transaction>(2);
 
-  let bundle: Transaction[] = asTransactionObjects(
+  const bundle: Transaction[] = asTransactionObjects(
     transaction.map(tx => tx.hash)
   )(hbytes);
   t.is(

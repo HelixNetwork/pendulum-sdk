@@ -1,10 +1,10 @@
-import test from "ava";
-import { createHttpClient } from "@helix/http-client";
 import { addChecksum } from "@helix/checksum";
-import { asTransactionObjects } from "@helix/transaction-converter";
-import { createPrepareTransfers } from "../../src";
-import { Transfer, HBytes } from "../../../types";
+import { createHttpClient } from "@helix/http-client";
 import { addresses, hbytes as expected } from "@helix/samples";
+import { asTransactionObjects } from "@helix/transaction-converter";
+import test from "ava";
+import { HBytes, Transfer } from "../../../types";
+import { createPrepareTransfers } from "../../src";
 
 import "./nocks/prepareTransfers";
 
@@ -61,7 +61,7 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
   now,
   "lib"
 );
-//todo: check test
+// todo: check test
 test("prepareTransfers() prepares the correct array of hbytes offline.", async t => {
   // const hbytes = await prepareTransfers("abcd", transfers, {
   //   inputs,
@@ -113,7 +113,7 @@ test("prepareTransfers() prepares the correct array of hbytes offline.", async t
 //   );
 // });
 
-//todo: check test
+// todo: check test
 // test.cb("prepareTransfers() invokes callback", t => {
 //   prepareTransfers("abcd", transfers, { inputs, remainderAddress }, t.end);
 // });

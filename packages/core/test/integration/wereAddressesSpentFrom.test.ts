@@ -1,12 +1,12 @@
-import test from "ava";
 import { createHttpClient } from "@helix/http-client";
+import test from "ava";
+import { ADDRESS_CHECKSUM_BYTE_SIZE } from "../../../constants";
 import { INVALID_ADDRESS } from "../../../errors";
 import { createWereAddressesSpentFrom } from "../../src/createWereAddressesSpentFrom";
 import {
   wereAddressesSpentFromCommand,
   wereAddressesSpentFromResponse
 } from "./nocks/wereAddressesSpentFrom";
-import { ADDRESS_CHECKSUM_BYTE_SIZE } from "../../../constants";
 
 const wereAddressesSpentFrom = createWereAddressesSpentFrom(
   createHttpClient(),

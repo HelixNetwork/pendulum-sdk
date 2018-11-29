@@ -1,14 +1,14 @@
-import test from "ava";
 import { createHttpClient } from "@helix/http-client";
+import { bundle, bundleWithZeroValue } from "@helix/samples";
+import test from "ava";
 import { INVALID_TRANSACTION_HASH } from "../../../errors";
 import { createGetBundle } from "../../src";
-import { bundle, bundleWithZeroValue } from "@helix/samples";
 import "./nocks/getHBytes";
 
 const getBundle = createGetBundle(createHttpClient());
 const tail = bundle[0].hash;
 
-//todo: check test
+// todo: check test
 test("getBundle() resolves to correct bundle.", async t => {
   t.deepEqual(
     bundle, /// await getBundle(tail),
@@ -35,7 +35,7 @@ test("getBundle() rejects with correct error for invalid hash.", t => {
   );
 });
 
-//todo: check test
+// todo: check test
 // test.cb("getBundle() invokes callback", t => {
 //   getBundle(tail, t.end);
 // });

@@ -1,14 +1,14 @@
-import test from "ava";
 import { createHttpClient } from "@helix/http-client";
 import { transfers } from "@helix/samples";
+import test from "ava";
 import { INVALID_SEED, INVALID_START_END_OPTIONS } from "../../../errors";
 import { Hash } from "../../../types";
 import { AccountData, createGetAccountData } from "../../src";
-import { getBalancesCommand, balancesResponse } from "./nocks/getBalances";
 import "./nocks/findTransactions";
+import { balancesResponse, getBalancesCommand } from "./nocks/getBalances";
+import "./nocks/getHBytes";
 import "./nocks/getInclusionStates";
 import "./nocks/getNodeInfo";
-import "./nocks/getHBytes";
 import "./nocks/wereAddressesSpentFrom";
 
 const getAccountData = createGetAccountData(createHttpClient(), "lib");
@@ -45,10 +45,10 @@ const accountData: AccountData = {
   ),
   balance: 1
 };
-//todo: check test
+// todo: check test
 test("getAccountData() resolves to correct account data", async t => {
   t.deepEqual(
-    accountData, //await getAccountData(seed, { start: 0 }),
+    accountData, // await getAccountData(seed, { start: 0 }),
     accountData,
     "getAccountData() should resolve to correct account data"
   );
@@ -89,7 +89,7 @@ test("getAccountData() with start > 0 resolves to correct account data.", async 
   //   "getAccountData() with start > 0 should resolve to correct account data"
   // );
 });
-//todo: check test
+// todo: check test
 // test.cb("getAccountData() invokes callback", t => {
 //   getAccountData(seed, { start: 0 }, t.end);
 // });
