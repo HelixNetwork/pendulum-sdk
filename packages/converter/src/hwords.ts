@@ -38,7 +38,7 @@ export function bytesToWords(bytes: Uint8Array | Int8Array): Uint32Array {
  * @return {Uint8Array} toHBytes
  */
 export function wordsToBytes(words: Uint32Array): Uint8Array {
-  let size = words.length;
+  const size = words.length;
   const bytes = new Uint8Array(size * 4);
 
   for (let i = 0; i < size; i++) {
