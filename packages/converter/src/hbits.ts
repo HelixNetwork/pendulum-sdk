@@ -9,18 +9,17 @@ import * as errors from "./errors";
  *
  * @param {String|Number} input - HByte string or value to be converted.
  *
- * @return {Int8Array} hbitsŁ
+ * @return {Int8Array} hbits
  */
 export function hbits(input: string | number): Int8Array {
-  let hbits;
   if (typeof input === "string") {
-    hbits = new Int8Array(input.length * 4);
-    for (let i = 0; i < hbits.length; i++) {
-      let ct = Math.floor(i / 4);
-      let halfByte = parseInt(input.substr(ct, 1), 16);
-      hbits[i] = (halfByte >>> (3 - i % 4)) & 0x01;
+    const hBits = new Int8Array(input.length * 4);
+    for (let i = 0; i < hBits.length; i++) {
+      const ct = Math.floor(i / 4);
+      const halfByte = parseInt(input.substr(ct, 1), 16);
+      hBits[i] = (halfByte >>> (3 - i % 4)) & 0x01;
     }
-    return hbits;
+    return hBits;
   }
   return fromValue(input);
 }
@@ -43,25 +42,24 @@ export const hbytesToHBits = hbits;
  *
  * @memberof module:converter
  *
- * @param {Int8Array} trits
+ * @param {Int8Array} hBits
  *
  * @return {String} hbytes
  */
-export function hbytes(hbits: Int8Array): string {
-  if (hbits.length % 4 !== 0) {
+export function hbytes(hBits: Int8Array): string {
+  if (hBits.length % 4 !== 0) {
     throw new Error(errors.INVALID_HBITS_LENGTH);
   }
   let hexStr = "";
 
-  for (let i = 0; i < hbits.length; i += 4) {
+  for (let i = 0; i < hBits.length; i += 4) {
     let val = 0;
-    const partHbits = hbits.slice(i, i + 4).reverse();
+    const partHbits = hBits.slice(i, i + 4).reverse();
     for (let j = partHbits.length; j-- > 0; ) {
       val = (val << 1) | (partHbits[j] & 0x01);
     }
 
-    const hex = (val & 0xff).toString(16);
-    hexStr += hex;
+    hexStr += (val & 0xff).toString(16);
   }
   return hexStr;
 }
@@ -84,17 +82,16 @@ export const hBitsToHBytes = hbytes;
  *
  * @memberof module:converter
  *
- * @param {Int8Array} hbits
+ * @param {Int8Array} hBits
  *
  * @return {Number}
  */
 // tslint:disable-next-line no-shadowed-variable
-export function value(hbits: Int8Array): number {
-  let returnValue = 0;
-  let isNegative = hbits[hbits.length - 1] == 1 ? true : false;
+export function value(hBits: Int8Array): number {
+  const isNegative = !!(hBits[hBits.length - 1] === 1);
   let strBits = "";
-  for (let i = hbits.length; i-- > 0; ) {
-    strBits += isNegative ? ~hbits[i] & 0x01 : hbits[i] & 0x01;
+  for (let i = hBits.length; i-- > 0; ) {
+    strBits += isNegative ? ~hBits[i] & 0x01 : hBits[i] & 0x01;
   }
   return (isNegative ? -1 : 1) * parseInt(strBits, 2);
 }
@@ -123,14 +120,14 @@ export const hBitsToValue = value;
  */
 // tslint:disable-next-line no-shadowed-variable
 export function fromValue(value: number): Int8Array {
-  let isNegative = value < 0 ? true : false;
+  const isNegative = !!(value < 0);
   const binary = value
     .toString(2)
     .split("")
     .reverse();
   let extraBitForSign = 0;
   if (!isNegative) {
-    extraBitForSign = binary[binary.length - 1] == "1" ? 1 : 0;
+    extraBitForSign = binary[binary.length - 1] === "1" ? 1 : 0;
   }
   const destination = new Int8Array(binary.length + extraBitForSign);
   for (let i = 0; i < binary.length; i++) {

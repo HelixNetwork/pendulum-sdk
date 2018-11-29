@@ -3,18 +3,18 @@
 import { hbits, hbytes, hex, toHBytes } from "@helix/converter";
 import HHash from "@helix/hash-module";
 import {
+  ADDRESS_BYTE_SIZE,
+  ADDRESS_BYTE_SIZE_PADDING,
+  ADDRESS_CHECKSUM_BYTE_SIZE,
+  ADDRESS_MIN_CHECKSUM_BYTE_SIZE
+} from "../../constants";
+import {
   INVALID_ADDRESS,
   INVALID_CHECKSUM,
   INVALID_HBYTES
 } from "../../errors";
 import { isHash, isHBytes } from "../../guards";
 import { asArray, HBytes } from "../../types";
-import {
-  ADDRESS_BYTE_SIZE,
-  ADDRESS_CHECKSUM_BYTE_SIZE,
-  ADDRESS_BYTE_SIZE_PADDING,
-  ADDRESS_MIN_CHECKSUM_BYTE_SIZE
-} from "../../constants";
 
 export const errors = {
   INVALID_ADDRESS,

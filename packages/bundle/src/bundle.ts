@@ -2,24 +2,24 @@
 
 import { hbits, hbytes, toHBytes, hex } from "@helix/converter";
 import HHash from "@helix/hash-module";
-import { padTag, padHBits, padSignedHBits, padHBytes } from "@helix/pad";
+import { padHBits, padHBytes, padSignedHBits, padTag } from "@helix/pad";
 import { add, normalizedBundleHash } from "@helix/signing";
-import { Hash, Bundle, Transaction, HBytes } from "../../types";
 import {
+  BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING,
   HASH_BYTE_SIZE,
   NULL_HASH_HBYTES,
   NULL_NONCE_HBYTES,
   NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES,
   NULL_TAG_HBYTES,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
   SIGNATURE_FRAGMENT_NO,
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
   TRANSACTION_CURRENT_INDEX_BITS_SIZE,
   TRANSACTION_LAST_INDEX_BITS_SIZE,
-  TRANSACTION_TIMESTAMP_BITS_SIZE,
-  TRANSACTION_VALUE_BITS_SIZE,
   TRANSACTION_OBSOLETE_TAG_BITS_SIZE,
-  BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING
+  TRANSACTION_TIMESTAMP_BITS_SIZE,
+  TRANSACTION_VALUE_BITS_SIZE
 } from "../../constants";
+import { Bundle, Hash, HBytes, Transaction } from "../../types";
 
 export interface BundleEntry {
   readonly length: number;

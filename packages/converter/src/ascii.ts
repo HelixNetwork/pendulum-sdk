@@ -36,7 +36,7 @@ export const asciiToHBytes = (input: string): string => {
     throw new Error(errors.INVALID_ASCII_CHARS);
   }
 
-  let hbytes = new Uint8Array(input.length);
+  const hbytes = new Uint8Array(input.length);
   for (let i = 0; i < input.length; i++) {
     hbytes[i] = input[i].charCodeAt(0);
   }

@@ -43,7 +43,7 @@ export function toHBytes(value: number | string, padding?: number): Uint8Array {
     ? (1 + Math.floor(Math.log(Math.max(1, Math.abs(value))) / Math.log(2))) / 8
     : 0;
   const destination = new Uint8Array(
-    padding != undefined ? Math.max(size, padding) : size
+    padding !== undefined ? Math.max(size, padding) : size
   );
   for (let i = 0; i < size; i++) {
     const shiftNo = bitsInByte * (size - 1 - i);

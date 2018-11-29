@@ -6,9 +6,6 @@ import HHash from "@helix/hash-module";
 import { validateSignatures } from "@helix/signing";
 import { isTransaction } from "@helix/transaction";
 import { asTransactionHBytes } from "@helix/transaction-converter";
-import * as errors from "../../errors";
-import { isArray, Validator, indexValidator } from "../../guards";
-import { Bundle, Hash, Transaction, HBytes } from "../../types";
 import {
   ADDRESS_BYTE_SIZE,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
@@ -20,6 +17,9 @@ import {
   TRANSACTION_LAST_INDEX_BITS_SIZE,
   BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING
 } from "../../constants";
+import * as errors from "../../errors";
+import { isArray, Validator } from "../../guards";
+import { Bundle, Hash, HBytes, Transaction } from "../../types";
 
 interface SignatureFragments {
   readonly [key: string]: ReadonlyArray<HBytes>;
