@@ -1,12 +1,12 @@
-import test from "ava";
 import {
   addresses,
   addressesWithChecksum,
   addressWithChecksum,
   addressWithInvalidChecksum
 } from "@helix/samples";
-import { addChecksum, errors, isValidChecksum, removeChecksum } from "../src";
+import test from "ava";
 import { ADDRESS_BYTE_SIZE } from "../../constants";
+import { addChecksum, errors, isValidChecksum, removeChecksum } from "../src";
 
 const invalidAddress =
   "62633132333334343532333432333432333261616161616363616333453454334543";
