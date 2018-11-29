@@ -29,7 +29,7 @@ const ADDRESS_WITH_CHECKSUM_HBYTES_LENGTH =
 const MIN_CHECKSUM_HBYTES_LENGTH = ADDRESS_MIN_CHECKSUM_BYTE_SIZE;
 
 /**
- * Generates and appends the 9-tryte checksum of the given hbytes, usually an address.
+ * Generates and appends the 8-hbytes checksum of the given hbytes, usually an address.
  *
  * @method addChecksum
  *
