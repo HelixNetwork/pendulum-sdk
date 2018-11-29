@@ -2,7 +2,7 @@ import { addChecksum } from "@helix/checksum";
 import { createHttpClient } from "@helix/http-client";
 import { addresses, hbytes as expected } from "@helix/samples";
 import test from "ava";
-import { HBytes, Transaction, Transfer } from "../../../types";
+import { HBytes, Transfer } from "../../../types";
 import { createPrepareTransfers } from "../../src";
 
 import "./nocks/prepareTransfers";
