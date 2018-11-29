@@ -116,8 +116,9 @@ export const asTransactionObject = (
   const hbits = hbytesToHBits(hbytes);
 
   const noOfBitsInBytes = 4;
-  // todo: check this magic number
-  const usefulBytesFromValue = 8;
+  // TODO: check if this limitation is necessary:
+  // previous value has been limitted to 11 trytes
+  const usefulBytesFromValue = TRANSACTION_VALUE_BYTE_SIZE;
   const noOfBitsInValue = 4 * usefulBytesFromValue;
 
   const startIndexSignMsgFragBytes = 0;
@@ -128,8 +129,8 @@ export const asTransactionObject = (
   const startIndexObsoleteTagBytes =
     startIndexValueBytes + TRANSACTION_VALUE_BYTE_SIZE;
 
-  // todo check here
-  // Value is represented using 27 trytes: 2268 -> 2295
+  // If the limitation is necessary this validation should be enabled otherwise removed
+  // Value was represented using 27 trytes: 2268 -> 2295
   // Trits index 6804 -> 6885
   // Only first 11 trytes are used to store value all the other are expected to be 0
   // for (
