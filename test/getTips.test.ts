@@ -14,7 +14,7 @@ before("Running getTips API Call", async function() {
   this.timeout(0);
   result = await getTips;
 });
-
+// todo_this : check test
 describe("getTips test", () => {
   it("it should return an array of Tips in the node", () => {
     assert.isArray(result);

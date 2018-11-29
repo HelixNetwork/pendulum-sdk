@@ -23,7 +23,7 @@ before("Running findTransactions API Call", async function() {
   hash = transaction[0].hash;
   result = await findTransactions(address, bundles, tag);
 });
-
+// todo_this : check test
 describe("findTransactions  test", () => {
   it("it should return the hash of the transactions executed", () => {
     assert.equal(hash, result[0]); // the hash of the created transaction should be successfully fectched by the Api

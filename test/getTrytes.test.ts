@@ -23,7 +23,7 @@ before("Running getTrytes API Call", async function() {
     error = err;
   }
 });
-
+// todo_this : check test
 describe("getTrytes test", () => {
   it("it should return the raw transaction data (trytes) of a specific transaction.", () => {
     assert.isArray(result);

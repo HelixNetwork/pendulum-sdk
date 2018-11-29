@@ -33,6 +33,7 @@ before("Running addNeighbors API Call", async function() {
     addedNeighborsError = err;
   }
 });
+// todo_this : check test
 describe("addNeighbors  test", () => {
   it("it should return no of succesfull neighbors added in the node which is zero", () => {
     assert.equal(addedNeighborsZero, "0");

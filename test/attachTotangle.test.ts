@@ -29,7 +29,7 @@ before("Running attachToTangle API Call", async function() {
     trytes
   );
 });
-
+// todo_this : check test
 describe("attachTotangle test", () => {
   it("it should return Array of transaction trytes with nonce and attachment timestamps details", () => {
     expect(result).to.match(/^([A-Z]|[9])*$/);

@@ -13,7 +13,7 @@ before("Running getNodeInfo API Call", async function() {
   this.timeout(0);
   result = await getNodeInfo; // function to be executed before testing
 });
-
+// todo_this : check test
 describe("getNodeInfo test", () => {
   it("it should return a succesfull info about the node", () => {
     assert.isObject(result);

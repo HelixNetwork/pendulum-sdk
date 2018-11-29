@@ -34,7 +34,7 @@ before("Running removeNeighbors API Call", async function() {
     removeNeighborsError = error;
   }
 });
-
+// todo_this : check test
 describe("removeNeighbors  test", () => {
   it("it should return no of succesfull neighbors removed in the node h.e zero", () => {
     assert.equal(removeNeighborsZero, "0");

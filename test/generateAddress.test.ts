@@ -14,6 +14,7 @@ before("Running generateAddress API Call", async function() {
   this.timeout(0);
   addr = await generateAddress(config.seed);
 });
+// todo_this : check test
 describe("Generate new address", () => {
   it("It should return a new address of type string", async () => {
     assert.typeOf(addr, "string");

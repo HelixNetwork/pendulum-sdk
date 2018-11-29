@@ -24,7 +24,7 @@ before("Running createTransaction API Call", async function() {
     Error = error;
   }
 });
-
+// todo_this : check test
 describe("Create Transactions  test", () => {
   it("it should create and return a succesfull transaction info", async () => {
     assert.isArray(result);

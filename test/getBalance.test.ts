@@ -23,7 +23,7 @@ before("Running getBalance API Call", async function() {
     Error = error;
   }
 });
-
+// todo_this : check test
 describe("getBalance  test", () => {
   it("it should return a succesfull info about the balance in the given address", () => {
     assert.isObject(result);

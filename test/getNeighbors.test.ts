@@ -13,7 +13,7 @@ before("Running getNeighbors API Call", async function() {
   this.timeout(0);
   result = await getNeighbors; // function to be executed before testing
 });
-
+// todo_this : check test
 describe("getNeighbors  test", () => {
   it("it should return a successful info about the neighbors in the node", () => {
     assert.isArray(result);

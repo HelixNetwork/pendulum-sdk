@@ -13,7 +13,7 @@ before("Running getTransactionToApprove API Call", async function() {
   this.timeout(0);
   result = await getTransactionsToApprove; // function to be executed before testing
 });
-
+// todo_this : check test
 describe("getTransactionToApprove  test", () => {
   it("it should return trunckTransactions  details", () => {
     expect(result.trunkTransaction).to.match(/^([A-Z]|[9]){2 * 32}$/);
