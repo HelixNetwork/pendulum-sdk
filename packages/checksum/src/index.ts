@@ -106,7 +106,7 @@ export function addChecksum(
 }
 
 /**
- * Removes the 9-hbytes checksum of the given input.
+ * Removes the 8-hbytes checksum of the given input.
  *
  * @method removeChecksum
  *
