@@ -90,16 +90,16 @@ test("Address generation for seed", t => {
         publicKeys[i] = Schnorr.computePublicKey(secreteKey);
       }
       const aggregatedPublicKey = Schnorr.aggregatePublicKey(publicKeys);
-      console.log(
-        "SCHNORR_TEST  seed: " +
-          seed +
-          " index:" +
-          index +
-          " security: " +
-          security +
-          " address: " +
-          hex(aggregatedPublicKey)
-      );
+      // console.log(
+      //   "SCHNORR_TEST  seed: " +
+      //     seed +
+      //     " index:" +
+      //     index +
+      //     " security: " +
+      //     security +
+      //     " address: " +
+      //     hex(aggregatedPublicKey)
+      // );
     }
   }
 });

@@ -5,7 +5,7 @@ import {
   attachedHBytesOfInvalidLength
 } from "@helix/samples";
 import { isAttachedHBytesArray } from "../src";
-//todo check tests
+
 test("isAttachedHBytesArray()", t => {
   t.is(
     isAttachedHBytesArray(attachedHBytes),

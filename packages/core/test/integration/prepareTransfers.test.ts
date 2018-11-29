@@ -1,9 +1,4 @@
 import { addChecksum } from "@helix/checksum";
-import { createHttpClient } from "@helix/http-client";
-import { addresses, hbytes as expected } from "@helix/samples";
-import { asTransactionObjects } from "@helix/transaction-converter";
-import test from "ava";
-import { HBytes, Transfer } from "../../../types";
 import { createPrepareTransfers } from "../../src";
 
 import "./nocks/prepareTransfers";
@@ -61,82 +56,81 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
   now,
   "lib"
 );
-// todo: check test
 test("prepareTransfers() prepares the correct array of hbytes offline.", async t => {
-  // const hbytes = await prepareTransfers("abcd", transfers, {
-  //   inputs,
-  //   remainderAddress
-  // });
-  // t.deepEqual(
-  //   hbytes,
-  //   expected,
-  //   "prepareTransfers() should prepare the correct array of hbytes."
-  // );
+  const hbytes = await prepareTransfers("abcd", transfers, {
+    inputs,
+    remainderAddress
+  });
+  t.deepEqual(
+    hbytes,
+    expected,
+    "prepareTransfers() should prepare the correct array of hbytes."
+  );
 });
 
-// test("prepareTransfers() does not mutate original transfers object offline.", async t => {
-//   const transfersCopy = transfers.map(transfer => ({ ...transfer }));
+test("prepareTransfers() does not mutate original transfers object offline.", async t => {
+  const transfersCopy = transfers.map(transfer => ({ ...transfer }));
 
-//   await prepareTransfers("abcd", transfersCopy, {
-//     inputs,
-//     remainderAddress,
-//     hmacKey: "0".repeat(2 * 33)
-//   });
+  await prepareTransfers("abcd", transfersCopy, {
+    inputs,
+    remainderAddress,
+    hmacKey: "0".repeat(2 * 33)
+  });
 
-//   // t.deepEqual(
-//   //   transfers,
-//   //   transfersCopy,
-//   //   "prepareTransfers() should not mutate original transfers object."
-//   // );
-// });
+  t.deepEqual(
+    transfers,
+    transfersCopy,
+    "prepareTransfers() should not mutate original transfers object."
+  );
+});
 
-// test("prepareTransfers() with network prepares the correct array of hbytes.", async t => {
-//   const hbytes = await prepareTransfersWithNetwork("abcd", transfers);
+test("prepareTransfers() with network prepares the correct array of hbytes.", async t => {
+  const hbytes = await prepareTransfersWithNetwork("abcd", transfers);
 
-//   t.deepEqual(
-//     hbytes,
-//     expected,
-//     "prepareTranfers() should prepare the correct array of hbytes."
-//   );
-// });
+  t.deepEqual(
+    hbytes,
+    expected,
+    "prepareTranfers() should prepare the correct array of hbytes."
+  );
+});
 
-// test("prepareTransfer() prepares correct hbytes for zero value transfers", async t => {
-//   const zeroValueHBytes = await prepareTransfersWithNetwork(
-//     "abcd",
-//     zeroValueTransfer
-//   );
+test("prepareTransfer() prepares correct hbytes for zero value transfers", async t => {
+  const zeroValueHBytes = await prepareTransfersWithNetwork(
+    "abcd",
+    zeroValueTransfer
+  );
 
-//   t.deepEqual(
-//     zeroValueHBytes,
-//     expectedZeroValueHBytes,
-//     "prepareTransfers() should prepare the correct hbytes for zero value transfers"
-//   );
-// });
+  t.deepEqual(
+    zeroValueHBytes,
+    expectedZeroValueHBytes,
+    "prepareTransfers() should prepare the correct hbytes for zero value transfers"
+  );
+});
 
-// todo: check test
-// test.cb("prepareTransfers() invokes callback", t => {
-//   prepareTransfers("abcd", transfers, { inputs, remainderAddress }, t.end);
-// });
+//todo: check test
+test.cb("prepareTransfers() invokes callback", t => {
+  prepareTransfers("abcd", transfers, { inputs, remainderAddress }, t.end);
+});
 
-// test.cb("prepareTransfers() passes correct arguments to callback", t => {
-//   prepareTransfers(
-//     "abcd",
-//     transfers,
-//     { inputs, remainderAddress },
-//     (err, res) => {
-//       t.is(
-//         err,
-//         null,
-//         "prepareTransfers() should pass null as first argument in callback for successful calls."
-//       );
+test.cb("prepareTransfers() passes correct arguments to callback", t => {
+  prepareTransfers(
+    "abcd",
+    transfers,
+    { inputs, remainderAddress },
+    (err, res) => {
+      t.is(
+        err,
+        null,
+        "prepareTransfers() should pass null as first argument in callback for successful calls."
+      );
 
-//       t.deepEqual(
-//         res,
-//         expected,
-//         "prepareTransfers() should pass the correct hbytes as second argument in callback"
-//       );
+      t.deepEqual(
+        res,
+        expected,
+        "prepareTransfers() should pass the correct hbytes as second argument in callback"
+      );
 
-//       t.end();
-//     }
-//   );
-// });
+      t.end();
+    }
+  );
+});

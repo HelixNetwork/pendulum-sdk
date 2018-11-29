@@ -62,7 +62,7 @@ export function toHBytes(value: number | string, padding?: number): Uint8Array {
 
 function toBytesFromString(input: string, padding?: number): Uint8Array {
   if (input.length % 2 !== 0) {
-    throw new Error(errors.INVALID_STRING_LENGTH);
+    throw new Error(errors.INVALID_STRING_LENGTH + input.length);
   }
   const paddingCt = padding ? padding : 1;
   const result = new Uint8Array(Math.max(paddingCt, input.length / 2));

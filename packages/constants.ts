@@ -21,6 +21,16 @@ export const TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE = 2 * 8; // trytes 9
 export const TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE = 2 * 8; // trytes 9
 export const NONCE_BYTE_SIZE = 2 * 8; // trytes 27
 
+export const BYTE_SIZE_USED_FOR_VALIDATION =
+  ADDRESS_BYTE_SIZE +
+  TRANSACTION_VALUE_BYTE_SIZE +
+  TRANSACTION_LAST_INDEX_BYTE_SIZE +
+  TRANSACTION_TIMESTAMP_BYTE_SIZE +
+  TRANSACTION_CURRENT_INDEX_BYTE_SIZE +
+  TRANSACTION_LAST_INDEX_BYTE_SIZE; // previous 162
+
+export const BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING =
+  BYTE_SIZE_USED_FOR_VALIDATION + 6; // padded to a multiple of 4
 // Signature is reduced from 1024 to 64
 // Address is incressed from 32 bytes to 33 -
 // => 2 8 (1232 - (1024 - 64) + 1)

@@ -419,10 +419,6 @@ export const addSignatures = (
           subseed(hbits(seed), keyIndex),
           security || SECURITY_LEVEL
         );
-        console.log(
-          "seed: " + seed + " keyIndex: " + keyIndex + " security: " + security
-        );
-        console.log("msg: " + hex(normalizedBundle));
         const publicNonces = computePublicNonces(keyHBytes, normalizedBundle);
         return Array(1) //security
           .fill(null)
