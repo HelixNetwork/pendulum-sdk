@@ -13,7 +13,7 @@ const replayBundle = createReplayBundle(createHttpClient());
 const tail = bundle[0].hash;
 const { minWeightMagnitude } = attachToTangleCommand;
 const { depth } = getTransactionsToApproveCommand;
-//todo: check test
+// todo_this : check test
 test("replayBundle() replays the bundle and resolves to correct transaction objects.", async t => {
   t.deepEqual(
     bundle, //await replayBundle(tail, depth, minWeightMagnitude),
@@ -21,7 +21,7 @@ test("replayBundle() replays the bundle and resolves to correct transaction obje
     "replayBundle() should replay the bundle should resolve to correct bundle."
   );
 });
-//todo: check test
+// todo_this : check test
 // test("replayBundle() rejects with correct error for invalid hash.", t => {
 //   const invalidHash = "asdasDSFDAFD";
 
@@ -32,7 +32,7 @@ test("replayBundle() replays the bundle and resolves to correct transaction obje
 //     "replayBundle() should throw correct error for invalid hash."
 //   );
 //});
-//todo: check test
+// todo_this : check test
 
 // test.cb("replayBundle() invokes callback", t => {
 //   replayBundle(tail, depth, minWeightMagnitude, undefined, t.end);

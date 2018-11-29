@@ -95,7 +95,7 @@ export const bundle: Transaction[] = [
 
 export const bundleWithValidSignature: Transaction[] = [
   {
-    hash: "33fb0267c5a22661da7b797ae1d6575a2b8f447b52440f3b9ec02d7c8cb15418",
+    hash: "1fe6081415a7d20fbc4edfe7974b7dc97caef3530670e7afc64aa41a769170ed",
     signatureMessageFragment:
       "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
     address:
@@ -105,7 +105,7 @@ export const bundleWithValidSignature: Transaction[] = [
     timestamp: 1522219,
     currentIndex: 0,
     lastIndex: 1,
-    bundle: "04996490e2d51b1e423a2a778b1761b6db722e32ca7077d1c5b9d886246b4f64",
+    bundle: "5a9c98bfdbdec74ffa86c33cdcc9b1e10f119aed8825a020c32f39ab1b0204d2",
     trunkTransaction:
       "0000000000000000000000000000000000000000000000000000000000000000",
     branchTransaction:
@@ -117,17 +117,17 @@ export const bundleWithValidSignature: Transaction[] = [
     nonce: "0000000000000000"
   },
   {
-    hash: "2c00389e0b7b55640ffd9f4719bc0f3903edc64dacaa5604a2b6ebb4d74c0323",
+    hash: "93bdac1d25bce7d8821cc790c50ce518244ae8e86a83c6fa7be8322f4f22f7e8",
     signatureMessageFragment:
-      "1c2ccd36821f56396fc4d4bd10daf3e92c1805986e6edd37df2a6149762246c6bf0938f8ad7333ee2775e074bd1aa38eb7f66b9cd171be9199439b4df109f777",
+      "c192b7a76b13635e4bc1e90b8826dfdcb3d2288ef0614c96788a6def281576024a990e8f6eca755fd3ff23f442bcdf89ba000089c7df0767bad2902cb251951c",
     address:
-      "026c08a725df89465b864ee768fa1802005de2f6cb6b3a62137c6d2b383b5566de",
+      "0219c68a8de8a82504832a8d17d64466453689dae9bbc21affe5f25efa3202c90e",
     value: -3,
     obsoleteTag: "0000000000000000",
     timestamp: 1522219,
     currentIndex: 1,
     lastIndex: 1,
-    bundle: "04996490e2d51b1e423a2a778b1761b6db722e32ca7077d1c5b9d886246b4f64",
+    bundle: "5a9c98bfdbdec74ffa86c33cdcc9b1e10f119aed8825a020c32f39ab1b0204d2",
     trunkTransaction:
       "0000000000000000000000000000000000000000000000000000000000000000",
     branchTransaction:

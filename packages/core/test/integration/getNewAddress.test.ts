@@ -22,11 +22,11 @@ import {
 const client = createHttpClient();
 const getNewAddress = createGetNewAddress(client, "lib");
 const isAddressUsed = createIsAddressUsed(client);
-//todo: check test
+// todo_this : check test
 // test('getNewAddress() resolves to correct new address', async t => {
 //     t.is(await getNewAddress(seed, { index: 0 }), newAddress, 'getNewAddress() should resolve to correct new address')
 // })
-//todo: check test
+// todo_this : check test
 test("getNewAddress() with total option resolves to correct addresses", async t => {
   t.deepEqual(
     addresses.slice(0, 2), //await getNewAddress(seed, { index: 0, total: 2 }),
@@ -34,7 +34,7 @@ test("getNewAddress() with total option resolves to correct addresses", async t 
     "getNewAddress() with `total` option resolves to correct addresses"
   );
 });
-//todo: check test
+// todo_this : check test
 test("getNewAddress() with `returnAll` option resolves to correct addresses", async t => {
   t.deepEqual(
     addresses.slice(1, 3), // await getNewAddress(seed, { index: 1, returnAll: true }),
@@ -84,7 +84,7 @@ test("getNewAddress() with `returnAll` option resolves to correct addresses", as
 // test.cb('getNewAddress() invokes callback', t => {
 //     getNewAddress(seed, { index: 0, total: 1 }, t.end)
 // })
-//todo: check test
+// todo_this : check test
 // test.cb('getNewAddress() passes correct arguments to callback', t => {
 //     getNewAddress(seed, { index: 0 }, (err, res) => {
 //         t.is(err, null, 'getNewAddress() should pass null as first argument in callback for successuful requests')

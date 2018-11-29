@@ -23,7 +23,7 @@ const addresses = [
   getBalancesCommand.addresses[1],
   getBalancesCommand.addresses[2]
 ];
-
+// todo_this : check test
 test("getBundlesFromAddresses() resolves to correct transactions.", async t => {
   t.deepEqual(
     transfers, //await getBundlesFromAddresses(addresses, true),
@@ -42,7 +42,7 @@ test("getBundlesFromAddresses() rejects with correct errors for invalid addresse
     "getBundlesFromAddresses() should throw correct error for invalid addresses."
   );
 });
-//todo: check test
+// todo_this : check test
 // test.cb("getBundlesFromAddresses() invokes callback", t => {
 //   getBundlesFromAddresses(addresses, true, t.end);
 // });

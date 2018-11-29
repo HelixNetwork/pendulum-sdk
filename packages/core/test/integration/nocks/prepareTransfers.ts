@@ -9,9 +9,9 @@ import headers from "./headers";
 export const getBalancesCommand: GetBalancesCommand = {
   command: ProtocolCommand.GET_BALANCES,
   addresses: [
-    "0258f8e961479d7867155450a5720e3c982ace5d0ce7c4feb3bd606afaa79d6e92",
-    "03d044566789d180990214ffd70afc60453aee9bf844d4d779974bea4bfa55ade4",
-    "abcd48535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356"
+    "0219c68a8de8a82504832a8d17d64466453689dae9bbc21affe5f25efa3202c90e",
+    "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd14",
+    "03dbff15092f382870dfdb21b5e3e9077ce5e43be8bff82dbd575c6eb5237f664c"
   ],
   threshold: 100
 };
@@ -28,7 +28,7 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
     addresses: [
-      "0258f8e961479d7867155450a5720e3c982ace5d0ce7c4feb3bd606afaa79d6e92"
+      "0219c68a8de8a82504832a8d17d64466453689dae9bbc21affe5f25efa3202c90e"
     ]
   })
   .reply(200, {
@@ -40,7 +40,7 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
     addresses: [
-      "03d044566789d180990214ffd70afc60453aee9bf844d4d779974bea4bfa55ade4"
+      "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd14"
     ]
   })
   .reply(200, {
@@ -52,7 +52,7 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
     addresses: [
-      "abcd48535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356"
+      "03dbff15092f382870dfdb21b5e3e9077ce5e43be8bff82dbd575c6eb5237f664c"
     ]
   })
   .reply(200, {
@@ -69,7 +69,7 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.FIND_TRANSACTIONS,
     addresses: [
-      "03d044566789d180990214ffd70afc60453aee9bf844d4d779974bea4bfa55ade4"
+      "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd14"
     ]
   })
   .reply(200, {
@@ -81,7 +81,7 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.FIND_TRANSACTIONS,
     addresses: [
-      "abcd48535348425a54414b514e4454494b4a59435a424f5a4447535a414e4356"
+      "03dbff15092f382870dfdb21b5e3e9077ce5e43be8bff82dbd575c6eb5237f664c"
     ]
   })
   .reply(200, {

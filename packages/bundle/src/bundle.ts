@@ -202,13 +202,13 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
     const bundleHashHBytes = new Int8Array(hHash.getHashLength());
     hHash.squeeze(bundleHashHBytes, 0, hHash.getHashLength());
     bundleHash = hex(bundleHashHBytes);
-
-    if (normalizedBundleHash(bundleHash).indexOf(8) !== -1) {
-      // Insecure bundle, increment obsoleteTag and recompute bundle hash
-      obsoleteTagHBits[0] = add(obsoleteTagHBits[0], new Int8Array(1).fill(1));
-    } else {
-      validBundle = true;
-    }
+    // if (normalizedBundleHash(bundleHash).indexOf(8) !== -1) {
+    //   // Insecure bundle, increment obsoleteTag and recompute bundle hash
+    //   obsoleteTagHBits[0] = add(obsoleteTagHBits[0], new Int8Array(1).fill(1));
+    // } else {
+    //   validBundle = true;
+    // }
+    validBundle = true;
   }
 
   return transactions.map((transaction, i) => ({

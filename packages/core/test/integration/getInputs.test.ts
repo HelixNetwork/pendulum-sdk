@@ -90,7 +90,7 @@ test("hasSufficientBalance() throws error for insufficient balance", t => {
     "hasSufficientBalance() should throw error for insufficient balance"
   );
 });
-//todo: check test
+// todo_this : check test
 test("getInputs() resolves to correct inputs", async t => {
   t.deepEqual(
     inputs, //await getInputs(seed, { start: 0, threshold: 100 }),
@@ -118,7 +118,7 @@ test("getInputs() rejects with correct errors for invalid input", t => {
     "getInputs() should throw correct error for invalid start & end options"
   );
 });
-//todo: check test
+// todo_this : check test
 test("getInputs() with threshold rejects with correct error if balance is insufficient", t => {
   return getInputs(seed, { start: 0, threshold: 110 }).catch((err: Error) =>
     t.is(
@@ -128,7 +128,7 @@ test("getInputs() with threshold rejects with correct error if balance is insuff
     )
   );
 });
-//todo: check test
+// todo_this : check test
 test.cb("getInputs() passes correct arguments to callback", t => {
   getInputs(seed, { start: 0, threshold: 100 }, (err, res) => {
     t.is(

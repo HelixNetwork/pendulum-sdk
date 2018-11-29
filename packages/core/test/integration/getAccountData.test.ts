@@ -45,7 +45,7 @@ const accountData: AccountData = {
   ),
   balance: 1
 };
-//todo: check test
+// todo_this : check test
 test("getAccountData() resolves to correct account data", async t => {
   t.deepEqual(
     accountData, //await getAccountData(seed, { start: 0 }),
@@ -53,7 +53,7 @@ test("getAccountData() resolves to correct account data", async t => {
     "getAccountData() should resolve to correct account data"
   );
 });
-
+// todo_this : check test
 test("getAccountData() rejects with correct errors for invalid inputs", t => {
   const invalidSeed = "asdasDSFDAFD";
   const invalidStartEndOptions = {
@@ -73,7 +73,7 @@ test("getAccountData() rejects with correct errors for invalid inputs", t => {
   //   "getAccountData() should throw correct error for invalid start & end options"
   // );
 });
-
+// todo_this : check test
 test("getAccountData() with start > 0 resolves to correct account data.", async t => {
   const expected = {
     ...accountData,
@@ -89,7 +89,7 @@ test("getAccountData() with start > 0 resolves to correct account data.", async 
   //   "getAccountData() with start > 0 should resolve to correct account data"
   // );
 });
-//todo: check test
+// todo_this : check test
 // test.cb("getAccountData() invokes callback", t => {
 //   getAccountData(seed, { start: 0 }, t.end);
 // });

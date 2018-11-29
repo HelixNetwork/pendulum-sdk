@@ -48,13 +48,13 @@ export const validateBundleSignatures = (bundle: Bundle): boolean => {
               ...acc,
               [address]: [signatureMessageFragment]
             }
-          : // : value === 0 &&
-            //   acc.hasOwnProperty(address) &&
-            //   address === bundle[i - 1].address
-            //   ? {
-            //       ...acc,
-            //       [address]: acc[address].concat(signatureMessageFragment)
-            //     }
+          : //  : value === 0 &&
+            //     acc.hasOwnProperty(address) &&
+            //     address === bundle[i - 1].address
+            //     ? {
+            //         ...acc,
+            //         [address]: acc[address].concat(signatureMessageFragment)
+            //       }
             acc,
       {}
     );

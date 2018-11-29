@@ -17,7 +17,7 @@ import { transfers } from "@helix/samples";
 
 const getTransfers = createGetTransfers(createHttpClient(), "lib");
 const seed = "abcd";
-//todo: check test
+// todo_this : check test
 test("getTransfers() resolves to correct account data", async t => {
   t.deepEqual(
     transfers, //await getTransfers(seed, { start: 0, inclusionStates: true }),
@@ -59,12 +59,12 @@ test("getTransfers() rejects with correct errors for invalid inputs", t => {
   );
 });
 
-//todo: check test
+// todo_this : check test
 // test.cb("getTransfers() invokes callback", t => {
 //   getTransfers(seed, { start: 0 }, t.end);
 // });
 
-//todo: check test
+// todo_this : check test
 test.cb("getTransfers() passes correct arguments to callback", t => {
   getTransfers(seed, { start: 0, inclusionStates: true }, (err, res) => {
     t.is(

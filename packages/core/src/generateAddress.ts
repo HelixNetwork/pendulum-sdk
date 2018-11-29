@@ -25,10 +25,11 @@ export const generateAddress = (
   checksum: boolean = false
 ): Hash => {
   while (seed.length % ADDRESS_BYTE_SIZE !== 0) {
-    seed += ADDRESS_CHECKSUM_BYTE_SIZE;
+    seed += 0;
   }
   const keyHBytes = key(subseed(hbits(seed), index), security);
   const digestsHBytes = digests(keyHBytes);
   const addressHBytes = hex(digestsHBytes); // hbytes(address(digestsHBits));
+
   return checksum ? addChecksum(addressHBytes) : addressHBytes;
 };
