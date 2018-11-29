@@ -1,8 +1,8 @@
 /** @module bundle */
 
-import { hbits, hbytes, hex } from "@helix/converter";
+import { hbits, hbytes, toHBytes, hex } from "@helix/converter";
 import HHash from "@helix/hash-module";
-import { padTag, padHBits, padHBytes } from "@helix/pad";
+import { padTag, padHBits, padSignedHBits, padHBytes } from "@helix/pad";
 import { add, normalizedBundleHash } from "@helix/signing";
 import { Hash, Bundle, Transaction, HBytes } from "../../types";
 import {
@@ -17,7 +17,8 @@ import {
   TRANSACTION_LAST_INDEX_BITS_SIZE,
   TRANSACTION_TIMESTAMP_BITS_SIZE,
   TRANSACTION_VALUE_BITS_SIZE,
-  TRANSACTION_OBSOLETE_TAG_BITS_SIZE
+  TRANSACTION_OBSOLETE_TAG_BITS_SIZE,
+  BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING
 } from "../../constants";
 
 export interface BundleEntry {
@@ -134,9 +135,8 @@ export const addHBytes = (
   transactions: Bundle,
   fragments: ReadonlyArray<HBytes>,
   offset = 0
-): Bundle => {
-  console.log("addHBytes - fragmentsSignature: " + fragments);
-  return transactions.map(
+): Bundle =>
+  transactions.map(
     (transaction, i) =>
       i >= offset && i < offset + fragments.length
         ? {
@@ -147,7 +147,6 @@ export const addHBytes = (
           }
         : transaction
   );
-};
 
 /**
  * Finalizes the bundle by calculating the bundle hash
@@ -161,7 +160,7 @@ export const addHBytes = (
 export const finalizeBundle = (transactions: Bundle): Bundle => {
   const valueHBits = transactions
     .map(tx => hbits(tx.value))
-    .map(padHBits(TRANSACTION_VALUE_BITS_SIZE));
+    .map(padSignedHBits(TRANSACTION_VALUE_BITS_SIZE));
 
   const timestampHBits = transactions
     .map(tx => hbits(tx.timestamp))
@@ -179,7 +178,7 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
     .map(tx => hbits(tx.obsoleteTag))
     .map(padHBits(TRANSACTION_OBSOLETE_TAG_BITS_SIZE));
 
-  let bundleHash: Hash;
+  let bundleHash: Hash = "";
   let validBundle: boolean = false;
 
   while (!validBundle) {
@@ -187,13 +186,15 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
     hHash.initialize();
 
     for (let i = 0; i < transactions.length; i++) {
-      const essence = hbits(
-        transactions[i].address +
-          hbytes(valueHBits[i]) +
-          hbytes(obsoleteTagHBits[i]) +
-          hbytes(timestampHBits[i]) +
-          hbytes(currentIndexHBits[i]) +
-          hbytes(lastIndexHBits)
+      const essence = toHBytes(
+        padHBytes(BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING)(
+          transactions[i].address +
+            hbytes(valueHBits[i]) +
+            hbytes(obsoleteTagHBits[i]) +
+            hbytes(timestampHBits[i]) +
+            hbytes(currentIndexHBits[i]) +
+            hbytes(lastIndexHBits)
+        )
       );
       hHash.absorb(essence, 0, essence.length);
     }

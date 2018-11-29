@@ -6,7 +6,8 @@ import {
   bundleWithInvalidSignature,
   bundleWithInvalidTransactionOrder,
   bundleWithInvalidValueSum,
-  bundleWithZeroValue
+  bundleWithZeroValue,
+  bundleWithValidSignature
 } from "@helix/samples";
 import isBundle from "../src";
 
@@ -57,11 +58,11 @@ test("isBundle() returns true for valid zero-value bundle", t => {
     "isBundle() should return true for valid zero-value bundle"
   );
 });
-//todo check it
-// test("isBundle() returns true for valid bundle.", t => {
-//   t.is(
-//     isBundle(bundle),
-//     true,
-//     "isBundle() should return true for valid bundle."
-//   );
-// });
+
+test("isBundle() returns true for valid bundle.", t => {
+  t.is(
+    isBundle(bundleWithValidSignature),
+    true,
+    "isBundle() should return true for valid bundle."
+  );
+});

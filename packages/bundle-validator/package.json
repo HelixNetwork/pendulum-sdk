@@ -61,6 +61,7 @@
     "@helix/transaction-converter": "^0.0.1-alpha.0"
   },
   "devDependencies": {
-    "@helix/samples": "^0.0.1-alpha.0"
+    "@helix/samples": "^0.0.1-alpha.0",
+    "@helix/pad": "^0.0.1-alpha.0"
   }
 }

@@ -14,25 +14,6 @@ import {
 } from "../src";
 
 test("asTransactionHBytes() converts transaction object to transaction hbytes.", t => {
-  console.log("bundleWithZeroValue");
-  console.log(transactionHBytes(bundleWithZeroValue[0]));
-  console.log("bundle0");
-  console.log(transactionHBytes(bundle[0]));
-  console.log("bundle1:");
-  console.log(asTransactionHBytes(bundle[1]));
-  console.log("bundle2:");
-  console.log(asTransactionHBytes(bundle[2]));
-  console.log("bundle3:");
-  console.log(asTransactionHBytes(bundle[3]));
-
-  console.log("attachedTransactionObjects0:");
-  console.log(asTransactionHBytes(attachedTransactionObjects[0]));
-  console.log("attachedTransactionObjects1:");
-  console.log(asTransactionHBytes(attachedTransactionObjects[1]));
-
-  console.log("transactionObject:");
-  console.log(asTransactionHBytes(transactionObject));
-
   t.deepEqual(
     asTransactionHBytes(transactionObject),
     hbytes,
