@@ -3,13 +3,13 @@ export const seed = "abcd";
 export const addresses = [
   "0219c68a8de8a82504832a8d17d64466453689dae9bbc21affe5f25efa3202c90e",
   "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd14",
-  "03dbff15092f382870dfdb21b5e3e9077ce5e43be8bff82dbd575c6eb5237f664c"
+  "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2"
 ];
 
 export const addressesWithChecksum = [
   "0219c68a8de8a82504832a8d17d64466453689dae9bbc21affe5f25efa3202c90e45034db8",
   "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd1400000000",
-  "03dbff15092f382870dfdb21b5e3e9077ce5e43be8bff82dbd575c6eb5237f664c00000000"
+  "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b200000000"
 ];
 
 export const newAddress =
