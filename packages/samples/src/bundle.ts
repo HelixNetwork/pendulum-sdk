@@ -361,7 +361,7 @@ export const transfers: TransactionWithPersistence[][] = [
   [
     {
       address:
-        "0000000000000000000000000000000000000000000000000000000000000000",
+        "000000000000000000000000000000000000000000000000000000000000000000",
       attachmentTimestamp: 0,
       attachmentTimestampLowerBound: 0,
       attachmentTimestampUpperBound: 0,
@@ -387,7 +387,7 @@ export const transfers: TransactionWithPersistence[][] = [
   [
     {
       address:
-        "0000000000000000000000000000000000000000000000000000000000000000",
+        "000000000000000000000000000000000000000000000000000000000000000000",
       attachmentTimestamp: 0,
       attachmentTimestampLowerBound: 0,
       attachmentTimestampUpperBound: 0,

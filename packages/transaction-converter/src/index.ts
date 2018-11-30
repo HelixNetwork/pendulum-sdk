@@ -1,31 +1,31 @@
 /** @module transaction-converter */
 
 import { hBitsToHBytes, hbytesToHBits, value } from "@helix/converter";
-import { transactionHash } from "@helix/transaction";
 import HHash from "@helix/hash-module";
 import { padHBits, padHBytes, padSignedHBits } from "@helix/pad";
-import * as errors from "../../errors";
-import { isHBytesOfExactLength } from "../../guards";
-import { asArray, Hash, Transaction, HBytes } from "../../types";
+import { transactionHash } from "@helix/transaction";
 import {
   ADDRESS_BYTE_SIZE,
-  OBSOLETE_TAG_BYTE_SIZE,
-  TRANSACTION_CURRENT_INDEX_BITS_SIZE,
-  TRANSACTION_LAST_INDEX_BITS_SIZE,
-  TRANSACTION_TIMESTAMP_BITS_SIZE,
-  TRANSACTION_VALUE_BITS_SIZE,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
-  TRANSACTION_HBYTE_SIZE,
-  TRANSACTION_VALUE_BYTE_SIZE,
-  TRANSACTION_TIMESTAMP_BYTE_SIZE,
-  TRANSACTION_CURRENT_INDEX_BYTE_SIZE,
   HASH_BYTE_SIZE,
-  TAG_BYTE_SIZE,
-  TRANSACTION_LAST_INDEX_BYTE_SIZE,
   NONCE_BYTE_SIZE,
+  OBSOLETE_TAG_BYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  TAG_BYTE_SIZE,
+  TRANSACTION_CURRENT_INDEX_BITS_SIZE,
+  TRANSACTION_CURRENT_INDEX_BYTE_SIZE,
+  TRANSACTION_HBYTE_SIZE,
+  TRANSACTION_LAST_INDEX_BITS_SIZE,
+  TRANSACTION_LAST_INDEX_BYTE_SIZE,
+  TRANSACTION_TIMESTAMP_BITS_SIZE,
+  TRANSACTION_TIMESTAMP_BYTE_SIZE,
+  TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE,
   TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE,
-  TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE
+  TRANSACTION_VALUE_BITS_SIZE,
+  TRANSACTION_VALUE_BYTE_SIZE
 } from "../../constants";
+import * as errors from "../../errors";
+import { isHBytesOfExactLength } from "../../guards";
+import { asArray, Hash, HBytes, Transaction } from "../../types";
 
 export function asTransactionHBytes(transactions: Transaction): HBytes;
 export function asTransactionHBytes(
@@ -112,7 +112,6 @@ export const asTransactionObject = (
   if (!isHBytesOfExactLength(hbytes, TRANSACTION_HBYTE_SIZE)) {
     throw new Error(errors.INVALID_HBYTES);
   }
-
   const hbits = hbytesToHBits(hbytes);
 
   const noOfBitsInBytes = 4;
@@ -225,7 +224,7 @@ export const asTransactionObject = (
         noOfBitsInBytes *
           (startIndexTimestampTrasnBytes + TRANSACTION_TIMESTAMP_BYTE_SIZE)
       )
-    ), //27 trits
+    ), // 27 trits
     attachmentTimestampLowerBound: value(
       hbits.slice(
         noOfBitsInBytes * startIndexTimestampLowTrasnBytes,
@@ -233,7 +232,7 @@ export const asTransactionObject = (
           (startIndexTimestampLowTrasnBytes +
             TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE)
       )
-    ), //27 trits
+    ), // 27 trits
     attachmentTimestampUpperBound: value(
       hbits.slice(
         noOfBitsInBytes * startIndexTimestampUpTrasnBytes,
@@ -241,7 +240,7 @@ export const asTransactionObject = (
           (startIndexTimestampUpTrasnBytes +
             TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE)
       )
-    ), //27 trits
+    ), // 27 trits
     nonce: hbytes.slice(
       startIndexNonceBytes,
       startIndexNonceBytes + NONCE_BYTE_SIZE

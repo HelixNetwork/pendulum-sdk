@@ -23,10 +23,9 @@ const addresses = [
   getBalancesCommand.addresses[1],
   getBalancesCommand.addresses[2]
 ];
-// todo_this : check test
 test("getBundlesFromAddresses() resolves to correct transactions.", async t => {
   t.deepEqual(
-    transfers, // await getBundlesFromAddresses(addresses, true),
+    await getBundlesFromAddresses(addresses, true),
     transfers,
     "getBundlesFromAddresses() should resolve to correct transactions."
   );
