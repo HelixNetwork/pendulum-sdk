@@ -53,11 +53,11 @@ test.cb("getBundlesFromAddresses() passes correct arguments to callback", t => {
       "getBundlesFromAddresses() should pass null as first argument in callback for successuful requests"
     );
 
-    //     t.deepEqual(
-    //       res,
-    //       transfers,
-    //       "getBundlesFromAddresses() should pass the correct response as second argument in callback"
-    //     );
+    t.deepEqual(
+      res,
+      transfers,
+      "getBundlesFromAddresses() should pass the correct response as second argument in callback"
+    );
 
     t.end();
   });
