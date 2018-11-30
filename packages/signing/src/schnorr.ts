@@ -47,7 +47,7 @@ export default class Schnorr {
     let privateKey: any = new BN(hashBytes);
     let buffer;
     while (
-      !Schnorr.validateBN(privateKey) &&
+      !Schnorr.validateBN(privateKey) ||
       privateKey.toArrayLike(Buffer, "be").length !=
         SIGNATURE_SECRETE_KEY_BYTE_SIZE
     ) {
@@ -59,7 +59,7 @@ export default class Schnorr {
   }
 
   private static validateBN(bigNumber: any) {
-    return !(bigNumber.isZero() || bigNumber.gte(Schnorr.curve.n));
+    return !(bigNumber.isZero() && bigNumber.gte(Schnorr.curve.n));
   }
 
   private static isValidPoint(point: any) {
