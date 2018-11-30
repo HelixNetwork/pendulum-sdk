@@ -41,10 +41,9 @@ test("getBundlesFromAddresses() rejects with correct errors for invalid addresse
     "getBundlesFromAddresses() should throw correct error for invalid addresses."
   );
 });
-// todo_this : check test
-// test.cb("getBundlesFromAddresses() invokes callback", t => {
-//   getBundlesFromAddresses(addresses, true, t.end);
-// });
+test.cb("getBundlesFromAddresses() invokes callback", t => {
+  getBundlesFromAddresses(addresses, true, t.end);
+});
 
 // test.cb("getBundlesFromAddresses() passes correct arguments to callback", t => {
 //   getBundlesFromAddresses(addresses, true, (err, res) => {
