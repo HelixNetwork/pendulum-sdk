@@ -20,7 +20,7 @@ export const emptyFindTransactionsResponse: FindTransactionsResponse = {
 export const findTransactionsByAddressesCommand: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
   addresses: [
-    "0270af6513000abc87fbb1cb413d27bb06826461b1968f644ab9224b28f89b044f"
+    "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd14"
   ]
 };
 
