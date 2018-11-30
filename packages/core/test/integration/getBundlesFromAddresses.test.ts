@@ -45,23 +45,23 @@ test.cb("getBundlesFromAddresses() invokes callback", t => {
   getBundlesFromAddresses(addresses, true, t.end);
 });
 
-// test.cb("getBundlesFromAddresses() passes correct arguments to callback", t => {
-//   getBundlesFromAddresses(addresses, true, (err, res) => {
-//     t.is(
-//       err,
-//       null,
-//       "getBundlesFromAddresses() should pass null as first argument in callback for successuful requests"
-//     );
+test.cb("getBundlesFromAddresses() passes correct arguments to callback", t => {
+  getBundlesFromAddresses(addresses, true, (err, res) => {
+    t.is(
+      err,
+      null,
+      "getBundlesFromAddresses() should pass null as first argument in callback for successuful requests"
+    );
 
-//     t.deepEqual(
-//       res,
-//       transfers,
-//       "getBundlesFromAddresses() should pass the correct response as second argument in callback"
-//     );
+    //     t.deepEqual(
+    //       res,
+    //       transfers,
+    //       "getBundlesFromAddresses() should pass the correct response as second argument in callback"
+    //     );
 
-//     t.end();
-//   });
-// });
+    t.end();
+  });
+});
 
 test("getBundleSync() returns correct bundle.", t => {
   t.deepEqual(
