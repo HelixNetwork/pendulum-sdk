@@ -2,70 +2,77 @@
 
 // IRI commands
 export {
-    AddNeighborsCommand,
-    AddNeighborsResponse,
-    AttachToTangleCommand,
-    AttachToTangleResponse,
-    BroadcastTransactionsCommand,
-    BroadcastTransactionsResponse,
-    CheckConsistencyCommand,
-    CheckConsistencyResponse,
-    FindTransactionsQuery,
-    FindTransactionsCommand,
-    FindTransactionsResponse,
-    GetBalancesCommand,
-    GetBalancesResponse,
-    Balances,
-    GetInclusionStatesCommand,
-    GetInclusionStatesResponse,
-    GetNeighborsCommand,
-    GetNeighborsResponse,
-    GetNodeInfoCommand,
-    GetNodeInfoResponse,
-    GetTipsCommand,
-    GetTipsResponse,
-    GetTransactionsToApproveCommand,
-    GetTransactionsToApproveResponse,
-    TransactionsToApprove,
-    GetTrytesCommand,
-    GetTrytesResponse,
-    InterruptAttachingToTangleCommand,
-    InterruptAttachingToTangleResponse,
-    RemoveNeighborsCommand,
-    RemoveNeighborsResponse,
-    StoreTransactionsCommand,
-    StoreTransactionsResponse,
-} from '../../types'
+  AddNeighborsCommand,
+  AddNeighborsResponse,
+  AttachToTangleCommand,
+  AttachToTangleResponse,
+  BroadcastTransactionsCommand,
+  BroadcastTransactionsResponse,
+  CheckConsistencyCommand,
+  CheckConsistencyResponse,
+  FindTransactionsQuery,
+  FindTransactionsCommand,
+  FindTransactionsResponse,
+  GetBalancesCommand,
+  GetBalancesResponse,
+  Balances,
+  GetInclusionStatesCommand,
+  GetInclusionStatesResponse,
+  GetNeighborsCommand,
+  GetNeighborsResponse,
+  GetNodeInfoCommand,
+  GetNodeInfoResponse,
+  GetTipsCommand,
+  GetTipsResponse,
+  GetTransactionsToApproveCommand,
+  GetTransactionsToApproveResponse,
+  TransactionsToApprove,
+  GetHBytesCommand,
+  GetHBytesResponse,
+  InterruptAttachingToTangleCommand,
+  InterruptAttachingToTangleResponse,
+  RemoveNeighborsCommand,
+  RemoveNeighborsResponse,
+  StoreTransactionsCommand,
+  StoreTransactionsResponse
+} from "../../types";
 
-export { createAddNeighbors } from './createAddNeighbors'
+export { createAddNeighbors } from "./createAddNeighbors";
 
-export { createAttachToTangle } from './createAttachToTangle'
+export { createAttachToTangle } from "./createAttachToTangle";
 
-export { createBroadcastTransactions } from './createBroadcastTransactions'
+export { createBroadcastTransactions } from "./createBroadcastTransactions";
 
-export { createCheckConsistency, CheckConsistencyOptions } from './createCheckConsistency'
+export {
+  createCheckConsistency,
+  CheckConsistencyOptions
+} from "./createCheckConsistency";
 
-export { createFindTransactions } from './createFindTransactions'
+export { createFindTransactions } from "./createFindTransactions";
 
-export { createGetBalances } from './createGetBalances'
+export { createGetBalances } from "./createGetBalances";
 
-export { createGetInclusionStates } from './createGetInclusionStates'
+export { createGetInclusionStates } from "./createGetInclusionStates";
 
-export { createGetNeighbors } from './createGetNeighbors'
+export { createGetNeighbors } from "./createGetNeighbors";
 
-export { createGetNodeInfo } from './createGetNodeInfo'
+export { createGetNodeInfo } from "./createGetNodeInfo";
 
-export { createGetTips } from './createGetTips'
+export { createGetTips } from "./createGetTips";
 
-export { createGetTransactionsToApprove } from './createGetTransactionsToApprove'
+export {
+  createGetTransactionsToApprove
+} from "./createGetTransactionsToApprove";
 
-export { createGetTrytes } from './createGetTrytes'
+export { createGetHBytes } from "./createGetHBytes";
 
-export { createInterruptAttachingToTangle } from './createInterruptAttachingToTangle'
+export {
+  createInterruptAttachingToTangle
+} from "./createInterruptAttachingToTangle";
 
-export { createRemoveNeighbors } from './createRemoveNeighbors'
+export { createRemoveNeighbors } from "./createRemoveNeighbors";
 
-export { createStoreTransactions } from './createStoreTransactions'
+export { createStoreTransactions } from "./createStoreTransactions";
 
 // `wereAddressesSpentFrom` command is a temporary measure to prevent loss of funds,
 // when security assumptions are ignored by developers or wallet users.
@@ -79,13 +86,17 @@ export { createStoreTransactions } from './createStoreTransactions'
 // } from './createWereAddressesSpentFrom'
 
 // Wrappers
-export { createBroadcastBundle } from './createBroadcastBundle'
+export { createBroadcastBundle } from "./createBroadcastBundle";
 
-export { createFindTransactionObjects } from './createFindTransactionObjects'
+export { createFindTransactionObjects } from "./createFindTransactionObjects";
 
-export { createGetAccountData, GetAccountDataOptions, AccountData } from './createGetAccountData'
+export {
+  createGetAccountData,
+  GetAccountDataOptions,
+  AccountData
+} from "./createGetAccountData";
 
-export { createGetBundle } from './createGetBundle'
+export { createGetBundle } from "./createGetBundle";
 
 // `getBundlesFromAddress` has been deprecated because of its poor performance.
 // Traversing and validating bundles gets slower as bundle instances increase.
@@ -93,18 +104,18 @@ export { createGetBundle } from './createGetBundle'
 //
 // export { createGetBundlesFromAddresses } from './createGetBundlesFromAddresses'
 
-export { createGetInputs, GetInputsOptions } from './createGetInputs'
+export { createGetInputs, GetInputsOptions } from "./createGetInputs";
 
-export { createGetLatestInclusion } from './createGetLatestInclusion'
+export { createGetLatestInclusion } from "./createGetLatestInclusion";
 
 export {
-    createGetNewAddress,
-    // createGetUntilFirstUnusedAddress,
-    createIsAddressUsed,
-    GetNewAddressOptions,
-} from './createGetNewAddress'
+  createGetNewAddress,
+  // createGetUntilFirstUnusedAddress,
+  createIsAddressUsed,
+  GetNewAddressOptions
+} from "./createGetNewAddress";
 
-export { createGetTransactionObjects } from './createGetTransactionObjects'
+export { createGetTransactionObjects } from "./createGetTransactionObjects";
 
 // `getTransfers` has been deprecated because of poor performance (regenerates addresses
 // and calls `getBundlesFromAddresses`).
@@ -117,27 +128,33 @@ export { createGetTransactionObjects } from './createGetTransactionObjects'
 //     GetTransfersOptions
 // } from './createGetTransfers'
 
-export { isAboveMaxDepth, createIsPromotable } from './createIsPromotable'
+export { isAboveMaxDepth, createIsPromotable } from "./createIsPromotable";
 
-export { createIsReattachable } from './createIsReattachable'
+export { createIsReattachable } from "./createIsReattachable";
 
-export { createPromoteTransaction, PromoteTransactionOptions } from './createPromoteTransaction'
+export {
+  createPromoteTransaction,
+  PromoteTransactionOptions
+} from "./createPromoteTransaction";
 
-export { createReplayBundle } from './createReplayBundle'
+export { createReplayBundle } from "./createReplayBundle";
 
-export { createSendTrytes } from './createSendTrytes'
+export { createSendHBytes } from "./createSendHBytes";
 
-export { createPrepareTransfers, PrepareTransfersOptions } from './createPrepareTransfers'
+export {
+  createPrepareTransfers,
+  PrepareTransfersOptions
+} from "./createPrepareTransfers";
 
-export { createStoreAndBroadcast } from './createStoreAndBroadcast'
+export { createStoreAndBroadcast } from "./createStoreAndBroadcast";
 
-export { createTraverseBundle } from './createTraverseBundle'
+export { createTraverseBundle } from "./createTraverseBundle";
 
-export { generateAddress } from './generateAddress'
+export { generateAddress } from "./generateAddress";
 
 // Errors
-import * as errors from '../../errors'
-export { errors }
+import * as errors from "../../errors";
+export { errors };
 
 // export api factory with default provider
-export { API, composeAPI, Settings } from './composeAPI'
+export { API, composeAPI, Settings } from "./composeAPI";

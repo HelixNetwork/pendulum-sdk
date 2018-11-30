@@ -1,7 +1,8 @@
-import { addChecksum } from '@helixnetwork/checksum'
-import { trits, trytes } from '@helixnetwork/converter'
-import { address, digests, key, subseed } from '@helixnetwork/signing'
-import { Hash } from '../../types'
+import { addChecksum } from "@helix/checksum";
+import { hbits, hbytes, hex } from "@helix/converter";
+import { digests, key, subseed } from "@helix/signing";
+import { ADDRESS_BYTE_SIZE, ADDRESS_CHECKSUM_BYTE_SIZE } from "../../constants";
+import { Hash } from "../../types";
 
 /**
  * Generates an address deterministically, according to the given seed, index and security level.
@@ -13,18 +14,22 @@ import { Hash } from '../../types'
  * @param {string} seed
  * @param {number} index - Private key index
  * @param {number} [security=2] - Security level of the private key
- * @param {boolean} [checksum=false] - Flag to add 9trytes checksum
+ * @param {boolean} [checksum=false] - Flag to add 0hbytes checksum
  *
- * @returns {Hash} Address trytes
+ * @returns {Hash} Address hbytes
  */
-export const generateAddress = (seed: string, index: number, security: number = 2, checksum: boolean = false): Hash => {
-    while (seed.length % 81 !== 0) {
-        seed += 9
-    }
+export const generateAddress = (
+  seed: string,
+  index: number,
+  security: number = 2,
+  checksum: boolean = false
+): Hash => {
+  while (seed.length % ADDRESS_BYTE_SIZE !== 0) {
+    seed += 0;
+  }
+  const keyHBytes = key(subseed(hbits(seed), index), security);
+  const digestsHBytes = digests(keyHBytes);
+  const addressHBytes = hex(digestsHBytes); // hbytes(address(digestsHBits));
 
-    const keyTrits = key(subseed(trits(seed), index), security)
-    const digestsTrits = digests(keyTrits)
-    const addressTrytes = trytes(address(digestsTrits))
-
-    return checksum ? addChecksum(addressTrytes) : addressTrytes
-}
+  return checksum ? addChecksum(addressHBytes) : addressHBytes;
+};

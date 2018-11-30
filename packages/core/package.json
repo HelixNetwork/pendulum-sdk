@@ -1,100 +1,87 @@
 {
-    "name": "@helixnetwork/core",
-    "version": "0.0.1-alpha.0",
-    "description": "Core functionality to interact with the IOTA network: generate addresses, create, broadcast and monitor transactions.",
-    "main": "./out/core/src/index.js",
-    "typings": "typings/core/src",
-    "publishConfig": {
-        "access": "private"
+  "name": "@helix/core",
+  "version": "0.0.1-alpha.0",
+  "description":
+    "Core functionality to interact with the IOTA network: generate addresses, create, broadcast and monitor transactions.",
+  "main": "./out/core/src/index.js",
+  "typings": "typings/core/src",
+  "publishConfig": {
+    "access": "private"
+  },
+  "scripts": {
+    "prepare": "tsc",
+    "test": "tsc && nyc ava",
+    "test-ci": "nyc ava",
+    "format": "prettier",
+    "docs":
+      "tsc && jsdoc2md --no-cache --plugin dmd-clear -t README_tpl.hbs --files './out/**/*.js' > README.md"
+  },
+  "contributors": [
+    "Dominik Schiener <dom@iota.org> (https://iota.org)",
+    "Edward Greve <edward@iota.org> (https://github.com/anyong)",
+    "Chris Dukakis <chris.dukakis@iota.org> (https://github.com/chrisdukakis)"
+  ],
+  "ava": {
+    "files": ["out/core/test/integration/**/*.test.js"],
+    "failFast": false,
+    "failWithoutAssertions": false,
+    "compileEnhancements": false,
+    "verbose": true
+  },
+  "nyc": {
+    "watermarks": {
+      "functions": [80, 95],
+      "branches": [80, 95],
+      "statements": [80, 95]
     },
-    "scripts": {
-        "prepare": "tsc",
-        "test": "tsc && nyc ava",
-        "test-ci": "nyc ava",
-        "format": "prettier",
-        "docs": "tsc && jsdoc2md --no-cache --plugin dmd-clear -t README_tpl.hbs --files './out/**/*.js' > README.md"
-    },
-    "contributors": [
-        "Dominik Schiener <dom@iota.org> (https://iota.org)",
-        "Edward Greve <edward@iota.org> (https://github.com/anyong)",
-        "Chris Dukakis <chris.dukakis@iota.org> (https://github.com/chrisdukakis)"
-    ],
-    "ava": {
-        "files": [
-            "out/core/test/integration/**/*.test.js"
-        ],
-        "failFast": true,
-        "failWithoutAssertions": false,
-        "compileEnhancements": false,
-        "verbose": true
-    },
-    "nyc": {
-        "watermarks": {
-            "functions": [
-                80,
-                95
-            ],
-            "branches": [
-                80,
-                95
-            ],
-            "statements": [
-                80,
-                95
-            ]
-        },
-        "include": [
-            "out/*/src/*.js",
-            "out/*/test/**/*.js"
-        ],
-        "exclude": [
-            "out/*/test/integration/nocks/*.js",
-            "out/**/createSendTransfer.js",
-            "out/**/createIsReattachable.js",
-            "out/**/createInterruptAttachingToTangle.js"
-        ]
-    },
-    "keywords": [
-        "iota",
-        "tangle",
-        "library",
-        "browser",
-        "javascript",
-        "nodejs",
-        "API"
-    ],
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/helixnetwork/helix.api/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/helixnetwork/helix.api.git"
-    },
-    "dependencies": {
-        "@helixnetwork/bundle": "^0.0.1-alpha.0",
-        "@helixnetwork/bundle-validator": "^0.0.1-alpha.0",
-        "@helixnetwork/checksum": "^0.0.1-alpha.0",
-        "@helixnetwork/converter": "^0.0.1-alpha.0",
-        "@helixnetwork/curl": "^0.0.1-alpha.0",
-        "@helixnetwork/http-client": "^0.0.1-alpha.0",
-        "@helixnetwork/kerl": "^0.0.1-alpha.0",
-        "@helixnetwork/pad": "^0.0.1-alpha.0",
-        "@helixnetwork/signing": "^0.0.1-alpha.0",
-        "@helixnetwork/transaction": "^0.0.1-alpha.0",
-        "@helixnetwork/transaction-converter": "^0.0.1-alpha.0",
-        "@types/bluebird": "^3.5.20",
-        "bluebird": "^3.5.1"
-    },
-    "devDependencies": {
-        "@babel/plugin-syntax-async-generators": "^7.0.0-beta.49",
-        "@helixnetwork/samples": "^0.0.1-alpha.0",
-        "@types/nock": "^9.1.2",
-        "babel-cli": "^6.26.0",
-        "babel-core": "^6.26.0",
-        "babel-plugin-transform-object-rest-spread": "^6.26.0",
-        "babel-preset-es2015": "^6.24.1",
-        "babel-preset-latest": "^6.24.1",
-        "nock": "^9.2.3"
-    }
+    "include": ["out/*/src/*.js", "out/*/test/**/*.js"],
+    "exclude": [
+      "out/*/test/integration/nocks/*.js",
+      "out/**/createSendTransfer.js",
+      "out/**/createIsReattachable.js",
+      "out/**/createInterruptAttachingToTangle.js"
+    ]
+  },
+  "keywords": [
+    "iota",
+    "tangle",
+    "library",
+    "browser",
+    "javascript",
+    "nodejs",
+    "API"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/helixnetwork/helix.api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/helixnetwork/helix.api.git"
+  },
+  "dependencies": {
+    "@helix/bundle": "^0.0.1-alpha.0",
+    "@helix/bundle-validator": "^0.0.1-alpha.0",
+    "@helix/checksum": "^0.0.1-alpha.0",
+    "@helix/converter": "^0.0.1-alpha.0",
+    "@helix/hash-module": "^0.0.1-alpha.0",
+    "@helix/http-client": "^0.0.1-alpha.0",
+    "@helix/pad": "^0.0.1-alpha.0",
+    "@helix/signing": "^0.0.1-alpha.0",
+    "@helix/transaction": "^0.0.1-alpha.0",
+    "@helix/transaction-converter": "^0.0.1-alpha.0",
+    "@types/bluebird": "^3.5.20",
+    "bluebird": "^3.5.1"
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-async-generators": "^7.0.0-beta.49",
+    "@helix/samples": "^0.0.1-alpha.0",
+    "@types/nock": "^9.1.2",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-latest": "^6.24.1",
+    "nock": "^9.2.3"
+  }
 }
