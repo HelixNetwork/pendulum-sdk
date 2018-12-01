@@ -13,3 +13,6 @@ coverage
 *.log
 *.cache
 /packages/*/test/localtest.ts
+out
+typings
+

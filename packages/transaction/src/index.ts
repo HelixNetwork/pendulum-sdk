@@ -2,40 +2,46 @@
  * @module transaction
  */
 
-import { tritsToTrytes, trytesToTrits } from '@helixnetwork/converter'
-import Curl from '@helixnetwork/curl'
-import * as errors from '../../errors'
-import { isArray, isHash, isTrytesOfExactLength, validate, Validator } from '../../guards'
-import { Hash, Transaction, Trytes } from '../../types'
+import { hbytesToHBits, hex } from "@helix/converter";
+import HHash from "@helix/hash-module";
 import {
-    HASH_SIZE,
-    NONCE_TRYTES_SIZE,
-    OBSOLETE_TAG_TRYTES_SIZE,
-    SIGNATURE_MESSAGE_FRAGMENT_TRYTES_SIZE,
-    TAG_TRYTES_SIZE,
-    TRANSACTION_TRYTES_SIZE,
-} from './constants'
+  HASH_BYTE_SIZE,
+  NONCE_BYTE_SIZE,
+  OBSOLETE_TAG_BYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  TAG_BYTE_SIZE,
+  TRANSACTION_HBYTE_SIZE
+} from "../../constants";
+import * as errors from "../../errors";
+import {
+  isAddress,
+  isArray,
+  isHash,
+  isHBytesOfExactLength,
+  validate,
+  Validator
+} from "../../guards";
+import { Hash, HBytes, Transaction } from "../../types";
 
 /**
- * Calculates the transaction hash out of 8019 transaction trits.
+ * Calculates the transaction hash out of 8019 transaction hbits.
  *
  * @method transactionHash
  *
- * @param {Int8Array} trits - Int8Array of 8019 transaction trits
+ * @param {Int8Array} hBits - Int8Array of 8019 transaction hbits
  *
  * @return {Hash} Transaction hash
  */
-export const transactionHash = (trits: Int8Array): Hash => {
-    const hash: Int8Array = new Int8Array(Curl.HASH_LENGTH)
-    const curl = new Curl()
+export const transactionHash = (hBits: Int8Array): Hash => {
+  const hHash = new HHash(HHash.HASH_ALGORITHM_2);
+  const hash: Int8Array = new Int8Array(hHash.getHashLength());
 
-    // generate the transaction hash
-    curl.initialize()
-    curl.absorb(trits, 0, trits.length)
-    curl.squeeze(hash, 0, Curl.HASH_LENGTH)
-
-    return tritsToTrytes(hash)
-}
+  // generate the transaction hash
+  hHash.initialize();
+  hHash.absorb(hBits, 0, hBits.length);
+  hHash.squeeze(hash, 0, hHash.getHashLength());
+  return hex(hash);
+};
 
 /* Type guards */
 
@@ -48,23 +54,31 @@ export const transactionHash = (trits: Int8Array): Hash => {
  *
  * @return {boolean}
  */
-export const isTransaction = (tx: any): tx is Transaction =>
+export const isTransaction = (tx: any): tx is Transaction => {
+  return (
     isHash(tx.hash) &&
-    isTrytesOfExactLength(tx.signatureMessageFragment, SIGNATURE_MESSAGE_FRAGMENT_TRYTES_SIZE) &&
-    isHash(tx.address) &&
+    isHBytesOfExactLength(
+      tx.signatureMessageFragment,
+      SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+    ) &&
+    isAddress(tx.address) &&
     Number.isInteger(tx.value) &&
-    isTrytesOfExactLength(tx.obsoleteTag, OBSOLETE_TAG_TRYTES_SIZE) &&
+    isHBytesOfExactLength(tx.obsoleteTag, OBSOLETE_TAG_BYTE_SIZE) &&
     Number.isInteger(tx.timestamp) &&
-    (Number.isInteger(tx.currentIndex) && tx.currentIndex >= 0 && tx.currentIndex <= tx.lastIndex) &&
+    (Number.isInteger(tx.currentIndex) &&
+      tx.currentIndex >= 0 &&
+      tx.currentIndex <= tx.lastIndex) &&
     Number.isInteger(tx.lastIndex) &&
     isHash(tx.bundle) &&
     isHash(tx.trunkTransaction) &&
     isHash(tx.branchTransaction) &&
-    isTrytesOfExactLength(tx.tag, TAG_TRYTES_SIZE) &&
+    isHBytesOfExactLength(tx.tag, TAG_BYTE_SIZE) &&
     Number.isInteger(tx.attachmentTimestamp) &&
     Number.isInteger(tx.attachmentTimestampLowerBound) &&
     Number.isInteger(tx.attachmentTimestampUpperBound) &&
-    isTrytesOfExactLength(tx.nonce, NONCE_TRYTES_SIZE)
+    isHBytesOfExactLength(tx.nonce, NONCE_BYTE_SIZE)
+  );
+};
 
 /**
  * Checks if given transaction object is tail transaction.
@@ -76,11 +90,13 @@ export const isTransaction = (tx: any): tx is Transaction =>
  *
  * @return {boolean}
  */
-export const isTailTransaction = (transaction: any): transaction is Transaction =>
-    isTransaction(transaction) && transaction.currentIndex === 0
+export const isTailTransaction = (
+  transaction: any
+): transaction is Transaction =>
+  isTransaction(transaction) && transaction.currentIndex === 0;
 
 /**
- * Checks if input is correct transaction hash (81 trytes)
+ * Checks if input is correct transaction hash (32 hbytes)
  *
  * @method isTransactionHash
  *
@@ -89,93 +105,108 @@ export const isTailTransaction = (transaction: any): transaction is Transaction 
  *
  * @return {boolean}
  */
-export const isTransactionHash = (hash: any, minWeightMagnitude?: number): hash is Hash => {
-    const hasCorrectHashLength = isTrytesOfExactLength(hash, HASH_SIZE)
+export const isTransactionHash = (
+  hash: any,
+  minWeightMagnitude?: number
+): hash is Hash => {
+  const hasCorrectHashLength = isHBytesOfExactLength(hash, HASH_BYTE_SIZE);
 
-    if (minWeightMagnitude) {
-        return (
-            hasCorrectHashLength &&
-            trytesToTrits(hash)
-                .slice(-Math.abs(minWeightMagnitude))
-                .every(trit => trit === 0)
-        )
-    }
+  if (minWeightMagnitude) {
+    return (
+      hasCorrectHashLength &&
+      hbytesToHBits(hash)
+        .slice(-Math.abs(minWeightMagnitude))
+        .every(hBit => hBit === 0)
+    );
+  }
 
-    return hasCorrectHashLength
-}
+  return hasCorrectHashLength;
+};
 
 /**
- * Checks if input is correct transaction trytes (2673 trytes)
+ * Checks if input is correct transaction hbytes (2673 hbytes)
  *
- * @method isTransactionTrytes
+ * @method isTransactionHBytes
  *
- * @param {string} trytes
+ * @param {string} hbytes
  * @param {number} minWeightMagnitude
  *
  * @return {boolean}
  */
-export const isTransactionTrytes = (trytes: any, minWeightMagnitude?: number): trytes is Trytes => {
-    const hasCorrectTrytesLength = isTrytesOfExactLength(trytes, TRANSACTION_TRYTES_SIZE)
+export const isTransactionHBytes = (
+  hbytes: any,
+  minWeightMagnitude?: number
+): hbytes is HBytes => {
+  const hasCorrectHBytesLength = isHBytesOfExactLength(
+    hbytes,
+    TRANSACTION_HBYTE_SIZE
+  );
 
-    if (minWeightMagnitude) {
-        return hasCorrectTrytesLength && isTransactionHash(transactionHash(trytesToTrits(trytes)), minWeightMagnitude)
-    }
+  if (minWeightMagnitude) {
+    return (
+      hasCorrectHBytesLength &&
+      isTransactionHash(
+        transactionHash(hbytesToHBits(hbytes)),
+        minWeightMagnitude
+      )
+    );
+  }
 
-    return hasCorrectTrytesLength
-}
+  return hasCorrectHBytesLength;
+};
 
 /**
- * Checks if input is valid attached transaction trytes.
- * For attached transactions last 241 trytes are non-zero.
+ * Checks if input is valid attached transaction hbytes.
+ * For attached transactions last 64 hbytes are non-zero. // 241
  *
- * @method isAttachedTrytes
+ * @method isAttachedHBytes
  *
- * @param {string} trytes
+ * @param {string} hbytes
  *
  * @return {boolean}
  */
-export const isAttachedTrytes = (trytes: any): trytes is Trytes =>
-    isTrytesOfExactLength(trytes, TRANSACTION_TRYTES_SIZE) &&
-    !/^[9]+$/.test(trytes.slice(TRANSACTION_TRYTES_SIZE - 3 * HASH_SIZE))
+export const isAttachedHBytes = (hbytes: any): hbytes is HBytes =>
+  isHBytesOfExactLength(hbytes, TRANSACTION_HBYTE_SIZE) &&
+  !/^[0]+$/.test(hbytes.slice(TRANSACTION_HBYTE_SIZE - 2 * HASH_BYTE_SIZE));
 
-export const isAttachedTrytesArray = isArray(isAttachedTrytes)
-export const isTransactionArray = isArray(isTransaction)
-export const isTransactionHashArray = isArray(isTransactionHash)
+export const isAttachedHBytesArray = isArray(isAttachedHBytes);
+export const isTransactionArray = isArray(isTransaction);
+export const isTransactionHashArray = isArray(isTransactionHash);
 
 /* Validators */
 
-export const transactionValidator: Validator<Transaction> = (transaction: any) => [
-    transaction,
-    isTransaction,
-    errors.INVALID_TRANSACTION,
-]
+export const transactionValidator: Validator<Transaction> = (
+  transaction: any
+) => [transaction, isTransaction, errors.INVALID_TRANSACTION];
 
-export const tailTransactionValidator: Validator<Transaction> = (transaction: any) => [
-    transaction,
-    isTailTransaction,
-    errors.INVALID_TAIL_TRANSACTION,
-]
+export const tailTransactionValidator: Validator<Transaction> = (
+  transaction: any
+) => [transaction, isTailTransaction, errors.INVALID_TAIL_TRANSACTION];
 
-export const transactionHashValidator: Validator<Hash> = (hash: any, msg?: string) => [
-    hash,
-    isTransactionHash,
-    msg || errors.INVALID_TRANSACTION_HASH,
-]
+export const transactionHashValidator: Validator<Hash> = (
+  hash: any,
+  msg?: string
+) => [hash, isTransactionHash, msg || errors.INVALID_TRANSACTION_HASH];
 
-export const transactionTrytesValidator: Validator<Trytes> = (trytes: any) => [
-    trytes,
-    isTransactionTrytes,
-    errors.INVALID_TRANSACTION_TRYTES,
-]
+export const transactionHBytesValidator: Validator<HBytes> = (hbytes: any) => [
+  hbytes,
+  isTransactionHBytes,
+  errors.INVALID_TRANSACTION_HBYTES
+];
 
-export const attachedTrytesValidator: Validator<Trytes> = (trytes: any) => [
-    trytes,
-    isAttachedTrytes,
-    errors.INVALID_ATTACHED_TRYTES,
-]
+export const attachedHBytesValidator: Validator<HBytes> = (hbytes: any) => [
+  hbytes,
+  isAttachedHBytes,
+  errors.INVALID_ATTACHED_HBYTES
+];
 
-export const validateTransaction = (transaction: any) => validate(transactionValidator(transaction))
-export const validateTailTransaction = (transaction: any) => validate(tailTransactionValidator(transaction))
-export const validateTransactionHash = (hash: any, msg?: string) => validate(transactionHashValidator(hash, msg))
-export const validateTransactionTrytes = (trytes: any) => validate(transactionTrytesValidator(trytes))
-export const validateAttachedTrytes = (trytes: any) => validate(attachedTrytesValidator(trytes))
+export const validateTransaction = (transaction: any) =>
+  validate(transactionValidator(transaction));
+export const validateTailTransaction = (transaction: any) =>
+  validate(tailTransactionValidator(transaction));
+export const validateTransactionHash = (hash: any, msg?: string) =>
+  validate(transactionHashValidator(hash, msg));
+export const validateTransactionHBytes = (hbytes: any) =>
+  validate(transactionHBytesValidator(hbytes));
+export const validateAttachedHBytes = (hbytes: any) =>
+  validate(attachedHBytesValidator(hbytes));

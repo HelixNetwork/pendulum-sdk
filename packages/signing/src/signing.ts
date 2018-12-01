@@ -1,246 +1,317 @@
 /** @module signing */
 
-import { fromValue, trits, trytes, value } from '@helixnetwork/converter'
-import Kerl from '@helixnetwork/kerl'
-import { padTrits } from '@helixnetwork/pad'
-import add from './add'
-import * as errors from './errors'
-import { Hash } from '../../types'
+import {
+  fromValue,
+  hbits,
+  hbytes,
+  hbytesToHBits,
+  hex,
+  toHBytes,
+  value
+} from "@helix/converter";
+import HHash from "@helix/hash-module";
+import { padHBits } from "@helix/pad";
+import { AssertionError } from "assert";
+import { IncomingMessage } from "http";
+import {
+  // ADDRESS_SIZE_BITS,
+  HASH_BITS_SIZE,
+  HASH_BYTE_SIZE,
+  SIGNATURE_FRAGMENT_NO,
+  // SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS,
+  SIGNATURE_SECRETE_KEY_BYTE_SIZE,
+  SIGNATURE_TOTAL_BYTE_SIZE
+} from "../../constants";
+import { arrayValidator } from "../../guards";
+import { Hash } from "../../types";
+import add from "./add";
+import * as errors from "./errors";
+import HSign from "./hsign";
+import Schnorr from "./schnorr";
 
 /**
  * @method subseed
+ * Compute subseed based on the seed with an additional index
  *
- * @param {Int8Array} seed - Seed trits
+ * @param {Int8Array} seed - Seed hbits
  * @param {number} index - Private key index
  *
- * @return {Int8Array} subseed trits
+ * @return {Int8Array} subseed hbits
  */
 export function subseed(seed: Int8Array, index: number): Int8Array {
-    if (index < 0) {
-        throw new Error(errors.ILLEGAL_KEY_INDEX)
-    }
+  if (index < 0) {
+    throw new Error(errors.ILLEGAL_KEY_INDEX);
+  }
 
-    if (seed.length % 3 !== 0) {
-        throw new Error(errors.ILLEGAL_SEED_LENGTH)
-    }
+  if (seed.length % 4 !== 0) {
+    throw new Error(errors.ILLEGAL_SEED_LENGTH);
+  }
 
-    const indexTrits = fromValue(index)
-    let subseed: Int8Array = add(seed, indexTrits)
+  const indexHBits = fromValue(index);
+  let subseed: Int8Array = add(seed, indexHBits);
 
-    while (subseed.length % 243 !== 0) {
-        subseed = padTrits(subseed.length + 3)(subseed)
-    }
+  const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
-    const kerl = new Kerl()
+  while (subseed.length % hHash.getHashLength() !== 0) {
+    subseed = padHBits(subseed.length + subseed.length % hHash.getHashLength())(
+      subseed
+    ); // don't really know if it's necessary
+  }
 
-    kerl.initialize()
-    kerl.absorb(subseed, 0, subseed.length)
-    kerl.squeeze(subseed, 0, subseed.length)
+  hHash.initialize();
+  hHash.absorbBits(subseed, 0, subseed.length);
+  hHash.squeeze(subseed, 0, subseed.length);
 
-    return subseed
+  return subseed;
 }
 
 /**
  * @method key
+ * Split seed in fragments and hashed them then generate from each fragment a schnore private key;
  *
- * @param {Int8Array} subseed - Subseed trits
- * @param {number} length - Private key length
+ * @param {Int8Array} subseed - Subseed hbits
+ * @param {number} securityLevel - Private key length
  *
- * @return {Int8Array} Private key trits
+ * @return {Int8Array} Private key bytes
  */
-export function key(subseed: Int8Array, length: number): Int8Array {
-    if (subseed.length % 3 !== 0) {
-        throw new Error(errors.ILLEGAL_SUBSEED_LENGTH)
+export function key(subseed: Int8Array, securityLevel: number): Uint8Array {
+  if (subseed.length % 4 !== 0) {
+    throw new Error(errors.ILLEGAL_SUBSEED_LENGTH);
+  }
+
+  const hHash = new HHash(HHash.HASH_ALGORITHM_1);
+  hHash.initialize();
+  hHash.absorbBits(subseed, 0, subseed.length);
+
+  const buffer = new Int8Array(hHash.getHashLength());
+  const result = new Uint8Array(
+    securityLevel * SIGNATURE_FRAGMENT_NO * SIGNATURE_SECRETE_KEY_BYTE_SIZE
+  );
+  let offset = 0;
+
+  while (securityLevel-- > 0) {
+    for (let i = 0; i < SIGNATURE_FRAGMENT_NO; i++) {
+      hHash.squeeze(buffer, 0, subseed.length);
+      const secreteKeySchnorr: Uint8Array = Schnorr.computeSecreteKey(buffer);
+      for (let j = 0; j < secreteKeySchnorr.length; j++) {
+        result[offset++] = secreteKeySchnorr[j];
+      }
     }
-
-    const kerl = new Kerl()
-
-    kerl.initialize()
-    kerl.absorb(subseed, 0, subseed.length)
-
-    const buffer = new Int8Array(Kerl.HASH_LENGTH)
-    const result = new Int8Array(length * 27 * 243)
-    let offset = 0
-
-    while (length-- > 0) {
-        for (let i = 0; i < 27; i++) {
-            kerl.squeeze(buffer, 0, subseed.length)
-            for (let j = 0; j < 243; j++) {
-                result[offset++] = buffer[j]
-            }
-        }
-    }
-    return result
+  }
+  // returns security * 32 * 64 bytes => 2048 bytes private key - private key for schnorr, as a byte array
+  return result;
 }
 
 /**
  * @method digests
  *
- * @param {Int8Array} key - Private key trits
+ * @param {Uint8Array} key - Private key hbits
  *
- * @return {Int8Array}
+ * @return {Uint8Array}
+ *
  */
 // tslint:disable-next-line no-shadowed-variable
-export function digests(key: Int8Array): Int8Array {
-    const l = Math.floor(key.length / 6561)
-    const result = new Int8Array(l * 243)
-    let buffer = new Int8Array(Kerl.HASH_LENGTH)
 
-    for (let i = 0; i < l; i++) {
-        const keyFragment = key.slice(i * 6561, (i + 1) * 6561)
+export function digests(key: Uint8Array): Uint8Array {
+  const securityLevel = Math.floor(
+    key.length / (SIGNATURE_SECRETE_KEY_BYTE_SIZE * SIGNATURE_FRAGMENT_NO)
+  );
 
-        for (let j = 0; j < 27; j++) {
-            buffer = keyFragment.slice(j * 243, (j + 1) * 243)
+  const result = new Uint8Array(securityLevel * HASH_BITS_SIZE);
+  let secreteKey = new Uint8Array(HASH_BITS_SIZE);
 
-            for (let k = 0; k < 26; k++) {
-                const keyFragmentKerl = new Kerl()
+  const publicKeys = new Array<Uint8Array>(
+    securityLevel * SIGNATURE_FRAGMENT_NO
+  );
 
-                keyFragmentKerl.initialize()
-                keyFragmentKerl.absorb(buffer, 0, buffer.length)
-                keyFragmentKerl.squeeze(buffer, 0, Kerl.HASH_LENGTH)
-            }
+  for (let i = 0; i < securityLevel; i++) {
+    const keyFragment = key.slice(
+      i * SIGNATURE_SECRETE_KEY_BYTE_SIZE * SIGNATURE_FRAGMENT_NO,
+      (i + 1) * SIGNATURE_SECRETE_KEY_BYTE_SIZE * SIGNATURE_FRAGMENT_NO
+    );
 
-            for (let k = 0; k < 243; k++) {
-                keyFragment[j * 243 + k] = buffer[k]
-            }
-        }
-
-        const digestsKerl = new Kerl()
-
-        digestsKerl.initialize()
-        digestsKerl.absorb(keyFragment, 0, keyFragment.length)
-        digestsKerl.squeeze(buffer, 0, Kerl.HASH_LENGTH)
-
-        for (let j = 0; j < 243; j++) {
-            result[i * 243 + j] = buffer[j]
-        }
+    for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
+      secreteKey = keyFragment.slice(
+        j * SIGNATURE_SECRETE_KEY_BYTE_SIZE,
+        (j + 1) * SIGNATURE_SECRETE_KEY_BYTE_SIZE
+      );
+      publicKeys[i * SIGNATURE_FRAGMENT_NO + j] = Schnorr.computePublicKey(
+        secreteKey
+      );
     }
-    return result
+  }
+
+  const aggregatedPublicKey = Schnorr.aggregatePublicKey(publicKeys);
+  return aggregatedPublicKey;
+}
+
+export function computePublicNonces(
+  keysBytes: Uint8Array,
+  normalizedBundle: Int8Array | Uint8Array
+): Uint8Array[] {
+  const securityLevel = Math.floor(
+    keysBytes.length / (SIGNATURE_SECRETE_KEY_BYTE_SIZE * SIGNATURE_FRAGMENT_NO)
+  );
+  const publicNonces: Uint8Array[] = new Array<Uint8Array>(
+    SIGNATURE_FRAGMENT_NO * securityLevel
+  );
+  const msg = hex(normalizedBundle);
+
+  const nonces = Array<Uint8Array>(SIGNATURE_FRAGMENT_NO - 1);
+  for (let k = 0, i = 0; i < securityLevel; i++) {
+    for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
+      const secreteKey = keysBytes.slice(
+        (i * SIGNATURE_FRAGMENT_NO + j) * SIGNATURE_SECRETE_KEY_BYTE_SIZE,
+        (i * SIGNATURE_FRAGMENT_NO + j + 1) * SIGNATURE_SECRETE_KEY_BYTE_SIZE
+      );
+      const noncePair = Schnorr.generateNoncePair(
+        msg,
+        secreteKey,
+        hex(secreteKey.slice(0, 16))
+      );
+      publicNonces[i * SIGNATURE_FRAGMENT_NO + j] = noncePair.buff;
+      nonces[k++] = noncePair.buff;
+    }
+  }
+  return publicNonces;
 }
 
 /**
  * @method address
  *
- * @param {Int8Array} digests - Digests trits
+ * @param {Int8Array} digests - Digests hbits
  *
- * @return {Int8Array} Address trits
+ * @return {Int8Array} Address hbits
  */
 // tslint:disable-next-line no-shadowed-variable
-export function address(digests: Int8Array): Int8Array {
-    const addressTrits = new Int8Array(Kerl.HASH_LENGTH)
-    const kerl = new Kerl()
+function address(digests: Uint8Array): Uint8Array {
+  // is this usefull? schnorr aggregation?
+  // TODO: do we really need a list of bits here?
 
-    kerl.initialize()
-    kerl.absorb(digests.slice(), 0, digests.length)
-    kerl.squeeze(addressTrits, 0, Kerl.HASH_LENGTH)
-
-    return addressTrits
+  return digests;
 }
 
 /**
  * @method digest
  *
  * @param {array} normalizedBundleFragment - Normalized bundle fragment
- * @param {Int8Array} signatureFragment - Signature fragment trits
+ * @param {Int8Array} signatureFragment - Signature fragment hbits
  *
- * @return {Int8Array} Digest trits
+ * @return {Int8Array} Digest hbits
  */
 // tslint:disable-next-line no-shadowed-variable
-export function digest(normalizedBundleFragment: Int8Array, signatureFragment: Int8Array): Int8Array {
-    const digestKerl = new Kerl()
+function digest(
+  normalizedBundleFragment: Int8Array,
+  signatureFragment: Uint8Array
+): Int8Array {
+  const digestHash = new HHash(HHash.HASH_ALGORITHM_1);
+  digestHash.initialize();
+  digestHash.absorb(
+    normalizedBundleFragment,
+    0,
+    normalizedBundleFragment.length
+  );
+  const result: Int8Array = new Int8Array(digestHash.getHashLength());
+  digestHash.squeeze(result, 0, digestHash.getHashLength());
 
-    digestKerl.initialize()
-
-    let buffer = new Int8Array(Kerl.HASH_LENGTH)
-
-    for (let i = 0; i < 27; i++) {
-        buffer = signatureFragment.slice(i * 243, (i + 1) * 243)
-
-        for (let j = normalizedBundleFragment[i] + 13; j-- > 0; ) {
-            const signatureFragmentKerl = new Kerl()
-
-            signatureFragmentKerl.initialize()
-            signatureFragmentKerl.absorb(buffer, 0, Kerl.HASH_LENGTH)
-            signatureFragmentKerl.squeeze(buffer, 0, Kerl.HASH_LENGTH)
-        }
-
-        digestKerl.absorb(buffer, 0, Kerl.HASH_LENGTH)
-    }
-
-    digestKerl.squeeze(buffer, 0, Kerl.HASH_LENGTH)
-    return buffer
+  return result;
 }
 
 /**
  * @method signatureFragment
  *
  * @param {array} normalizeBundleFragment - normalized bundle fragment
- * @param {keyFragment} keyFragment - key fragment trits
+ * @param {keyFragment} keyFragment - key fragment hbits
  *
- * @return {Int8Array} Signature Fragment trits
+ * @return {Uint8Array} Signature Fragment hbits
  */
-export function signatureFragment(normalizedBundleFragment: Int8Array, keyFragment: Int8Array): Int8Array {
-    const sigFragment = keyFragment.slice()
+export function signatureFragment(
+  normalizedBundleFragment: Int8Array | Uint8Array,
+  keyFragment: Uint8Array,
+  publicNonces: Uint8Array[]
+): Uint8Array {
+  const sigFragment = keyFragment.slice();
 
-    const kerl = new Kerl()
+  const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
-    for (let i = 0; i < 27; i++) {
-        const hash = sigFragment.slice(i * 243, (i + 1) * 243)
+  const securityLevel = Math.floor(
+    keyFragment.length /
+      (SIGNATURE_SECRETE_KEY_BYTE_SIZE * SIGNATURE_FRAGMENT_NO)
+  );
+  const signatures: HSign[] = new Array<HSign>(
+    securityLevel * SIGNATURE_FRAGMENT_NO
+  );
 
-        for (let j = 0; j < 13 - normalizedBundleFragment[i]; j++) {
-            kerl.initialize()
-            kerl.reset()
-            kerl.absorb(hash, 0, Kerl.HASH_LENGTH)
-            kerl.squeeze(hash, 0, Kerl.HASH_LENGTH)
+  // calculate partial signature for each fragment
+  for (let secLev = 0; secLev < securityLevel; secLev++) {
+    for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
+      const secreteKey = keyFragment.slice(
+        (secLev * SIGNATURE_FRAGMENT_NO + j) * SIGNATURE_SECRETE_KEY_BYTE_SIZE,
+        (secLev * SIGNATURE_FRAGMENT_NO + j + 1) *
+          SIGNATURE_SECRETE_KEY_BYTE_SIZE
+      );
+      const nonces = Array<Uint8Array>(
+        SIGNATURE_FRAGMENT_NO * securityLevel - 1
+      );
+      // compute nonces for the other fragments
+      for (let i = 0, k = 0; i < SIGNATURE_FRAGMENT_NO * securityLevel; i++) {
+        if (secLev * SIGNATURE_FRAGMENT_NO + j === i) {
+          continue; // it mean that is exactly the same signature fragment so we don't need it's nonce;
         }
+        nonces[k++] = publicNonces[i];
+      }
+      const noncePair = Schnorr.generateNoncePair(
+        hex(normalizedBundleFragment),
+        secreteKey,
+        hex(secreteKey.slice(0, 16))
+      );
 
-        for (let j = 0; j < 243; j++) {
-            sigFragment[i * 243 + j] = hash[j]
-        }
+      signatures[secLev * SIGNATURE_FRAGMENT_NO + j] = Schnorr.partialSign(
+        hex(normalizedBundleFragment),
+        secreteKey,
+        noncePair.k,
+        Schnorr.aggregatePublicNonces(nonces)
+      );
     }
+  }
 
-    return sigFragment
+  const aggregatedSignature: HSign = Schnorr.aggregateSignature(signatures);
+  // console.log('signing - signatureFragment: ' + hex(aggregatedSignature.getSignatureArray()) );
+  // console.log('normalizeBundleFragment: ' + hex(normalizedBundleFragment));
+  return aggregatedSignature.getSignatureArray();
 }
 
 /**
  * @method validateSignatures
  *
- * @param {string} expectedAddress - Expected address trytes
- * @param {array} signatureFragments - Array of signatureFragments trytes
- * @param {string} bundleHash - Bundle hash trytes
+ * @param {string} expectedAddress - Expected address hbytes
+ * @param {array} signatureFragments - Array of signatureFragments hbytes
+ * @param {string} bundleHash - Bundle hash hbytes
  *
  * @return {boolean}
  */
 export function validateSignatures(
-    expectedAddress: string,
-    signatureFragments: ReadonlyArray<string>,
-    bundleHash: string
+  expectedAddress: string,
+  signatureFragments: ReadonlyArray<string>,
+  bundleHash: string
 ): boolean {
-    if (!bundleHash) {
-        throw new Error(errors.INVALID_BUNDLE_HASH)
-    }
+  if (!bundleHash) {
+    throw new Error(errors.INVALID_BUNDLE_HASH);
+  }
+  const normalizedBundle: string = hex(normalizedBundleHash(bundleHash));
 
-    const normalizedBundleFragments = []
-    const normalizedBundle = normalizedBundleHash(bundleHash)
+  const publicKey = toHBytes(expectedAddress);
 
-    // Split hash into 3 fragments
-    for (let i = 0; i < 3; i++) {
-        normalizedBundleFragments[i] = normalizedBundle.slice(i * 27, (i + 1) * 27)
-    }
-
-    // Get digests
-    // tslint:disable-next-line no-shadowed-variable
-    const digests = new Int8Array(signatureFragments.length * 243)
-
-    for (let i = 0; i < signatureFragments.length; i++) {
-        const digestBuffer = digest(normalizedBundleFragments[i % 3], trits(signatureFragments[i]))
-
-        for (let j = 0; j < 243; j++) {
-            digests[i * 243 + j] = digestBuffer[j]
-        }
-    }
-
-    return expectedAddress === trytes(address(digests))
+  // validate schnorr signature:
+  let isValid: boolean = true;
+  signatureFragments.forEach(value => {
+    const signature: HSign = HSign.generateSignatureFromArray(
+      toHBytes(value.slice(0, SIGNATURE_TOTAL_BYTE_SIZE * 2))
+    );
+    isValid = isValid && Schnorr.verify(normalizedBundle, signature, publicKey);
+  });
+  // console.log('verify sign normalizedBundle ' + normalizedBundle);
+  return isValid; // expectedAddress === hbytes(address(digests));
 }
 
 /**
@@ -248,39 +319,40 @@ export function validateSignatures(
  *
  * @method normalizedBundleHash
  *
- * @param {Hash} bundlehash - Bundle hash trytes
+ * @param {Hash} bundlehash - Bundle hash hbytes
  *
  * @return {Int8Array} Normalized bundle hash
  */
 export const normalizedBundleHash = (bundleHash: Hash): Int8Array => {
-    const normalizedBundle = new Int8Array(81)
+  const normalizedBundle = new Int8Array(HASH_BYTE_SIZE);
 
-    for (let i = 0; i < 3; i++) {
-        let sum = 0
-        for (let j = 0; j < 27; j++) {
-            sum += normalizedBundle[i * 27 + j] = value(trits(bundleHash.charAt(i * 27 + j)))
-        }
-
-        if (sum >= 0) {
-            while (sum-- > 0) {
-                for (let j = 0; j < 27; j++) {
-                    if (normalizedBundle[i * 27 + j] > -13) {
-                        normalizedBundle[i * 27 + j]--
-                        break
-                    }
-                }
-            }
-        } else {
-            while (sum++ < 0) {
-                for (let j = 0; j < 27; j++) {
-                    if (normalizedBundle[i * 27 + j] < 13) {
-                        normalizedBundle[i * 27 + j]++
-                        break
-                    }
-                }
-            }
-        }
+  for (let i = 0; i < 4; i++) {
+    let sum = 0;
+    for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
+      sum += normalizedBundle[i * SIGNATURE_FRAGMENT_NO + j] = value(
+        hbits(bundleHash.charAt(i * SIGNATURE_FRAGMENT_NO + j))
+      );
     }
 
-    return normalizedBundle
-}
+    if (sum >= 0) {
+      while (sum-- > 0) {
+        for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
+          if (normalizedBundle[i * SIGNATURE_FRAGMENT_NO + j] > -8) {
+            normalizedBundle[i * SIGNATURE_FRAGMENT_NO + j]--;
+            break;
+          }
+        }
+      }
+    } else {
+      while (sum++ < 0) {
+        for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
+          if (normalizedBundle[i * SIGNATURE_FRAGMENT_NO + j] < 8) {
+            normalizedBundle[i * SIGNATURE_FRAGMENT_NO + j]++;
+            break;
+          }
+        }
+      }
+    }
+  }
+  return normalizedBundle;
+};

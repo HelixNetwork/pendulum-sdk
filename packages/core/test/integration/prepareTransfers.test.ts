@@ -1,100 +1,139 @@
-import test from 'ava'
-import { createHttpClient } from '@helixnetwork/http-client'
-import { addChecksum } from '@helixnetwork/checksum'
-import { createPrepareTransfers } from '../../src'
-import { Transfer, Trytes } from '../../../types'
-import { addresses, trytes as expected } from '@helixnetwork/samples'
+import { addChecksum } from "@helix/checksum";
+import { createHttpClient } from "@helix/http-client";
+import { addresses, hbytes as expected } from "@helix/samples";
+import test from "ava";
+import { HBytes, Transfer } from "../../../types";
+import { createPrepareTransfers } from "../../src";
 
-import './nocks/prepareTransfers'
+import "./nocks/prepareTransfers";
 
 const inputs: ReadonlyArray<any> = [
-    {
-        address: 'FJHSSHBZTAKQNDTIKJYCZBOZDGSZANCZSWCNWUOCZXFADNOQSYAHEJPXRLOVPNOQFQXXGEGVDGICLMOXX',
-        keyIndex: 0,
-        security: 2,
-        balance: 3,
-    },
-    {
-        address: '9DZXPFSVCSSWXXQPFMWLGFKPBAFTHYMKMZCPFHBVHXPFNJEIJIEEPKXAUBKBNNLIKWHJIYQDFWQVELOCB',
-        keyIndex: 1,
-        security: 2,
-        balance: 4,
-    },
-]
+  {
+    address:
+      "0219c68a8de8a82504832a8d17d64466453689dae9bbc21affe5f25efa3202c90e",
+    keyIndex: 0,
+    security: 2,
+    balance: 3
+  },
+  {
+    address:
+      "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd14",
+    keyIndex: 1,
+    security: 2,
+    balance: 4
+  }
+];
 
 const transfers: ReadonlyArray<Transfer> = [
-    {
-        address: addChecksum('A'.repeat(81)),
-        value: 3,
-        tag: 'TAG',
-        message: '9',
-    },
-    {
-        address: addChecksum('B'.repeat(81)),
-        value: 3,
-        tag: 'TAG',
-    },
-]
+  {
+    address: addChecksum("a".repeat(2 * 33)),
+    value: 3,
+    tag: "aaaa",
+    message: "0"
+  },
+  {
+    address: addChecksum("b".repeat(2 * 33)),
+    value: 3,
+    tag: "aaaa"
+  }
+];
 
 const zeroValueTransfer: ReadonlyArray<Transfer> = [
-    {
-        address: '9'.repeat(81),
-        value: 0,
-        message: 'TEST9MESSAGE',
-        tag: 'TEST9TAG',
-    },
-]
+  {
+    address: "0".repeat(2 * 33),
+    value: 0,
+    message: "aa",
+    tag: "0000000000000000"
+  }
+];
 
-const expectedZeroValueTrytes: ReadonlyArray<Trytes> = [
-    'TEST9MESSAGE999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999UFST9TAG9999999999999999999MBIWC9999999999999999999999JAUJAZERXHKKZUOWISVT9DLBYCZ9WHKOEYIQSHDVXXLPEDCLXCYTHGBGWPBFZJUPGBGRFGHZAIWKZNERW999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999TEST9TAG9999999999999999999999999999999999999999999999999999999999999999999999999',
-]
+const expectedZeroValueHBytes: ReadonlyArray<HBytes> = [
+  "aa00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000d45ce80000000000000000000000000000000000000000005e85ca5e10b417ea5a5fa5d5e28a021c0235965946b497bfcf711d31f233bac90000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+];
 
-const remainderAddress = addresses[2]
+const remainderAddress = addresses[2];
 
-const now = () => 1522219924
-const prepareTransfers = createPrepareTransfers(undefined, now, 'lib')
-const prepareTransfersWithNetwork = createPrepareTransfers(createHttpClient(), now, 'lib')
+const now = () => 1522219924;
+const prepareTransfers = createPrepareTransfers(undefined, now, "lib");
+const prepareTransfersWithNetwork = createPrepareTransfers(
+  createHttpClient(),
+  now,
+  "lib"
+);
+test("prepareTransfers() prepares the correct array of hbytes offline.", async t => {
+  const hbytes = await prepareTransfers("abcd", transfers, {
+    inputs,
+    remainderAddress
+  });
+  t.deepEqual(
+    hbytes,
+    expected,
+    "prepareTransfers() should prepare the correct array of hbytes."
+  );
+});
 
-test('prepareTransfers() prepares the correct array of trytes offline.', async t => {
-    const trytes = await prepareTransfers('SEED', transfers, { inputs, remainderAddress })
+test("prepareTransfers() does not mutate original transfers object offline.", async t => {
+  const transfersCopy = transfers.map(transfer => ({ ...transfer }));
 
-    t.deepEqual(trytes, expected, 'prepareTransfers() should prepare the correct array of trytes.')
-})
+  await prepareTransfers("abcd", transfersCopy, {
+    inputs,
+    remainderAddress,
+    hmacKey: "0".repeat(2 * 33)
+  });
 
-test('prepareTransfers() does not mutate original transfers object offline.', async t => {
-    const transfersCopy = transfers.map(transfer => ({ ...transfer }))
+  t.deepEqual(
+    transfers,
+    transfersCopy,
+    "prepareTransfers() should not mutate original transfers object."
+  );
+});
 
-    await prepareTransfers('SEED', transfersCopy, { inputs, remainderAddress, hmacKey: '9'.repeat(81) })
+test("prepareTransfers() with network prepares the correct array of hbytes.", async t => {
+  const hbytes = await prepareTransfersWithNetwork("abcd", transfers);
 
-    t.deepEqual(transfers, transfersCopy, 'prepareTransfers() should not mutate original transfers object.')
-})
+  t.deepEqual(
+    hbytes,
+    expected,
+    "prepareTranfers() should prepare the correct array of hbytes."
+  );
+});
 
-test('prepareTransfers() with network prepares the correct array of trytes.', async t => {
-    const trytes = await prepareTransfersWithNetwork('SEED', transfers)
+test("prepareTransfer() prepares correct hbytes for zero value transfers", async t => {
+  const zeroValueHBytes = await prepareTransfersWithNetwork(
+    "abcd",
+    zeroValueTransfer
+  );
 
-    t.deepEqual(trytes, expected, 'prepareTranfers() should prepare the correct array of trytes.')
-})
+  t.deepEqual(
+    zeroValueHBytes,
+    expectedZeroValueHBytes,
+    "prepareTransfers() should prepare the correct hbytes for zero value transfers"
+  );
+});
 
-test('prepareTransfer() prepares correct trytes for zero value transfers', async t => {
-    const zeroValueTrytes = await prepareTransfersWithNetwork('SEED', zeroValueTransfer)
+test.cb("prepareTransfers() invokes callback", t => {
+  prepareTransfers("abcd", transfers, { inputs, remainderAddress }, t.end);
+});
 
-    t.deepEqual(
-        zeroValueTrytes,
-        expectedZeroValueTrytes,
-        'prepareTransfers() should prepare the correct trytes for zero value transfers'
-    )
-})
+test.cb("prepareTransfers() passes correct arguments to callback", t => {
+  prepareTransfers(
+    "abcd",
+    transfers,
+    { inputs, remainderAddress },
+    (err, res) => {
+      t.is(
+        err,
+        null,
+        "prepareTransfers() should pass null as first argument in callback for successful calls."
+      );
 
-test.cb('prepareTransfers() invokes callback', t => {
-    prepareTransfers('SEED', transfers, { inputs, remainderAddress }, t.end)
-})
+      t.deepEqual(
+        res,
+        expected,
+        "prepareTransfers() should pass the correct hbytes as second argument in callback"
+      );
 
-test.cb('prepareTransfers() passes correct arguments to callback', t => {
-    prepareTransfers('SEED', transfers, { inputs, remainderAddress }, (err, res) => {
-        t.is(err, null, 'prepareTransfers() should pass null as first argument in callback for successful calls.')
-
-        t.deepEqual(res, expected, 'prepareTransfers() should pass the correct trytes as second argument in callback')
-
-        t.end()
-    })
-})
+      t.end();
+    }
+  );
+});

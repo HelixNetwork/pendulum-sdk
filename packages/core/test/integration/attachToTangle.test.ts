@@ -1,112 +1,127 @@
-import test from 'ava'
-import { createHttpClient } from '@helixnetwork/http-client'
-import { INVALID_BRANCH_TRANSACTION, INVALID_TRANSACTION_TRYTES, INVALID_TRUNK_TRANSACTION } from '../../../errors'
-import { createAttachToTangle } from '../../src'
-import { attachToTangleCommand, attachToTangleResponse } from './nocks/attachToTangle'
+import { createHttpClient } from "@helix/http-client";
+import test from "ava";
+import {
+  INVALID_BRANCH_TRANSACTION,
+  INVALID_TRANSACTION_HBYTES,
+  INVALID_TRUNK_TRANSACTION
+} from "../../../errors";
+import { createAttachToTangle } from "../../src";
+import {
+  attachToTangleCommand,
+  attachToTangleResponse
+} from "./nocks/attachToTangle";
 
-const attachToTangle = createAttachToTangle(createHttpClient())
+const attachToTangle = createAttachToTangle(createHttpClient());
 
-test('attachToTangle() resolves to correct balances response', async t => {
-    t.deepEqual(
-        await attachToTangle(
-            attachToTangleCommand.trunkTransaction,
-            attachToTangleCommand.branchTransaction,
-            attachToTangleCommand.minWeightMagnitude,
-            [...attachToTangleCommand.trytes]
-        ),
-        attachToTangleResponse.trytes,
-        'attachToTangle() should resolve to correct balances'
-    )
-})
-
-test('attachToTangle() does not mutate original trytes', async t => {
-    const trytes = [...attachToTangleCommand.trytes]
-
+test("attachToTangle() resolves to correct balances response", async t => {
+  t.deepEqual(
     await attachToTangle(
-        attachToTangleCommand.trunkTransaction,
-        attachToTangleCommand.branchTransaction,
-        attachToTangleCommand.minWeightMagnitude,
-        trytes
-    )
+      attachToTangleCommand.trunkTransaction,
+      attachToTangleCommand.branchTransaction,
+      attachToTangleCommand.minWeightMagnitude,
+      [...attachToTangleCommand.hbytes]
+    ),
+    attachToTangleResponse.hbytes,
+    "attachToTangle() should resolve to correct balances"
+  );
+});
 
-    t.deepEqual(trytes, attachToTangleCommand.trytes, 'attachToTangle() should not mutate original trytes')
-})
+test("attachToTangle() does not mutate original hbytes", async t => {
+  const hbytes = [...attachToTangleCommand.hbytes];
 
-test('attachToTangle() rejects with correct errors for invalid input', t => {
-    const invalidTrytes = ['asdasDSFDAFD']
+  await attachToTangle(
+    attachToTangleCommand.trunkTransaction,
+    attachToTangleCommand.branchTransaction,
+    attachToTangleCommand.minWeightMagnitude,
+    hbytes
+  );
 
-    t.is(
-        t.throws(
-            () =>
-                attachToTangle(
-                    invalidTrytes[0],
-                    attachToTangleCommand.branchTransaction,
-                    attachToTangleCommand.minWeightMagnitude,
-                    attachToTangleCommand.trytes
-                ),
-            Error
-        ).message,
-        `${INVALID_TRUNK_TRANSACTION}: ${invalidTrytes[0]}`,
-        'attachToTangle() should throw error for invalid trunk transaction'
-    )
+  t.deepEqual(
+    hbytes,
+    attachToTangleCommand.hbytes,
+    "attachToTangle() should not mutate original hbytes"
+  );
+});
 
-    t.is(
-        t.throws(
-            () =>
-                attachToTangle(
-                    attachToTangleCommand.trunkTransaction,
-                    invalidTrytes[0],
-                    attachToTangleCommand.minWeightMagnitude,
-                    attachToTangleCommand.trytes
-                ),
-            Error
-        ).message,
-        `${INVALID_BRANCH_TRANSACTION}: ${invalidTrytes[0]}`,
-        'attachToTangle() should throw error for invalid branch transaction'
-    )
+test("attachToTangle() rejects with correct errors for invalid input", t => {
+  const invalidHBytes = ["asdasDSFDAFD"];
 
-    t.is(
-        t.throws(
-            () =>
-                attachToTangle(
-                    attachToTangleCommand.trunkTransaction,
-                    attachToTangleCommand.branchTransaction,
-                    attachToTangleCommand.minWeightMagnitude,
-                    invalidTrytes
-                ),
-            Error
-        ).message,
-        `${INVALID_TRANSACTION_TRYTES}: ${invalidTrytes[0]}`,
-        'attachToTangle() should throw error for invalid trytes'
-    )
-})
+  t.is(
+    t.throws(
+      () =>
+        attachToTangle(
+          invalidHBytes[0],
+          attachToTangleCommand.branchTransaction,
+          attachToTangleCommand.minWeightMagnitude,
+          attachToTangleCommand.hbytes
+        ),
+      Error
+    ).message,
+    `${INVALID_TRUNK_TRANSACTION}: ${invalidHBytes[0]}`,
+    "attachToTangle() should throw error for invalid trunk transaction"
+  );
 
-test.cb('attachToTangle() invokes callback', t => {
-    attachToTangle(
-        attachToTangleCommand.trunkTransaction,
-        attachToTangleCommand.branchTransaction,
-        attachToTangleCommand.minWeightMagnitude,
-        attachToTangleCommand.trytes,
-        t.end
-    )
-})
+  t.is(
+    t.throws(
+      () =>
+        attachToTangle(
+          attachToTangleCommand.trunkTransaction,
+          invalidHBytes[0],
+          attachToTangleCommand.minWeightMagnitude,
+          attachToTangleCommand.hbytes
+        ),
+      Error
+    ).message,
+    `${INVALID_BRANCH_TRANSACTION}: ${invalidHBytes[0]}`,
+    "attachToTangle() should throw error for invalid branch transaction"
+  );
 
-test.cb('attachToTangle() passes correct arguments to callback', t => {
-    attachToTangle(
-        attachToTangleCommand.trunkTransaction,
-        attachToTangleCommand.branchTransaction,
-        attachToTangleCommand.minWeightMagnitude,
-        attachToTangleCommand.trytes,
-        (err, res) => {
-            t.is(err, null, 'attachToTangle() should pass null as first argument in callback for successuful requests')
+  t.is(
+    t.throws(
+      () =>
+        attachToTangle(
+          attachToTangleCommand.trunkTransaction,
+          attachToTangleCommand.branchTransaction,
+          attachToTangleCommand.minWeightMagnitude,
+          invalidHBytes
+        ),
+      Error
+    ).message,
+    `${INVALID_TRANSACTION_HBYTES}: ${invalidHBytes[0]}`,
+    "attachToTangle() should throw error for invalid hbytes"
+  );
+});
 
-            t.deepEqual(
-                res,
-                attachToTangleResponse.trytes,
-                'attachToTangle() should pass the correct response as second argument in callback'
-            )
+test.cb("attachToTangle() invokes callback", t => {
+  attachToTangle(
+    attachToTangleCommand.trunkTransaction,
+    attachToTangleCommand.branchTransaction,
+    attachToTangleCommand.minWeightMagnitude,
+    attachToTangleCommand.hbytes,
+    t.end
+  );
+});
 
-            t.end()
-        }
-    )
-})
+test.cb("attachToTangle() passes correct arguments to callback", t => {
+  attachToTangle(
+    attachToTangleCommand.trunkTransaction,
+    attachToTangleCommand.branchTransaction,
+    attachToTangleCommand.minWeightMagnitude,
+    attachToTangleCommand.hbytes,
+    (err, res) => {
+      t.is(
+        err,
+        null,
+        "attachToTangle() should pass null as first argument in callback for successuful requests"
+      );
+
+      t.deepEqual(
+        res,
+        attachToTangleResponse.hbytes,
+        "attachToTangle() should pass the correct response as second argument in callback"
+      );
+
+      t.end();
+    }
+  );
+});
