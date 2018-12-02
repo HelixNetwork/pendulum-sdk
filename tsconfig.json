@@ -7,7 +7,8 @@
     "module": "commonjs",
     "declaration": true,
     "declarationDir": "typings",
-    "sourceMap": true
+    "sourceMap": true,
+    "moduleResolution": "node"
   },
   "include": ["src", "test"]
 }
