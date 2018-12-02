@@ -1,4 +1,4 @@
-import { createHttpClient } from "@helix/http-client";
+import { createHttpClient } from "@helixnetwork/http-client";
 import test from "ava";
 import { INVALID_SEED, INVALID_TOTAL_OPTION } from "../../../errors";
 import {
@@ -17,7 +17,7 @@ import {
   newAddress,
   newAddressWithChecksum,
   seed
-} from "@helix/samples";
+} from "@helixnetwork/samples";
 
 const client = createHttpClient();
 const getNewAddress = createGetNewAddress(client, "lib");

@@ -1,4 +1,4 @@
-# @helixnetwork/transaction-converter
+# @helixnetworknetwork/transaction-converter
 
 Methods for calculating transaction hashes and converting transaction objects to transaction trytes and back.
 
@@ -6,13 +6,13 @@ Methods for calculating transaction hashes and converting transaction objects to
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helixnetwork/transaction-converter
+npm install @helixnetworknetwork/transaction-converter
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helixnetwork/transaction-converter
+yarn add @helixnetworknetwork/transaction-converter
 ```
 
 ## API Reference

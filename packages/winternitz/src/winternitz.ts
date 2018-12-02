@@ -1,6 +1,6 @@
 // by: Frauke Sophie Abben <fsa@hlx.ai> (https://hlx.ai)
-import { hex, toHBytes } from "@helix/converter";
-import Sha3 from "@helix/sha3";
+import { hex, toHBytes } from "@helixnetwork/converter";
+import Sha3 from "@helixnetwork/sha3";
 import * as BN from "bn.js";
 import * as errors from "./errors";
 

@@ -1,4 +1,4 @@
-# @helixnetwork/unit-converter
+# @helixnetworknetwork/unit-converter
 
 Converts value across different IOTA units.
 
@@ -8,13 +8,13 @@ Converts value across different IOTA units.
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helixnetwork/unit-converter
+npm install @helixnetworknetwork/unit-converter
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helixnetwork/unit-converter
+yarn add @helixnetworknetwork/unit-converter
 ```
 
 ## API Reference

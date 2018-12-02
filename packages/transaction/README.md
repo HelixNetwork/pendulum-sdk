@@ -1,4 +1,4 @@
-# @helixnetwork/transaction
+# @helixnetworknetwork/transaction
 
 Utilities and validators for transactions.
 
@@ -6,13 +6,13 @@ Utilities and validators for transactions.
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helixnetwork/transaction
+npm install @helixnetworknetwork/transaction
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helixnetwork/transaction
+yarn add @helixnetworknetwork/transaction
 ```
 
 ## API Reference

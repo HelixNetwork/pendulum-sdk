@@ -1,4 +1,4 @@
-# @helixnetwork/bundle
+# @helixnetworknetwork/bundle
 
 Syntactically validates bundle structure and signatures.
 
@@ -6,13 +6,13 @@ Syntactically validates bundle structure and signatures.
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helixnetwork/bundle
+npm install @helixnetworknetwork/bundle
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helixnetwork/bundle
+yarn add @helixnetworknetwork/bundle
 ```
 
 ## API Reference

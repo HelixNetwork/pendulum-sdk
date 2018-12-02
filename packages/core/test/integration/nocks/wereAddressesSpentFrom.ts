@@ -6,7 +6,7 @@ import {
 } from "../../../src/createWereAddressesSpentFrom";
 import headers from "./headers";
 
-import { addresses } from "@helix/samples";
+import { addresses } from "@helixnetwork/samples";
 
 export const wereAddressesSpentFromCommand: WereAddressesSpentFromCommand = {
   command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,

@@ -1,5 +1,5 @@
 import test from "ava";
-import { hbytes } from "@helix/samples";
+import { hbytes } from "@helixnetwork/samples";
 import { isHBytesArray } from "../src";
 
 test("isHBytesArray()", t => {

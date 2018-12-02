@@ -1,5 +1,5 @@
-import { bundleValidator } from "@helix/bundle-validator";
-import { transactionHashValidator } from "@helix/transaction";
+import { bundleValidator } from "@helixnetworknetwork/bundle-validator";
+import { transactionHashValidator } from "@helixnetworknetwork/transaction";
 import * as Promise from "bluebird";
 import { validate } from "../../guards";
 import { Bundle, Callback, Hash, Provider, Transaction } from "../../types";

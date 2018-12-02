@@ -1,4 +1,4 @@
-# @helixnetwork/multisig
+# @helixnetworknetwork/multisig
 
 Methods for generating multisig addresses ansd co-signing transactions.
 
@@ -8,13 +8,13 @@ Methods for generating multisig addresses ansd co-signing transactions.
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helixnetwork/multisig
+npm install @helixnetworknetwork/multisig
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helixnetwork/multisig
+yarn add @helixnetworknetwork/multisig
 ```
 
 ## API Reference

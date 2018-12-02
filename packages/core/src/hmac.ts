@@ -1,5 +1,5 @@
-import { hbits, hbytes } from "@helix/converter";
-import HHash from "@helix/hash-module";
+import { hbits, hbytes } from "@helixnetworknetwork/converter";
+import HHash from "@helixnetworknetwork/hash-module";
 import {
   HASH_BYTE_SIZE,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE

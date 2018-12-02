@@ -1,4 +1,4 @@
-# @helixnetwork/checksum
+# @helixnetworknetwork/checksum
 
 Add, remove and validate checksums.
 
@@ -6,13 +6,13 @@ Add, remove and validate checksums.
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helixnetwork/checksum
+npm install @helixnetworknetwork/checksum
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ``` yarn
-yarn add @helixnetwork/checksum
+yarn add @helixnetworknetwork/checksum
 ```
 
 ## API Reference

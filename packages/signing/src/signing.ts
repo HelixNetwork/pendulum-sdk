@@ -8,9 +8,9 @@ import {
   hex,
   toHBytes,
   value
-} from "@helix/converter";
-import HHash from "@helix/hash-module";
-import { padHBits } from "@helix/pad";
+} from "@helixnetwork/converter";
+import HHash from "@helixnetwork/hash-module";
+import { padHBits } from "@helixnetwork/pad";
 import { AssertionError } from "assert";
 import { IncomingMessage } from "http";
 import {

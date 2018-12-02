@@ -1,6 +1,6 @@
 /** @module signing */
 
-import { concatenate } from "@helix/converter";
+import { concatenate } from "@helixnetwork/converter";
 import * as errors from "./errors";
 import {
   SIGNATURE_TOTAL_BYTE_SIZE,

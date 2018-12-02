@@ -1,4 +1,7 @@
-import { invalidTransactionObject, transactionObject } from "@helix/samples";
+import {
+  invalidTransactionObject,
+  transactionObject
+} from "@helixnetwork/samples";
 import test from "ava";
 import { isTransactionArray } from "../src";
 

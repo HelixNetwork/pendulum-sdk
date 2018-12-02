@@ -1,8 +1,8 @@
 /* tslint:disable variable-name no-conditional-assignment */
-import { hbits, hbytes, hex } from "@helix/converter";
-import Curl from "@helix/curl";
-import Kerl from "@helix/kerl";
-import SHA256 from "@helix/sha256";
+import { hbits, hbytes, hex } from "@helixnetwork/converter";
+import Curl from "@helixnetwork/curl";
+import Kerl from "@helixnetwork/kerl";
+import SHA256 from "@helixnetwork/sha256";
 
 const HASH_KERL = "kerl";
 const HASH_CURL = "curl";

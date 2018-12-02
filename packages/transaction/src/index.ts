@@ -2,8 +2,8 @@
  * @module transaction
  */
 
-import { hbytesToHBits, hex } from "@helix/converter";
-import HHash from "@helix/hash-module";
+import { hbytesToHBits, hex } from "@helixnetwork/converter";
+import HHash from "@helixnetwork/hash-module";
 import {
   HASH_BYTE_SIZE,
   NONCE_BYTE_SIZE,

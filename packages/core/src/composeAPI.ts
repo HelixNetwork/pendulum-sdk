@@ -1,4 +1,7 @@
-import { createHttpClient, HttpClientSettings } from "@helix/http-client";
+import {
+  createHttpClient,
+  HttpClientSettings
+} from "@helixnetworknetwork/http-client";
 import * as Bluebird from "bluebird";
 import {
   AttachToTangle,

@@ -1,5 +1,5 @@
 import test from "ava";
-import { transactionHBytes, transactionObject } from "@helix/samples";
+import { transactionHBytes, transactionObject } from "@helixnetwork/samples";
 import { isTransactionHBytes } from "../src";
 
 test("isTransactionHBytes() returns true for valid transaction hbytes.", t => {

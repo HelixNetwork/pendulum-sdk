@@ -1,8 +1,8 @@
-import { validateBundleSignatures } from "@helix/bundle-validator";
-import { addChecksum } from "@helix/checksum";
-import { createHttpClient } from "@helix/http-client";
-import { addresses } from "@helix/samples";
-import { asTransactionObjects } from "@helix/transaction-converter";
+import { validateBundleSignatures } from "@helixnetwork/bundle-validator";
+import { addChecksum } from "@helixnetwork/checksum";
+import { createHttpClient } from "@helixnetwork/http-client";
+import { addresses } from "@helixnetwork/samples";
+import { asTransactionObjects } from "@helixnetwork/transaction-converter";
 import test from "ava";
 import { HBytes, Transaction, Transfer } from "../../../types";
 import { createPrepareTransfers } from "../../src";

@@ -1,4 +1,4 @@
-import { attachedHBytesValidator } from "@helix/transaction";
+import { attachedHBytesValidator } from "@helixnetworknetwork/transaction";
 import * as Promise from "bluebird";
 import { arrayValidator, validate } from "../../guards";
 import {

@@ -1,5 +1,5 @@
-import { transactionHBytesValidator } from "@helix/transaction";
-import { asTransactionObject } from "@helix/transaction-converter";
+import { transactionHBytesValidator } from "@helixnetworknetwork/transaction";
+import { asTransactionObject } from "@helixnetworknetwork/transaction-converter";
 import * as Promise from "bluebird";
 import {
   arrayValidator,

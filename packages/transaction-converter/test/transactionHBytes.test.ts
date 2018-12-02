@@ -6,7 +6,7 @@ import {
   transactionObject,
   transactionHBytes as hbytes,
   attachedTransactionObjects
-} from "@helix/samples";
+} from "@helixnetwork/samples";
 import {
   asFinalTransactionHBytes,
   asTransactionHBytes,

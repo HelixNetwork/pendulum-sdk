@@ -6,7 +6,7 @@ import * as errors from "../../errors";
 export { errors };
 
 /* Address related guards & validators */
-import { isValidChecksum } from "@helix/checksum";
+import { isValidChecksum } from "@helixnetwork/checksum";
 
 /**
  * Checks integrity of given address by validating the checksum.
@@ -75,7 +75,7 @@ import {
   validateTransaction,
   validateTransactionHash,
   validateTransactionHBytes
-} from "@helix/transaction";
+} from "@helixnetwork/transaction";
 
 import {
   arrayValidator,
@@ -113,4 +113,4 @@ export {
   tailTransactionValidator,
   transactionHBytesValidator,
   attachedHBytesValidator
-} from "@helix/transaction";
+} from "@helixnetwork/transaction";

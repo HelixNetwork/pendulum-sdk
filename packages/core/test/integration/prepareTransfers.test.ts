@@ -1,6 +1,6 @@
-import { addChecksum } from "@helix/checksum";
-import { createHttpClient } from "@helix/http-client";
-import { addresses, hbytes as expected } from "@helix/samples";
+import { addChecksum } from "@helixnetwork/checksum";
+import { createHttpClient } from "@helixnetwork/http-client";
+import { addresses, hbytes as expected } from "@helixnetwork/samples";
 import test from "ava";
 import { HBytes, Transfer } from "../../../types";
 import { createPrepareTransfers } from "../../src";

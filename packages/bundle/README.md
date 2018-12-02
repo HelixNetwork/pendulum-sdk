@@ -1,4 +1,4 @@
-# @helixnetwork/bundle
+# @helixnetworknetwork/bundle
 
 Utilities for generating and signing bundles.
 A bundle in Helix is an atomic set of transactions.
@@ -7,13 +7,13 @@ A bundle in Helix is an atomic set of transactions.
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helixnetwork/bundle
+npm install @helixnetworknetwork/bundle
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helixnetwork/bundle
+yarn add @helixnetworknetwork/bundle
 ```
 
 ## API Reference

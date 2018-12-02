@@ -1,5 +1,5 @@
-import { createHttpClient } from "@helix/http-client";
-import { attachedHBytesOfInvalidLength } from "@helix/samples";
+import { createHttpClient } from "@helixnetwork/http-client";
+import { attachedHBytesOfInvalidLength } from "@helixnetwork/samples";
 import test from "ava";
 import { INVALID_ATTACHED_HBYTES } from "../../../errors";
 import { createStoreAndBroadcast } from "../../src";

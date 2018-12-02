@@ -1,4 +1,4 @@
-# @helix/winternitz
+# @helixnetwork/winternitz
 
 Winternitz OTS Implementation (binary)
 
@@ -8,7 +8,7 @@ Winternitz OTS Implementation (binary)
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helix/winternitz
+npm install @helixnetwork/winternitz
 ```
 
 ## Normalization & Security

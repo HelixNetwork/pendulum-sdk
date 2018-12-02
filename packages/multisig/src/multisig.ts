@@ -1,8 +1,8 @@
-import { addEntry, addHBytes, finalizeBundle } from "@helix/bundle";
-import { removeChecksum } from "@helix/checksum";
-import { hbits, hbytes, toHBytes, hex } from "@helix/converter";
-import { Balances, createGetBalances } from "@helix/core";
-import HHash from "@helix/hash-module";
+import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
+import { removeChecksum } from "@helixnetwork/checksum";
+import { hbits, hbytes, toHBytes, hex } from "@helixnetwork/converter";
+import { Balances, createGetBalances } from "@helixnetwork/core";
+import HHash from "@helixnetwork/hash-module";
 import {
   digests,
   key,
@@ -10,7 +10,7 @@ import {
   signatureFragment,
   subseed,
   computePublicNonces
-} from "@helix/signing";
+} from "@helixnetwork/signing";
 import * as Promise from "bluebird";
 import * as errors from "../../errors";
 import {

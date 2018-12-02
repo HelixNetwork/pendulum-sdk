@@ -1,6 +1,6 @@
 import test from "ava";
 import Schnorr from "../src/schnorr";
-import { hex, toHBytes } from "@helix/converter";
+import { hex, toHBytes } from "@helixnetwork/converter";
 
 test("Signing test schnorr signature with HByte conversion!", t => {
   let sch = new Schnorr("abcdeadddaaaaaaaaaaaa2322423333333333333333");

@@ -1,4 +1,4 @@
-import { transactionHashValidator } from "@helix/transaction";
+import { transactionHashValidator } from "@helixnetworknetwork/transaction";
 import * as Promise from "bluebird";
 import { INVALID_REFERENCE_HASH } from "../../errors";
 import { depthValidator, validate } from "../../guards";

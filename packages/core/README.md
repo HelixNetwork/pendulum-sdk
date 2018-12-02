@@ -1,4 +1,4 @@
-# @helixnetwork/core
+# @helixnetworknetwork/core
 
 Core functionality to interact with the Helix Network. Includes methods for:
 - Generating addresses
@@ -13,13 +13,13 @@ Core functionality to interact with the Helix Network. Includes methods for:
 Install using [npm](https://www.npmjs.org/):
 
 ```
-npm install @helixnetwork/core
+npm install @helixnetworknetwork/core
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ``` yarn
-yarn add @helixnetwork/core
+yarn add @helixnetworknetwork/core
 ```
 
 ## API Reference

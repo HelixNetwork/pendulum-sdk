@@ -1,4 +1,4 @@
-import { bundle } from "@helix/samples";
+import { bundle } from "@helixnetwork/samples";
 import * as nock from "nock";
 import {
   GetTransactionsToApproveCommand,

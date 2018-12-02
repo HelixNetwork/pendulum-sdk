@@ -1,7 +1,7 @@
 import {
   transactionHashValidator,
   transactionHBytesValidator
-} from "@helix/transaction";
+} from "@helixnetworknetwork/transaction";
 import * as Promise from "bluebird";
 import {
   INVALID_BRANCH_TRANSACTION,

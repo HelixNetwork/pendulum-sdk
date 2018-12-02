@@ -5,7 +5,7 @@ import {
   bundleWithMultipleJSONMessageFragments,
   parsedJSON,
   parsedJSONOfMultipleMessageFragments
-} from "@helix/samples";
+} from "@helixnetwork/samples";
 import test from "ava";
 import { SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE } from "../../constants";
 import { errors, extractJson } from "../src";

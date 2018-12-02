@@ -1,5 +1,5 @@
 {
-  "name": "@helix/transaction",
+  "name": "@helixnetwork/transaction",
   "version": "0.0.1-alpha.0",
   "description": "Utilities and validators for transactions.",
   "main": "./out/transaction/src/index.js",
@@ -54,10 +54,10 @@
       "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
   },
   "dependencies": {
-    "@helix/converter": "^0.0.1-alpha.0",
-    "@helix/hash-module": "^0.0.1-alpha.0"
+    "@helixnetwork/converter": "^0.0.1-alpha.0",
+    "@helixnetwork/hash-module": "^0.0.1-alpha.0"
   },
   "devDependencies": {
-    "@helix/samples": "^0.0.1-alpha.0"
+    "@helixnetwork/samples": "^0.0.1-alpha.0"
   }
 }

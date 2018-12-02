@@ -1,4 +1,4 @@
-import { removeChecksum } from "@helix/checksum";
+import { removeChecksum } from "@helixnetworknetwork/checksum";
 import * as Promise from "bluebird";
 import { INVALID_ADDRESS } from "../../errors";
 import {

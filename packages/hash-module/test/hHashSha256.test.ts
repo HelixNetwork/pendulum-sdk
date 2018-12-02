@@ -1,5 +1,5 @@
 import test from "ava";
-import { bytesToWords, wordsToBytes, hex } from "@helix/converter";
+import { bytesToWords, wordsToBytes, hex } from "@helixnetwork/converter";
 import HHash from "../src";
 
 test("hash-module: Test sha256 input string (update/final), Converter: bytesToWords()/wordsTobytes()/bytesToHexString()", t => {

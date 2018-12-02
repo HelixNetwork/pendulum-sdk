@@ -2,7 +2,7 @@
 import * as CryptoJS from "crypto-js";
 import * as errors from "./errors";
 import { tritsToWords, wordsToTrits } from "./word-converter";
-import { bytesToWords, wordsToBytes } from "@helix/converter";
+import { bytesToWords, wordsToBytes } from "@helixnetwork/converter";
 
 const BIT_HASH_LENGTH = 384;
 const HASH_LENGTH = 256; // 243

@@ -1,5 +1,5 @@
 {
-  "name": "@helix/http-client",
+  "name": "@helixnetwork/http-client",
   "version": "0.0.1-alpha.0",
   "description": "Send commands to IRI over HTTP.",
   "main": "./out/http-client/src/index.js",
