@@ -1,4 +1,4 @@
-# @helixnetworknetwork/validators
+# @helixnetwork/validators
 
 Collection of guards and validators, useful in IOTA development.
 
@@ -6,13 +6,13 @@ Collection of guards and validators, useful in IOTA development.
 
 Instal using [npm](https://www.npmjs.org/):
 ```
-npm install @helixnetworknetwork/validators
+npm install @helixnetwork/validators
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helixnetworknetwork/validators
+yarn add @helixnetwork/validators
 ```
 
 ## API Reference
