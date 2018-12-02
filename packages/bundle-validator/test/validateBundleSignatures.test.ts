@@ -3,7 +3,7 @@ import {
   bundleWithInvalidSignature,
   bundleWithInvalidTransactionOrderAndValidSignature,
   bundleWithValidSignature
-} from "@helixnetworknetwork/samples";
+} from "@helixnetwork/samples";
 import test from "ava";
 import { validateBundleSignatures } from "../src";
 

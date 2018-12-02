@@ -1,6 +1,6 @@
-import { removeChecksum } from "@helixnetworknetwork/checksum";
-import { padTagArray } from "@helixnetworknetwork/pad";
-import { transactionHashValidator } from "@helixnetworknetwork/transaction";
+import { removeChecksum } from "@helixnetwork/checksum";
+import { padTagArray } from "@helixnetwork/pad";
+import { transactionHashValidator } from "@helixnetwork/transaction";
 import * as Promise from "bluebird";
 import * as errors from "../../errors";
 import {

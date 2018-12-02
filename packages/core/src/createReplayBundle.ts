@@ -1,5 +1,5 @@
-import { transactionHashValidator } from "@helixnetworknetwork/transaction";
-import { asFinalTransactionHBytes } from "@helixnetworknetwork/transaction-converter";
+import { transactionHashValidator } from "@helixnetwork/transaction";
+import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
 import * as Promise from "bluebird";
 import {
   depthValidator,

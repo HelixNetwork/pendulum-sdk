@@ -3,7 +3,7 @@ import {
   addressesWithChecksum,
   addressWithChecksum,
   addressWithInvalidChecksum
-} from "@helixnetworknetwork/samples";
+} from "@helixnetwork/samples";
 import test from "ava";
 import { ADDRESS_BYTE_SIZE } from "../../constants";
 import { addChecksum, errors, isValidChecksum, removeChecksum } from "../src";

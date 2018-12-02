@@ -1,8 +1,8 @@
 import {
   tailTransactionValidator,
   transactionHashValidator
-} from "@helixnetworknetwork/transaction";
-import { asTransactionObject } from "@helixnetworknetwork/transaction-converter";
+} from "@helixnetwork/transaction";
+import { asTransactionObject } from "@helixnetwork/transaction-converter";
 import * as Promise from "bluebird";
 import { validate } from "../../guards";
 import { Callback, Hash, Provider, Transaction } from "../../types";

@@ -1,20 +1,16 @@
 import * as Promise from "bluebird";
 
-import {
-  addEntry,
-  addHBytes,
-  finalizeBundle
-} from "@helixnetworknetwork/bundle";
-import { isValidChecksum, removeChecksum } from "@helixnetworknetwork/checksum";
-import { hbits, hbytes, hex } from "@helixnetworknetwork/converter";
+import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
+import { isValidChecksum, removeChecksum } from "@helixnetwork/checksum";
+import { hbits, hbytes, hex } from "@helixnetwork/converter";
 import {
   computePublicNonces,
   key,
   normalizedBundleHash,
   signatureFragment,
   subseed
-} from "@helixnetworknetwork/signing";
-import { asFinalTransactionHBytes } from "@helixnetworknetwork/transaction-converter";
+} from "@helixnetwork/signing";
+import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
 import {
   HASH_BYTE_SIZE,
   NULL_HASH_HBYTES,

@@ -1,4 +1,4 @@
-import { transactionHashValidator } from "@helixnetworknetwork/transaction";
+import { transactionHashValidator } from "@helixnetwork/transaction";
 import * as Promise from "bluebird";
 import { inconsistentTransaction } from "../../errors";
 import { arrayValidator, validate } from "../../guards";

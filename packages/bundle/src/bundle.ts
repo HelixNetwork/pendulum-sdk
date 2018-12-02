@@ -1,14 +1,9 @@
 /** @module bundle */
 
-import { hbits, hbytes, toHBytes, hex } from "@helixnetworknetwork/converter";
-import HHash from "@helixnetworknetwork/hash-module";
-import {
-  padHBits,
-  padHBytes,
-  padSignedHBits,
-  padTag
-} from "@helixnetworknetwork/pad";
-import { add, normalizedBundleHash } from "@helixnetworknetwork/signing";
+import { hbits, hbytes, toHBytes, hex } from "@helixnetwork/converter";
+import HHash from "@helixnetwork/hash-module";
+import { padHBits, padHBytes, padSignedHBits, padTag } from "@helixnetwork/pad";
+import { add, normalizedBundleHash } from "@helixnetwork/signing";
 import {
   BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING,
   HASH_BYTE_SIZE,

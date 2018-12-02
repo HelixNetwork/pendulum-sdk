@@ -1,11 +1,11 @@
 /** @module bundle-validator */
 
-import { hbits, hbytes, hex, toHBytes } from "@helixnetworknetwork/converter";
-import { padHBytes } from "@helixnetworknetwork/pad";
-import HHash from "@helixnetworknetwork/hash-module";
-import { validateSignatures } from "@helixnetworknetwork/signing";
-import { isTransaction } from "@helixnetworknetwork/transaction";
-import { asTransactionHBytes } from "@helixnetworknetwork/transaction-converter";
+import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
+import { padHBytes } from "@helixnetwork/pad";
+import HHash from "@helixnetwork/hash-module";
+import { validateSignatures } from "@helixnetwork/signing";
+import { isTransaction } from "@helixnetwork/transaction";
+import { asTransactionHBytes } from "@helixnetwork/transaction-converter";
 import {
   ADDRESS_BYTE_SIZE,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
