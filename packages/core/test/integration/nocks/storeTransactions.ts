@@ -1,4 +1,4 @@
-import { bundleHBytes } from "@helix/samples";
+import { bundleHBytes } from "@helixnetwork/samples";
 import * as nock from "nock";
 import { ProtocolCommand, StoreTransactionsCommand } from "../../../../types";
 import headers from "./headers";

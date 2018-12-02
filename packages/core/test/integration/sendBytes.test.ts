@@ -1,5 +1,5 @@
-import { createHttpClient } from "@helix/http-client";
-import { bundle } from "@helix/samples";
+import { createHttpClient } from "@helixnetwork/http-client";
+import { bundle } from "@helixnetwork/samples";
 import test from "ava";
 import { INVALID_TRANSACTION_HBYTES } from "../../../errors";
 import { createSendHBytes } from "../../src";

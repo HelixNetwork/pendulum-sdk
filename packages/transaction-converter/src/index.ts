@@ -1,9 +1,9 @@
 /** @module transaction-converter */
 
-import { hBitsToHBytes, hbytesToHBits, value } from "@helix/converter";
-import HHash from "@helix/hash-module";
-import { padHBits, padHBytes, padSignedHBits } from "@helix/pad";
-import { transactionHash } from "@helix/transaction";
+import { hBitsToHBytes, hbytesToHBits, value } from "@helixnetwork/converter";
+import HHash from "@helixnetwork/hash-module";
+import { padHBits, padHBytes, padSignedHBits } from "@helixnetwork/pad";
+import { transactionHash } from "@helixnetwork/transaction";
 import {
   ADDRESS_BYTE_SIZE,
   HASH_BYTE_SIZE,

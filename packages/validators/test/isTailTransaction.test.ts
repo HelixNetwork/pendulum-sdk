@@ -1,4 +1,4 @@
-import { bundle } from "@helix/samples";
+import { bundle } from "@helixnetwork/samples";
 import test from "ava";
 import { isTailTransaction } from "../src";
 

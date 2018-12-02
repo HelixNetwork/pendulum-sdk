@@ -1,6 +1,6 @@
 /** @module  extract-json */
 
-import { hbytesToAscii } from "@helix/converter";
+import { hbytesToAscii } from "@helixnetwork/converter";
 import { Transaction } from "../../types";
 
 export const errors = {

@@ -1,7 +1,7 @@
-import HHash from "@helix/hash-module";
+import HHash from "@helixnetwork/hash-module";
 import HSign from "./hsign";
 import * as errors from "./errors";
-import { hex } from "@helix/converter";
+import { hex } from "@helixnetwork/converter";
 import {
   SIGNATURE_R_BYTE_SIZE,
   SIGNATURE_SECRETE_KEY_BYTE_SIZE,

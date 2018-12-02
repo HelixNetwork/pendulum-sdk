@@ -1,4 +1,4 @@
-import { hex, toHBytes } from "@helix/converter";
+import { hex, toHBytes } from "@helixnetwork/converter";
 import test from "ava";
 import Sha3 from "../src";
 

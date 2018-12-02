@@ -3,7 +3,7 @@ import {
   attachedHBytes,
   attachedHBytesOfInvalidChars,
   attachedHBytesOfInvalidLength
-} from "@helix/samples";
+} from "@helixnetwork/samples";
 import { isAttachedHBytesArray } from "../src";
 
 test("isAttachedHBytesArray()", t => {

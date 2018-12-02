@@ -1,5 +1,5 @@
 import test from "ava";
-import { hbits, hbytes } from "@helix/converter";
+import { hbits, hbytes } from "@helixnetwork/converter";
 import Kerl from "../src";
 
 test("Kerl: multi-absorb()/multi-squeeze(), Converter: hbits()/hbytes()", t => {

@@ -1,4 +1,4 @@
-import { createHttpClient } from "@helix/http-client";
+import { createHttpClient } from "@helixnetwork/http-client";
 import test from "ava";
 import { ADDRESS_CHECKSUM_BYTE_SIZE } from "../../../constants";
 import { INVALID_ADDRESS } from "../../../errors";

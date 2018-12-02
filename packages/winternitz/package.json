@@ -1,5 +1,5 @@
 {
-  "name": "@helix/winternitz",
+  "name": "@helixnetwork/winternitz",
   "version": "0.0.1-alpha.0",
   "description": "Winternitz signing functions",
   "main": "./out/src/index.js",
@@ -44,8 +44,8 @@
       "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
   },
   "dependencies": {
-    "@helix/sha3": "^0.0.1-alpha.0",
-    "@helix/converter": "^0.0.1-alpha.0",
+    "@helixnetwork/sha3": "^0.0.1-alpha.0",
+    "@helixnetwork/converter": "^0.0.1-alpha.0",
     "bn.js": "^4.11.8",
     "types-bn": "0.0.1"
   }

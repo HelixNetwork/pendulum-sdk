@@ -1,4 +1,4 @@
-import { createHttpClient } from "@helix/http-client";
+import { createHttpClient } from "@helixnetwork/http-client";
 import test from "ava";
 import {
   INVALID_SECURITY_LEVEL,
@@ -13,7 +13,7 @@ import "./nocks/getInclusionStates";
 import "./nocks/getNodeInfo";
 import "./nocks/wereAddressesSpentFrom";
 
-import { transfers } from "@helix/samples";
+import { transfers } from "@helixnetwork/samples";
 
 const getTransfers = createGetTransfers(createHttpClient(), "lib");
 const seed = "abcd";

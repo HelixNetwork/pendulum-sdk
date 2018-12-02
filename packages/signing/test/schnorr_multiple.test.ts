@@ -1,6 +1,6 @@
 import test from "ava";
 import Schnorr from "../src/schnorr";
-import { hex, toHBytes, hbits } from "@helix/converter";
+import { hex, toHBytes, hbits } from "@helixnetwork/converter";
 import HSign from "../src/hsign";
 import { subseed, key } from "../src";
 import {

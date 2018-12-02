@@ -1,5 +1,5 @@
-import { createHttpClient } from "@helix/http-client";
-import { transfers } from "@helix/samples";
+import { createHttpClient } from "@helixnetwork/http-client";
+import { transfers } from "@helixnetwork/samples";
 import test from "ava";
 import { INVALID_SEED, INVALID_START_END_OPTIONS } from "../../../errors";
 import { Hash } from "../../../types";

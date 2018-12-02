@@ -1,7 +1,7 @@
 /** @module checksum */
 
-import { hbits, hbytes, hex, toHBytes } from "@helix/converter";
-import HHash from "@helix/hash-module";
+import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
+import HHash from "@helixnetwork/hash-module";
 import {
   ADDRESS_BYTE_SIZE,
   ADDRESS_BYTE_SIZE_PADDING,

@@ -1,5 +1,5 @@
 {
-  "name": "@helix/converter",
+  "name": "@helixnetwork/converter",
   "version": "0.0.1-alpha.0",
   "description": "Convert values & trytes to trits and back",
   "main": "./out/src/index.js",

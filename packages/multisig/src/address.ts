@@ -1,5 +1,5 @@
-import { hbits, hex } from "@helix/converter";
-import HHash from "@helix/hash-module";
+import { hbits, hex } from "@helixnetwork/converter";
+import HHash from "@helixnetwork/hash-module";
 import { asArray } from "../../types";
 
 /**

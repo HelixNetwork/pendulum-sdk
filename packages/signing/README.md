@@ -1,4 +1,4 @@
-# @helixnetwork/signing
+# @helixnetworknetwork/signing
 
 IOTA Signing Scheme
 
@@ -8,13 +8,13 @@ IOTA Signing Scheme
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helixnetwork/signing
+npm install @helixnetworknetwork/signing
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helixnetwork/signing
+yarn add @helixnetworknetwork/signing
 ```
 
 ## API Reference

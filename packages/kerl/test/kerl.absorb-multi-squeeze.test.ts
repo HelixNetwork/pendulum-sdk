@@ -1,4 +1,4 @@
-import { hbits, hbytes } from "@helix/converter";
+import { hbits, hbytes } from "@helixnetwork/converter";
 import test from "ava";
 import Kerl from "../src";
 

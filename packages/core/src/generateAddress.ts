@@ -1,6 +1,6 @@
-import { addChecksum } from "@helix/checksum";
-import { hbits, hbytes, hex } from "@helix/converter";
-import { digests, key, subseed } from "@helix/signing";
+import { addChecksum } from "@helixnetwork/checksum";
+import { hbits, hbytes, hex } from "@helixnetwork/converter";
+import { digests, key, subseed } from "@helixnetwork/signing";
 import { ADDRESS_BYTE_SIZE, ADDRESS_CHECKSUM_BYTE_SIZE } from "../../constants";
 import { Hash } from "../../types";
 

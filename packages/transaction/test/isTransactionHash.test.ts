@@ -1,4 +1,4 @@
-import { transactionObject } from "@helix/samples";
+import { transactionObject } from "@helixnetwork/samples";
 import test from "ava";
 import { isTransactionHash } from "../src";
 

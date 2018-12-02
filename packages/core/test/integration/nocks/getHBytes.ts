@@ -3,7 +3,7 @@ import {
   bundleHBytes,
   bundleWithZeroValue,
   bundleWithZeroValueHBytes
-} from "@helix/samples";
+} from "@helixnetwork/samples";
 import * as nock from "nock";
 import {
   GetHBytesCommand,

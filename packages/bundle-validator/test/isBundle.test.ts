@@ -7,7 +7,7 @@ import {
   bundleWithInvalidValueSum,
   bundleWithValidSignature,
   bundleWithZeroValue
-} from "@helix/samples";
+} from "@helixnetwork/samples";
 import test from "ava";
 import isBundle from "../src";
 

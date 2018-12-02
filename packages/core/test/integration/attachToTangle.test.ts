@@ -1,4 +1,4 @@
-import { createHttpClient } from "@helix/http-client";
+import { createHttpClient } from "@helixnetwork/http-client";
 import test from "ava";
 import {
   INVALID_BRANCH_TRANSACTION,

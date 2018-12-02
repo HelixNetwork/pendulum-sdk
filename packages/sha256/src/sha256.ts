@@ -1,7 +1,7 @@
 /* tslint:disable variable-name no-conditional-assignment */
 import * as CryptoJS from "crypto-js";
 import * as errors from "./errors";
-import { bytesToWords, wordsToBytes } from "@helix/converter";
+import { bytesToWords, wordsToBytes } from "@helixnetwork/converter";
 
 const BIT_HASH_LENGTH = 256;
 const HASH_LENGTH = 32;

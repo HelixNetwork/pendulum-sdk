@@ -1,4 +1,4 @@
-# @helixnetwork/converter
+# @helixnetworknetwork/converter
 > Obsolete soon!
 
 Methods for converting ascii, values &amp; trytes to trits and back.
@@ -7,13 +7,13 @@ Methods for converting ascii, values &amp; trytes to trits and back.
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helixnetwork/converter
+npm install @helixnetworknetwork/converter
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helixnetwork/converter
+yarn add @helixnetworknetwork/converter
 ```
 
 ## API Reference

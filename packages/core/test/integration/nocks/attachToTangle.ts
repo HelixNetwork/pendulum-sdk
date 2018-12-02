@@ -1,4 +1,4 @@
-import { bundle, bundleHBytes } from "@helix/samples";
+import { bundle, bundleHBytes } from "@helixnetwork/samples";
 import * as nock from "nock";
 import {
   AttachToTangleCommand,
