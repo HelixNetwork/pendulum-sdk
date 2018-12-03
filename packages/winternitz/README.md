@@ -13,7 +13,3 @@ or using [yarn](https://yarnpkg.com/):
 ```
 yarn add @helixnetwork/signing
 ```
-
-## API Reference
-
-ERROR, Cannot find module.
