@@ -1,7 +1,7 @@
 # @helixnetwork/bundle
 
 Utilities for generating and signing bundles.
-A bundle in IOTA is an atomic set of transactions.
+A bundle in HELIX is an atomic set of transactions.
 
 ## Installation
 
