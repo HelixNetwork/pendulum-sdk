@@ -16,22 +16,22 @@ const sendHBytes = createSendHBytes(createHttpClient());
 test("sendHBytes() attaches to tangle, broadcasts, stores and resolves to transaction objects.", async t => {
   t.deepEqual(
     bundle, // await sendHBytes(hbytes, depth, minWeightMagnitude),
-    bundle,
+    bundle, //await sendHBytes(hbytes, depth, minWeightMagnitude), //bundle,
     "sendHBytes() should attach to tangle, broadcast, store and resolve to transaction objects."
   );
 });
 //// todo_this : check test todo_this : check test
-// test("sendHBytes() does not mutate original hbytes.", async t => {
-//   const hbytesCopy = [...hbytes];
-//
-//   await sendHBytes(hbytesCopy, depth, minWeightMagnitude);
-//
-//   t.deepEqual(
-//     hbytesCopy,
-//     hbytes,
-//     "sendHBytes() should not mutate original hbytes."
-//   );
-// });
+test("sendHBytes() does not mutate original hbytes.", async t => {
+  const hbytesCopy = [...hbytes];
+
+  await sendHBytes(hbytesCopy, depth, minWeightMagnitude);
+
+  t.deepEqual(
+    hbytesCopy,
+    hbytes,
+    "sendHBytes() should not mutate original hbytes."
+  );
+});
 //// todo_this : check test
 // test("sendHBytes() rejects with correct errors for invalid input.", t => {
 //   const invalidHBytes = ["asdasDSFDAFD"];

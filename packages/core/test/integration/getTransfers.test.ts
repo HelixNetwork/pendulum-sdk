@@ -17,11 +17,11 @@ import { transfers } from "@helixnetwork/samples";
 
 const getTransfers = createGetTransfers(createHttpClient(), "lib");
 const seed = "abcd";
-// todo_this : check test
+
 test("getTransfers() resolves to correct account data", async t => {
   t.deepEqual(
-    transfers, // await getTransfers(seed, { start: 0, inclusionStates: true }),
     transfers,
+    await getTransfers(seed, { start: 0, inclusionStates: true }),
     "getTransfers() should resolve to correct account data"
   );
 });
@@ -59,23 +59,21 @@ test("getTransfers() rejects with correct errors for invalid inputs", t => {
   );
 });
 
-// todo_this : check test
-// test.cb("getTransfers() invokes callback", t => {
-//   getTransfers(seed, { start: 0 }, t.end);
-// });
+test.cb("getTransfers() invokes callback", t => {
+  getTransfers(seed, { start: 0 }, t.end);
+});
 
-// todo_this : check test
 test.cb("getTransfers() passes correct arguments to callback", t => {
   getTransfers(seed, { start: 0, inclusionStates: true }, (err, res) => {
     t.is(
-      null, // err,
       null,
+      err,
       "getTransfers() should pass null as first argument in callback for successuful requests"
     );
 
     t.deepEqual(
-      transfers, // res,
       transfers,
+      res,
       "getTransfers() should pass the correct response as second argument in callback"
     );
 
