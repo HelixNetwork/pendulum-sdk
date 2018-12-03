@@ -9,7 +9,7 @@ import headers from "./headers";
 export const emptyFindTransactionsCommand: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
   addresses: [
-    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db"
+    "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2"
   ]
 };
 
@@ -101,9 +101,9 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.FIND_TRANSACTIONS,
     addresses: [
-      "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db",
-      "0270af6513000abc87fbb1cb413d27bb06826461b1968f644ab9224b28f89b044f",
-      "0170af6513000abc87fbb1cb413d27bb06826461b1968f644ab9224b28f89b044f"
+      "0219c68a8de8a82504832a8d17d64466453689dae9bbc21affe5f25efa3202c90e",
+      "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd14",
+      "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2"
     ]
   })
   .reply(200, findTransactionsResponse);
@@ -121,8 +121,8 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.FIND_TRANSACTIONS,
     addresses: [
-      "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db",
-      "0270af6513000abc87fbb1cb413d27bb06826461b1968f644ab9224b28f89b044f"
+      "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd14",
+      "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2"
     ]
   })
   .reply(200, findTransactionsResponse);

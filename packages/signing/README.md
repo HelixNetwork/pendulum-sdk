@@ -1,30 +1,32 @@
-# @helixnetworknetwork/signing
+# @helixnetwork/signing
 
 IOTA Signing Scheme
-
-> Helix Signing Implementation .ts implementation in tests currently.
 
 ## Installation
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helixnetworknetwork/signing
+npm install @helixnetwork/signing
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helixnetworknetwork/signing
+yarn add @helixnetwork/signing
 ```
 
 ## API Reference
 
-
+    
 * [signing](#module_signing)
 
-    * [~subseed(seed, index)](#module_signing..subseed)
+    * [~subseed
+Compute subseed based on the seed with an additional index(seed, index)](#module_signing..subseed
+Compute subseed based on the seed with an additional index)
 
-    * [~key(subseed, length)](#module_signing..key)
+    * [~key
+Split seed in fragments and hashed them then generate from each fragment a schnore private key;(subseed, securityLevel)](#module_signing..key
+Split seed in fragments and hashed them then generate from each fragment a schnore private key;)
 
     * [~digests(key)](#module_signing..digests)
 
@@ -39,33 +41,37 @@ yarn add @helixnetworknetwork/signing
     * [~normalizedBundleHash(bundlehash)](#module_signing..normalizedBundleHash)
 
 
-<a name="module_signing..subseed"></a>
+<a name="module_signing..subseed
+Compute subseed based on the seed with an additional index"></a>
 
-### *signing*~subseed(seed, index)
+### *signing*~subseed
+Compute subseed based on the seed with an additional index(seed, index)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| seed | <code>Int8Array</code> | Seed trits |
+| seed | <code>Int8Array</code> | Seed hbits |
 | index | <code>number</code> | Private key index |
 
-**Returns**: <code>Int8Array</code> - subseed trits  
-<a name="module_signing..key"></a>
+**Returns**: <code>Int8Array</code> - subseed hbits  
+<a name="module_signing..key
+Split seed in fragments and hashed them then generate from each fragment a schnore private key;"></a>
 
-### *signing*~key(subseed, length)
+### *signing*~key
+Split seed in fragments and hashed them then generate from each fragment a schnore private key;(subseed, securityLevel)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| subseed | <code>Int8Array</code> | Subseed trits |
-| length | <code>number</code> | Private key length |
+| subseed | <code>Int8Array</code> | Subseed hbits |
+| securityLevel | <code>number</code> | Private key length |
 
-**Returns**: <code>Int8Array</code> - Private key trits  
+**Returns**: <code>Int8Array</code> - Private key bytes  
 <a name="module_signing..digests"></a>
 
 ### *signing*~digests(key)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| key | <code>Int8Array</code> | Private key trits |
+| key | <code>Uint8Array</code> | Private key hbits |
 
 <a name="module_signing..address"></a>
 
@@ -73,9 +79,9 @@ yarn add @helixnetworknetwork/signing
 
 | Param | Type | Description |
 | --- | --- | --- |
-| digests | <code>Int8Array</code> | Digests trits |
+| digests | <code>Int8Array</code> | Digests hbits |
 
-**Returns**: <code>Int8Array</code> - Address trits  
+**Returns**: <code>Int8Array</code> - Address hbits  
 <a name="module_signing..digest"></a>
 
 ### *signing*~digest(normalizedBundleFragment, signatureFragment)
@@ -83,9 +89,9 @@ yarn add @helixnetworknetwork/signing
 | Param | Type | Description |
 | --- | --- | --- |
 | normalizedBundleFragment | <code>array</code> | Normalized bundle fragment |
-| signatureFragment | <code>Int8Array</code> | Signature fragment trits |
+| signatureFragment | <code>Int8Array</code> | Signature fragment hbits |
 
-**Returns**: <code>Int8Array</code> - Digest trits  
+**Returns**: <code>Int8Array</code> - Digest hbits  
 <a name="module_signing..signatureFragment"></a>
 
 ### *signing*~signatureFragment(normalizeBundleFragment, keyFragment)
@@ -93,18 +99,18 @@ yarn add @helixnetworknetwork/signing
 | Param | Type | Description |
 | --- | --- | --- |
 | normalizeBundleFragment | <code>array</code> | normalized bundle fragment |
-| keyFragment | <code>keyFragment</code> | key fragment trits |
+| keyFragment | <code>keyFragment</code> | key fragment hbits |
 
-**Returns**: <code>Int8Array</code> - Signature Fragment trits  
+**Returns**: <code>Uint8Array</code> - Signature Fragment hbits  
 <a name="module_signing..validateSignatures"></a>
 
 ### *signing*~validateSignatures(expectedAddress, signatureFragments, bundleHash)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| expectedAddress | <code>string</code> | Expected address trytes |
-| signatureFragments | <code>array</code> | Array of signatureFragments trytes |
-| bundleHash | <code>string</code> | Bundle hash trytes |
+| expectedAddress | <code>string</code> | Expected address hbytes |
+| signatureFragments | <code>array</code> | Array of signatureFragments hbytes |
+| bundleHash | <code>string</code> | Bundle hash hbytes |
 
 <a name="module_signing..normalizedBundleHash"></a>
 
@@ -112,7 +118,7 @@ yarn add @helixnetworknetwork/signing
 
 | Param | Type | Description |
 | --- | --- | --- |
-| bundlehash | <code>Hash</code> | Bundle hash trytes |
+| bundlehash | <code>Hash</code> | Bundle hash hbytes |
 
 Normalizes the bundle hash, with resulting digits summing to zero.
 

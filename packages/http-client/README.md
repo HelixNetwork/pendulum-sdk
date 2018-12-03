@@ -1,24 +1,24 @@
-# @helixnetworknetwork/http-client
+# @helixnetwork/http-client
 
-Sends commands to [`IRI`](https://github.com/helixnetwork/hcp) over `HTTP`.
-Allows to create a network provider compatible with functions in [`@helixnetworknetwork/core`](../core).
+Sends commands to [`IRI`](https://github.com/iotaledger/iri) over `HTTP`.
+Allows to create a network provider compatible with functions in [`@helixnetwork/core`](../core).
 
 ## Installation
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helixnetworknetwork/http-client
+npm install @helixnetwork/http-client
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helixnetworknetwork/http-client
+yarn add @helixnetwork/http-client
 ```
 
 ## API Reference
 
-
+    
 * [http-client](#module_http-client)
 
     * _static_
@@ -40,9 +40,9 @@ yarn add @helixnetworknetwork/http-client
 
 | Param | Type | Default |
 | --- | --- | --- |
-| command | <code>Command</code> |  |
-| [uri] | <code>String</code> | <code>http://localhost:14265</code> |
-| [apiVersion] | <code>String</code> \| <code>Number</code> | <code>1</code> |
+| command | <code>Command</code> |  | 
+| [uri] | <code>String</code> | <code>http://localhost:14265</code> | 
+| [apiVersion] | <code>String</code> \| <code>Number</code> | <code>1</code> | 
 
 Sends an http request to a specified host.
 
@@ -53,7 +53,7 @@ Sends an http request to a specified host.
 
 | Param | Type |
 | --- | --- |
-| command | <code>object</code> |
+| command | <code>object</code> | 
 
 **Returns**: <code>object</code> - response  
 <a name="module_http-client..setSettings"></a>

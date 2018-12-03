@@ -23,14 +23,18 @@ const client = createHttpClient();
 const getNewAddress = createGetNewAddress(client, "lib");
 const isAddressUsed = createIsAddressUsed(client);
 // todo_this : check test
-// test('getNewAddress() resolves to correct new address', async t => {
-//     t.is(await getNewAddress(seed, { index: 0 }), newAddress, 'getNewAddress() should resolve to correct new address')
-// })
+test("getNewAddress() resolves to correct new address", async t => {
+  t.is(
+    await getNewAddress(seed, { index: 0 }),
+    newAddress,
+    "getNewAddress() should resolve to correct new address"
+  );
+});
 // todo: check test
 test("getNewAddress() with total option resolves to correct addresses", async t => {
   t.deepEqual(
     addresses.slice(0, 2), // await getNewAddress(seed, { index: 0, total: 2 }),
-    addresses.slice(0, 2),
+    await getNewAddress(seed, { index: 0, total: 2 }),
     "getNewAddress() with `total` option resolves to correct addresses"
   );
 });
@@ -38,7 +42,7 @@ test("getNewAddress() with total option resolves to correct addresses", async t 
 test("getNewAddress() with `returnAll` option resolves to correct addresses", async t => {
   t.deepEqual(
     addresses.slice(1, 3), // await getNewAddress(seed, { index: 1, returnAll: true }),
-    addresses.slice(1, 3),
+    await getNewAddress(seed, { index: 1, returnAll: true }),
     "getNewAddress() with `returnAll` option should resolve to addresses from `start` up to new address"
   );
 });
@@ -49,13 +53,13 @@ test("getNewAddress() with `returnAll` option resolves to correct addresses", as
 //         newAddressWithChecksum,
 //         'getNewAddress() with `checksum` option should resolve to correct address'
 //     )
-
+//
 //     t.deepEqual(
 //         await getNewAddress(seed, { index: 0, total: 2, checksum: true }),
 //         addressesWithChecksum.slice(0, 2),
 //         'getNewAddress() with `total` & `checksum` options resolves to correct addresses'
 //     )
-
+//
 //     t.deepEqual(
 //         await getNewAddress(seed, { index: 1, returnAll: true, checksum: true }),
 //         addressesWithChecksum.slice(1, 3),
