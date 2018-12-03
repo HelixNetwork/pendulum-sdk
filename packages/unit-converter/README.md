@@ -2,8 +2,6 @@
 
 Converts value across different IOTA units.
 
-> Obsolete soon. 
-
 ## Installation
 
 Install using [npm](https://www.npmjs.org/):
@@ -31,3 +29,4 @@ yarn add @helixnetwork/unit-converter
 
 Converts accross IOTA units. Valid unit names are:
 `h`, `Kh`, `Mh`, `Gh`, `Th`, `Ph`
+

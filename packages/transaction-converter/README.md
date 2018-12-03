@@ -20,35 +20,35 @@ yarn add @helixnetwork/transaction-converter
     
 * [transaction-converter](#module_transaction-converter)
 
-    * [~asTransactionTrytes(transactions)](#module_transaction-converter..asTransactionTrytes)
+    * [~asTransactionHBytes(transactions)](#module_transaction-converter..asTransactionHBytes)
 
-    * [~asTransactionObject(trytes)](#module_transaction-converter..asTransactionObject)
+    * [~asTransactionObject(hbytes)](#module_transaction-converter..asTransactionObject)
 
     * [~asTransactionObjects([hashes])](#module_transaction-converter..asTransactionObjects)
 
-    * [~transactionObjectsMapper(trytes)](#module_transaction-converter..transactionObjectsMapper)
+    * [~transactionObjectsMapper(hbytes)](#module_transaction-converter..transactionObjectsMapper)
 
 
-<a name="module_transaction-converter..asTransactionTrytes"></a>
+<a name="module_transaction-converter..asTransactionHBytes"></a>
 
-### *transaction-converter*~asTransactionTrytes(transactions)
+### *transaction-converter*~asTransactionHBytes(transactions)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | transactions | <code>Transaction</code> \| <code>Array.&lt;Transaction&gt;</code> | Transaction object(s) |
 
-Converts a transaction object or a list of those into transaction trytes.
+Converts a transaction object or a list of those into transaction hbytes.
 
-**Returns**: <code>Trytes</code> \| <code>Array.&lt;Trytes&gt;</code> - Transaction trytes  
+**Returns**: <code>HBytes</code> \| <code>Array.&lt;HBytes&gt;</code> - Transaction hbytes  
 <a name="module_transaction-converter..asTransactionObject"></a>
 
-### *transaction-converter*~asTransactionObject(trytes)
+### *transaction-converter*~asTransactionObject(hbytes)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| trytes | <code>Trytes</code> | Transaction trytes |
+| hbytes | <code>HBytes</code> | Transaction hbytes |
 
-Converts transaction trytes of 2673 trytes into a transaction object.
+Converts transaction hbytes of 2673 hbytes into a transaction object.
 
 **Returns**: <code>Transaction</code> - Transaction object  
 <a name="module_transaction-converter..asTransactionObjects"></a>
@@ -59,18 +59,18 @@ Converts transaction trytes of 2673 trytes into a transaction object.
 | --- | --- | --- |
 | [hashes] | <code>Array.&lt;Hash&gt;</code> | Optional list of known hashes. Known hashes are directly mapped to transaction objects, otherwise all hashes are being recalculated. |
 
-Converts a list of transaction trytes into list of transaction objects.
+Converts a list of transaction hbytes into list of transaction objects.
 Accepts a list of hashes and returns a mapper. In cases hashes are given,
 the mapper function map them to converted objects.
 
 **Returns**: <code>function</code> - [`transactionObjectsMapper`](#module_transaction.transactionObjectsMapper)  
 <a name="module_transaction-converter..transactionObjectsMapper"></a>
 
-### *transaction-converter*~transactionObjectsMapper(trytes)
+### *transaction-converter*~transactionObjectsMapper(hbytes)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| trytes | <code>Array.&lt;Trytes&gt;</code> | List of transaction trytes to convert |
+| hbytes | <code>Array.&lt;HBytes&gt;</code> | List of transaction hbytes to convert |
 
 Maps the list of given hashes to a list of converted transaction objects.
 

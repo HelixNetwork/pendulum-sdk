@@ -20,7 +20,7 @@ yarn add @helixnetwork/transaction
     
 * [transaction](#module_transaction)
 
-    * [~transactionHash(hbits)](#module_transaction..transactionHash)
+    * [~transactionHash(hBits)](#module_transaction..transactionHash)
 
     * [~isTransaction(tx)](#module_transaction..isTransaction)
 
@@ -28,18 +28,18 @@ yarn add @helixnetwork/transaction
 
     * [~isTransactionHash(hash, mwm)](#module_transaction..isTransactionHash)
 
-    * [~isTransactionTrytes(trytes, minWeightMagnitude)](#module_transaction..isTransactionTrytes)
+    * [~isTransactionHBytes(hbytes, minWeightMagnitude)](#module_transaction..isTransactionHBytes)
 
-    * [~isAttachedTrytes(trytes)](#module_transaction..isAttachedTrytes)
+    * [~isAttachedHBytes(hbytes)](#module_transaction..isAttachedHBytes)
 
 
 <a name="module_transaction..transactionHash"></a>
 
-### *transaction*~transactionHash(hbits)
+### *transaction*~transactionHash(hBits)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hbits | <code>Int8Array</code> | Int8Array of 8019 transaction hbits |
+| hBits | <code>Int8Array</code> | Int8Array of 8019 transaction hbits |
 
 Calculates the transaction hash out of 8019 transaction hbits.
 
@@ -74,27 +74,27 @@ A tail transaction is one with `currentIndex=0`.
 | hash | <code>string</code> | 
 | mwm | <code>number</code> | 
 
-Checks if input is correct transaction hash (81 trytes)
+Checks if input is correct transaction hash (32 hbytes)
 
-<a name="module_transaction..isTransactionTrytes"></a>
+<a name="module_transaction..isTransactionHBytes"></a>
 
-### *transaction*~isTransactionTrytes(trytes, minWeightMagnitude)
+### *transaction*~isTransactionHBytes(hbytes, minWeightMagnitude)
 
 | Param | Type |
 | --- | --- |
-| trytes | <code>string</code> | 
+| hbytes | <code>string</code> | 
 | minWeightMagnitude | <code>number</code> | 
 
-Checks if input is correct transaction trytes (2673 trytes)
+Checks if input is correct transaction hbytes (2673 hbytes)
 
-<a name="module_transaction..isAttachedTrytes"></a>
+<a name="module_transaction..isAttachedHBytes"></a>
 
-### *transaction*~isAttachedTrytes(trytes)
+### *transaction*~isAttachedHBytes(hbytes)
 
 | Param | Type |
 | --- | --- |
-| trytes | <code>string</code> | 
+| hbytes | <code>string</code> | 
 
-Checks if input is valid attached transaction trytes.
-For attached transactions last 241 trytes are non-zero.
+Checks if input is valid attached transaction hbytes.
+For attached transactions last 64 hbytes are non-zero. // 241
 

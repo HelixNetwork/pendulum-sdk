@@ -20,15 +20,19 @@ yarn add @helixnetwork/validators
     
 * [validators](#module_validators)
 
-    * [~isTrytes(trytes, [length])](#module_validators..isTrytes)
+    * [~isHBytes(hbytes, [length])](#module_validators..isHBytes)
 
-    * [~isTrytesOfExactLength(trytes, length)](#module_validators..isTrytesOfExactLength)
+    * [~isHBytesOfExactLength(hbytes, length)](#module_validators..isHBytesOfExactLength)
 
-    * [~isTrytesOfMaxLength(trytes, length)](#module_validators..isTrytesOfMaxLength)
+    * [~isHBytesOfMaxLength(hbytes, length)](#module_validators..isHBytesOfMaxLength)
 
     * [~isEmpty(hash)](#module_validators..isEmpty)
 
+    * [~isEmptyBytes(bytes)](#module_validators..isEmptyBytes)
+
     * [~isHash(hash)](#module_validators..isHash)
+
+    * [~isAddress(hash)](#module_validators..isAddress)
 
     * [~isInput(address)](#module_validators..isInput)
 
@@ -43,33 +47,33 @@ yarn add @helixnetwork/validators
     * [~isAddress(address)](#module_validators..isAddress)
 
 
-<a name="module_validators..isTrytes"></a>
+<a name="module_validators..isHBytes"></a>
 
-### *validators*~isTrytes(trytes, [length])
+### *validators*~isHBytes(hbytes, [length])
 
 | Param | Type | Default |
 | --- | --- | --- |
-| trytes | <code>string</code> |  | 
+| hbytes | <code>string</code> |  | 
 | [length] | <code>string</code> \| <code>number</code> | <code>&quot;&#x27;1,&#x27;&quot;</code> | 
 
-Checks if input is correct trytes consisting of [9A-Z]; optionally validate length
+Checks if input is correct hbytes consisting of [9A-Z]; optionally validate length
 
-<a name="module_validators..isTrytesOfExactLength"></a>
+<a name="module_validators..isHBytesOfExactLength"></a>
 
-### *validators*~isTrytesOfExactLength(trytes, length)
+### *validators*~isHBytesOfExactLength(hbytes, length)
 
 | Param | Type |
 | --- | --- |
-| trytes | <code>string</code> | 
+| hbytes | <code>string</code> | 
 | length | <code>number</code> | 
 
-<a name="module_validators..isTrytesOfMaxLength"></a>
+<a name="module_validators..isHBytesOfMaxLength"></a>
 
-### *validators*~isTrytesOfMaxLength(trytes, length)
+### *validators*~isHBytesOfMaxLength(hbytes, length)
 
 | Param | Type |
 | --- | --- |
-| trytes | <code>string</code> | 
+| hbytes | <code>string</code> | 
 | length | <code>number</code> | 
 
 <a name="module_validators..isEmpty"></a>
@@ -82,6 +86,16 @@ Checks if input is correct trytes consisting of [9A-Z]; optionally validate leng
 
 Checks if input contains `9`s only.
 
+<a name="module_validators..isEmptyBytes"></a>
+
+### *validators*~isEmptyBytes(bytes)
+
+| Param | Type |
+| --- | --- |
+| bytes | <code>Uint8Array</code> | 
+
+Checks if input contains `9`s only.
+
 <a name="module_validators..isHash"></a>
 
 ### *validators*~isHash(hash)
@@ -90,7 +104,17 @@ Checks if input contains `9`s only.
 | --- | --- |
 | hash | <code>string</code> | 
 
-Checks if input is correct hash (81 trytes) or address with checksum (90 trytes)
+Checks if input is correct hash (81 hbytes) or address with checksum (90 hbytes)
+
+<a name="module_validators..isAddress"></a>
+
+### *validators*~isAddress(hash)
+
+| Param | Type |
+| --- | --- |
+| hash | <code>string</code> | 
+
+Checks if input is correct address or address with checksum (90 hbytes)
 
 <a name="module_validators..isInput"></a>
 
@@ -111,7 +135,7 @@ It does not validate the checksum.
 | --- | --- |
 | tag | <code>string</code> | 
 
-Checks that input is valid tag trytes.
+Checks that input is valid tag hbytes.
 
 <a name="module_validators..isTransfer"></a>
 
@@ -157,11 +181,11 @@ taking advantage of built-in promise branching.
 try {
   validate([
     value, // Given value
-    isTrytes, // Validator function
-    'Invalid trytes' // Error message
+    isHBytes, // Validator function
+    'Invalid hbytes' // Error message
   ])
 } catch (err) {
-  console.log(err.message) // 'Invalid trytes'
+  console.log(err.message) // 'Invalid hbytes'
 }
 ```
 <a name="module_validators..isAddress"></a>
@@ -170,7 +194,7 @@ try {
 
 | Param | Type | Description |
 | --- | --- | --- |
-| address | <code>string</code> | Address trytes, with checksum |
+| address | <code>string</code> | Address hbytes, with checksum |
 
 Checks integrity of given address by validating the checksum.
 
