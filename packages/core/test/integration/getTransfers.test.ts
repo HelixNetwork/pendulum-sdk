@@ -17,10 +17,9 @@ import { transfers } from "@helixnetwork/samples";
 
 const getTransfers = createGetTransfers(createHttpClient(), "lib");
 const seed = "abcd";
-// todo_this : check test
 test("getTransfers() resolves to correct account data", async t => {
   t.deepEqual(
-    await getTransfers(seed, { start: 0, inclusionStates: true }), // await getTransfers(seed, { start: 0, inclusionStates: true }),
+    await getTransfers(seed, { start: 0, inclusionStates: true }),
     transfers,
     "getTransfers() should resolve to correct account data"
   );
