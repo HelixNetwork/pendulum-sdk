@@ -38,17 +38,17 @@ Once building on save is setup, you can start watching tests with `npm test --wa
 
 ### Generate docs
 
-Please update the documentation when needed by editing [`JSDoc`](http://usejsdoc.org) annotations and running `npm run docs` from the _root directory_.
+Please update the documention when needed by editing [`JSDoc`](http://usejsdoc.org) annotations and running `npm run docs` from the _root directory_.
 
 ## Using the API
 
 ### Installation
 
 Install using [npm](https://www.npmjs.org/):
-> @helix scope
+> @helixnetwork scope
 
 ```
-npm h @helix/core
+npm i @helixnetwork/core
 ```
 
 ### Connecting to network
@@ -88,17 +88,17 @@ const getNodeInfo = createGetNodeInfo(client)
 ### Creating &amp; broadcasting transactions
 
 Publish transfers by calling [`prepareTransfers`](packages/core#module_core.prepareTransfers) and piping the
-prepared trytes to [`sendTrytes`](packages/core#module_core.sendTrytes) command.
+prepared hbytes to [`sendHBytes`](packages/core#module_core.sendHBytes) command.
 
 ```js
-// must be truly random & 81-trytes long
+// must be truly random 
 const seed = ' your seed here '
 
 // Array of transfers which defines transfer recipients and value transferred in helixs.
 const transfers = [{
     address: ' recipient address here ',
-    value: 1000, // 1Ki
-    tag: '', // optional tag of `0-27` trytes
+    value: 1000, // 1Kh
+    tag: '', // optional tag 
     message: '' // optional message in trytes
 }]
 
@@ -110,7 +110,7 @@ const depth = 3
 const minWeightMagnitude = 14
 
 helix.prepareTransfers(seed, transfers)
-    .then(trytes => helix.sendTrytes(trytes, depth, minWeightMagnitude))
+    .then(hbytes => helix.sendHBytes(hbytes, depth, minWeightMagnitude))
     .then(bundle => {
         console.log(`Published transaction with tail hash: ${bundle[0].hash}`)
         console.log(`Bundle: ${bundle}`)
