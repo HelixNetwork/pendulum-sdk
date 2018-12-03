@@ -276,7 +276,6 @@ export default class Multisig {
   ) {
     const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
-    // initialize Kerl with the provided state
     hHash.initialize();
 
     // Absorb all key digests
