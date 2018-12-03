@@ -12,7 +12,3 @@ or using [yarn](https://yarnpkg.com/):
 ```
 yarn add @helixnetwork/sha3
 ```
-
-## API Reference
-
-ERROR, Cannot find module.
