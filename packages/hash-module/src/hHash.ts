@@ -11,9 +11,9 @@ const HASH_SHA256 = "sha256";
  * @ignore
  */
 export default class HHash {
-  public static HASH_ALGORITHM_1 = HASH_SHA256;
-  public static HASH_ALGORITHM_2 = HASH_SHA256;
-  public static HASH_ALGORITHM_3 = HASH_SHA256;
+  public static HASH_ALGORITHM_1 = HASH_SHA3;
+  public static HASH_ALGORITHM_2 = HASH_SHA3;
+  public static HASH_ALGORITHM_3 = HASH_SHA3;
 
   private h: any;
   private readonly t: string;
