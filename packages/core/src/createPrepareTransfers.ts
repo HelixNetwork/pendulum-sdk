@@ -9,7 +9,7 @@ import {
   normalizedBundleHash,
   signatureFragment,
   subseed
-} from "@helixnetwork/signing";
+} from "@helixnetwork/schnorr";
 import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
 import {
   HASH_BYTE_SIZE,
@@ -106,7 +106,7 @@ export const createPrepareTransfers = (
 
   /**
    * Prepares the transaction hbytes by generating a bundle, filling in transfers and inputs,
-   * adding remainder and signing. It can be used to generate and sign bundles either online or offline.
+   * adding remainder and schnorr. It can be used to generate and sign bundles either online or offline.
    * For offline usage, please see [`createPrepareTransfers`]{@link #module_core.createPrepareTransfers}
    * which creates a `prepareTransfers` without a network provider.
    *
@@ -119,7 +119,7 @@ export const createPrepareTransfers = (
    * @param {object} transfers
    *
    * @param {object} [options]
-   * @param {Input[]} [options.inputs] Inputs used for signing. Needs to have correct security, keyIndex and address value
+   * @param {Input[]} [options.inputs] Inputs used for schnorr. Needs to have correct security, keyIndex and address value
    * @param {Hash} [options.inputs[].address] Input address hbytes
    * @param {number} [options.inputs[].keyIndex] Key index at which address was generated
    * @param {number} [options.inputs[].security = 2] Security level

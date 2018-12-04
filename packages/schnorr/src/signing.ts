@@ -1,4 +1,4 @@
-/** @module signing */
+/** @module schnorr */
 
 import {
   fromValue,
@@ -276,7 +276,7 @@ export function signatureFragment(
   }
 
   const aggregatedSignature: HSign = Schnorr.aggregateSignature(signatures);
-  // console.log('signing - signatureFragment: ' + hex(aggregatedSignature.getSignatureArray()) );
+  // console.log('schnorr - signatureFragment: ' + hex(aggregatedSignature.getSignatureArray()) );
   // console.log('normalizeBundleFragment: ' + hex(normalizedBundleFragment));
   return aggregatedSignature.getSignatureArray();
 }

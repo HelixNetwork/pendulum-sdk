@@ -1,4 +1,4 @@
-/** @module signing */
+/** @module schnorr */
 
 import { concatenate } from "@helixnetwork/converter";
 import * as errors from "./errors";

@@ -1,9 +1,9 @@
 {
-  "name": "@helixnetwork/signing",
+  "name": "@helixnetwork/schnorr",
   "version": "0.0.1-alpha.0",
-  "description": "IOTA Signing Scheme",
-  "main": "./out/signing/src/index.js",
-  "typings": "typings/signing/src",
+  "description": "IOTA schnorr Scheme",
+  "main": "./out/schnorr/src/index.js",
+  "typings": "typings/schnorr/src",
   "publishConfig": {
     "access": "private"
   },
@@ -20,7 +20,7 @@
     "Chris Dukakis <chris.dukakis@iota.org> (https://github.com/chrisdukakis)"
   ],
   "ava": {
-    "files": "out/signing/test/*.test.js",
+    "files": "out/schnorr/test/*.test.js",
     "failFast": false,
     "failWithoutAssertions": false,
     "compileEnhancements": false,

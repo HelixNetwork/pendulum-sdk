@@ -10,7 +10,7 @@ import {
   signatureFragment,
   subseed,
   computePublicNonces
-} from "@helixnetwork/signing";
+} from "@helixnetwork/schnorr";
 import * as Promise from "bluebird";
 import * as errors from "../../errors";
 import {

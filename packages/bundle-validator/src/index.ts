@@ -3,7 +3,7 @@
 import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
 import { padHBytes } from "@helixnetwork/pad";
 import HHash from "@helixnetwork/hash-module";
-import { validateSignatures } from "@helixnetwork/signing";
+import { validateSignatures } from "@helixnetwork/schnorr";
 import { isTransaction } from "@helixnetwork/transaction";
 import { asTransactionHBytes } from "@helixnetwork/transaction-converter";
 import {

@@ -67,7 +67,7 @@
     "@helixnetwork/hash-module": "^0.0.1-alpha.0",
     "@helixnetwork/http-client": "^0.0.1-alpha.0",
     "@helixnetwork/pad": "^0.0.1-alpha.0",
-    "@helixnetwork/signing": "^0.0.1-alpha.0",
+    "@helixnetwork/schnorr": "^0.0.1-alpha.0",
     "@helixnetwork/transaction": "^0.0.1-alpha.0",
     "@helixnetwork/transaction-converter": "^0.0.1-alpha.0",
     "@types/bluebird": "^3.5.20",
