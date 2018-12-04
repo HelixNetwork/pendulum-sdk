@@ -48,7 +48,6 @@
   },
   "devDependencies": {
     "@helixnetwork/converter": "^0.0.1-alpha.0",
-    "@helixnetwork/sha3": "^0.0.1-alpha.0",
-    "@helixnetwork/sha256": "^0.0.1-alpha.0"
+    "@helixnetwork/sha3": "^0.0.1-alpha.0"
   }
 }

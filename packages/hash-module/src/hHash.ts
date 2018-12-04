@@ -1,10 +1,8 @@
 /* tslint:disable variable-name no-conditional-assignment */
 import { hbits, hbytes, hex } from "@helixnetwork/converter";
 import SHA3 from "@helixnetwork/sha3";
-import SHA256 from "@helixnetwork/sha256";
 
 const HASH_SHA3 = "sha3";
-const HASH_SHA256 = "sha256";
 
 /**
  * @class HHash - only this class should be used for hashing
@@ -25,9 +23,6 @@ export default class HHash {
     this.t = type;
     if (type === HASH_SHA3) {
       this.h = new SHA3();
-    }
-    if (type === HASH_SHA256) {
-      this.h = new SHA256();
     }
   }
 
@@ -107,9 +102,6 @@ export default class HHash {
   public getHashLength(): number {
     if (this.t === HASH_SHA3) {
       return SHA3.HASH_LENGTH;
-    }
-    if (this.t === HASH_SHA256) {
-      return SHA256.HASH_LENGTH;
     }
     return 0;
   }
