@@ -47,7 +47,6 @@
     "@types/request": "^2.47.1",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
-    "mocha": "^5.2.0",
     "request": "^2.88.0",
     "ts-node": "^7.0.1"
   },
@@ -56,12 +55,12 @@
     "dmd-clear": "^0.1.2",
     "husky": "^0.14.3",
     "jsdoc-babel": "^0.4.0",
-    "lerna": "^2.11.0",
+    "lerna": "^3.5.0",
     "lint-staged": "^7.3.0",
     "nyc": "^12.0.2",
     "prettier": "^1.10.2",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
-    "typescript": "^2.9.2"
+    "typescript": "^3.2.1"
   }
 }
