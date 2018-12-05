@@ -21,17 +21,17 @@ test("sendHBytes() attaches to tangle, broadcasts, stores and resolves to transa
   );
 });
 //// todo_this : check test todo_this : check test
-test("sendHBytes() does not mutate original hbytes.", async t => {
-  const hbytesCopy = [...hbytes];
+// test("sendHBytes() does not mutate original hbytes.", async t => {
+//   const hbytesCopy = [...hbytes];
 
-  await sendHBytes(hbytesCopy, depth, minWeightMagnitude);
+//   await sendHBytes(hbytesCopy, depth, minWeightMagnitude);
 
-  t.deepEqual(
-    hbytesCopy,
-    hbytes,
-    "sendHBytes() should not mutate original hbytes."
-  );
-});
+//   t.deepEqual(
+//     hbytesCopy,
+//     hbytes,
+//     "sendHBytes() should not mutate original hbytes."
+//   );
+// });
 //// todo_this : check test
 // test("sendHBytes() rejects with correct errors for invalid input.", t => {
 //   const invalidHBytes = ["asdasDSFDAFD"];
