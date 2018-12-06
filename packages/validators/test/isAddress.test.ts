@@ -3,21 +3,21 @@ import { isAddress } from "../src";
 
 test("isAddress()", t => {
   const validAddressWithChecksum =
-    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db9bfb3cdc";
+    "0219c68a8de8a82504832a8d17d64466453689dae9bbc21affe5f25efa3202c90e67dd9452";
   const validAddressWithoutChecksum =
-    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db";
+    "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2";
   const validAddressWithInvalidChecksum =
-    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db12345678";
+    "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b212547862";
   const addressOfInvalidLength =
-    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db12345678123";
+    "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b";
   const addressOfInvalidHBytes =
     "TRc1233445234234232aaaaaccac1233445234234232adedeadea123344523eed101b796";
-  // todo_this : check test
-  // t.is(
-  //   isAddress(validAddressWithChecksum),
-  //   true,
-  //   "isAddress() should return true for valid address with valid checksum."
-  // );
+
+  t.is(
+    isAddress(validAddressWithChecksum),
+    true,
+    "isAddress() should return true for valid address with valid checksum."
+  );
 
   t.is(
     isAddress(validAddressWithoutChecksum),
