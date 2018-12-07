@@ -15,14 +15,14 @@ test("getBundle() resolves to correct bundle.", async t => {
     "getBundle() should resolve to correct bundle."
   );
 });
-// todo_this : check test
-// test("getBundle() resolves to correct signle transaction bundle.", async t => {
-//   t.deepEqual(
-//     await getBundle(bundleWithZeroValue[0].hash),
-//     bundleWithZeroValue,
-//     "getBundle() should resolve to correct single transaction bundle."
-//   );
-// });
+
+test("getBundle() resolves to correct signle transaction bundle.", async t => {
+  t.deepEqual(
+    await getBundle(bundleWithZeroValue[0].hash),
+    bundleWithZeroValue,
+    "getBundle() should resolve to correct single transaction bundle."
+  );
+});
 
 test("getBundle() rejects with correct error for invalid hash.", t => {
   const invalidHash = "asdasDSFDAFD";
