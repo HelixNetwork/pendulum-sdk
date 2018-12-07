@@ -8,7 +8,6 @@ const getNewAddress = createGetNewAddress(client, "lib");
 async function generateAddresses() {
   const addresses: string[] = new Array<string>(3);
   const addressesWithChecksum: string[] = new Array<string>(3);
-  let newAddress: string = "";
 
   let addr = await getNewAddress(seed, { index: 0, total: 3 });
 
@@ -16,12 +15,12 @@ async function generateAddresses() {
     console.log(
       "address for seed=" + seed + " index=" + i + " security=2 " + addr[i]
     );
-    if (i == 0) {
-      newAddress = addr[0];
-    }
     addresses[i] = addr[i];
     addressesWithChecksum[i] = addChecksum(addr[i]);
   }
+  // index 2, security 2
+  const newAddress = addr[2];
+
   addr = await getNewAddress(seed, { index: 0, total: 3, security: 1 });
   for (let i = 0; i < 3; i++) {
     console.log(

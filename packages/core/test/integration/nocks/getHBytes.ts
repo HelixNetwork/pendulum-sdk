@@ -11,10 +11,11 @@ import {
   ProtocolCommand
 } from "../../../../types";
 import headers from "./headers";
+import { HASH_BYTE_SIZE } from "../../../../constants";
 
 export const getHBytesCommand: GetHBytesCommand = {
   command: ProtocolCommand.GET_HBYTES,
-  hashes: ["a".repeat(2 * 32), "b".repeat(2 * 32)]
+  hashes: ["a".repeat(HASH_BYTE_SIZE), "b".repeat(HASH_BYTE_SIZE)]
 };
 
 export const getHBytesResponse: GetHBytesResponse = {
