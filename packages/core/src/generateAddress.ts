@@ -28,7 +28,7 @@ export const generateAddress = (
   security: number = 2,
   checksum: boolean = false
 ): Hash => {
-  // todo: this part is added only to address generation not also when bundle is sign,
+  // TODO: this part is added only to address generation not also when bundle is sign,
   // because of this there are differences between address generated and seed for which address is generated
 
   // while (seed.length % HASH_BYTE_SIZE !== 0) {
