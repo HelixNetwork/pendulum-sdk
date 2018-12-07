@@ -24,7 +24,7 @@ nock("http://localhost:14265", headers)
   .persist()
   .post("/", {
     command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
-    addresses: ["addr[0]"]
+    addresses: [addr[0]]
   })
   .reply(200, {
     states: [true]
@@ -34,7 +34,7 @@ nock("http://localhost:14265", headers)
   .persist()
   .post("/", {
     command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
-    addresses: ["addr[1]"]
+    addresses: [addr[1]]
   })
   .reply(200, {
     states: [false]
@@ -44,7 +44,7 @@ nock("http://localhost:14265", headers)
   .persist()
   .post("/", {
     command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
-    addresses: ["addr[2]"]
+    addresses: [addr[2]]
   })
   .reply(200, {
     states: [false]
@@ -59,7 +59,7 @@ nock("http://localhost:14265", headers)
   .persist()
   .post("/", {
     command: ProtocolCommand.FIND_TRANSACTIONS,
-    addresses: ["addr[1]"]
+    addresses: [addr[1]]
   })
   .reply(200, {
     hashes: ["a".repeat(2 * 32)]
@@ -69,7 +69,7 @@ nock("http://localhost:14265", headers)
   .persist()
   .post("/", {
     command: ProtocolCommand.FIND_TRANSACTIONS,
-    addresses: ["addr[2]"]
+    addresses: [addr[2]]
   })
   .reply(200, {
     hashes: []
