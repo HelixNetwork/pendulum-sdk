@@ -2,7 +2,7 @@ import * as Promise from "bluebird";
 
 import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
 import { isValidChecksum, removeChecksum } from "@helixnetwork/checksum";
-import { hbits, hbytes, hex } from "@helixnetwork/converter";
+import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
 import {
   computePublicNonces,
   key,
@@ -14,6 +14,7 @@ import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
 import {
   HASH_BYTE_SIZE,
   NULL_HASH_HBYTES,
+  SEED_BYTE_SIZE,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
 } from "../../constants";
 import * as errors from "../../errors";
@@ -156,7 +157,7 @@ export const createPrepareTransfers = (
         );
       }
 
-      if (isHBytes(seed) && seed.length < 81) {
+      if (isHBytes(seed) && seed.length < SEED_BYTE_SIZE) {
         /* tslint:disable-next-line:no-console */
         console.warn(
           "WARNING: Seeds with less length than 81 hbytes are not secure! Use a random, 81-hbytes long seed!"
@@ -416,7 +417,7 @@ export const addSignatures = (
       transactions,
       inputs.reduce((acc: ReadonlyArray<HBytes>, { keyIndex, security }) => {
         const keyHBytes = key(
-          subseed(hbits(seed), keyIndex),
+          subseed(toHBytes(seed), keyIndex),
           security || SECURITY_LEVEL
         );
         const publicNonces = computePublicNonces(keyHBytes, normalizedBundle);

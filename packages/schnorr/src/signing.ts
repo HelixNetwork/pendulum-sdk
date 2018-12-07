@@ -7,7 +7,8 @@ import {
   hbytesToHBits,
   hex,
   toHBytes,
-  value
+  value,
+  hBitsToHBytes
 } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { padHBits } from "@helixnetwork/pad";
@@ -28,7 +29,7 @@ import add from "./add";
 import * as errors from "./errors";
 import HSign from "./hsign";
 import Schnorr from "./schnorr";
-
+const BN = require("bcrypto/lib/bn.js");
 /**
  * @method subseed
  * Compute subseed based on the seed with an additional index
@@ -38,28 +39,22 @@ import Schnorr from "./schnorr";
  *
  * @return {Int8Array} subseed hbits
  */
-export function subseed(seed: Int8Array, index: number): Int8Array {
+export function subseed(seed: Uint8Array, index: number): Uint8Array {
   if (index < 0) {
     throw new Error(errors.ILLEGAL_KEY_INDEX);
   }
-
-  if (seed.length % 4 !== 0) {
-    throw new Error(errors.ILLEGAL_SEED_LENGTH);
+  if (seed.length % 2 !== 0) {
+    throw new Error(errors.ILLEGAL_SEED_LENGTH + seed.length);
   }
 
-  const indexHBits = fromValue(index);
-  let subseed: Int8Array = add(seed, indexHBits);
+  const indexBN = new BN(index.toString(2), 2);
+  const seedBN = new BN(seed, 16);
+  const subseed: Uint8Array = new Uint8Array(seedBN.add(indexBN).toBuffer());
 
   const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
-  while (subseed.length % hHash.getHashLength() !== 0) {
-    subseed = padHBits(subseed.length + subseed.length % hHash.getHashLength())(
-      subseed
-    ); // don't really know if it's necessary
-  }
-
   hHash.initialize();
-  hHash.absorbBits(subseed, 0, subseed.length);
+  hHash.absorb(subseed, 0, subseed.length);
   hHash.squeeze(subseed, 0, subseed.length);
 
   return subseed;
@@ -74,16 +69,16 @@ export function subseed(seed: Int8Array, index: number): Int8Array {
  *
  * @return {Int8Array} Private key bytes
  */
-export function key(subseed: Int8Array, securityLevel: number): Uint8Array {
-  if (subseed.length % 4 !== 0) {
+export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
+  if (subseed.length % 2 !== 0) {
     throw new Error(errors.ILLEGAL_SUBSEED_LENGTH);
   }
 
   const hHash = new HHash(HHash.HASH_ALGORITHM_1);
   hHash.initialize();
-  hHash.absorbBits(subseed, 0, subseed.length);
+  hHash.absorb(subseed, 0, subseed.length);
 
-  const buffer = new Int8Array(hHash.getHashLength());
+  const buffer = new Uint8Array(hHash.getHashLength());
   const result = new Uint8Array(
     securityLevel * SIGNATURE_FRAGMENT_NO * SIGNATURE_SECRETE_KEY_BYTE_SIZE
   );
@@ -98,6 +93,7 @@ export function key(subseed: Int8Array, securityLevel: number): Uint8Array {
       }
     }
   }
+
   // returns security * 32 * 64 bytes => 2048 bytes private key - private key for schnorr, as a byte array
   return result;
 }
@@ -184,7 +180,7 @@ export function computePublicNonces(
  * @return {Int8Array} Address hbits
  */
 // tslint:disable-next-line no-shadowed-variable
-function address(digests: Uint8Array): Uint8Array {
+export function address(digests: Uint8Array): Uint8Array {
   // is this usefull? schnorr aggregation?
   // TODO: do we really need a list of bits here?
 
@@ -203,7 +199,7 @@ function address(digests: Uint8Array): Uint8Array {
 function digest(
   normalizedBundleFragment: Int8Array,
   signatureFragment: Uint8Array
-): Int8Array {
+): Uint8Array {
   const digestHash = new HHash(HHash.HASH_ALGORITHM_1);
   digestHash.initialize();
   digestHash.absorb(
@@ -211,7 +207,7 @@ function digest(
     0,
     normalizedBundleFragment.length
   );
-  const result: Int8Array = new Int8Array(digestHash.getHashLength());
+  const result: Uint8Array = new Uint8Array(digestHash.getHashLength());
   digestHash.squeeze(result, 0, digestHash.getHashLength());
 
   return result;
@@ -276,8 +272,6 @@ export function signatureFragment(
   }
 
   const aggregatedSignature: HSign = Schnorr.aggregateSignature(signatures);
-  // console.log('schnorr - signatureFragment: ' + hex(aggregatedSignature.getSignatureArray()) );
-  // console.log('normalizeBundleFragment: ' + hex(normalizedBundleFragment));
   return aggregatedSignature.getSignatureArray();
 }
 
@@ -303,6 +297,10 @@ export function validateSignatures(
   const publicKey = toHBytes(expectedAddress);
 
   // validate schnorr signature:
+  if (signatureFragments.length == 0) {
+    return false;
+  }
+
   let isValid: boolean = true;
   signatureFragments.forEach(value => {
     const signature: HSign = HSign.generateSignatureFromArray(
@@ -310,7 +308,6 @@ export function validateSignatures(
     );
     isValid = isValid && Schnorr.verify(normalizedBundle, signature, publicKey);
   });
-  // console.log('verify sign normalizedBundle ' + normalizedBundle);
   return isValid; // expectedAddress === hbytes(address(digests));
 }
 

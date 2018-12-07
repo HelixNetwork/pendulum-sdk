@@ -75,6 +75,7 @@ export const validateBundleSignatures = (bundle: Bundle): boolean => {
  */
 export default function isBundle(bundle: Bundle) {
   if (!isArray(isTransaction)(bundle)) {
+    console.warn("bundle is no a transaction");
     return false;
   }
 
@@ -93,6 +94,7 @@ export default function isBundle(bundle: Bundle) {
 
     // currentIndex has to be equal to the index in the array
     if (bundleTx.currentIndex !== index) {
+      console.warn("bundle is invalid because of wrong index");
       return false;
     }
 
@@ -135,6 +137,7 @@ export default function isBundle(bundle: Bundle) {
 
   // Check for total sum, if not equal 0 return error
   if (totalSum !== 0) {
+    console.warn("bundle is invalid because wrong sum");
     return false;
   }
 
@@ -148,6 +151,9 @@ export default function isBundle(bundle: Bundle) {
 
   // Check if bundle hash is the same as returned by tx object
   if (bundleHashFromTxs !== bundleHash) {
+    console.log(
+      "bundleHashFromTxs: is: " + bundleHash + " expected " + hex(bundleFromTxs)
+    );
     return false;
   }
 
@@ -156,6 +162,10 @@ export default function isBundle(bundle: Bundle) {
     bundle[bundle.length - 1].currentIndex !==
     bundle[bundle.length - 1].lastIndex
   ) {
+    console.warn(
+      "bundle is invalid last transaction does not have corrct currentIndex " +
+        bundle[bundle.length - 1].currentIndex
+    );
     return false;
   }
   return validateBundleSignatures(bundle);

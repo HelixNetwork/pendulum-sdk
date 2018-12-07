@@ -35,34 +35,34 @@ test("isBundle() returns false for bundle with invalid signature.", t => {
   );
 });
 
-// test("isBundle() returns false for bundle with invalid transaction order.", t => {
-//   t.is(
-//     isBundle(bundleWithInvalidTransactionOrder),
-//     false,
-//     "isBundle() should return false for bundle with invalid transaction order."
-//   );
-// });
-// // todo_this : check test
-// test("isBundle() returns false for bundle with non-zero value sum.", t => {
-//   t.is(
-//     isBundle(bundleWithInvalidValueSum),
-//     false,
-//     "isBundle() should return false for bundle with non-zero value sum."
-//   );
-// });
-// // todo_this : check test
-// test("isBundle() returns true for valid zero-value bundle", t => {
-//   t.is(
-//     isBundle(bundleWithZeroValue),
-//     true,
-//     "isBundle() should return true for valid zero-value bundle"
-//   );
-// });
-// // todo_this : check test
-// test("isBundle() returns true for valid bundle.", t => {
-//   t.is(
-//     isBundle(bundleWithValidSignature),
-//     true,
-//     "isBundle() should return true for valid bundle."
-//   );
-// });
+test("isBundle() returns false for bundle with invalid transaction order.", t => {
+  t.is(
+    isBundle(bundleWithInvalidTransactionOrder),
+    false,
+    "isBundle() should return false for bundle with invalid transaction order."
+  );
+});
+
+test("isBundle() returns false for bundle with non-zero value sum.", t => {
+  t.is(
+    isBundle(bundleWithInvalidValueSum),
+    false,
+    "isBundle() should return false for bundle with non-zero value sum."
+  );
+});
+
+test("isBundle() returns true for valid zero-value bundle", t => {
+  t.is(
+    isBundle(bundleWithZeroValue),
+    true,
+    "isBundle() should return true for valid zero-value bundle"
+  );
+});
+
+test("isBundle() returns true for valid bundle.", t => {
+  t.is(
+    isBundle(bundleWithValidSignature),
+    true,
+    "isBundle() should return true for valid bundle."
+  );
+});

@@ -20,6 +20,7 @@ export const TAG_BYTE_SIZE = 2 * 8; // trytes 27
 export const TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE = 2 * 8; // trytes 9
 export const TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE = 2 * 8; // trytes 9
 export const NONCE_BYTE_SIZE = 2 * 8; // trytes 27
+export const SEED_BYTE_SIZE = 2 * 32; // trytes 81
 
 export const BYTE_SIZE_USED_FOR_VALIDATION =
   ADDRESS_BYTE_SIZE +
