@@ -6,7 +6,7 @@ import {
   asTransactionObjects,
   transactionObject
 } from "../src";
-// todo_this : check test
+
 test("asTransactionObject() converts transaction hbytes to transaction object.", t => {
   t.deepEqual(
     asTransactionObject(bundleHBytes[0]),
@@ -14,7 +14,7 @@ test("asTransactionObject() converts transaction hbytes to transaction object.",
     "asTransactionObject() should convert transaction hbytes to transaction object."
   );
 });
-// todo_this : check test
+
 test("asTransactionObject() with hash option, converts transaction hbytes to transaction object.", t => {
   t.deepEqual(
     asTransactionObject(bundleHBytes[0], bundle[0].hash),

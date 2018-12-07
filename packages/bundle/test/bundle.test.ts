@@ -126,7 +126,7 @@ test("addHBytes() adds hbytes and returns correct transactions.", t => {
     "addEntry should add hbytes and return correct transactions."
   );
 });
-// todo_this : check test
+
 test("finalizeBundle() adds correct bundle hash.", t => {
   const bundleHash =
     "8ecb441f877543ddc097f720b479e06420df6e595be5fe2d9955a78fcf551f58";

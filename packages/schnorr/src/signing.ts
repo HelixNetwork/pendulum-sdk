@@ -182,7 +182,6 @@ export function computePublicNonces(
 // tslint:disable-next-line no-shadowed-variable
 export function address(digests: Uint8Array): Uint8Array {
   // is this usefull? schnorr aggregation?
-  // TODO: do we really need a list of bits here?
 
   return digests;
 }
