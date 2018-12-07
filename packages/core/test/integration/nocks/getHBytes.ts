@@ -76,3 +76,13 @@ nock("http://localhost:14265", headers)
   .reply(200, {
     hbytes: [bundleHBytes[3]]
   });
+
+nock("http://localhost:14265", headers)
+  .persist()
+  .post("/", {
+    command: ProtocolCommand.GET_HBYTES,
+    hashes: [bundle[4].hash]
+  })
+  .reply(200, {
+    hbytes: [bundleHBytes[4]]
+  });
