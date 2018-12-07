@@ -90,14 +90,14 @@ test("hasSufficientBalance() throws error for insufficient balance", t => {
     "hasSufficientBalance() should throw error for insufficient balance"
   );
 });
-// todo_this : check test
-// test("getInputs() resolves to correct inputs", async t => {
-//   t.deepEqual(
-//     await getInputs(seed, { start: 0, threshold: 100 }),
-//     inputs,
-//     "getInputs() should resolve to correct balances"
-//   );
-// });
+
+test("getInputs() resolves to correct inputs", async t => {
+  t.deepEqual(
+    await getInputs(seed, { start: 0, threshold: 100 }),
+    inputs,
+    "getInputs() should resolve to correct balances"
+  );
+});
 
 test("getInputs() rejects with correct errors for invalid input", t => {
   const invalidSeed = "asdasDSFDAFD";
@@ -118,31 +118,30 @@ test("getInputs() rejects with correct errors for invalid input", t => {
     "getInputs() should throw correct error for invalid start & end options"
   );
 });
-// todo_this : check test
-// test("getInputs() with threshold rejects with correct error if balance is insufficient", t => {
-//   return getInputs(seed, { start: 0, threshold: 110 }).catch((err: Error) =>
-//     t.is(
-//       err.message,
-//       `${INSUFFICIENT_BALANCE}`,
-//       "getInputs() with threshold should reject with correct error if balance is insufficient"
-//     )
-//   );
-// });
-// todo_this : check test
-// test.cb("getInputs() passes correct arguments to callback", t => {
-//   getInputs(seed, { start: 0, threshold: 100 }, (err, res) => {
-//     t.is(
-//       err,
-//       null,
-//       "getInputs() should pass null as first argument in callback for successuful requests"
-//     );
 
-//     t.deepEqual(
-//       res,
-//       inputs,
-//       "getInputs() should pass the correct response as second argument in callback"
-//     );
+test("getInputs() with threshold rejects with correct error if balance is insufficient", t => {
+  return getInputs(seed, { start: 0, threshold: 110 }).catch((err: Error) =>
+    t.is(
+      err.message,
+      `${INSUFFICIENT_BALANCE}`,
+      "getInputs() with threshold should reject with correct error if balance is insufficient"
+    )
+  );
+});
 
-//     t.end();
-//   });
-// });
+test.cb("getInputs() passes correct arguments to callback", t => {
+  getInputs(seed, { start: 0, threshold: 100 }, (err, res) => {
+    t.is(
+      err,
+      null,
+      "getInputs() should pass null as first argument in callback for successuful requests"
+    );
+
+    t.deepEqual(
+      res,
+      inputs,
+      "getInputs() should pass the correct response as second argument in callback"
+    );
+    t.end();
+  });
+});

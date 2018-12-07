@@ -13,9 +13,9 @@ export const addressesWithChecksum = [
 ];
 
 export const newAddress =
-  "03a98d40d7ca5da6198ce7d02e1454a924fcecae2d5d0feb7ddfeffa8e30d1bc13";
+  "031568f8a27e31eae4ad99a1ec55d72d1e23be79df8cfc143c7fe6b23dc98521b7";
 export const newAddressWithChecksum =
-  "03a98d40d7ca5da6198ce7d02e1454a924fcecae2d5d0feb7ddfeffa8e30d1bc1383a1f4d5";
+  "031568f8a27e31eae4ad99a1ec55d72d1e23be79df8cfc143c7fe6b23dc98521b79d5dd2fd";
 
 export const address = newAddress;
 export const addressWithChecksum = newAddressWithChecksum;
