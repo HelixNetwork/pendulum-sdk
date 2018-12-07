@@ -5,13 +5,13 @@ import {
   bundleWithZeroValueHBytes
 } from "@helixnetwork/samples";
 import * as nock from "nock";
+import { HASH_BYTE_SIZE } from "../../../../constants";
 import {
   GetHBytesCommand,
   GetHBytesResponse,
   ProtocolCommand
 } from "../../../../types";
 import headers from "./headers";
-import { HASH_BYTE_SIZE } from "../../../../constants";
 
 export const getHBytesCommand: GetHBytesCommand = {
   command: ProtocolCommand.GET_HBYTES,
