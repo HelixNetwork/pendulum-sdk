@@ -9,5 +9,5 @@
     "sourceMap": true,
     "moduleResolution": "node"
   },
-  "include": ["src", "test"]
+  "include": ["src", "test", "sample"]
 }

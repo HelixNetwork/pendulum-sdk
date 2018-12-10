@@ -5,12 +5,11 @@ import {
   ProtocolCommand
 } from "../../../../types";
 import headers from "./headers";
+import { addresses as addr } from "@helixnetwork/samples";
 
 export const emptyFindTransactionsCommand: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
-  addresses: [
-    "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2"
-  ]
+  addresses: [addr[2]]
 };
 
 export const emptyFindTransactionsResponse: FindTransactionsResponse = {
@@ -19,9 +18,7 @@ export const emptyFindTransactionsResponse: FindTransactionsResponse = {
 
 export const findTransactionsByAddressesCommand: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
-  addresses: [
-    "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd14"
-  ]
+  addresses: [addr[1]]
 };
 
 export const findTransactionsByBundlesCommand: FindTransactionsCommand = {
@@ -100,11 +97,7 @@ nock("http://localhost:14265", headers)
   .persist()
   .post("/", {
     command: ProtocolCommand.FIND_TRANSACTIONS,
-    addresses: [
-      "0219c68a8de8a82504832a8d17d64466453689dae9bbc21affe5f25efa3202c90e",
-      "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd14",
-      "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2"
-    ]
+    addresses: [addr[0], addr[1], addr[2]]
   })
   .reply(200, findTransactionsResponse);
 
@@ -120,9 +113,6 @@ nock("http://localhost:14265", headers)
   .persist()
   .post("/", {
     command: ProtocolCommand.FIND_TRANSACTIONS,
-    addresses: [
-      "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd14",
-      "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2"
-    ]
+    addresses: [addr[1], addr[2]]
   })
   .reply(200, findTransactionsResponse);

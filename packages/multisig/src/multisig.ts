@@ -10,7 +10,7 @@ import {
   signatureFragment,
   subseed,
   computePublicNonces
-} from "@helixnetwork/signing";
+} from "@helixnetwork/schnorr";
 import * as Promise from "bluebird";
 import * as errors from "../../errors";
 import {
@@ -236,7 +236,7 @@ export default class Multisig {
    * @return {string} digest hbytes
    */
   public getKey(seed: string, index: number, security: number) {
-    return hex(key(subseed(hbits(seed), index), security));
+    return hex(key(subseed(toHBytes(seed), index), security));
   }
 
   /**
@@ -253,7 +253,7 @@ export default class Multisig {
    * @return {string} digest hbytes
    **/
   public getDigest(seed: string, index: number, security: number) {
-    const keyBytes = key(subseed(hbits(seed), index), security);
+    const keyBytes = key(subseed(toHBytes(seed), index), security);
 
     return hex(digests(keyBytes));
   }
@@ -276,7 +276,6 @@ export default class Multisig {
   ) {
     const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
-    // initialize Kerl with the provided state
     hHash.initialize();
 
     // Absorb all key digests

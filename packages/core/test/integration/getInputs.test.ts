@@ -90,6 +90,7 @@ test("hasSufficientBalance() throws error for insufficient balance", t => {
     "hasSufficientBalance() should throw error for insufficient balance"
   );
 });
+
 test("getInputs() resolves to correct inputs", async t => {
   t.deepEqual(
     await getInputs(seed, { start: 0, threshold: 100 }),
@@ -141,7 +142,6 @@ test.cb("getInputs() passes correct arguments to callback", t => {
       inputs,
       "getInputs() should pass the correct response as second argument in callback"
     );
-
     t.end();
   });
 });

@@ -13,10 +13,9 @@ import "./nocks/getInclusionStates";
 import "./nocks/getNodeInfo";
 import "./nocks/wereAddressesSpentFrom";
 
-import { transfers } from "@helixnetwork/samples";
+import { seed, transfers } from "@helixnetwork/samples";
 
 const getTransfers = createGetTransfers(createHttpClient(), "lib");
-const seed = "abcd";
 
 test("getTransfers() resolves to correct account data", async t => {
   t.deepEqual(

@@ -156,7 +156,6 @@ export default class Schnorr {
         console.warn(errors.ILLEGAL_PUBLIC_KEY_CONTENT);
         return false;
       }
-      //console.log('schnorr - sign ' + message + ' ' + hex(signature.getSignatureArray()));
       if (typeof message === "string") {
         return Schn.verify(
           Buffer.from(message),

@@ -1,6 +1,6 @@
 # @helixnetwork/bundle
 
-Utilities for generating and signing bundles.
+Utilities for generating and schnorr bundles.
 A bundle in HELIX is an atomic set of transactions.
 
 ## Installation

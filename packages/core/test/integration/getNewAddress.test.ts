@@ -30,6 +30,7 @@ test("getNewAddress() resolves to correct new address", async t => {
     "getNewAddress() should resolve to correct new address"
   );
 });
+
 test("getNewAddress() with total option resolves to correct addresses", async t => {
   t.deepEqual(
     addresses.slice(0, 2),
@@ -68,7 +69,6 @@ test("getNewAddresses() with `checksum` option resolves to correct addresses", a
 
 test("getNewAddress() rejects with correct errors for invalid arguments", t => {
   const invalidSeed = "asdasDSFDAFD";
-
   t.is(
     t.throws(() => getNewAddress(invalidSeed, { index: 0 }), Error).message,
     `${INVALID_SEED}: ${invalidSeed}`,

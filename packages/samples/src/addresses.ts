@@ -1,22 +1,21 @@
-export const seed =
-  "abcd00000000000000000000000000000000000000000000000000000000000000";
+export const seed = "abcd";
 
 export const addresses = [
-  "0219c68a8de8a82504832a8d17d64466453689dae9bbc21affe5f25efa3202c90e",
-  "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd14",
-  "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2"
+  "03a98d40d7ca5da6198ce7d02e1454a924fcecae2d5d0feb7ddfeffa8e30d1bc13",
+  "037b00e3c9524817b49df39ada58c54c2c1d3eb937e365eaeee36207ee2be1b99a",
+  "031568f8a27e31eae4ad99a1ec55d72d1e23be79df8cfc143c7fe6b23dc98521b7"
 ];
 
 export const addressesWithChecksum = [
-  "0219c68a8de8a82504832a8d17d64466453689dae9bbc21affe5f25efa3202c90e45034db8",
-  "025dac12f2de9f9ea7848a0ede74657b24ecdf966505dae2a6bbe410c08a69bd1456200858",
-  "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2c155174b"
+  "03a98d40d7ca5da6198ce7d02e1454a924fcecae2d5d0feb7ddfeffa8e30d1bc1383a1f4d5",
+  "037b00e3c9524817b49df39ada58c54c2c1d3eb937e365eaeee36207ee2be1b99a8d6833e4",
+  "031568f8a27e31eae4ad99a1ec55d72d1e23be79df8cfc143c7fe6b23dc98521b79d5dd2fd"
 ];
 
 export const newAddress =
-  "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2";
+  "031568f8a27e31eae4ad99a1ec55d72d1e23be79df8cfc143c7fe6b23dc98521b7";
 export const newAddressWithChecksum =
-  "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2c155174b";
+  "031568f8a27e31eae4ad99a1ec55d72d1e23be79df8cfc143c7fe6b23dc98521b79d5dd2fd";
 
 export const address = newAddress;
 export const addressWithChecksum = newAddressWithChecksum;

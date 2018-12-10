@@ -5,6 +5,7 @@ import {
   bundleWithZeroValueHBytes
 } from "@helixnetwork/samples";
 import * as nock from "nock";
+import { HASH_BYTE_SIZE } from "../../../../constants";
 import {
   GetHBytesCommand,
   GetHBytesResponse,
@@ -14,7 +15,7 @@ import headers from "./headers";
 
 export const getHBytesCommand: GetHBytesCommand = {
   command: ProtocolCommand.GET_HBYTES,
-  hashes: ["a".repeat(2 * 32), "b".repeat(2 * 32)]
+  hashes: ["a".repeat(HASH_BYTE_SIZE), "b".repeat(HASH_BYTE_SIZE)]
 };
 
 export const getHBytesResponse: GetHBytesResponse = {
@@ -74,4 +75,14 @@ nock("http://localhost:14265", headers)
   })
   .reply(200, {
     hbytes: [bundleHBytes[3]]
+  });
+
+nock("http://localhost:14265", headers)
+  .persist()
+  .post("/", {
+    command: ProtocolCommand.GET_HBYTES,
+    hashes: [bundle[4].hash]
+  })
+  .reply(200, {
+    hbytes: [bundleHBytes[4]]
   });

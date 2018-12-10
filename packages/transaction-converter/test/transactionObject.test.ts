@@ -9,7 +9,7 @@ import {
 
 test("asTransactionObject() converts transaction hbytes to transaction object.", t => {
   t.deepEqual(
-    bundle[0], // asTransactionObject(bundleHBytes[0]),
+    asTransactionObject(bundleHBytes[0]),
     bundle[0],
     "asTransactionObject() should convert transaction hbytes to transaction object."
   );

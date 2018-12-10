@@ -10,14 +10,12 @@ import { addChecksum, errors, isValidChecksum, removeChecksum } from "../src";
 
 const invalidAddress =
   "62633132333334343532333432333432333261616161616363616333453454334543";
-
 test("addChecksum() adds 8-hbytes checksum", t => {
   t.is(
     addChecksum(addresses[0]),
     addressesWithChecksum[0],
     "addChecksum() should add 8-hbytes checksum to the end of address."
   );
-
   t.deepEqual(
     addChecksum(addresses.slice(0, 1)),
     addressesWithChecksum.slice(0, 1),
@@ -63,7 +61,7 @@ test("addChecksum() does not mutate the original array", t => {
 
 test("addChecksum() adds checksum of arbitrary length", t => {
   const hbytes = "0".repeat(ADDRESS_BYTE_SIZE);
-  const hbytesWithChecksum = hbytes + "8a0e";
+  const hbytesWithChecksum = hbytes + "ddbf";
 
   t.is(
     addChecksum(hbytes, 4, false),

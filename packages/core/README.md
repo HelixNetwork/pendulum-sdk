@@ -1085,7 +1085,7 @@ It is possible to prepare and sign transactions offline, by omitting the provide
 | seed | <code>string</code> |  |  |
 | transfers | <code>object</code> |  |  |
 | [options] | <code>object</code> |  |  |
-| [options.inputs] | <code>Array.&lt;Input&gt;</code> |  | Inputs used for signing. Needs to have correct security, keyIndex and address value |
+| [options.inputs] | <code>Array.&lt;Input&gt;</code> |  | Inputs used for schnorr. Needs to have correct security, keyIndex and address value |
 | [options.inputs[].address] | <code>Hash</code> |  | Input address hbytes |
 | [options.inputs[].keyIndex] | <code>number</code> |  | Key index at which address was generated |
 | [options.inputs[].security] | <code>number</code> | <code>2</code> | Security level |
@@ -1101,7 +1101,7 @@ It is possible to prepare and sign transactions offline, by omitting the provide
 | [options.hmacKey] | <code>Hash</code> | HMAC key used for attaching an HMAC |
 
 Prepares the transaction hbytes by generating a bundle, filling in transfers and inputs,
-adding remainder and signing. It can be used to generate and sign bundles either online or offline.
+adding remainder and schnorr. It can be used to generate and sign bundles either online or offline.
 For offline usage, please see [`createPrepareTransfers`](#module_core.createPrepareTransfers)
 which creates a `prepareTransfers` without a network provider.
 

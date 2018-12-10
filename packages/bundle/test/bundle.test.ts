@@ -1,17 +1,17 @@
 import test from "ava";
 import {
+  ADDRESS_BYTE_SIZE,
+  HASH_BYTE_SIZE,
+  NULL_HASH_HBYTES,
+  NULL_NONCE_HBYTES,
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+} from "../../constants";
+import {
   addEntry,
   addHBytes,
   createBundle,
   finalizeBundle
 } from "../src/bundle";
-import {
-  ADDRESS_BYTE_SIZE,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
-  HASH_BYTE_SIZE,
-  NULL_HASH_HBYTES,
-  NULL_NONCE_HBYTES
-} from "../../constants";
 
 const NULL_HASH = NULL_HASH_HBYTES;
 const NULL_NONCE = NULL_NONCE_HBYTES;
@@ -129,15 +129,13 @@ test("addHBytes() adds hbytes and returns correct transactions.", t => {
 
 test("finalizeBundle() adds correct bundle hash.", t => {
   const bundleHash =
-    "aef6e82616afe9fac5dd4cc894367e4011b1dd8f386d20c44277cda52862aec5";
+    "8ecb441f877543ddc097f720b479e06420df6e595be5fe2d9955a78fcf551f58";
   const incrObsoleteTag = "aaaa".concat("0".repeat(12));
-
   const expected = bundle.map((transaction, i) => ({
     ...transaction,
     obsoleteTag: i === 0 ? incrObsoleteTag : transaction.obsoleteTag,
     bundle: bundleHash
   }));
-
   t.deepEqual(
     finalizeBundle(bundle),
     expected,

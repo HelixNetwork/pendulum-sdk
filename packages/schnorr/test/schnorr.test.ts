@@ -2,7 +2,7 @@ import test from "ava";
 import Schnorr from "../src/schnorr";
 import { hex, toHBytes } from "@helixnetwork/converter";
 
-test("Signing test schnorr signature with HByte conversion!", t => {
+test("schnorr test schnorr signature with HByte conversion!", t => {
   let sch = new Schnorr("abcdeadddaaaaaaaaaaaa2322423333333333333333");
   let msg: string = "this is a random text that will be signed";
   let signature = Schnorr.sign(msg, sch.secreteKey);
@@ -26,7 +26,7 @@ test("Signing test schnorr signature with HByte conversion!", t => {
   );
 });
 
-test("Signing aggregation with schnorr!", t => {
+test("schnorr aggregation with schnorr!", t => {
   let msg: string = "this is a random text that will be signed";
 
   const sch1 = new Schnorr("abcdeadddaaaaaaaaaaaa2322423333333333333333");
