@@ -46,7 +46,7 @@ export const hbytesToHBits = hbits;
  *
  * @return {String} hbytes
  */
-export function hbytes(hBits: Int8Array): string {
+export function hbytes(hBits: Int8Array | Uint8Array): string {
   if (hBits.length % 4 !== 0) {
     throw new Error(errors.INVALID_HBITS_LENGTH);
   }

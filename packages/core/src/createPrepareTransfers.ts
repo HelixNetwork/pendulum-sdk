@@ -4,18 +4,18 @@ import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
 import { isValidChecksum, removeChecksum } from "@helixnetwork/checksum";
 import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
 import {
-  computePublicNonces,
   key,
   normalizedBundleHash,
   signatureFragment,
   subseed
-} from "@helixnetwork/schnorr";
+} from "@helixnetwork/winternitz";
 import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
 import {
   HASH_BYTE_SIZE,
   NULL_HASH_HBYTES,
   SEED_BYTE_SIZE,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  SIGNATURE_TOTAL_BYTE_SIZE
 } from "../../constants";
 import * as errors from "../../errors";
 import {
@@ -44,7 +44,8 @@ import HMAC from "./hmac";
 
 const HASH_LENGTH = HASH_BYTE_SIZE;
 const SIGNATURE_MESSAGE_FRAGMENT_LENGTH = SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
-const KEY_FRAGMENT_LENGTH = 3 * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+const SIGNATURE_MESSAGE_FRAGMENT_LENGTH_BYTE = SIGNATURE_TOTAL_BYTE_SIZE;
+//const KEY_FRAGMENT_LENGTH = 2 * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
 const SECURITY_LEVEL = 2;
 
 export interface PrepareTransfersOptions {
@@ -107,7 +108,7 @@ export const createPrepareTransfers = (
 
   /**
    * Prepares the transaction hbytes by generating a bundle, filling in transfers and inputs,
-   * adding remainder and schnorr. It can be used to generate and sign bundles either online or offline.
+   * adding remainder and signing. It can be used to generate and sign bundles either online or offline.
    * For offline usage, please see [`createPrepareTransfers`]{@link #module_core.createPrepareTransfers}
    * which creates a `prepareTransfers` without a network provider.
    *
@@ -120,7 +121,7 @@ export const createPrepareTransfers = (
    * @param {object} transfers
    *
    * @param {object} [options]
-   * @param {Input[]} [options.inputs] Inputs used for schnorr. Needs to have correct security, keyIndex and address value
+   * @param {Input[]} [options.inputs] Inputs used for signing. Needs to have correct security, keyIndex and address value
    * @param {Hash} [options.inputs[].address] Input address hbytes
    * @param {number} [options.inputs[].keyIndex] Key index at which address was generated
    * @param {number} [options.inputs[].security = 2] Security level
@@ -303,7 +304,7 @@ export const createAddInputs = (provider?: Provider) => {
       transactions: res.reduce(
         (acc, input) =>
           addEntry(acc, {
-            length: 1, // input.security, one entry even if security level is higher than 1
+            length: input.security,
             address: removeChecksum(input.address),
             value: -input.balance,
             timestamp: timestamp || Math.floor(Date.now() / 1000)
@@ -409,7 +410,9 @@ export const addSignatures = (
   props: PrepareTransfersProps
 ): PrepareTransfersProps => {
   const { transactions, inputs, seed } = props;
-  const normalizedBundle = normalizedBundleHash(transactions[0].bundle);
+  const normalizedBundle = normalizedBundleHash(
+    toHBytes(transactions[0].bundle)
+  );
 
   return {
     ...props,
@@ -420,32 +423,24 @@ export const addSignatures = (
           subseed(toHBytes(seed), keyIndex),
           security || SECURITY_LEVEL
         );
-        const publicNonces = computePublicNonces(keyHBytes, normalizedBundle);
         return acc.concat(
-          Array(1) // security
+          Array(security)
             .fill(null)
             .map((_, i) =>
-              hex(signatureFragment(normalizedBundle, keyHBytes, publicNonces))
+              hex(
+                signatureFragment(
+                  normalizedBundle.slice(
+                    i * HASH_LENGTH / 2,
+                    (i + 1) * HASH_LENGTH / 2
+                  ),
+                  keyHBytes.slice(
+                    i * SIGNATURE_MESSAGE_FRAGMENT_LENGTH_BYTE,
+                    (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_LENGTH_BYTE
+                  )
+                )
+              )
             )
         );
-        // return acc.concat(
-        //   Array(security)
-        //     .fill(null)
-        //     .map((_, i) =>
-        //       hbytes(
-        //         signatureFragment(
-        //           normalizedBundle.slice(
-        //             i * HASH_LENGTH / 3,
-        //             (i + 1) * HASH_LENGTH / 3
-        //           ),
-        //           keyHBits.slice(
-        //             i * KEY_FRAGMENT_LENGTH,
-        //             (i + 1) * KEY_FRAGMENT_LENGTH
-        //           )
-        //         )
-        //       )
-        //     )
-        // );
       }, []),
       transactions.findIndex(({ value }) => value < 0)
     )

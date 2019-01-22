@@ -1,17 +1,15 @@
 /** @module bundle */
 
-import { hbits, hbytes, toHBytes, hex } from "@helixnetwork/converter";
+import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { padHBits, padHBytes, padSignedHBits, padTag } from "@helixnetwork/pad";
-import { add, normalizedBundleHash } from "@helixnetwork/schnorr";
+import { add, normalizedBundleHash } from "@helixnetwork/winternitz";
 import {
   BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING,
-  HASH_BYTE_SIZE,
   NULL_HASH_HBYTES,
   NULL_NONCE_HBYTES,
   NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES,
   NULL_TAG_HBYTES,
-  SIGNATURE_FRAGMENT_NO,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
   TRANSACTION_CURRENT_INDEX_BITS_SIZE,
   TRANSACTION_LAST_INDEX_BITS_SIZE,
@@ -202,12 +200,16 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
     const bundleHashHBytes = new Int8Array(hHash.getHashLength());
     hHash.squeeze(bundleHashHBytes, 0, hHash.getHashLength());
     bundleHash = hex(bundleHashHBytes);
-    // if (normalizedBundleHash(bundleHash).indexOf(8) !== -1) {
-    //   // Insecure bundle, increment obsoleteTag and recompute bundle hash
-    //   obsoleteTagHBits[0] = add(obsoleteTagHBits[0], new Int8Array(1).fill(1));
-    // } else {
-    //   validBundle = true;
-    // }
+    if (
+      normalizedBundleHash(Uint8Array.from(bundleHashHBytes)).indexOf(8) !== -1
+    ) {
+      // Insecure bundle, increment obsoleteTag and recompute bundle hash
+      obsoleteTagHBits[0] = hbits(
+        hex(add(toHBytes(hbytes(obsoleteTagHBits[0])), 1))
+      );
+    } else {
+      validBundle = true;
+    }
     validBundle = true;
   }
 

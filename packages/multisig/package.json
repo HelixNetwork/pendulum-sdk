@@ -50,7 +50,7 @@
     "@helixnetwork/converter": "^0.0.1-alpha.0",
     "@helixnetwork/core": "^0.0.1-alpha.0",
     "@helixnetwork/hash-module": "^0.0.1-alpha.0",
-    "@helixnetwork/schnorr": "^0.0.1-alpha.0",
+    "@helixnetwork/winternitz": "^0.0.1-alpha.0",
     "@types/bluebird": "^3.5.20",
     "bluebird": "^3.5.1",
     "isomorphic-fetch": "^2.2.1"
