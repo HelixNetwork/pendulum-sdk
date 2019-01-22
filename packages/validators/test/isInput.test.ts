@@ -3,7 +3,7 @@ import { isInput } from "../src";
 
 test("isInput()", t => {
   const address =
-    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db";
+    "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1f";
   const validInput = {
     address,
     security: 2,

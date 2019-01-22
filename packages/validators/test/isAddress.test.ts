@@ -3,15 +3,15 @@ import { isAddress } from "../src";
 
 test("isAddress()", t => {
   const validAddressWithChecksum =
-    "0219c68a8de8a82504832a8d17d64466453689dae9bbc21affe5f25efa3202c90e67dd9452";
+    "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1fcaa02119";
   const validAddressWithoutChecksum =
-    "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2";
+    "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1f";
   const validAddressWithInvalidChecksum =
-    "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b212547862";
+    "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1fcaa02118";
   const addressOfInvalidLength =
-    "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b";
+    "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1f89";
   const addressOfInvalidHBytes =
-    "TRc1233445234234232aaaaaccac1233445234234232adedeadea123344523eed101b796";
+    "0cR6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1f";
 
   t.is(
     isAddress(validAddressWithChecksum),

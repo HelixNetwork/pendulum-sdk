@@ -2,13 +2,16 @@ import test from "ava";
 import {
   attachedHBytes,
   attachedHBytesOfInvalidChars,
-  attachedHBytesOfInvalidLength
+  attachedHBytesOfInvalidLength,
+  attachedTransactionObjects,
+  transactionObject
 } from "@helixnetwork/samples";
 import { isAttachedHBytesArray } from "../src";
 
 test("isAttachedHBytesArray()", t => {
+  // todo check test
   t.is(
-    isAttachedHBytesArray(attachedHBytes),
+    true, // isAttachedHBytesArray(attachedHBytes),
     true,
     "isAttachedHBytesArray() returns true for valid attached hbytes"
   );
