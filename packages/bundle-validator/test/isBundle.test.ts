@@ -52,10 +52,8 @@ test("isBundle() returns false for bundle with non-zero value sum.", t => {
 });
 
 test("isBundle() returns true for valid zero-value bundle", t => {
-  //todo check test
   t.is(
-    // isBundle(bundleWithZeroValue),
-    true,
+    isBundle(bundleWithZeroValue),
     true,
     "isBundle() should return true for valid zero-value bundle"
   );
@@ -63,9 +61,7 @@ test("isBundle() returns true for valid zero-value bundle", t => {
 
 test("isBundle() returns true for valid bundle.", t => {
   t.is(
-    //todo check test
-    // isBundle(bundleWithValidSignature),
-    true,
+    isBundle(bundleWithValidSignature),
     true,
     "isBundle() should return true for valid bundle."
   );

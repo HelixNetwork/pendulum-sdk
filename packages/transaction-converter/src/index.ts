@@ -6,7 +6,7 @@ import { padHBits, padHBytes, padSignedHBits } from "@helixnetwork/pad";
 import { transactionHash } from "@helixnetwork/transaction";
 import {
   ADDRESS_BYTE_SIZE,
-  HASH_BYTE_SIZE,
+  HASH_HBYTE_SIZE,
   NONCE_BYTE_SIZE,
   OBSOLETE_TAG_BYTE_SIZE,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
@@ -150,9 +150,10 @@ export const asTransactionObject = (
     startIndexCurrIndexBytes + TRANSACTION_CURRENT_INDEX_BYTE_SIZE;
   const startIndexBundleBytes =
     startIndexLastIndexBytes + TRANSACTION_LAST_INDEX_BYTE_SIZE;
-  const startIndexTrunkTrasnBytes = startIndexBundleBytes + HASH_BYTE_SIZE;
-  const startIndexBranchTrasnBytes = startIndexTrunkTrasnBytes + HASH_BYTE_SIZE;
-  const startIndexTagTrasnBytes = startIndexBranchTrasnBytes + HASH_BYTE_SIZE;
+  const startIndexTrunkTrasnBytes = startIndexBundleBytes + HASH_HBYTE_SIZE;
+  const startIndexBranchTrasnBytes =
+    startIndexTrunkTrasnBytes + HASH_HBYTE_SIZE;
+  const startIndexTagTrasnBytes = startIndexBranchTrasnBytes + HASH_HBYTE_SIZE;
   const startIndexTimestampTrasnBytes = startIndexTagTrasnBytes + TAG_BYTE_SIZE;
   const startIndexTimestampLowTrasnBytes =
     startIndexTimestampTrasnBytes + TRANSACTION_TIMESTAMP_BYTE_SIZE;
@@ -204,15 +205,15 @@ export const asTransactionObject = (
     ), // 27 trits => 9 trytes
     bundle: hbytes.slice(
       startIndexBundleBytes,
-      startIndexBundleBytes + HASH_BYTE_SIZE
+      startIndexBundleBytes + HASH_HBYTE_SIZE
     ), // 81 trytes
     trunkTransaction: hbytes.slice(
       startIndexTrunkTrasnBytes,
-      startIndexTrunkTrasnBytes + HASH_BYTE_SIZE
+      startIndexTrunkTrasnBytes + HASH_HBYTE_SIZE
     ), // 81 trytes
     branchTransaction: hbytes.slice(
       startIndexBranchTrasnBytes,
-      startIndexBranchTrasnBytes + HASH_BYTE_SIZE
+      startIndexBranchTrasnBytes + HASH_HBYTE_SIZE
     ), // 81 trytes
     tag: hbytes.slice(
       startIndexTagTrasnBytes,

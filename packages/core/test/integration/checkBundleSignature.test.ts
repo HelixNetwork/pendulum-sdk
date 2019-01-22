@@ -50,7 +50,7 @@ test("checkBundleSignature() prepares the correct array of hbytes offline.", asy
     transaction.map(tx => tx.hash)
   )(hbytes);
   t.is(
-    true, // validateBundleSignatures(bundle),
+    validateBundleSignatures(bundle),
     true,
     "checkBundleSignature() should return true for bundle with valid signatures."
   );

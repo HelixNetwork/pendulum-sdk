@@ -199,6 +199,9 @@ export function signatureFragment(
       sigFragment[i * 32 + j] = hash[j];
     }
   }
+  //  console.log("signatureFragment: normalizedBundleFragment: " + hex(normalizedBundleFragment));
+  //  console.log("keyFragment: " + hex(keyFragment));
+  //  console.log("sigFragment " + hex(sigFragment));
 
   return sigFragment;
 }
@@ -217,13 +220,16 @@ export function validateSignatures(
   signatureFragments: ReadonlyArray<string>,
   bundleHash: string
 ): boolean {
+  // console.log("signing.ts: expectedAddress: " + expectedAddress);
+  // console.log("signatureFragments: " + signatureFragments);
+  // console.log("hash " + bundleHash);
+
   if (!bundleHash) {
     throw new Error(errors.INVALID_BUNDLE_HASH);
   }
 
   const normalizedBundleFragments = Array<Uint8Array>(2);
   const normalizedBundle = normalizedBundleHash(toHBytes(bundleHash));
-
   // Split hash into 2 fragments
   for (let i = 0; i < 2; i++) {
     normalizedBundleFragments[i] = normalizedBundle.slice(i * 16, (i + 1) * 16);

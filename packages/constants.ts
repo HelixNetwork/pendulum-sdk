@@ -15,7 +15,9 @@ export const OBSOLETE_TAG_BYTE_SIZE = 2 * 8; // trytes 27
 export const TRANSACTION_TIMESTAMP_BYTE_SIZE = 2 * 8; // trytes 9
 export const TRANSACTION_CURRENT_INDEX_BYTE_SIZE = 2 * 8; // trytes 9
 export const TRANSACTION_LAST_INDEX_BYTE_SIZE = 2 * 8; // trytes 9
-export const HASH_BYTE_SIZE = 2 * 32; // trytes 81
+export const HASH_HBYTE_SIZE = 2 * 32; // trytes 81
+export const HASH_BYTE_SIZE = 32; // trytes 81
+
 export const TAG_BYTE_SIZE = 2 * 8; // trytes 27
 export const TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE = 2 * 8; // trytes 9
 export const TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE = 2 * 8; // trytes 9
@@ -30,8 +32,7 @@ export const BYTE_SIZE_USED_FOR_VALIDATION =
   TRANSACTION_CURRENT_INDEX_BYTE_SIZE +
   TRANSACTION_LAST_INDEX_BYTE_SIZE; // previous 162
 
-export const BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING =
-  BYTE_SIZE_USED_FOR_VALIDATION + 6; // padded to a multiple of 4
+export const BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING = BYTE_SIZE_USED_FOR_VALIDATION; // padded to a multiple of 4
 // signature size security level 1
 export const TRANSACTION_HBYTE_SIZE = 2 * 720; //  //2 * 1232; - security level 2 //2256 bytes?; // trytes 2673;
 // Address checksum constants:
@@ -62,7 +63,7 @@ export const MAX_INDEX_DIFF = 1000; // previous 1000
 
 // Empty initialization:
 export const NULL_ADDRESS_HBYTES = "0".repeat(ADDRESS_BYTE_SIZE);
-export const NULL_HASH_HBYTES = "0".repeat(HASH_BYTE_SIZE);
+export const NULL_HASH_HBYTES = "0".repeat(HASH_HBYTE_SIZE);
 export const NULL_TAG_HBYTES = "0".repeat(TAG_BYTE_SIZE);
 export const NULL_NONCE_HBYTES = "0".repeat(NONCE_BYTE_SIZE);
 export const NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES = "0".repeat(

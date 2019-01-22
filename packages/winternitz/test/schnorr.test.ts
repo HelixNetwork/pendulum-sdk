@@ -12,28 +12,27 @@ import {
 
 const seed = "abcd000000000000000000000000000000000000000000000000000000000000";
 test("Winternitz signatures!", t => {
-  console.log("--------------- Witernitz signature ----------------");
+  //console.log("--------------- Witernitz signature ----------------");
   let msg: string =
     "0505fa03fa01fe00fcfefc0703ff02000005010603fdfd03fc0303fafef907f9";
 
-  console.log("------------- Input data ----------------");
-  console.log("Seed = " + seed + " [" + seed.length / 2 + "]");
-  console.log("Msg  = " + msg + " [" + msg.length / 2 + "]");
-
-  console.log("------------- Processed data ----------------");
+  // console.log("------------- Input data ----------------");
+  // console.log("Seed = " + seed + " [" + seed.length / 2 + "]");
+  // console.log("Msg  = " + msg + " [" + msg.length / 2 + "]");
+  //
+  // console.log("------------- Processed data ----------------");
   const securityLevel = 2;
   //const privateKey = generatePrivateKey(seed);
   const keyHBytes = key(subseed(toHBytes(seed), 2), securityLevel);
   const digestsHBytes = digests(keyHBytes);
   const addressHBytes = hex(address(digestsHBytes));
 
-  console.log(
-    "PrivateKey  = " + hex(keyHBytes) + " [" + keyHBytes.length + "]"
-  );
-
-  console.log(
-    "PublicKey  = " + addressHBytes + " [" + addressHBytes.length / 2 + "]"
-  );
+  // console.log(
+  //   "PrivateKey  = " + hex(keyHBytes) + " [" + keyHBytes.length + "]"
+  // );
+  // console.log(
+  //   "PublicKey  = " + addressHBytes + " [" + addressHBytes.length / 2 + "]"
+  // );
 
   const signature = Array(securityLevel)
     .fill(null)
@@ -46,17 +45,17 @@ test("Winternitz signatures!", t => {
       )
     );
 
-  console.log(
-    "Signature " +
-      signature +
-      " [" +
-      signature.length * signature[0].length / 2 +
-      "]"
-  );
+  // console.log(
+  //   "Signature " +
+  //     signature +
+  //     " [" +
+  //     signature.length * signature[0].length / 2 +
+  //     "]"
+  // );
 
   const isValid = validateSignatures(addressHBytes, signature, msg);
 
-  console.log("Is valid signature  = " + isValid);
+  // console.log("Is valid signature  = " + isValid);
   t.is(isValid, true, "Winternitz signatures should be valid!");
-  console.log("-------------end Witernitz signature ----------------");
+  // console.log("-------------end Witernitz signature ----------------");
 });

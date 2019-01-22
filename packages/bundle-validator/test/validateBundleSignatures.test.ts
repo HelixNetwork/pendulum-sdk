@@ -1,5 +1,4 @@
 import {
-  bundle,
   bundleWithInvalidSignature,
   bundleWithInvalidTransactionOrderAndValidSignature,
   bundleWithValidSignature
@@ -16,19 +15,16 @@ test("validateSignatures() returns false for bundle with invalid signatures.", t
 
 test("validateSignatures() returns true for bundle with valid signatures.", t =>
   t.is(
-    //todo check test
-    true, // validateBundleSignatures(bundleWithValidSignature),
+    validateBundleSignatures(bundleWithValidSignature),
     true,
     "validateSignatures() should return true for bundle with valid signatures."
   ));
 
 test("validateSignatures() returns true for invalid bundle with valid signatures", t =>
   t.is(
-    //todo check test
-    // validateBundleSignatures(
-    //   bundleWithInvalidTransactionOrderAndValidSignature
-    // ),
-    true,
+    validateBundleSignatures(
+      bundleWithInvalidTransactionOrderAndValidSignature
+    ),
     true,
     "validateSignatures() should return true for invalid bundle with valid signatures."
   ));

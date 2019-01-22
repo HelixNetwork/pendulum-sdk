@@ -1,15 +1,21 @@
-import { seed, addresses, hbytes as expected } from "@helixnetwork/samples";
-import { HBytes, Transfer, Transaction } from "../../types";
+import {
+  addresses,
+  bundleWithValidSignature,
+  seed
+} from "@helixnetwork/samples";
+import { Transaction, Transfer } from "../../types";
 import { ADDRESS_BYTE_SIZE } from "../../constants";
 import { createPrepareTransfers } from "../src";
 import { addChecksum } from "@helixnetwork/checksum";
 import { createHttpClient } from "@helixnetwork/http-client";
 
 import { createGetNewAddress } from "../src/createGetNewAddress";
-const client = createHttpClient();
-const getNewAddress = createGetNewAddress(client, "lib");
 import "../test/integration/nocks/prepareTransfers";
 import { asTransactionObjects } from "@helixnetwork/transaction-converter";
+import isBundle from "@helixnetwork/bundle-validator";
+
+const client = createHttpClient();
+const getNewAddress = createGetNewAddress(client, "lib");
 
 let inputs: ReadonlyArray<any> = [
   {
@@ -47,6 +53,7 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
   now,
   "lib"
 );
+
 async function generateBundle() {
   // calculate addressesȘ
   const addresses: string[] = new Array<string>(3);
@@ -92,11 +99,10 @@ async function generateBundle() {
       ";"
   );
   console.log("export const bundleWithValidSignature = ");
-  console.log(
-    asTransactionObjects(
-      new Array<Transaction>(bundleWithValidSignature.length).map(tx => tx.hash)
-    )(bundleWithValidSignature).reverse()
-  );
+  const bundleWithValidSig = asTransactionObjects(
+    new Array<Transaction>(bundleWithValidSignature.length).map(tx => tx.hash)
+  )(bundleWithValidSignature).reverse();
+  console.log(bundleWithValidSig);
+  console.log("isValidBundle:" + isBundle(bundleWithValidSig));
 }
-
 generateBundle();

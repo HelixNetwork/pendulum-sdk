@@ -48,14 +48,14 @@ export const validateBundleSignatures = (bundle: Bundle): boolean => {
               ...acc,
               [address]: [signatureMessageFragment]
             }
-          : //  : value === 0 &&
-            //     acc.hasOwnProperty(address) &&
-            //     address === bundle[i - 1].address
-            //     ? {
-            //         ...acc,
-            //         [address]: acc[address].concat(signatureMessageFragment)
-            //       }
-            acc,
+          : value === 0 &&
+            acc.hasOwnProperty(address) &&
+            address === bundle[i - 1].address
+            ? {
+                ...acc,
+                [address]: acc[address].concat(signatureMessageFragment)
+              }
+            : acc,
       {}
     );
   return Object.keys(signatures).every(address => {
@@ -142,7 +142,7 @@ export default function isBundle(bundle: Bundle) {
   }
 
   // Prepare to absorb txs and get bundleHash
-  const bundleFromTxs: Int8Array = new Int8Array(hhash.getHashLength());
+  const bundleFromTxs: Uint8Array = new Uint8Array(hhash.getHashLength());
 
   // get the bundle hash from the bundle transactions
   hhash.squeeze(bundleFromTxs, 0, hhash.getHashLength());
@@ -151,6 +151,9 @@ export default function isBundle(bundle: Bundle) {
 
   // Check if bundle hash is the same as returned by tx object
   if (bundleHashFromTxs !== bundleHash) {
+    console.warn(
+      "bundleHashFromTxs = " + bundleHashFromTxs + "  bundleHash =" + bundleHash
+    );
     return false;
   }
 
@@ -160,7 +163,7 @@ export default function isBundle(bundle: Bundle) {
     bundle[bundle.length - 1].lastIndex
   ) {
     console.warn(
-      "bundle is invalid last transaction does not have corrct currentIndex " +
+      "bundle is invalid last transaction does not have correct currentIndex " +
         bundle[bundle.length - 1].currentIndex
     );
     return false;

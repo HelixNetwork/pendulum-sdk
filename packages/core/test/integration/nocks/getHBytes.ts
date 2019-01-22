@@ -5,7 +5,7 @@ import {
   bundleWithZeroValueHBytes
 } from "@helixnetwork/samples";
 import * as nock from "nock";
-import { HASH_BYTE_SIZE } from "../../../../constants";
+import { HASH_HBYTE_SIZE } from "../../../../constants";
 import {
   GetHBytesCommand,
   GetHBytesResponse,
@@ -15,7 +15,7 @@ import headers from "./headers";
 
 export const getHBytesCommand: GetHBytesCommand = {
   command: ProtocolCommand.GET_HBYTES,
-  hashes: ["a".repeat(HASH_BYTE_SIZE), "b".repeat(HASH_BYTE_SIZE)]
+  hashes: ["a".repeat(HASH_HBYTE_SIZE), "b".repeat(HASH_HBYTE_SIZE)]
 };
 
 export const getHBytesResponse: GetHBytesResponse = {
