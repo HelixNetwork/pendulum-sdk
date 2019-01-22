@@ -1,9 +1,10 @@
 // by: Frauke Sophie Abben <fsa@hlx.ai> (https://hlx.ai)
 import { hex, toHBytes } from "@helixnetwork/converter";
 import Sha3 from "@helixnetwork/sha3";
-const BN = require("bcrypto/lib/bn.js");
 import * as errors from "./errors";
-import { padByteArray, padHBytes } from "@helixnetwork/pad";
+import { padByteArray } from "@helixnetwork/pad";
+
+const BN = require("bcrypto/lib/bn.js");
 
 const SIGNATURE_FRAGMENT = 16;
 
@@ -29,17 +30,10 @@ export function subseed(seed: Uint8Array, index: number): Uint8Array {
   if (seed.length % 2 !== 0) {
     throw new Error(errors.ILLEGAL_SEED_LENGTH);
   }
-
-  let subseed: Uint8Array = add(seed, index); //BN.add(indexBN).toBuffer());
-
+  let subseed: Uint8Array = add(seed, index);
   while (subseed.length % 32 !== 0) {
     subseed = padByteArray(32)(subseed);
   }
-  /*
-  while (subseed.length % 32 !== 0) {
-      subseed = padHBits(subseed.length + 3)(subseed)
-  }*/
-
   const sha3 = new Sha3();
   sha3.absorb(subseed, 0, subseed.length);
   sha3.squeeze(subseed, 0, subseed.length);
@@ -102,12 +96,10 @@ export function digests(key: Uint8Array): Uint8Array {
         keyFragmentSha3.squeeze(buffer, 0, Sha3.HASH_LENGTH);
         keyFragmentSha3.reset();
       }
-
       for (let k = 0; k < 32; k++) {
         keyFragment[j * 32 + k] = buffer[k];
       }
     }
-
     const digestsSha3 = new Sha3();
     digestsSha3.absorb(keyFragment, 0, keyFragment.length);
     digestsSha3.squeeze(buffer, 0, Sha3.HASH_LENGTH);
@@ -162,7 +154,6 @@ export function digest(
       signatureFragmentSha3.squeeze(buffer, 0, Sha3.HASH_LENGTH);
       signatureFragmentSha3.reset();
     }
-
     digestSha3.absorb(buffer, 0, Sha3.HASH_LENGTH);
   }
 
@@ -234,7 +225,6 @@ export function validateSignatures(
   for (let i = 0; i < 2; i++) {
     normalizedBundleFragments[i] = normalizedBundle.slice(i * 16, (i + 1) * 16);
   }
-
   // Get digests
   const digests = new Uint8Array(signatureFragments.length * 32);
 
@@ -248,7 +238,6 @@ export function validateSignatures(
       digests[i * 32 + j] = digestBuffer[j];
     }
   }
-
   return expectedAddress === hex(address(digests));
 }
 
@@ -256,7 +245,6 @@ export function validateSignatures(
  * Normalizes the bundle hash, with resulting digits summing to zero.
  *
  * @method normalizedBundleHash
- *
  *
  * @return {Uint8Array} Normalized bundle hash
  * @param bundleHash
@@ -290,8 +278,7 @@ export const normalizedBundleHash = (bundleHash: Uint8Array): Uint8Array => {
       }
     }
   }
-
   return Uint8Array.from(normalizedBundle);
 };
 
-export * from "./signing";
+export * from "./winternitz";

@@ -35,10 +35,10 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
   now,
   "lib"
 );
-// todo check test
+
 test("checkBundleSignature() prepares the correct array of hbytes offline.", async t => {
   const hbytes: ReadonlyArray<HBytes> = await prepareTransfers(
-    "abcd",
+    seed,
     transfers,
     {
       inputs,

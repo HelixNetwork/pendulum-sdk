@@ -9,9 +9,9 @@ import {
 import { isAttachedHBytesArray } from "../src";
 
 test("isAttachedHBytesArray()", t => {
-  // todo check test
   t.is(
-    true, // isAttachedHBytesArray(attachedHBytes),
+    //todo check test
+    true, //isAttachedHBytesArray(attachedHBytes),
     true,
     "isAttachedHBytesArray() returns true for valid attached hbytes"
   );

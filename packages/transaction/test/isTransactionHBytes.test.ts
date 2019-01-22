@@ -4,8 +4,7 @@ import { isTransactionHBytes } from "../src";
 
 test("isTransactionHBytes() returns true for valid transaction hbytes.", t => {
   t.is(
-    //todo check test
-    true, // isTransactionHBytes(transactionHBytes),
+    isTransactionHBytes(transactionHBytes),
     true,
     "isTransactionHBytes() should return true for valid transaction hbytes."
   );

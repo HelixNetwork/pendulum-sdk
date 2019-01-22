@@ -14,9 +14,6 @@ import {
 } from "../src";
 
 test("asTransactionHBytes() converts transaction object to transaction hbytes.", t => {
-  console.log(" hbytes " + asTransactionHBytes(transactionObject));
-  console.log(" hbytes " + asTransactionHBytes(attachedTransactionObjects));
-
   t.deepEqual(
     asTransactionHBytes(transactionObject),
     hbytes,
