@@ -25,6 +25,6 @@ const helix: any = composeAPI({
  * - `INVALID_TRANSACTION_HASH`: Invalid hash
  * - Fetch error
  */
-export const getTrytes = function(transaction: Array<String>): Promise<any> {
+export const getTrytes = (transaction: string[]): Promise<any> => {
   return helix.getTrytes(transaction);
 };

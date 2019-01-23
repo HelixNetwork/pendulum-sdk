@@ -41,14 +41,14 @@ const helix: any = composeAPI({
  * - Fetch error
  */
 
-export const findTransactions = function(
-  address: Array<String>,
-  bundles: Array<String>,
-  tag: Array<String>
-): Promise<any> {
+export const findTransactions = (
+  address: string[],
+  bundles: string[],
+  tag: string[]
+): Promise<any> => {
   return helix.findTransactions({
     addresses: address,
-    bundles: bundles,
+    bundles,
     tags: tag
   });
 };

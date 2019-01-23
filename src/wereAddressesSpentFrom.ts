@@ -16,8 +16,6 @@ const helix: any = composeAPI({
   provider: config.provider
 });
 
-export const wereAddressesSpentFrom = function(
-  address: Array<String>
-): Promise<any> {
+export const wereAddressesSpentFrom = (address: string[]): Promise<any> => {
   return helix.wereAddressesSpentFrom(address);
 };

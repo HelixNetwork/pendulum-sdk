@@ -31,6 +31,6 @@ const helix: any = composeAPI({
  * - Fetch error
  */
 
-export const removedNeighbors = function(uris: Array<String>): Promise<any> {
+export const removedNeighbors = (uris: string[]): Promise<any> => {
   return helix.removeNeighbors(uris);
 };

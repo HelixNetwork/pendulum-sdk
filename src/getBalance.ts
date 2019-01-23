@@ -41,6 +41,6 @@ const helix: any = composeAPI({
  * - Fetch error
  */
 
-export const getBalance = function(address: Array<String>): Promise<any> {
+export const getBalance = (address: string[]): Promise<any> => {
   return helix.getBalances(address, 100);
 };

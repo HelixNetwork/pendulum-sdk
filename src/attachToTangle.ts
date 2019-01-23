@@ -42,11 +42,11 @@ const helix: any = composeAPI({
  * - Fetch error
  */
 
-export const attachToTangle = function(
-  trunkTransaction: String,
-  branchTransaction: String,
-  trytes: String
-): Promise<any> {
+export const attachToTangle = (
+  trunkTransaction: string,
+  branchTransaction: string,
+  trytes: string
+): Promise<any> => {
   return helix.attachToTangle(
     trunkTransaction,
     branchTransaction,

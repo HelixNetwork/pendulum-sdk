@@ -32,6 +32,6 @@ const helix: any = composeAPI({
  * - Fetch error
  */
 
-export const branchTransaction = function(tailHash: any): Promise<any> {
+export const branchTransaction = (tailHash: any): Promise<any> => {
   return helix.broadcastTransactions(tailHash);
 };

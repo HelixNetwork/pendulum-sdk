@@ -37,6 +37,6 @@ const helix: any = composeAPI({
  * - `INVALID_URI`: Invalid uri
  * - Fetch error
  */
-export const addNeighbors = function(uris: Array<String>): Promise<any> {
+export const addNeighbors = (uris: string[]): Promise<any> => {
   return helix.addNeighbors(uris);
 };

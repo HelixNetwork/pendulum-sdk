@@ -37,9 +37,9 @@ const helix: any = composeAPI({
  * - Fetch error
  */
 
-export const getInclusionStates = function(
-  transaction: Array<String>,
-  tips: Array<String>
-): Promise<any> {
+export const getInclusionStates = (
+  transaction: string[],
+  tips: string[]
+): Promise<any> => {
   return helix.getInclusionStates(transaction, tips);
 };

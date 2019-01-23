@@ -31,6 +31,6 @@ const helix: any = composeAPI({
  * - Fetch error
  */
 
-export const storeTransactions = function(trytes: Array<String>): Promise<any> {
+export const storeTransactions = (trytes: string[]): Promise<any> => {
   return helix.storeTransactions(trytes);
 };

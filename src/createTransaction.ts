@@ -27,10 +27,10 @@ const mwm = config.minWeightMagnitude;
  *
  * @method createTransaction
  *
- * @param {String} seed -Your seed value
+ * @param {string} seed -Your seed value
  * @param {number} value
  * @param {message} message- optional message
- * @param {String} tag - optional tag
+ * @param {string} tag - optional tag
  *
  * @returns {Promise}
  *
@@ -39,18 +39,18 @@ const mwm = config.minWeightMagnitude;
  *
  */
 
-export const createTransaction = function(
-  address: String,
+export const createTransaction = (
+  address: string,
   value: number,
-  message: String,
-  tag: String
-): Promise<any> {
+  message: string,
+  tag: string
+): Promise<any> => {
   const transfer = [
     {
-      address: address,
+      address,
       value: 0,
-      message: message,
-      tag: tag
+      message,
+      tag
     }
   ];
 

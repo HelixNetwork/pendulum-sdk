@@ -31,6 +31,6 @@ const helix: any = composeAPI({
  *
  */
 
-export const generateAddress = function(seed: String): Promise<any> {
+export const generateAddress = (seed: string): Promise<any> => {
   return helix.getNewAddress(seed);
 };
