@@ -1,36 +1,36 @@
-import { getTrytes } from "../src/getTrytes";
 import { assert, expect } from "chai";
 import "mocha";
+import { getBytes } from "../src/getBytes";
 
 /**
- * Testing Script to test getTrytes
+ * Testing Script to test getBytes
  *
  *  @author Sachu Shaji Abraham <sachu.shaji@netobjex.com>
  */
 
-let result: any; //variable to store response
-let error: any; //variable to store error
+let result: any; // variable to store response
+let error: any; // variable to store error
 let m: any;
-before("Running getTrytes API Call", async function() {
+before("Running getBytes API Call", async function() {
   this.timeout(0);
-  result = await getTrytes([
-    "OAATQS9VQLSXCLDJVJJVYUGONXAXOFMJOZNSYWRZSWECMXAQQURHQBJNLD9IOFEPGZEPEMPXCIVRX9999"
-  ]); //function to be executed before testing
+  result = await getBytes([
+    "e8beb08da8930027eacd19f806a417ff919bafcc216d9e9483398368be3921ea"
+  ]); // function to be executed before testing
   try {
-    await getTrytes([
-      "OAATQS9VQLSXCLDJVJJVYUGONXAXOFMJOZNSYWRZSWECMXAQQLD9IOFEPGZEPEMPXCIVRX9999" //it shouldthrow an error
+    await getBytes([
+      "e8beb08da8930027eacd19f806a417ff919bafcc216d9e9483398368be392" // it shouldthrow an error
     ]);
   } catch (err) {
     error = err;
   }
 });
 
-describe("getTrytes test", () => {
+describe("getBytes test", () => {
   it("it should return the raw transaction data (trytes) of a specific transaction.", () => {
     assert.isArray(result);
   });
   it("Content of array should be having a spcified pattern", () => {
-    expect(result).to.match(/^([A-Z]|[9])*$/);
+    expect(result).to.match(/^([a-z0-9])*$/);
   });
   it("It should throw an error", () => {
     assert.isDefined(error);

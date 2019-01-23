@@ -1,6 +1,6 @@
-import { getNeighbors } from "../src/getNeighbors";
 import { assert, expect } from "chai";
 import "mocha";
+import { getNeighbors } from "../src/getNeighbors";
 
 /**
  * Testing Script to test getNeighbors
@@ -8,10 +8,10 @@ import "mocha";
  *  @author Sachu Shaji Abraham <sachu.shaji@netobjex.com>
  */
 
-let result: any; //variable to store response
-before("Running getNeighbors API Call", async function() {
+let result: any; // variable to store response
+before("Running getNeighbors API Call", async () => {
   this.timeout(0);
-  result = await getNeighbors; //function to be executed before testing
+  result = await getNeighbors; // function to be executed before testing
 });
 
 describe("getNeighbors  test", () => {

@@ -1,16 +1,16 @@
-import { removedNeighbors } from "../src/removeNeighbors";
-import { addNeighbors } from "../src/addNeighbors";
 import { assert } from "chai";
 import "mocha";
+import { addNeighbors } from "../src/addNeighbors";
+import { removedNeighbors } from "../src/removeNeighbors";
 
 /**
  * Testing Script to test removeNeighbors
  *
  *  @author Sachu Shaji Abraham <sachu.shaji@netobjex.com>
  */
-let removeNeighbors_zero: any; //variable to store the added neighbors to be zero
-let removeNeighbors_one: any; //variable to store the added neighbors to be one
-let removeNeighbors_two: any; //variable to store the added neighbors to be two
+let removeNeighbors_zero: any; // variable to store the added neighbors to be zero
+let removeNeighbors_one: any; // variable to store the added neighbors to be one
+let removeNeighbors_two: any; // variable to store the added neighbors to be two
 let removeNeighborsError: any;
 
 before("Running removeNeighbors API Call", async function() {
@@ -21,7 +21,7 @@ before("Running removeNeighbors API Call", async function() {
     "udp://35.157.69.54:14601",
     "udp://35.157.69.54:14602"
   ]);
-  removeNeighbors_zero = await removedNeighbors([]); //function to be executed before testing
+  removeNeighbors_zero = await removedNeighbors([]); // function to be executed before testing
   removeNeighbors_one = await removedNeighbors(["udp://35.157.69.54:14600"]);
   removeNeighbors_two = await removedNeighbors([
     "udp://35.157.69.54:14601",

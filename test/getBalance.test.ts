@@ -12,11 +12,11 @@ let Error: any;
 before("Running getBalance API Call", async function() {
   this.timeout(0);
   result = await getBalance([
-    "HBBYKAKTILIPVUKFOTSLHGENPTXYBNKXZFQFR9VQFWNBMTQNRVOUKPVPRNBSZVVILMAFBKOTBLGLWLOHQ" //function to be executed before testing
+    "e8beb08da8930027eacd19f806a417ff919bafcc216d9e9483398368be3921ea" //function to be executed before testing
   ]);
   try {
     await getBalance([
-      "HBBYKAKTILIPVUHGENPTXYBNKXZFQFR9VQFWNBMTQNRVOUKPVPRNBSZVVILMAFBKOTBLGLWLOHQ" //function to should throw an error
+      "e8beb08da8930027eacd19f806a417ff919bafcc216d9e9483398368be3921eappp" //function to should throw an error
     ]);
   } catch (error) {
     Error = error;

@@ -1,6 +1,6 @@
-import { getNodeInfo } from "../src/getNodeInfo";
 import { assert, expect } from "chai";
 import "mocha";
+import { getNodeInfo } from "../src/getNodeInfo";
 
 /**
  * Testing Script to test getNodeInfo
@@ -8,27 +8,27 @@ import "mocha";
  *  @author Sachu Shaji Abraham <sachu.shaji@netobjex.com>
  */
 interface reference {
-  appName: String;
-  appVersion: String;
-  duration: Number;
-  jreAvailableProcessors: Number;
-  jreFreeMemory: Number;
-  jreMaxMemory: Number;
-  jreTotalMemory: Number;
-  latestMilestone: String;
-  latestMilestoneIndex: Number;
-  latestSolidSubtangleMilestone: String;
-  latestSolidSubtangleMilestoneIndex: Number;
-  neighbors: Number;
-  packetsQueueSize: Number;
-  time: Number;
-  tips: Number;
-  transactionsToRequest: Number;
+  appName: string;
+  appVersion: string;
+  duration: number;
+  jreAvailableProcessors: number;
+  jreFreeMemory: number;
+  jreMaxMemory: number;
+  jreTotalMemory: number;
+  latestMilestone: string;
+  latestMilestoneIndex: number;
+  latestSolidSubtangleMilestone: string;
+  latestSolidSubtangleMilestoneIndex: number;
+  neighbors: number;
+  packetsQueueSize: number;
+  time: number;
+  tips: number;
+  transactionsToRequest: number;
 }
-let result: reference; //variable to store response
+let result: reference; // variable to store response
 before("Running getNodeInfo API Call", async function() {
   this.timeout(0);
-  result = await getNodeInfo; //function to be executed before testing
+  result = await getNodeInfo; // function to be executed before testing
 });
 
 describe("getNodeInfo test", () => {
@@ -39,10 +39,10 @@ describe("getNodeInfo test", () => {
     expect(result).not.to.have.property("Error");
     expect(result)
       .to.have.property("latestSolidSubtangleMilestone")
-      .to.match(/^([A-Z]|[9])*$/);
+      .to.match(/^([a-f0-9])*$/);
     expect(result)
       .to.have.property("latestMilestone")
-      .to.match(/^([A-Z]|[9])*$/);
+      .to.match(/^([a-f0-9])*$/);
   });
 });
 //

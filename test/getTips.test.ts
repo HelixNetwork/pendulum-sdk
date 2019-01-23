@@ -1,13 +1,13 @@
-import { getTips } from "../src/getTips";
 import { assert, expect } from "chai";
 import "mocha";
+import { getTips } from "../src/getTips";
 
 /**
  * Testing Script to test getTips
  *
  *  @author Sachu Shaji Abraham <sachu.shaji@netobjex.com>
  */
-let result: any; //variable to store response
+let result: any; // variable to store response
 
 before("Running getTips API Call", async function() {
   this.timeout(0);
@@ -22,6 +22,6 @@ describe("getTips test", () => {
     assert.isString(result[0]);
   });
   it("Content of getTips should be having a spcified pattern", () => {
-    expect(result).to.match(/^([A-Z]|[9])*$/);
+    expect(result).to.match(/^([a-f0-9]|)*$/);
   });
 });
