@@ -25,7 +25,7 @@ before("Running createTransaction API Call", async function() {
 });
 
 describe("Create Transactions  test", () => {
-  it("it should create and return a succesfull transaction info", async () => {
+  it("it should create and return a successful transaction info", async () => {
     assert.isArray(result);
     expect(result[0])
       .to.have.property("hash")
@@ -34,7 +34,7 @@ describe("Create Transactions  test", () => {
       .to.have.property("address")
       .equals(addr);
   });
-  it("it should throw a successfull error", () => {
+  it("it should throw a successful error", () => {
     assert.isDefined(Error);
   });
 });

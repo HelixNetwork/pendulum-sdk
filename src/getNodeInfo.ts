@@ -1,4 +1,4 @@
-import { composeAPI } from "@helix/core";
+import { composeAPI } from "@helixnetwork/core";
 import * as config from "./config";
 /**
  * API for getting the info about connected node using composer

@@ -18,11 +18,11 @@ before("Running attachToTangle API Call", async function() {
   const addr = await generateAddress(config.seed);
   const transaction = await createTransaction(addr, 0, "SAMPLE", "SAMPLETAG");
   const transactionApprove = await getTransactionsToApprove; // function to be executed before testing
-  const trytes = await getBytes([transaction[0].hash]);
+  const bytes = await getBytes([transaction[0].hash]);
   result = await attachToTangle(
     transactionApprove.trunkTransaction,
     transactionApprove.branchTransaction,
-    trytes
+    bytes
   );
 });
 

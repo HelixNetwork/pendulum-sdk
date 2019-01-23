@@ -16,6 +16,7 @@ let hash: String; // variable to store transaction hash
 before("Running findTransactions API Call", async function() {
   this.timeout(0);
   const addr = await generateAddress(config.seed); // function to be executed before testing
+  console.log("addr " + addr);
   const transaction = await createTransaction(addr, 0, "SAMPLE", "SAMPLETAG"); // generating a sample transaction to verify
   const address = [transaction[0].address];
   const bundles = [transaction[0].bundle];

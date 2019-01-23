@@ -1,4 +1,4 @@
-import { composeAPI } from "@helix/core";
+import { composeAPI } from "@helixnetwork/core";
 import * as config from "./config";
 /**
  * API  to return the raw transaction data (trytes) of a specific transaction using composer
@@ -26,5 +26,5 @@ const helix: any = composeAPI({
  * - Fetch error
  */
 export const getBytes = (transaction: string[]): Promise<any> => {
-  return helix.getBytes(transaction);
+  return helix.getHBytes(transaction);
 };

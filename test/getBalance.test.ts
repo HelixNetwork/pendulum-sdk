@@ -24,11 +24,11 @@ before("Running getBalance API Call", async function() {
 });
 
 describe("getBalance  test", () => {
-  it("it should return a succesfull info about the balance in the given address", () => {
+  it("it should return a successful info about the balance in the given address", () => {
     assert.isObject(result);
     expect(result).to.have.property("balances");
   });
-  it("it should throw a successfull error", () => {
+  it("it should throw a successful error", () => {
     assert.isDefined(Error);
   });
 });

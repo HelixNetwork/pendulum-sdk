@@ -26,10 +26,10 @@ before("Running getBytes API Call", async function() {
 });
 
 describe("getBytes test", () => {
-  it("it should return the raw transaction data (trytes) of a specific transaction.", () => {
+  it("it should return the raw transaction data (bytes) of a specific transaction.", () => {
     assert.isArray(result);
   });
-  it("Content of array should be having a spcified pattern", () => {
+  it("Content of array should be having a specified pattern", () => {
     expect(result).to.match(/^([a-z0-9])*$/);
   });
   it("It should throw an error", () => {

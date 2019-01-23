@@ -20,11 +20,11 @@ before("Running addNeighbors API Call", async function() {
     "udp://35.157.69.54:14601",
     "udp://35.157.69.54:14602"
   ]);
-  await removedNeighbors([
-    "udp://35.157.69.54:14600",
-    "udp://35.157.69.54:14601",
-    "udp://35.157.69.54:14602"
-  ]); // removing added neighbors
+  // await removedNeighbors([
+  //   "udp://35.157.69.54:14600",
+  //   "udp://35.157.69.54:14601",
+  //   "udp://35.157.69.54:14602"
+  // ]); // removing added neighbors
   try {
     await addNeighbors([""]); // it should throw an error
   } catch (err) {

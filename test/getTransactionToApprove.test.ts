@@ -15,10 +15,10 @@ before("Running getTransactionToApprove API Call", async function() {
 
 describe("getTransactionToApprove  test", () => {
   it("it should return trunckTransactions  details", () => {
-    expect(result.trunkTransaction).to.match(/^([a-f0-9]){81}$/);
+    expect(result.trunkTransaction).to.match(/^([a-f0-9]){64}$/);
   });
 
   it("it should return branchTransactions details", () => {
-    expect(result.branchTransaction).to.match(/^([a-f0-9]){81}$/);
+    expect(result.branchTransaction).to.match(/^([a-f0-9]){64}$/);
   });
 });

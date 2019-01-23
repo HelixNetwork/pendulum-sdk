@@ -32,7 +32,7 @@ before("Running getNodeInfo API Call", async function() {
 });
 
 describe("getNodeInfo test", () => {
-  it("it should return a succesfull info about the node", () => {
+  it("it should return a successful info about the node", () => {
     assert.isObject(result);
   });
   it("it should have a specific structure", () => {

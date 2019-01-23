@@ -10,7 +10,7 @@ import { generateAddress } from "../src/generateAddress";
 let addr: string; // variable to store the address
 
 before("Running generateAddress API Call", async () => {
-  this.timeout(0);
+  // this.timeout(0);
   addr = await generateAddress(config.seed);
 });
 describe("Generate new address", () => {

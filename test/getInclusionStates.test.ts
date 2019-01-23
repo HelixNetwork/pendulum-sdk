@@ -14,7 +14,7 @@ import { getTips } from "../src/getTips";
 let result: any; // variable to store response
 let Error: any;
 before("Running getInclusion API Call", async () => {
-  this.timeout(0);
+  //this.timeout(0);
   const addr = await generateAddress(config.seed); // function to be executed before testing
   const transaction = await createTransaction(addr, 0, "SAMPLE", "SAMPLETAG"); // generating a sample transaction to verify
   const hash = [transaction[0].hash];
@@ -31,7 +31,7 @@ describe("getInclusionState  test", () => {
   it("it should return a boolean value ", () => {
     assert.isBoolean(result[0]);
   });
-  it("it should throw a successfull error", () => {
+  it("it should throw a successful error", () => {
     assert.isDefined(Error);
   });
 });
