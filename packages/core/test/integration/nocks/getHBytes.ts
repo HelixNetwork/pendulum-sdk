@@ -5,7 +5,7 @@ import {
   bundleWithZeroValueHBytes
 } from "@helixnetwork/samples";
 import * as nock from "nock";
-import { HASH_HBYTE_SIZE } from "../../../../constants";
+import { HASH_HBYTE_SIZE, TRANSACTION_HBYTE_SIZE } from "../../../../constants";
 import {
   GetHBytesCommand,
   GetHBytesResponse,
@@ -19,7 +19,10 @@ export const getHBytesCommand: GetHBytesCommand = {
 };
 
 export const getHBytesResponse: GetHBytesResponse = {
-  hbytes: ["0".repeat(2 * 273), "0".repeat(2 * 273)]
+  hbytes: [
+    "0".repeat(TRANSACTION_HBYTE_SIZE),
+    "0".repeat(TRANSACTION_HBYTE_SIZE)
+  ]
 };
 
 export const getBalancesNock = nock("http://localhost:14265", headers)

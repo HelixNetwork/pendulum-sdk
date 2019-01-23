@@ -15,7 +15,7 @@ test("traverseBundle() resolves to correct bundle.", async t => {
     "traverseBundle() should resolve to correct bundle."
   );
 });
-// todo check test
+
 test("traverseBundle() resolves to correct single transaction bundle.", async t => {
   t.deepEqual(
     await traverseBundle(bundleWithZeroValue[0].hash),
