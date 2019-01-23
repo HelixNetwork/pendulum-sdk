@@ -22,14 +22,14 @@ let inputs: ReadonlyArray<any> = [
     address: "toBeReplacedWithIndex0_Security2",
     keyIndex: 0,
     security: 2,
-    balance: 3
-  },
-  {
-    address: "toBeReplacedWithIndex1_Security2",
-    keyIndex: 1,
-    security: 2,
     balance: 4
-  }
+  } //,
+  // {
+  //   address: "toBeReplacedWithIndex1_Security2",
+  //   keyIndex: 1,
+  //   security: 2,
+  //   balance: 4
+  // }
 ];
 
 const transfers: ReadonlyArray<Transfer> = [
@@ -37,13 +37,13 @@ const transfers: ReadonlyArray<Transfer> = [
     address: addChecksum("a".repeat(ADDRESS_BYTE_SIZE)),
     value: 3,
     tag: "aaaa",
-    message: "0"
-  },
-  {
-    address: addChecksum("b".repeat(ADDRESS_BYTE_SIZE)),
-    value: 3,
-    tag: "aaaa"
-  }
+    message: "abcd"
+  } //,
+  // {
+  //   address: addChecksum("b".repeat(ADDRESS_BYTE_SIZE)),
+  //   value: 3,
+  //   tag: "aaaa"
+  // }
 ];
 //const seed = 'abcd000000000000000000000000000000000000000000000000000000000000'
 const now = () => 1522219924;
@@ -87,22 +87,22 @@ async function generateBundle() {
   );
   inputs = inputs.slice(0, 1);
 
-  const bundleWithValidSignature: ReadonlyArray<
-    string
-  > = await prepareTransfers(seed, transfers.slice(0, 1), {
-    inputs,
-    remainderAddress
-  });
-  console.log(
-    "export const bundleWithValidSignatureHBytes = " +
-      JSON.stringify([...bundleWithValidSignature].reverse()) +
-      ";"
-  );
-  console.log("export const bundleWithValidSignature = ");
-  const bundleWithValidSig = asTransactionObjects(
-    new Array<Transaction>(bundleWithValidSignature.length).map(tx => tx.hash)
-  )(bundleWithValidSignature).reverse();
-  console.log(bundleWithValidSig);
-  console.log("isValidBundle:" + isBundle(bundleWithValidSig));
+  // const bundleWithValidSignature: ReadonlyArray<
+  //   string
+  // > = await prepareTransfers(seed, transfers.slice(0, 1), {
+  //   inputs,
+  //   remainderAddress
+  // });
+  // console.log(
+  //   "export const bundleWithValidSignatureHBytes = " +
+  //     JSON.stringify([...bundleWithValidSignature].reverse()) +
+  //     ";"
+  // );
+  // console.log("export const bundleWithValidSignature = ");
+  // const bundleWithValidSig = asTransactionObjects(
+  //   new Array<Transaction>(bundleWithValidSignature.length).map(tx => tx.hash)
+  // )(bundleWithValidSignature).reverse();
+  // console.log(bundleWithValidSig);
+  // console.log("isValidBundle:" + isBundle(bundleWithValidSig));
 }
 generateBundle();

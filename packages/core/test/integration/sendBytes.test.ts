@@ -15,7 +15,7 @@ const sendHBytes = createSendHBytes(createHttpClient());
 // todo check test
 test("sendHBytes() attaches to tangle, broadcasts, stores and resolves to transaction objects.", async t => {
   t.deepEqual(
-    bundle, //await sendHBytes(hbytes, depth, minWeightMagnitude),
+    await sendHBytes(hbytes, depth, minWeightMagnitude),
     bundle,
     "sendHBytes() should attach to tangle, broadcast, store and resolve to transaction objects."
   );
@@ -25,7 +25,6 @@ test("sendHBytes() attaches to tangle, broadcasts, stores and resolves to transa
 //   const hbytesCopy = [...hbytes];
 //
 //   await sendHBytes(hbytesCopy, depth, minWeightMagnitude);
-//
 //   t.deepEqual(
 //     hbytesCopy,
 //     hbytes,
