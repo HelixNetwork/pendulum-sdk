@@ -151,9 +151,9 @@ export default function isBundle(bundle: Bundle) {
 
   // Check if bundle hash is the same as returned by tx object
   if (bundleHashFromTxs !== bundleHash) {
-    console.warn(
-      "bundleHashFromTxs = " + bundleHashFromTxs + "  bundleHash =" + bundleHash
-    );
+    // console.warn(
+    //   "bundleHashFromTxs = " + bundleHashFromTxs + "  bundleHash =" + bundleHash
+    // );
     return false;
   }
 
