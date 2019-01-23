@@ -23,7 +23,7 @@ test("getBundle() resolves to correct single transaction bundle.", async t => {
     "getBundle() should resolve to correct single transaction bundle."
   );
 });
-// // todo check test
+
 test("getBundle() rejects with correct error for invalid hash.", t => {
   const invalidHash = "asdasDSFDAFD";
 
