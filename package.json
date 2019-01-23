@@ -48,6 +48,7 @@
     "@types/request": "^2.47.1",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
+    "mocha": "^5.2.0",
     "request": "^2.88.0",
     "ts-node": "^7.0.1"
   },
