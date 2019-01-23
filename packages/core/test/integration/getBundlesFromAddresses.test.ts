@@ -25,7 +25,6 @@ const addresses = [
 ];
 test("getBundlesFromAddresses() resolves to correct transactions.", async t => {
   t.deepEqual(
-    //todo check test
     await getBundlesFromAddresses(addresses, true),
     transfers,
     "getBundlesFromAddresses() should resolve to correct transactions."
