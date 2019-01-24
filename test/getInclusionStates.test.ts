@@ -15,13 +15,12 @@ let result: any; // variable to store response
 let Error: any;
 before("Running getInclusion API Call", async () => {
   //this.timeout(0);
-  const addr = await generateAddress(config.seed); // function to be executed before testing
-  const transaction = await createTransaction(addr, 0, "SAMPLE", "SAMPLETAG"); // generating a sample transaction to verify
-  const hash = [transaction[0].hash];
   const tips = await getTips;
-  result = await getInclusionStates(hash, tips);
+  result = await getInclusionStates([
+    "006f8c396c26dc0d188f4492d39b78a3b801f573eac5e1b1715dcce7a760d7ca"
+  ]);
   try {
-    await getInclusionStates(["6"], tips); // should throw an error
+    await getInclusionStates(["6"]); // should throw an error
   } catch (error) {
     Error = error;
   }

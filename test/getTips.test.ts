@@ -22,7 +22,7 @@ describe("getTips test", () => {
     assert.isString(result[0]);
   });
   it("Content of getTips should be having a specified pattern", () => {
-    console.log(result);
-    expect(result).to.match(/^([a-f0-9]|)*$/);
+    console.log(JSON.stringify(result));
+    expect(result[0]).to.match(/^([a-f0-9]|)*$/);
   });
 });

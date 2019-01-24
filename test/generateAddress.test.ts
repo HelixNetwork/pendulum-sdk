@@ -9,9 +9,11 @@ import { generateAddress } from "../src/generateAddress";
  */
 let addr: string; // variable to store the address
 
-before("Running generateAddress API Call", async () => {
-  // this.timeout(0);
-  addr = await generateAddress(config.seed);
+before("Running generateAddress API Call", async function() {
+  this.timeout(0);
+  addr = await generateAddress(
+    "953c8169027a85415692cc05bd3a91f95c3be8e5c93c1d2b2e2c447b5ed082d2"
+  );
 });
 describe("Generate new address", () => {
   it("It should return a new address of type string", async () => {

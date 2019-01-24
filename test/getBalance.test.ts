@@ -27,6 +27,7 @@ describe("getBalance  test", () => {
   it("it should return a successful info about the balance in the given address", () => {
     assert.isObject(result);
     expect(result).to.have.property("balances");
+    console.log(JSON.stringify(result));
   });
   it("it should throw a successful error", () => {
     assert.isDefined(Error);

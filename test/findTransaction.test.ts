@@ -12,17 +12,14 @@ import { generateAddress } from "../src/generateAddress";
  */
 
 let result: any; // variable to store response
-let hash: String; // variable to store transaction hash
+let hash: string; // variable to store transaction hash
 before("Running findTransactions API Call", async function() {
   this.timeout(0);
-  const addr = await generateAddress(config.seed); // function to be executed before testing
-  console.log("addr " + addr);
-  const transaction = await createTransaction(addr, 0, "SAMPLE", "SAMPLETAG"); // generating a sample transaction to verify
-  const address = [transaction[0].address];
-  const bundles = [transaction[0].bundle];
-  const tag = [transaction[0].tag];
-  hash = transaction[0].hash;
-  result = await findTransactions(address, bundles, tag);
+  const address = [
+    "a3fcb75bbfc68db05a5207c2afc97fc496ec86e7ecdd6a933be4d1bad8f74c34"
+  ];
+
+  result = await findTransactions(address, [], []);
 });
 
 describe("findTransactions  test", () => {
