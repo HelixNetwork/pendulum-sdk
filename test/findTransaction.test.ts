@@ -12,18 +12,17 @@ import { generateAddress } from "../src/generateAddress";
  */
 
 let result: any; // variable to store response
-let hash: string; // variable to store transaction hash
 before("Running findTransactions API Call", async function() {
   this.timeout(0);
   const address = [
     "a3fcb75bbfc68db05a5207c2afc97fc496ec86e7ecdd6a933be4d1bad8f74c34"
   ];
 
-  result = await findTransactions(address, [], []);
+  result = await findTransactions(address);
 });
 
 describe("findTransactions  test", () => {
   it("it should return the hash of the transactions executed", () => {
-    assert.equal(hash, result[0]); // the hash of the created transaction should be successfully fectched by the Api
+    assert.equal(config.firstTransactionHash, result[0]); // the hash of the created transaction should be successfully fectched by the Api
   });
 });

@@ -124,9 +124,9 @@ export const createFindTransactions = ({ send }: Provider) => {
     return Promise.resolve(validateFindTransactions(query))
       .then(() => removeAddressChecksum(query))
       .then(padTags)
-      .then(query =>
+      .then(queryParams =>
         send<FindTransactionsCommand, FindTransactionsResponse>({
-          ...query,
+          ...queryParams,
           command: ProtocolCommand.FIND_TRANSACTIONS
         })
       )

@@ -12,3 +12,6 @@ export const depth = 3;
 // Difficulty of Proof-of-Work required to attach transaction to tangle.
 // Minimum value on mainnet & spamnet is `14`, `9` on devnet and other testnets.
 export const minWeightMagnitude = 10;
+
+export const firstTransactionHash =
+  "0081705006577f469f15c695bd214ac9e68bfa4c57a32cf586fc6caaa3b5cf09";

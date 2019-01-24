@@ -42,13 +42,13 @@ const helix: any = composeAPI({
  */
 
 export const findTransactions = (
-  address: string[],
-  bundles: string[],
-  tag: string[]
+  addresses: string[],
+  bundles?: string[],
+  tags?: string[]
 ): Promise<any> => {
   return helix.findTransactions({
-    addresses: address,
+    addresses,
     bundles,
-    tags: tag
+    tags
   });
 };
