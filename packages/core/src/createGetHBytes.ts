@@ -18,16 +18,16 @@ import {
  *
  * @param {Provider} provider - Network provider
  *
- * @return {function} {@link #module_core.getHBytes `getHBytes`}
+ * @return {function} {@link #module_core.getBytes `getBytes`}
  */
 export const createGetHBytes = ({ send }: Provider) =>
   /**
    * Fetches the transaction hbytes given a list of transaction hashes, by calling
-   * [`getHBytes`](https://docs.iota.works/iri/api#endpoints/getHBytes) command.
+   * [`getBytes`](https://docs.iota.works/iri/api#endpoints/getHBytes) command.
    *
    * @example
    * ```js
-   * getHBytes(hashes)
+   * getBytes(hashes)
    *   // Parsing as transaction objects
    *   .then(hbytes => asTransactionObjects(hashes)(hbytes))
    *   .then(transactions => {
@@ -38,7 +38,7 @@ export const createGetHBytes = ({ send }: Provider) =>
    *   })
    * ```
    *
-   * @method getHBytes
+   * @method getBytes
    *
    * @memberof module:core
    *

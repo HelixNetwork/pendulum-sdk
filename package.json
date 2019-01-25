@@ -42,7 +42,6 @@
     "url": "https://github.com/HelixNetwork/helix.api.git"
   },
   "dependencies": {
-    "@helixnetwork/core": "file:packages/core",
     "@types/bluebird": "^3.5.20",
     "@types/chai": "^4.1.5",
     "@types/mocha": "^5.2.5",

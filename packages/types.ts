@@ -87,7 +87,7 @@ export enum ProtocolCommand {
   REMOVE_NEIGHBORS = "removeNeighbors",
   GET_TIPS = "getTips",
   FIND_TRANSACTIONS = "findTransactions",
-  GET_HBYTES = "getHBytes",
+  GET_HBYTES = "getBytes",
   GET_INCLUSION_STATES = "getInclusionStates",
   GET_BALANCES = "getBalances",
   GET_TRANSACTIONS_TO_APPROVE = "getTransactionsToApprove",

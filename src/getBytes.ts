@@ -26,5 +26,5 @@ const helix: any = composeAPI({
  * - Fetch error
  */
 export const getBytes = (transaction: string[]): Promise<any> => {
-  return helix.getHBytes(transaction);
+  return helix.getBytes(transaction);
 };

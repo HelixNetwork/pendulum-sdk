@@ -21,7 +21,7 @@ export const createFindTransactionObjects = (provider: Provider) => {
 
   /**
    * Wrapper function for [`findTransactions`]{@link #module_core.findTransactions} and
-   * [`getHBytes`]{@link #module_core.getHBytes}.
+   * [`getBytes`]{@link #module_core.getBytes}.
    * Searches for transactions given a `query` object with `addresses`, `tags` and `approvees` fields.
    * Multiple query fields are supported and `findTransactionObjects` returns intersection of results.
    *
