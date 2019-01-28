@@ -22,15 +22,15 @@ const helix: any = composeAPI({
  * @method storeTransactions
  *
  *
- * @param {Trytes[]} trytes - Attached transaction trytes
+ * @param {bytes[]} bytes - Attached transaction bytes
  *
  *  @return {Promise}
- * @fullfil {Trytes[]} Attached transaction trytes
+ * @fullfil {bytes[]} Attached transaction bytes
  * @reject {Error}
- * - `INVALID_ATTACHED_TRYTES`: Invalid attached trytes
+ * - `INVALID_ATTACHED_BYTES`: Invalid attached bytes
  * - Fetch error
  */
 
-export const storeTransactions = (trytes: string[]): Promise<any> => {
-  return helix.storeTransactions(trytes);
+export const storeTransactions = (bytes: string[]): Promise<any> => {
+  return helix.storeTransactions(bytes);
 };
