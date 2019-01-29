@@ -4,7 +4,6 @@ import { API_VERSION, DEFAULT_URI, MAX_REQUEST_BATCH_SIZE } from "./settings";
 import {
   BaseCommand,
   FindTransactionsResponse,
-  GetBalancesResponse,
   ProtocolCommand
 } from "../../types";
 import { BatchableCommand } from "./httpClient";
