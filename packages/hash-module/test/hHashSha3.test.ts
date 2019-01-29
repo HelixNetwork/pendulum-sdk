@@ -1,7 +1,5 @@
 import test from "ava";
 import {
-  bytesToWords,
-  wordsToBytes,
   hex,
   toHBytes
 } from "@helixnetwork/converter";
