@@ -4,7 +4,6 @@ import {
     GetNeighborsCommand,
     GetNeighborsResponse,
     ProtocolCommand,
-    Neighbor,
     Neighbors,
     Provider,
 } from '../../types'

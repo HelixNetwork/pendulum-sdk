@@ -2,8 +2,6 @@ import { addChecksum } from "@helixnetwork/checksum";
 import { toHBytes, hex } from "@helixnetwork/converter";
 import { address, digests, key, subseed } from "@helixnetwork/winternitz";
 import {
-  ADDRESS_BYTE_SIZE,
-  ADDRESS_CHECKSUM_BYTE_SIZE,
   HASH_HBYTE_SIZE
 } from "../../constants";
 import { Hash } from "../../types";

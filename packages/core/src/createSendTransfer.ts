@@ -13,7 +13,6 @@ import {
   Callback,
   Hash,
   Provider,
-  Transaction,
   Transfer
 } from "../../types";
 import { createPrepareTransfers, createSendHBytes } from "./";

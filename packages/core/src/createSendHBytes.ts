@@ -13,7 +13,6 @@ import {
   Callback,
   Hash,
   Provider,
-  Transaction,
   HBytes
 } from "../../types";
 import {

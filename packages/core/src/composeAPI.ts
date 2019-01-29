@@ -2,21 +2,12 @@ import {
   createHttpClient,
   HttpClientSettings
 } from "@helixnetwork/http-client";
-import * as Bluebird from "bluebird";
 import {
   AttachToTangle,
-  BaseCommand,
   CreateProvider,
-  Inputs,
-  Neighbor,
   Provider,
-  Transaction,
-  Transfer
 } from "../../types";
 import {
-  AccountData,
-  Balances,
-  CheckConsistencyOptions,
   createAddNeighbors,
   createAttachToTangle,
   createBroadcastBundle,
@@ -51,14 +42,6 @@ import {
   createStoreAndBroadcast,
   createStoreTransactions,
   createTraverseBundle,
-  FindTransactionsQuery,
-  GetAccountDataOptions,
-  GetInputsOptions,
-  GetNewAddressOptions,
-  GetNodeInfoResponse,
-  PrepareTransfersOptions,
-  PromoteTransactionOptions,
-  TransactionsToApprove
 } from "./";
 import { createGetBundlesFromAddresses } from "./createGetBundlesFromAddresses";
 import { createGetTransfers, GetTransfersOptions } from "./createGetTransfers";

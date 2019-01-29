@@ -1,8 +1,8 @@
 import * as Promise from "bluebird";
 
 import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
-import { isValidChecksum, removeChecksum } from "@helixnetwork/checksum";
-import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
+import { removeChecksum } from "@helixnetwork/checksum";
+import { hbits, hex, toHBytes } from "@helixnetwork/converter";
 import {
   key,
   normalizedBundleHash,
