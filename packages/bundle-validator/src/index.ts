@@ -1,20 +1,14 @@
 /** @module bundle-validator */
 
-import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
+import { hex, toHBytes } from "@helixnetwork/converter";
 import { padHBytes } from "@helixnetwork/pad";
 import HHash from "@helixnetwork/hash-module";
 import { validateSignatures } from "@helixnetwork/winternitz";
 import { isTransaction } from "@helixnetwork/transaction";
 import { asTransactionHBytes } from "@helixnetwork/transaction-converter";
 import {
-  ADDRESS_BYTE_SIZE,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
-  TRANSACTION_VALUE_BYTE_SIZE,
-  TRANSACTION_LAST_INDEX_BYTE_SIZE,
-  TRANSACTION_TIMESTAMP_BYTE_SIZE,
-  TRANSACTION_CURRENT_INDEX_BYTE_SIZE,
   BYTE_SIZE_USED_FOR_VALIDATION,
-  TRANSACTION_LAST_INDEX_BITS_SIZE,
   BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING
 } from "../../constants";
 import * as errors from "../../errors";
