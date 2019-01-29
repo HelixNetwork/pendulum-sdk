@@ -2,11 +2,8 @@ import {
   createHttpClient,
   HttpClientSettings
 } from "@helixnetwork/http-client";
-import {
-  AttachToTangle,
-  CreateProvider,
-  Provider,
-} from "../../types";
+import * as Bluebird from "bluebird";
+import { AttachToTangle, CreateProvider, Provider } from "../../types";
 import {
   createAddNeighbors,
   createAttachToTangle,
@@ -41,7 +38,7 @@ import {
   // Types
   createStoreAndBroadcast,
   createStoreTransactions,
-  createTraverseBundle,
+  createTraverseBundle
 } from "./";
 import { createGetBundlesFromAddresses } from "./createGetBundlesFromAddresses";
 import { createGetTransfers, GetTransfersOptions } from "./createGetTransfers";
