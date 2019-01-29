@@ -148,7 +148,7 @@ export const composeAPI = (input: Partial<Settings> | CreateProvider = {}) => {
     getNodeInfo: createGetNodeInfo(provider),
     getTips: createGetTips(provider),
     getTransactionsToApprove: createGetTransactionsToApprove(provider),
-    getHBytes: createGetHBytes(provider),
+    getBytes: createGetHBytes(provider),
     interruptAttachingToTangle: createInterruptAttachingToTangle(provider),
     removeNeighbors: createRemoveNeighbors(provider),
     storeTransactions: createStoreTransactions(provider),

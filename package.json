@@ -9,7 +9,8 @@
     "test-ci": "lerna bootstrap && lerna run test-ci --stream",
     "precommit": "lint-staged",
     "format": "prettier",
-    "docs": "lerna run docs"
+    "docs": "lerna run docs",
+    "testapi": " mocha -r  ts-node/register test/**/*.test.ts"
   },
   "contributors": [
     "Dominik Schiener <dom@iota.org> (https://iota.org)",
@@ -47,6 +48,7 @@
     "@types/request": "^2.47.1",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
+    "mocha": "^5.2.0",
     "request": "^2.88.0",
     "ts-node": "^7.0.1"
   },
