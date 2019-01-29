@@ -1,7 +1,6 @@
 /** @module transaction-converter */
 
 import { hBitsToHBytes, hbytesToHBits, value } from "@helixnetwork/converter";
-import HHash from "@helixnetwork/hash-module";
 import { padHBits, padHBytes, padSignedHBits } from "@helixnetwork/pad";
 import { transactionHash } from "@helixnetwork/transaction";
 import {
