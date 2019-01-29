@@ -3,8 +3,6 @@ import {
   attachedHBytes,
   attachedHBytesOfInvalidChars,
   attachedHBytesOfInvalidLength,
-  attachedTransactionObjects,
-  transactionObject
 } from "@helixnetwork/samples";
 import { isAttachedHBytesArray } from "../src";
 
