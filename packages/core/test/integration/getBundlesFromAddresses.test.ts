@@ -41,6 +41,7 @@ test("getBundlesFromAddresses() rejects with correct errors for invalid addresse
     "getBundlesFromAddresses() should throw correct error for invalid addresses."
   );
 });
+
 test.cb("getBundlesFromAddresses() invokes callback", t => {
   getBundlesFromAddresses(addresses, true, t.end);
 });

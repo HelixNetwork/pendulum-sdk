@@ -10,7 +10,6 @@ const storeAndBroadcast = createStoreAndBroadcast(createHttpClient());
 
 test("storeAndBroadcast() stores and broadcasts transactions.", async t => {
   const { hbytes } = storeTransactionsCommand;
-
   t.deepEqual(
     await storeAndBroadcast([...hbytes]),
     hbytes,
@@ -22,7 +21,6 @@ test("storeAndBroadcast() does not mutate original hbytes.", async t => {
   const { hbytes } = storeTransactionsCommand;
 
   await storeAndBroadcast(hbytes);
-
   t.deepEqual(
     hbytes,
     storeTransactionsCommand.hbytes,

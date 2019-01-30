@@ -1,5 +1,5 @@
 import { createHttpClient } from "@helixnetwork/http-client";
-import { bundle, bundleWithZeroValue } from "@helixnetwork/samples";
+import { bundle } from "@helixnetwork/samples";
 import test from "ava";
 import { INVALID_TRANSACTION_HASH } from "../../../errors";
 import { createReplayBundle } from "../../src";
@@ -50,7 +50,6 @@ test.cb("replayBundle() passes correct arguments to callback", t => {
       bundle,
       "replayBundle() should pass the correct response as second argument in callback"
     );
-
     t.end();
   });
 });

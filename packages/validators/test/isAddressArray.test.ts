@@ -3,22 +3,22 @@ import { isAddressArray } from "../src";
 
 test("isAddressArray()", t => {
   const addresses = [
-    "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2"
+    "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1f"
   ];
   const addressesWithChecksum = [
-    "03fb82bde446c6de39a5a7c4dc5d2f28318c8e0fa79a2ede420f6cacfe305458b2c30f8ffc"
+    "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1fcaa02119"
   ];
   const addressesOfInvalidLength = [
-    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db9bfb3cdc123"
+    "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1fcaa0211912"
   ];
   const addressesOfInvalidHBytes = [
-    "03f549072c534a49fTB5cd9229eab76748478158ee7097c6a8dcdd3a84000596db"
+    "0ce6dc815205498cde28c04y104a366227c39362c06ccff93c29aa8ee1268c1f"
   ];
   const addressesOfInvalidSecurity = [
-    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db123123123"
+    "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1fcaa02115"
   ];
   const addressesOfInvalidIndex = [
-    "03f549072c534a49f125cd9229eab76748478158ee7097c6a8dcdd3a84000596db1234443221"
+    "02e6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1fcaa02119"
   ];
 
   t.is(

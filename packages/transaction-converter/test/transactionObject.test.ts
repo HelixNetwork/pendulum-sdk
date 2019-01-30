@@ -1,6 +1,5 @@
 import { bundle, bundleHBytes, hbytes } from "@helixnetwork/samples";
 import test from "ava";
-import { Transaction } from "../../types";
 import {
   asTransactionObject,
   asTransactionObjects,

@@ -19,7 +19,7 @@ const inputs: ReadonlyArray<any> = [
 
 const transfers: ReadonlyArray<Transfer> = [
   {
-    address: addChecksum("a".repeat(2 * 33)),
+    address: addChecksum("a".repeat(2 * 32)),
     value: 3,
     tag: "aaaa",
     message: "0"
@@ -35,9 +35,10 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
   now,
   "lib"
 );
+
 test("checkBundleSignature() prepares the correct array of hbytes offline.", async t => {
   const hbytes: ReadonlyArray<HBytes> = await prepareTransfers(
-    "abcd",
+    seed,
     transfers,
     {
       inputs,

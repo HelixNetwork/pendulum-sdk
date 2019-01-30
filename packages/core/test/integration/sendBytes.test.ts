@@ -25,7 +25,6 @@ test("sendHBytes() does not mutate original hbytes.", async t => {
   const hbytesCopy = [...hbytes];
 
   await sendHBytes(hbytesCopy, depth, minWeightMagnitude);
-
   t.deepEqual(
     hbytesCopy,
     hbytes,

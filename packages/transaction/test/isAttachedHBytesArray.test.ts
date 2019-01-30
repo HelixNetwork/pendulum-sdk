@@ -2,7 +2,7 @@ import test from "ava";
 import {
   attachedHBytes,
   attachedHBytesOfInvalidChars,
-  attachedHBytesOfInvalidLength
+  attachedHBytesOfInvalidLength,
 } from "@helixnetwork/samples";
 import { isAttachedHBytesArray } from "../src";
 

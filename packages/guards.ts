@@ -1,6 +1,6 @@
 import {
   ADDRESS_CHECKSUM_BYTE_SIZE,
-  HASH_BYTE_SIZE,
+  HASH_HBYTE_SIZE,
   MAX_INDEX_DIFF,
   TAG_BYTE_SIZE,
   ADDRESS_BYTE_SIZE
@@ -92,8 +92,8 @@ export const isNinesHBytes = isEmpty;
  * @return {boolean}
  */
 export const isHash = (hash: any): hash is Hash =>
-  isHBytesOfExactLength(hash, HASH_BYTE_SIZE) ||
-  isHBytesOfExactLength(hash, HASH_BYTE_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE);
+  isHBytesOfExactLength(hash, HASH_HBYTE_SIZE) ||
+  isHBytesOfExactLength(hash, HASH_HBYTE_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE);
 /**
  * Checks if input is correct address or address with checksum (90 hbytes)
  *

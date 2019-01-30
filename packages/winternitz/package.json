@@ -9,7 +9,7 @@
   },
   "scripts": {
     "prepare": "tsc",
-    "test": "tsc",
+    "test": "tsc && ava",
     "format": "prettier",
     "docs":
       "tsc && jsdoc2md --no-cache --plugin dmd-clear -t README_tpl.hbs --files './out/**/*.js' > README.md"
@@ -19,7 +19,7 @@
     "Oliver Fohrmann <of@hlx.ai> (https://hlx.ai)"
   ],
   "ava": {
-    "files": "out/winternitz/test/*.test.js",
+    "files": "out/test/*.test.js",
     "failFast": false,
     "failWithoutAssertions": false,
     "compileEnhancements": false,
@@ -44,9 +44,10 @@
       "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
   },
   "dependencies": {
-    "@helixnetwork/sha3": "^0.0.1-alpha.0",
     "@helixnetwork/converter": "^0.0.1-alpha.0",
-    "bn.js": "^4.11.8",
-    "types-bn": "0.0.1"
+    "@helixnetwork/hash-module": "^0.0.1-alpha.0",
+    "@helixnetwork/pad": "^0.0.1-alpha.0",
+    "@helixnetwork/sha3": "^0.0.1-alpha.0",
+    "bcrypto": "^2.0.0"
   }
 }

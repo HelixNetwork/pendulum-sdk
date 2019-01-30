@@ -1,5 +1,4 @@
 import {
-  bundle,
   bundleWithInvalidSignature,
   bundleWithInvalidTransactionOrderAndValidSignature,
   bundleWithValidSignature

@@ -7,6 +7,7 @@ import "./nocks/getHBytes";
 
 const traverseBundle = createTraverseBundle(createHttpClient());
 const tail = bundle[0].hash;
+
 test("traverseBundle() resolves to correct bundle.", async t => {
   t.deepEqual(
     await traverseBundle(tail),
@@ -15,7 +16,7 @@ test("traverseBundle() resolves to correct bundle.", async t => {
   );
 });
 
-test("traverseBundle() resolves to correct signle transaction bundle.", async t => {
+test("traverseBundle() resolves to correct single transaction bundle.", async t => {
   t.deepEqual(
     await traverseBundle(bundleWithZeroValue[0].hash),
     bundleWithZeroValue,

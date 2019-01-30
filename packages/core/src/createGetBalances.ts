@@ -5,7 +5,6 @@ import {
   addressValidator,
   arrayValidator,
   getBalancesThresholdValidator,
-  hashValidator,
   validate
 } from "../../guards";
 import {

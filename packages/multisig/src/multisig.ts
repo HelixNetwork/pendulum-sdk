@@ -1,6 +1,6 @@
 import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
 import { removeChecksum } from "@helixnetwork/checksum";
-import { hbits, hbytes, toHBytes, hex } from "@helixnetwork/converter";
+import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
 import { Balances, createGetBalances } from "@helixnetwork/core";
 import HHash from "@helixnetwork/hash-module";
 import {
@@ -8,33 +8,29 @@ import {
   key,
   normalizedBundleHash,
   signatureFragment,
-  subseed,
-  computePublicNonces
-} from "@helixnetwork/schnorr";
+  subseed
+} from "@helixnetwork/winternitz";
 import * as Promise from "bluebird";
 import * as errors from "../../errors";
 import {
   arrayValidator,
-  isHash,
+  isAddress,
   isNinesHBytes,
   isSecurityLevel,
   remainderAddressValidator,
   transferValidator,
   validate,
-  Validator,
-  isAddress
+  Validator
 } from "../../guards";
 import { Bundle, Callback, Provider, Transaction, Transfer } from "../../types";
 import Address from "./address";
 import {
   ADDRESS_BYTE_SIZE,
   NULL_TAG_HBYTES,
-  SIGNATURE_FRAGMENT_NO,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
-  //SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS,
-  TAG_BYTE_SIZE,
+  SIGNATURE_SECRETE_KEY_BYTE_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE,
-  SIGNATURE_SECRETE_KEY_BYTE_SIZE
+  TAG_BYTE_SIZE
 } from "../../constants";
 
 export interface MultisigInput {
@@ -42,6 +38,8 @@ export interface MultisigInput {
   readonly balance: number;
   readonly securitySum: number;
 }
+
+const HASH_FRAGMENT_BYTE = 16;
 
 export const multisigInputValidator: Validator<MultisigInput> = (
   multisigInput: any
@@ -353,9 +351,8 @@ export default class Multisig {
    * @memberof Multisig
    *
    * @param {array} bundleToSign
-   * @param {number} cosignerIndex
    * @param {string} inputAddress
-   * @param {string} key
+   * @param keyHBytes
    * @param {function} callback
    *
    * @return {array} hbytes Returns bundle hbytes
@@ -387,66 +384,65 @@ export default class Multisig {
         if (!isNinesHBytes(bundle[i].signatureMessageFragment as string)) {
           numSignedTxs++;
         } else {
-          // Else sign the transactionse
+          // Else sign the transaction
           const bundleHash = bundle[i].bundle;
 
           //  First 6561 hbits for the firstFragment
           const firstFragment = keyBytes.slice(0, SIGNATURE_TOTAL_BYTE_SIZE);
 
           //  Get the normalized bundle hash
-          const normalizedBundle = toHBytes(bundleHash); // normalizedBundleHash(bundleHash as string);
-          // const normalizedBundleFragments = [];
+          const normalizedBundle = normalizedBundleHash(toHBytes(bundleHash)); // normalizedBundleHash(bundleHash as string);
+          const normalizedBundleFragments = [];
 
-          const publicNonce = computePublicNonces(keyBytes, normalizedBundle);
           // Split hash into 3 fragments
-          // for (let k = 0; k < 3; k++) {
-          //   normalizedBundleFragments[k] = normalizedBundle.slice(
-          //     k * SIGNATURE_FRAGMENT_NO,
-          //     (k + 1) * SIGNATURE_FRAGMENT_NO
-          //   );
-          // }
+          for (let k = 0; k < 2; k++) {
+            normalizedBundleFragments[k] = normalizedBundle.slice(
+              k * HASH_FRAGMENT_BYTE,
+              (k + 1) * HASH_FRAGMENT_BYTE
+            );
+          }
 
           //  First bundle fragment uses 27 hbytes
-          // const firstBundleFragment =
-          //   normalizedBundleFragments[numSignedTxs % 3];
+          const firstBundleFragment =
+            normalizedBundleFragments[numSignedTxs % 2];
 
           //  Calculate the new signatureFragment with the first bundle fragment
-          // const firstSignedFragment = signatureFragment(
-          //   firstBundleFragment,
-          //   firstFragment,
-          // );
-
-          //  Convert signature to hbytes and assign the new signatureFragment
-          // _bundle.push({
-          //   signatureMessageFragment: hbytes(firstSignedFragment)
-          // });
-          // const secretKeySignatureSizePerSecurityLevel = SIGNATURE_FRAGMENT_NO * SIGNATURE_SECRETE_KEY_BYTE_SIZE;
-          // for (let j = 0; j < security; j++) {
-          //   const nextFragment = keyBytes.slice(
-          //     secretKeySignatureSizePerSecurityLevel * j,
-          //     (j + 1) * secretKeySignatureSizePerSecurityLevel
-          //   );
-          // is there any need to split the key basd on security levels?
-
-          //  Calculate the new signatureFragment with the first bundle fragment
-          const nextSignedFragment = signatureFragment(
-            normalizedBundle,
-            keyBytes,
-            publicNonce
+          const firstSignedFragment = signatureFragment(
+            firstBundleFragment,
+            firstFragment
           );
 
-          //  Convert signature to hbytes and add new bundle entry at h + j position
-          // Assign the signature fragment
+          //  Convert signature to hbytes and assign the new signatureFragment
           _bundle.push({
-            signatureMessageFragment: hex(nextSignedFragment)
+            signatureMessageFragment: hbytes(firstSignedFragment)
           });
-          // }
+          const secretKeySignatureSizePerSecurityLevel = SIGNATURE_SECRETE_KEY_BYTE_SIZE;
+          for (let j = 1; j < security; j++) {
+            const nextFragment = keyBytes.slice(
+              secretKeySignatureSizePerSecurityLevel * j,
+              (j + 1) * secretKeySignatureSizePerSecurityLevel
+            );
+            // is there any need to split the key basd on security levels?
+            const nextBundleFragment =
+              normalizedBundleFragments[(numSignedTxs + j) % 2];
+            //  Calculate the new signatureFragment with the first bundle fragment
+            const nextSignedFragment = signatureFragment(
+              nextBundleFragment,
+              nextFragment
+            );
 
-          break;
+            //  Convert signature to hbytes and add new bundle entry at h + j position
+            // Assign the signature fragment
+            _bundle.push({
+              signatureMessageFragment: hex(nextSignedFragment)
+            });
+            // }
+
+            break;
+          }
         }
       }
     }
-
     return callback(null, _bundle.slice());
   }
 }

@@ -3,20 +3,8 @@ import {
   HttpClientSettings
 } from "@helixnetwork/http-client";
 import * as Bluebird from "bluebird";
+import { AttachToTangle, CreateProvider, Provider } from "../../types";
 import {
-  AttachToTangle,
-  BaseCommand,
-  CreateProvider,
-  Inputs,
-  Neighbor,
-  Provider,
-  Transaction,
-  Transfer
-} from "../../types";
-import {
-  AccountData,
-  Balances,
-  CheckConsistencyOptions,
   createAddNeighbors,
   createAttachToTangle,
   createBroadcastBundle,
@@ -50,15 +38,7 @@ import {
   // Types
   createStoreAndBroadcast,
   createStoreTransactions,
-  createTraverseBundle,
-  FindTransactionsQuery,
-  GetAccountDataOptions,
-  GetInputsOptions,
-  GetNewAddressOptions,
-  GetNodeInfoResponse,
-  PrepareTransfersOptions,
-  PromoteTransactionOptions,
-  TransactionsToApprove
+  createTraverseBundle
 } from "./";
 import { createGetBundlesFromAddresses } from "./createGetBundlesFromAddresses";
 import { createGetTransfers, GetTransfersOptions } from "./createGetTransfers";
@@ -148,7 +128,7 @@ export const composeAPI = (input: Partial<Settings> | CreateProvider = {}) => {
     getNodeInfo: createGetNodeInfo(provider),
     getTips: createGetTips(provider),
     getTransactionsToApprove: createGetTransactionsToApprove(provider),
-    getHBytes: createGetHBytes(provider),
+    getBytes: createGetHBytes(provider),
     interruptAttachingToTangle: createInterruptAttachingToTangle(provider),
     removeNeighbors: createRemoveNeighbors(provider),
     storeTransactions: createStoreTransactions(provider),

@@ -2,10 +2,8 @@ import test from "ava";
 import {
   bundle,
   bundleHBytes,
-  bundleWithZeroValue,
   transactionObject,
   transactionHBytes as hbytes,
-  attachedTransactionObjects
 } from "@helixnetwork/samples";
 import {
   asFinalTransactionHBytes,

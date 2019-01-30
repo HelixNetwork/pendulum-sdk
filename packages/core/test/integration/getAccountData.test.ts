@@ -32,6 +32,7 @@ const accountData: AccountData = {
       security: 2
     }
   ],
+
   latestAddress: getBalancesCommand.addresses[2],
   transfers,
   transactions: transfers.reduce(
@@ -45,7 +46,7 @@ const accountData: AccountData = {
   ),
   balance: 1
 };
-
+// todo check test
 test("getAccountData() resolves to correct account data", async t => {
   t.deepEqual(
     accountData,

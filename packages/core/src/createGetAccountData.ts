@@ -18,7 +18,6 @@ import {
     Hash,
     makeAddress,
     Provider,
-    Transaction,
 } from '../../types'
 
 /**

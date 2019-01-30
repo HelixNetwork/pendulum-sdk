@@ -16,7 +16,7 @@ test("getBundle() resolves to correct bundle.", async t => {
   );
 });
 
-test("getBundle() resolves to correct signle transaction bundle.", async t => {
+test("getBundle() resolves to correct single transaction bundle.", async t => {
   t.deepEqual(
     await getBundle(bundleWithZeroValue[0].hash),
     bundleWithZeroValue,
@@ -43,7 +43,7 @@ test.cb("getBundle() passes correct arguments to callback", t => {
     t.is(
       err,
       null,
-      "getBundle() should pass null as first argument in callback for successuful requests"
+      "getBundle() should pass null as first argument in callback for successfully requests"
     );
 
     t.deepEqual(

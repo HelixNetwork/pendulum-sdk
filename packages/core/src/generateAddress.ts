@@ -1,10 +1,8 @@
 import { addChecksum } from "@helixnetwork/checksum";
 import { toHBytes, hex } from "@helixnetwork/converter";
-import { address, digests, key, subseed } from "@helixnetwork/schnorr";
+import { address, digests, key, subseed } from "@helixnetwork/winternitz";
 import {
-  ADDRESS_BYTE_SIZE,
-  ADDRESS_CHECKSUM_BYTE_SIZE,
-  HASH_BYTE_SIZE
+  HASH_HBYTE_SIZE
 } from "../../constants";
 import { Hash } from "../../types";
 
@@ -31,9 +29,9 @@ export const generateAddress = (
   // TODO: this part is added only to address generation not also when bundle is sign,
   // because of this there are differences between address generated and seed for which address is generated
 
-  // while (seed.length % HASH_BYTE_SIZE !== 0) {
-  //   seed += 0;
-  // }
+  while (seed.length % HASH_HBYTE_SIZE !== 0) {
+    seed += 0;
+  }
   const keyHBytes = key(subseed(toHBytes(seed), index), security);
   const digestsHBytes = digests(keyHBytes);
   const addressHBytes = hex(address(digestsHBytes));
