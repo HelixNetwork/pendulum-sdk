@@ -34,7 +34,7 @@ export const BYTE_SIZE_USED_FOR_VALIDATION =
 
 export const BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING = BYTE_SIZE_USED_FOR_VALIDATION; // padded to a multiple of 4
 // signature size security level 1
-export const TRANSACTION_HBYTE_SIZE = 2 * 720; //  //2 * 1232; - security level 2 //2256 bytes?; // trytes 2673;
+export const TRANSACTION_HBYTE_SIZE = 2 * 768; //  //2 * 1232; - security level 2 //2256 bytes?; // trytes 2673;
 // Address checksum constants:
 export const ADDRESS_CHECKSUM_BYTE_SIZE = 8; // 9 trytes
 export const ADDRESS_MIN_CHECKSUM_BYTE_SIZE = 2; // 3 trytes
