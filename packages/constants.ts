@@ -7,11 +7,11 @@
  */
 
 export const SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE = 2 * 512; // 2 * 1024; // 2187;
-//public key for schnorr signature needs 32 byts
+// public key for schnorr signature needs 32 byts
 export const ADDRESS_BYTE_SIZE = 2 * 32; // trytes 81;
 export const ADDRESS_BYTE_SIZE_PADDING = 2 * 32; // 32 is not multiple of 4
 export const TRANSACTION_VALUE_BYTE_SIZE = 2 * 8; // trytes 27;
-export const OBSOLETE_TAG_BYTE_SIZE = 2 * 8; // trytes 27
+export const OBSOLETE_TAG_BYTE_SIZE = 2 * 32; // trytes 27
 export const TRANSACTION_TIMESTAMP_BYTE_SIZE = 2 * 8; // trytes 9
 export const TRANSACTION_CURRENT_INDEX_BYTE_SIZE = 2 * 8; // trytes 9
 export const TRANSACTION_LAST_INDEX_BYTE_SIZE = 2 * 8; // trytes 9
@@ -39,23 +39,23 @@ export const TRANSACTION_HBYTE_SIZE = 2 * 768; //  //2 * 1232; - security level 
 export const ADDRESS_CHECKSUM_BYTE_SIZE = 8; // 9 trytes
 export const ADDRESS_MIN_CHECKSUM_BYTE_SIZE = 2; // 3 trytes
 
-//HBITS constants
+// HBITS constants
 export const HASH_BITS_SIZE = 256; // trits 243
-//export const ADDRESS_SIZE_BITS = 256; // trits 243
+// export const ADDRESS_SIZE_BITS = 256; // trits 243
 export const TRANSACTION_VALUE_BITS_SIZE = 64; // trits 81 -> 27 trytes -> 8 bytes -> 64 bits
 export const TRANSACTION_TIMESTAMP_BITS_SIZE = 64; // trits 27 -> 9 trytes
 export const TRANSACTION_CURRENT_INDEX_BITS_SIZE = 64; // trits 27
 export const TRANSACTION_LAST_INDEX_BITS_SIZE = 64; // trits 27
 export const TRANSACTION_OBSOLETE_TAG_BITS_SIZE = 64; // trits 81
-//export const SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS = 8 * 1024; // trits 2187 -> 2187 trytes -> 1024 bytes -> 8 * 1024 bits
+// export const SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS = 8 * 1024; // trits 2187 -> 2187 trytes -> 1024 bytes -> 8 * 1024 bits
 
-//Schnorr signature constants:
+// Schnorr signature constants:
 // export const SIGNATURE_R_BYTE_SIZE = 32;
 // export const SIGNATURE_S_BYTE_SIZE = 32;
 export const SIGNATURE_PUBLIC_KEY_BYTE_SIZE = 32;
 export const SIGNATURE_SECRETE_KEY_BYTE_SIZE = 512;
 export const SIGNATURE_TOTAL_BYTE_SIZE = 512;
-//SIGNATURE_R_BYTE_SIZE + SIGNATURE_S_BYTE_SIZE;
+// SIGNATURE_R_BYTE_SIZE + SIGNATURE_S_BYTE_SIZE;
 
 // Other constants:
 export const SIGNATURE_FRAGMENT_NO = 16; // 32; // previous 27
