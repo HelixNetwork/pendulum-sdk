@@ -5,7 +5,7 @@ import headers from "./headers";
 
 export const storeTransactionsCommand: StoreTransactionsCommand = {
   command: ProtocolCommand.STORE_TRANSACTIONS,
-  bytes: bundleHBytes
+  hbytes: bundleHBytes
 };
 
 export const storeTransactionsNock = nock("http://localhost:14265", headers)

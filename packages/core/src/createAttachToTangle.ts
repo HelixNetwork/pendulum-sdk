@@ -105,10 +105,10 @@ export const createAttachToTangle = ({ send }: Provider): AttachToTangle => {
           trunkTransaction,
           branchTransaction,
           minWeightMagnitude,
-          bytes: hbytes
+          hbytes
         })
       )
-      .then(({ bytes }) => bytes)
+      .then(({ hbytes }) => hbytes)
       .asCallback(typeof arguments[2] === "function" ? arguments[2] : callback);
   };
 };

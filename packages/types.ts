@@ -87,7 +87,7 @@ export enum ProtocolCommand {
   REMOVE_NEIGHBORS = "removeNeighbors",
   GET_TIPS = "getTips",
   FIND_TRANSACTIONS = "findTransactions",
-  GET_HBYTES = "getBytes",
+  GET_HBYTES = "getHBytes",
   GET_INCLUSION_STATES = "getInclusionStates",
   GET_BALANCES = "getBalances",
   GET_TRANSACTIONS_TO_APPROVE = "getTransactionsToApprove",
@@ -119,16 +119,16 @@ export interface AttachToTangleCommand extends BaseCommand {
   readonly trunkTransaction: Hash;
   readonly branchTransaction: Hash;
   readonly minWeightMagnitude: number;
-  readonly bytes: ReadonlyArray<TransactionHBytes>;
+  readonly hbytes: ReadonlyArray<TransactionHBytes>;
 }
 
 export interface AttachToTangleResponse {
-  readonly bytes: ReadonlyArray<TransactionHBytes>;
+  readonly hbytes: ReadonlyArray<TransactionHBytes>;
 }
 
 export interface BroadcastTransactionsCommand extends BaseCommand {
   command: ProtocolCommand.BROADCAST_TRANSACTIONS;
-  readonly bytes: ReadonlyArray<HBytes>;
+  readonly hbytes: ReadonlyArray<HBytes>;
 }
 
 export type BroadcastTransactionsResponse = void;
@@ -253,7 +253,7 @@ export interface GetHBytesCommand extends BaseCommand {
 }
 
 export interface GetHBytesResponse {
-  readonly bytes: ReadonlyArray<HBytes>;
+  readonly hbytes: ReadonlyArray<HBytes>;
 }
 
 export interface InterruptAttachingToTangleCommand extends BaseCommand {
@@ -274,7 +274,7 @@ export interface RemoveNeighborsResponse {
 
 export interface StoreTransactionsCommand extends BaseCommand {
   command: ProtocolCommand.STORE_TRANSACTIONS;
-  readonly bytes: ReadonlyArray<HBytes>;
+  readonly hbytes: ReadonlyArray<HBytes>;
 }
 
 export type StoreTransactionsResponse = void;
@@ -301,7 +301,7 @@ export type AttachToTangle = (
   trunkTransaction: Hash,
   branchTransaction: Hash,
   minWeightMagnitude: number,
-  bytes: ReadonlyArray<HBytes>,
+  hbytes: ReadonlyArray<HBytes>,
   callback?: Callback<ReadonlyArray<HBytes>>
 ) => Promise<ReadonlyArray<HBytes>>;
 

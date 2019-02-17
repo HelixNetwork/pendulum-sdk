@@ -64,6 +64,6 @@ export const createGetHBytes = ({ send }: Provider) =>
           hashes
         })
       )
-      .then(({ bytes }) => bytes)
+      .then(({ hbytes }) => hbytes)
       .asCallback(callback);
   };

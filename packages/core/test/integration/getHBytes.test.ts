@@ -9,7 +9,7 @@ const getHBytes = createGetHBytes(createHttpClient());
 test("getBytes() resolves to correct response", async t => {
   t.deepEqual(
     await getHBytes(getHBytesCommand.hashes),
-    getHBytesResponse.bytes,
+    getHBytesResponse.hbytes,
     "getBytes() should resolve to correct tryte array"
   );
 });
@@ -38,7 +38,7 @@ test.cb("getBytes() passes correct arguments to callback", t => {
 
     t.deepEqual(
       res,
-      getHBytesResponse.bytes,
+      getHBytesResponse.hbytes,
       "getBytes() should pass the correct response as second argument in callback"
     );
 

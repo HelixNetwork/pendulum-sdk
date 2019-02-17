@@ -8,26 +8,26 @@ import "./nocks/broadcastTransactions";
 import { getTransactionsToApproveCommand } from "./nocks/getTransactionsToApprove";
 import "./nocks/storeTransactions";
 
-const { minWeightMagnitude, bytes } = attachToTangleCommand;
+const { minWeightMagnitude, hbytes } = attachToTangleCommand;
 const { depth } = getTransactionsToApproveCommand;
 
 const sendHBytes = createSendHBytes(createHttpClient());
 
 test("sendHBytes() attaches to tangle, broadcasts, stores and resolves to transaction objects.", async t => {
   t.deepEqual(
-    await sendHBytes(bytes, depth, minWeightMagnitude),
+    await sendHBytes(hbytes, depth, minWeightMagnitude),
     bundle,
     "sendHBytes() should attach to tangle, broadcast, store and resolve to transaction objects."
   );
 });
 
 test("sendHBytes() does not mutate original hbytes.", async t => {
-  const hbytesCopy = [...bytes];
+  const hbytesCopy = [...hbytes];
 
   await sendHBytes(hbytesCopy, depth, minWeightMagnitude);
   t.deepEqual(
     hbytesCopy,
-    bytes,
+    hbytes,
     "sendHBytes() should not mutate original hbytes."
   );
 });
@@ -44,11 +44,11 @@ test("sendHBytes() rejects with correct errors for invalid input.", t => {
 });
 
 test.cb("sendHBytes() invokes callback", t => {
-  sendHBytes(bytes, depth, minWeightMagnitude, undefined, t.end);
+  sendHBytes(hbytes, depth, minWeightMagnitude, undefined, t.end);
 });
 
 test.cb("sendHBytes() passes correct arguments to callback", t => {
-  sendHBytes(bytes, depth, minWeightMagnitude, undefined, (err, res) => {
+  sendHBytes(hbytes, depth, minWeightMagnitude, undefined, (err, res) => {
     t.is(
       err,
       null,

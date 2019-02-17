@@ -54,7 +54,7 @@ export const createStoreTransactions = ({ send }: Provider) =>
       .then(() =>
         send<StoreTransactionsCommand, StoreTransactionsResponse>({
           command: ProtocolCommand.STORE_TRANSACTIONS,
-          bytes: hbytes
+          hbytes
         })
       )
       .then(() => hbytes)
