@@ -54,7 +54,7 @@ export const createTransaction = (
     }
   ];
 
-  return helix
-    .prepareTransfers(seed, transfer)
-    .then((trytes: any) => helix.sendTrytes(trytes, depth, mwm));
+  return helix.prepareTransfers(seed, transfer).then((trytes: any) => {
+    return helix.sendHBytes(trytes, depth, mwm);
+  });
 };

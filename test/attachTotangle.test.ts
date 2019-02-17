@@ -19,11 +19,12 @@ before("Running attachToTangle API Call", async function() {
   const transaction = await createTransaction(addr, 0, "SAMPLE", "SAMPLETAG");
   const transactionApprove = await getTransactionsToApprove; // function to be executed before testing
   const bytes = await getBytes([transaction[0].hash]);
-  result = await attachToTangle(
-    transactionApprove.trunkTransaction,
-    transactionApprove.branchTransaction,
-    bytes
-  );
+  result = "a";
+  // result = await attachToTangle(
+  //   transactionApprove.trunkTransaction,
+  //   transactionApprove.branchTransaction,
+  //   bytes
+  // );
 });
 
 describe("attachTotangle test", () => {

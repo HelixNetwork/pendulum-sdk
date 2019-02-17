@@ -6,9 +6,6 @@ import {
   startOptionValidator,
   validate
 } from "../../guards";
-import { createGetBalances, createGetNewAddress } from "./";
-import { createGetBundlesFromAddresses } from "./createGetBundlesFromAddresses";
-import { createWereAddressesSpentFrom } from "./createWereAddressesSpentFrom";
 import {
   Address,
   asArray,
@@ -20,6 +17,9 @@ import {
   Provider,
   Transaction
 } from "../../types";
+import { createGetBalances, createGetNewAddress } from "./";
+import { createGetBundlesFromAddresses } from "./createGetBundlesFromAddresses";
+import { createWereAddressesSpentFrom } from "./createWereAddressesSpentFrom";
 
 /**
  * Account data object

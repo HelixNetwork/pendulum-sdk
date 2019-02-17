@@ -19,7 +19,7 @@ export const getHBytesCommand: GetHBytesCommand = {
 };
 
 export const getHBytesResponse: GetHBytesResponse = {
-  hbytes: [
+  bytes: [
     "0".repeat(TRANSACTION_HBYTE_SIZE),
     "0".repeat(TRANSACTION_HBYTE_SIZE)
   ]

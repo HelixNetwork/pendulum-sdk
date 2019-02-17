@@ -68,7 +68,7 @@ export const createBroadcastTransactions = ({ send }: Provider) =>
       .then(() =>
         send<BroadcastTransactionsCommand, BroadcastTransactionsResponse>({
           command: ProtocolCommand.BROADCAST_TRANSACTIONS,
-          hbytes
+          bytes: hbytes
         })
       )
       .then(() => hbytes)

@@ -16,9 +16,9 @@ let addr: any;
 before("Running createTransaction API Call", async function() {
   this.timeout(0);
   addr = await generateAddress(config.seed);
-  result = await createTransaction(addr, 0, "SAMPLE", "SAMPLETAG"); // function to be executed before testing
+  result = await createTransaction(addr, 0, "abbb", "abbb"); // function to be executed before testing
   try {
-    await createTransaction("", 0, "SAMPLE", "SAMPLETAG");
+    await createTransaction("", 0, "abcd", "abbb");
   } catch (error) {
     Error = error;
   }

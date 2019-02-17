@@ -14,10 +14,10 @@ import {
   Callback,
   getOptionsWithDefaults,
   Hash,
+  HBytes,
   Inputs,
   makeAddress,
-  Provider,
-  HBytes
+  Provider
 } from "../../types";
 import { createGetBalances } from "./";
 import {

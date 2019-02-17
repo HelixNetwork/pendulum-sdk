@@ -19,15 +19,15 @@ test("attachToTangle() resolves to correct balances response", async t => {
       attachToTangleCommand.trunkTransaction,
       attachToTangleCommand.branchTransaction,
       attachToTangleCommand.minWeightMagnitude,
-      [...attachToTangleCommand.hbytes]
+      [...attachToTangleCommand.bytes]
     ),
-    attachToTangleResponse.hbytes,
+    attachToTangleResponse.bytes,
     "attachToTangle() should resolve to correct balances"
   );
 });
 
 test("attachToTangle() does not mutate original hbytes", async t => {
-  const hbytes = [...attachToTangleCommand.hbytes];
+  const hbytes = [...attachToTangleCommand.bytes];
 
   await attachToTangle(
     attachToTangleCommand.trunkTransaction,
@@ -38,7 +38,7 @@ test("attachToTangle() does not mutate original hbytes", async t => {
 
   t.deepEqual(
     hbytes,
-    attachToTangleCommand.hbytes,
+    attachToTangleCommand.bytes,
     "attachToTangle() should not mutate original hbytes"
   );
 });
@@ -53,7 +53,7 @@ test("attachToTangle() rejects with correct errors for invalid input", t => {
           invalidHBytes[0],
           attachToTangleCommand.branchTransaction,
           attachToTangleCommand.minWeightMagnitude,
-          attachToTangleCommand.hbytes
+          attachToTangleCommand.bytes
         ),
       Error
     ).message,
@@ -68,7 +68,7 @@ test("attachToTangle() rejects with correct errors for invalid input", t => {
           attachToTangleCommand.trunkTransaction,
           invalidHBytes[0],
           attachToTangleCommand.minWeightMagnitude,
-          attachToTangleCommand.hbytes
+          attachToTangleCommand.bytes
         ),
       Error
     ).message,
@@ -97,7 +97,7 @@ test.cb("attachToTangle() invokes callback", t => {
     attachToTangleCommand.trunkTransaction,
     attachToTangleCommand.branchTransaction,
     attachToTangleCommand.minWeightMagnitude,
-    attachToTangleCommand.hbytes,
+    attachToTangleCommand.bytes,
     t.end
   );
 });
@@ -107,7 +107,7 @@ test.cb("attachToTangle() passes correct arguments to callback", t => {
     attachToTangleCommand.trunkTransaction,
     attachToTangleCommand.branchTransaction,
     attachToTangleCommand.minWeightMagnitude,
-    attachToTangleCommand.hbytes,
+    attachToTangleCommand.bytes,
     (err, res) => {
       t.is(
         err,
@@ -117,7 +117,7 @@ test.cb("attachToTangle() passes correct arguments to callback", t => {
 
       t.deepEqual(
         res,
-        attachToTangleResponse.hbytes,
+        attachToTangleResponse.bytes,
         "attachToTangle() should pass the correct response as second argument in callback"
       );
 

@@ -1,10 +1,10 @@
 import * as Promise from "bluebird";
+import { Callback, Provider, Transaction } from "../../types";
 import {
   createFindTransactions,
   createGetTransactionObjects,
   FindTransactionsQuery
 } from "./";
-import { Callback, Provider, Transaction } from "../../types";
 
 /**
  * @method createFindTransactionObjects

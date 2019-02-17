@@ -12,11 +12,11 @@ export const attachToTangleCommand: AttachToTangleCommand = {
   trunkTransaction: bundle[bundle.length - 1].trunkTransaction,
   branchTransaction: bundle[bundle.length - 1].branchTransaction,
   minWeightMagnitude: 14,
-  hbytes: [...bundleHBytes].reverse()
+  bytes: [...bundleHBytes].reverse()
 };
 
 export const attachToTangleResponse: AttachToTangleResponse = {
-  hbytes: bundleHBytes
+  bytes: bundleHBytes
 };
 
 export const attachToTangleNock = nock("http://localhost:14265", headers)

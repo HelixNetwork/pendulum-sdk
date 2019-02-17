@@ -43,6 +43,7 @@ import {
   createPrepareTransfers,
   createPromoteTransaction,
   createRemoveNeighbors,
+  createWereAddressesSpentFrom,
   // createSendTransfer,
   createReplayBundle,
   createSendHBytes,
@@ -61,7 +62,7 @@ import {
 } from "./";
 import { createGetBundlesFromAddresses } from "./createGetBundlesFromAddresses";
 import { createGetTransfers, GetTransfersOptions } from "./createGetTransfers";
-import { createWereAddressesSpentFrom } from "./createWereAddressesSpentFrom";
+// import { createWereAddressesSpentFrom } from "./createWereAddressesSpentFrom";
 
 export interface Settings extends HttpClientSettings {
   readonly attachToTangle?: AttachToTangle;

@@ -114,22 +114,21 @@ export interface AddNeighborsResponse {
   readonly addedNeighbors: number;
   readonly duration: number;
 }
-
 export interface AttachToTangleCommand extends BaseCommand {
   command: ProtocolCommand.ATTACH_TO_TANGLE;
   readonly trunkTransaction: Hash;
   readonly branchTransaction: Hash;
   readonly minWeightMagnitude: number;
-  readonly hbytes: ReadonlyArray<TransactionHBytes>;
+  readonly bytes: ReadonlyArray<TransactionHBytes>;
 }
 
 export interface AttachToTangleResponse {
-  readonly hbytes: ReadonlyArray<TransactionHBytes>;
+  readonly bytes: ReadonlyArray<TransactionHBytes>;
 }
 
 export interface BroadcastTransactionsCommand extends BaseCommand {
   command: ProtocolCommand.BROADCAST_TRANSACTIONS;
-  readonly hbytes: ReadonlyArray<HBytes>;
+  readonly bytes: ReadonlyArray<HBytes>;
 }
 
 export type BroadcastTransactionsResponse = void;
@@ -254,7 +253,7 @@ export interface GetHBytesCommand extends BaseCommand {
 }
 
 export interface GetHBytesResponse {
-  readonly hbytes: ReadonlyArray<HBytes>;
+  readonly bytes: ReadonlyArray<HBytes>;
 }
 
 export interface InterruptAttachingToTangleCommand extends BaseCommand {
@@ -275,7 +274,7 @@ export interface RemoveNeighborsResponse {
 
 export interface StoreTransactionsCommand extends BaseCommand {
   command: ProtocolCommand.STORE_TRANSACTIONS;
-  readonly hbytes: ReadonlyArray<HBytes>;
+  readonly bytes: ReadonlyArray<HBytes>;
 }
 
 export type StoreTransactionsResponse = void;
@@ -302,7 +301,7 @@ export type AttachToTangle = (
   trunkTransaction: Hash,
   branchTransaction: Hash,
   minWeightMagnitude: number,
-  hbytes: ReadonlyArray<HBytes>,
+  bytes: ReadonlyArray<HBytes>,
   callback?: Callback<ReadonlyArray<HBytes>>
 ) => Promise<ReadonlyArray<HBytes>>;
 

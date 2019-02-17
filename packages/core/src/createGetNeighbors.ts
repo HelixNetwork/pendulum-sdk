@@ -3,9 +3,8 @@ import {
   Callback,
   GetNeighborsCommand,
   GetNeighborsResponse,
-  ProtocolCommand,
-  Neighbor,
   Neighbors,
+  ProtocolCommand,
   Provider
 } from "../../types";
 

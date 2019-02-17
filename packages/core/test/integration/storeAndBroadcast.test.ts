@@ -9,21 +9,21 @@ import { storeTransactionsCommand } from "./nocks/storeTransactions";
 const storeAndBroadcast = createStoreAndBroadcast(createHttpClient());
 
 test("storeAndBroadcast() stores and broadcasts transactions.", async t => {
-  const { hbytes } = storeTransactionsCommand;
+  const { bytes } = storeTransactionsCommand;
   t.deepEqual(
-    await storeAndBroadcast([...hbytes]),
-    hbytes,
+    await storeAndBroadcast([...bytes]),
+    bytes,
     "storeAndBroadcast() should store and bradcast transactions."
   );
 });
 
 test("storeAndBroadcast() does not mutate original hbytes.", async t => {
-  const { hbytes } = storeTransactionsCommand;
+  const { bytes } = storeTransactionsCommand;
 
-  await storeAndBroadcast(hbytes);
+  await storeAndBroadcast(bytes);
   t.deepEqual(
-    hbytes,
-    storeTransactionsCommand.hbytes,
+    bytes,
+    storeTransactionsCommand.bytes,
     "storeAndBroadcast() should not mutate original hbytes."
   );
 });
@@ -50,12 +50,12 @@ test("storeAndBroadcast() rejects with correct errors for attached hbytes of inv
 });
 
 test.cb("storeAndBroadcast() invokes callback", t => {
-  storeAndBroadcast([...storeTransactionsCommand.hbytes], t.end);
+  storeAndBroadcast([...storeTransactionsCommand.bytes], t.end);
 });
 
 test.cb("storeAndBroadcast() passes correct arguments to callback", t => {
-  const { hbytes } = storeTransactionsCommand;
-  storeAndBroadcast([...hbytes], (err, res) => {
+  const { bytes } = storeTransactionsCommand;
+  storeAndBroadcast([...bytes], (err, res) => {
     t.is(
       err,
       null,
@@ -64,7 +64,7 @@ test.cb("storeAndBroadcast() passes correct arguments to callback", t => {
 
     t.deepEqual(
       res,
-      hbytes,
+      bytes,
       "storeAndBroadcast() should pass the correct response as second argument in callback"
     );
 

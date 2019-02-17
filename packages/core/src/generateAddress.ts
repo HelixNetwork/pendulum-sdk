@@ -1,5 +1,5 @@
 import { addChecksum } from "@helixnetwork/checksum";
-import { toHBytes, hex } from "@helixnetwork/converter";
+import { hex, toHBytes } from "@helixnetwork/converter";
 import { address, digests, key, subseed } from "@helixnetwork/winternitz";
 import {
   ADDRESS_BYTE_SIZE,
