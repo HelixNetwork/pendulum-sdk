@@ -6,7 +6,7 @@ import { HBytes } from "../packages/types";
 export const seed = `953c8169027a85415692cc05bd3a91f95c3be8e5c93c1d2b2e2c447b5ed082d2`;
 
 // ENTER THE PROVIDER ADDRESS
-export const provider = "http://18.225.7.0:14700";
+export const provider = "https://helix:LW59AG75A84GSEES@hlxtest.net:14702";
 
 // Depth or how far to go for tip selection entry point
 export const depth = 3;

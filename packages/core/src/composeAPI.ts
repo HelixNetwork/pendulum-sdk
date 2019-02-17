@@ -29,7 +29,6 @@ import {
   createGetBundle,
   createGetHBytes,
   createGetInclusionStates,
-  // createWereAddressesSpentFrom,
   createGetInputs,
   createGetLatestInclusion,
   createGetNeighbors,
@@ -43,12 +42,12 @@ import {
   createIsReattachable,
   createPrepareTransfers,
   createPromoteTransaction,
-  // createSendTransfer,
   createRemoveNeighbors,
+  // createSendTransfer,
   createReplayBundle,
   createSendHBytes,
-  // Types
   createStoreAndBroadcast,
+  // Types
   createStoreTransactions,
   createTraverseBundle,
   FindTransactionsQuery,
@@ -62,6 +61,7 @@ import {
 } from "./";
 import { createGetBundlesFromAddresses } from "./createGetBundlesFromAddresses";
 import { createGetTransfers, GetTransfersOptions } from "./createGetTransfers";
+import { createWereAddressesSpentFrom } from "./createWereAddressesSpentFrom";
 
 export interface Settings extends HttpClientSettings {
   readonly attachToTangle?: AttachToTangle;
@@ -152,7 +152,7 @@ export const composeAPI = (input: Partial<Settings> | CreateProvider = {}) => {
     interruptAttachingToTangle: createInterruptAttachingToTangle(provider),
     removeNeighbors: createRemoveNeighbors(provider),
     storeTransactions: createStoreTransactions(provider),
-    // wereAddressesSpentFrom: createWereAddressesSpentFrom(provider),
+    wereAddressesSpentFrom: createWereAddressesSpentFrom(provider),
     sendCommand: provider.send,
 
     // Wrapper methods
