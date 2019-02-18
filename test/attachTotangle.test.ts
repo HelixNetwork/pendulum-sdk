@@ -16,12 +16,7 @@ let result: any; // variable to store response
 before("Running attachToTangle API Call", async function() {
   this.timeout(0);
   const addr = await generateAddress(config.seed);
-  const transaction = await createTransaction(
-    addr,
-    0,
-    "68656c6c6f776f72",
-    "68656c6c6f776f72"
-  );
+  const transaction = await createTransaction(addr, 0, "", "");
   const transactionApprove = await getTransactionsToApprove; // function to be executed before testing
   const bytes = await getBytes([transaction[0].hash]);
   result = "a";

@@ -22,16 +22,12 @@ var storedHBytes;
 // preparing transactions
 var transfer1 = {
   address: recipientAddress1,
-  value: 0,
-  message: Converter.asciiToHBytes("abcd"),
-  tag: "abcd123"
+  value: 0
 };
 
 var transfer2 = {
   address: recipientAddress2,
-  value: 0,
-  message: Converter.asciiToHBytes("abcd"),
-  tag: "abcd234"
+  value: 0
 };
 
 // Create bundle and return the HBytes of the prepared TXs
@@ -39,16 +35,16 @@ helix
   .prepareTransfers(seed, [transfer1, transfer2])
   .then(function(HBytes) {
     storedHBytes = HBytes;
-    console.log(storedHBytes);
+    console.log("here=" + storedHBytes);
     // Finalize and broadcast the bundle to the IRI node
     return helix.sendHBytes(
       storedHBytes,
       3 /*depth*/,
-      14 /*minimum weight magnitude*/
+      2 /*minimum weight magnitude*/
     );
   })
 
-  .then(results => console.log(JSON.stringify(results)))
+  .then(results => console.log(JSON.stringify("iam here" + results)))
   .catch(err => {
     console.log(err);
   });

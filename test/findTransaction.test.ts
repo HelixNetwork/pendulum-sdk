@@ -1,4 +1,4 @@
-import { assert } from "chai";
+import { assert, expect } from "chai";
 import "mocha";
 import * as config from "../src/config";
 import { createTransaction } from "../src/createTransaction";
@@ -22,7 +22,7 @@ before("Running findTransactions API Call", async function() {
 });
 
 describe("findTransactions  test", () => {
-  it("it should return the hash of the transactions executed", () => {
-    assert.equal(config.firstTransactionHash, result[0]); // the hash of the created transaction should be successfully fectched by the Api
+  it("It should return a new address of containing Characters a-z OR 0-9 and should only have length 64", async () => {
+    expect(result[0]).to.match(/^([a-f0-9]|[9]){64}$/); // checks whether the address generated is valid one
   });
 });
