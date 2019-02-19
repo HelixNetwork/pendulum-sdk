@@ -20,13 +20,14 @@ const addresses = [
   "b".repeat(ADDRESS_BYTE_SIZE)
 ];
 const tag = "aaaa" + "0".repeat(12);
+const obsoleteTag = "aaaa" + "0".repeat(60);
 
 const bundle = [
   {
     address: addresses[0],
     value: -2,
     tag,
-    obsoleteTag: tag,
+    obsoleteTag,
     currentIndex: 0,
     lastIndex: 2,
     timestamp: 1522219,
@@ -44,7 +45,7 @@ const bundle = [
     address: addresses[0],
     value: 0,
     tag,
-    obsoleteTag: tag,
+    obsoleteTag,
     currentIndex: 1,
     lastIndex: 2,
     timestamp: 1522219,
@@ -62,7 +63,7 @@ const bundle = [
     address: addresses[1],
     value: 2,
     tag,
-    obsoleteTag: tag,
+    obsoleteTag,
     currentIndex: 2,
     lastIndex: 2,
     timestamp: 1522219,
@@ -129,13 +130,15 @@ test("addHBytes() adds hbytes and returns correct transactions.", t => {
 
 test("finalizeBundle() adds correct bundle hash.", t => {
   const bundleHash =
-    "473a5db62e32dff5a78a027b810753dc889a1fccb5119754b83b1688fd2f9372";
-  const incrObsoleteTag = "aaaa000000000001";
+    "d5bbc14bd83f24a2875fe08c2da3b7cf6441f59fea89e92edd4fe5397e1ef9d4";
+  const incrObsoleteTag =
+    "aaaa000000000000000000000000000000000000000000000000000000000000"; // todo increment by one
   const expected = bundle.map((transaction, i) => ({
     ...transaction,
     obsoleteTag: i === 0 ? incrObsoleteTag : transaction.obsoleteTag,
     bundle: bundleHash
   }));
+  console.log(finalizeBundle(bundle));
   t.deepEqual(
     finalizeBundle(bundle),
     expected,

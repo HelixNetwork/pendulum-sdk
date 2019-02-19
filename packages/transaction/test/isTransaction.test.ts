@@ -107,7 +107,7 @@ test("isTransaction() returns false for transaction with currentIndex greater th
   t.is(
     isTransaction({
       ...transactionObject,
-      currentIndex: 3
+      currentIndex: 4
     }),
     false,
     "isTransaction() should return false for transaction with currentIndex greater than lastIndex."

@@ -30,7 +30,7 @@ export const BYTE_SIZE_USED_FOR_VALIDATION =
   TRANSACTION_LAST_INDEX_BYTE_SIZE +
   TRANSACTION_TIMESTAMP_BYTE_SIZE +
   TRANSACTION_CURRENT_INDEX_BYTE_SIZE +
-  TRANSACTION_LAST_INDEX_BYTE_SIZE; // previous 162
+  OBSOLETE_TAG_BYTE_SIZE; // previous 162
 
 export const BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING = BYTE_SIZE_USED_FOR_VALIDATION; // padded to a multiple of 4
 // signature size security level 1
@@ -46,7 +46,8 @@ export const TRANSACTION_VALUE_BITS_SIZE = 64; // trits 81 -> 27 trytes -> 8 byt
 export const TRANSACTION_TIMESTAMP_BITS_SIZE = 64; // trits 27 -> 9 trytes
 export const TRANSACTION_CURRENT_INDEX_BITS_SIZE = 64; // trits 27
 export const TRANSACTION_LAST_INDEX_BITS_SIZE = 64; // trits 27
-export const TRANSACTION_OBSOLETE_TAG_BITS_SIZE = 64; // trits 81
+export const TRANSACTION_OBSOLETE_TAG_BITS_SIZE = 256; // trits 81
+export const TRANSACTION_TAG_BITS_SIZE = 64;
 // export const SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS = 8 * 1024; // trits 2187 -> 2187 trytes -> 1024 bytes -> 8 * 1024 bits
 
 // Schnorr signature constants:

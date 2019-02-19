@@ -167,7 +167,7 @@ export const isTransactionHBytes = (
  */
 export const isAttachedHBytes = (hbytes: any): hbytes is HBytes =>
   isHBytesOfExactLength(hbytes, TRANSACTION_HBYTE_SIZE) &&
-  !/^[0]+$/.test(hbytes.slice(TRANSACTION_HBYTE_SIZE - 2 * HASH_HBYTE_SIZE));
+  !/^[00]+$/.test(hbytes.slice(TRANSACTION_HBYTE_SIZE - 2 * HASH_HBYTE_SIZE));
 
 export const isAttachedHBytesArray = isArray(isAttachedHBytes);
 export const isTransactionArray = isArray(isTransaction);

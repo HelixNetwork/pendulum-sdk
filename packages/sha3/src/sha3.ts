@@ -2,7 +2,6 @@
 
 // @TODO investigate possibility of buffer inputs with js-sha3
 // note: cryptojs is using keccak rather than sha3, opposed to their naming, hence we currently use js-sha3. We might consider different sha3 implementations.
-
 import * as crypto from "js-sha3";
 import * as errors from "./errors";
 import { hex } from "@helixnetwork/converter";
@@ -25,6 +24,7 @@ export default class Sha3 {
    * @constructor
    * @ignore
    */
+
   constructor() {
     this.sha3 = (crypto.sha3_256 as any).create();
   }
@@ -44,6 +44,7 @@ export default class Sha3 {
    * @param {number} offset
    * @param {number} length
    **/
+
   public absorb(input: Uint8Array, offset: number, length: number) {
     // if (length && length % HASH_LENGTH !== 0) {
     //   throw new Error(errors.ILLEGAL_HASH_LENGTH);
@@ -56,7 +57,7 @@ export default class Sha3 {
 
       // @TODO absorb the input state as Int8Array
       // js-sha3 only returns expected results when using hex strings as input.
-      this.sha3.update(hex(input_state));
+      this.sha3.update(input_state);
     } while ((length -= Sha3.HASH_LENGTH) > 0);
   }
 
@@ -71,6 +72,7 @@ export default class Sha3 {
    * @param {number} offset
    * @param {number} length
    **/
+
   // @TODO remove out and update state internally
   // @TODO add validation of limits
 
@@ -90,11 +92,8 @@ export default class Sha3 {
       while (i < limit) {
         input[offset++] = state[i++];
       }
-
-      const hex_state = hex(state);
-
       this.reset();
-      this.sha3.update(hex_state);
+      this.sha3.update(state);
     } while ((length -= Sha3.HASH_LENGTH) > 0);
   }
 
@@ -105,6 +104,7 @@ export default class Sha3 {
    *
    * @ignore
    */
+
   // @TODO state should be set to null, rather than re-initializing.
 
   public reset() {

@@ -1,6 +1,6 @@
-import test from "ava";
 import { hbits } from "@helixnetwork/converter";
 import { bundle, bundleHBytes } from "@helixnetwork/samples";
+import test from "ava";
 import { transactionHash } from "../src";
 
 test("transactionHash() returns the correct transaction hash.", t => {

@@ -1,5 +1,5 @@
-import { Tag, HBytes } from "../../types";
-import { TAG_BYTE_SIZE } from "../../constants";
+import { OBSOLETE_TAG_BYTE_SIZE, TAG_BYTE_SIZE } from "../../constants";
+import { HBytes, Tag } from "../../types";
 
 export const padHBytes = (length: number) => (hbytes: HBytes) =>
   hbytes.length < length
@@ -19,6 +19,7 @@ export const padSignedHBits = (length: number) => (hbits: Int8Array) =>
     : hbits;
 
 export const padTag = padHBytes(TAG_BYTE_SIZE);
+export const padObsoleteTag = padHBytes(OBSOLETE_TAG_BYTE_SIZE);
 
 export const padByteArray = (length: number) => (bytes: Uint8Array) =>
   bytes.length < length

@@ -56,9 +56,9 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
 
 async function generateBundle() {
   // calculate addressesȘ
-  const addresses: string[] = new Array<string>(3);
-  const addr = await getNewAddress(seed, { index: 0, total: 3 });
-  for (let i = 0; i < 3; i++) {
+  const addresses: string[] = new Array<string>(2);
+  const addr = await getNewAddress(seed, { index: 0, total: 2 });
+  for (let i = 0; i < 2; i++) {
     addresses[i] = addr[i];
   }
 
@@ -66,7 +66,7 @@ async function generateBundle() {
     value.address = addresses[i];
     return value;
   });
-  const remainderAddress = addresses[2];
+  const remainderAddress = addresses[1];
 
   const hbytes: ReadonlyArray<string> = await prepareTransfers(
     seed,
@@ -87,22 +87,22 @@ async function generateBundle() {
   );
   inputs = inputs.slice(0, 1);
 
-  // const bundleWithValidSignature: ReadonlyArray<
-  //   string
-  // > = await prepareTransfers(seed, transfers.slice(0, 1), {
-  //   inputs,
-  //   remainderAddress
-  // });
-  // console.log(
-  //   "export const bundleWithValidSignatureHBytes = " +
-  //     JSON.stringify([...bundleWithValidSignature].reverse()) +
-  //     ";"
-  // );
-  // console.log("export const bundleWithValidSignature = ");
-  // const bundleWithValidSig = asTransactionObjects(
-  //   new Array<Transaction>(bundleWithValidSignature.length).map(tx => tx.hash)
-  // )(bundleWithValidSignature).reverse();
-  // console.log(bundleWithValidSig);
-  // console.log("isValidBundle:" + isBundle(bundleWithValidSig));
+  const bundleWithValidSignature: ReadonlyArray<
+    string
+  > = await prepareTransfers(seed, transfers.slice(0, 1), {
+    inputs,
+    remainderAddress
+  });
+  console.log(
+    "export const bundleWithValidSignatureHBytes = " +
+      JSON.stringify([...bundleWithValidSignature].reverse()) +
+      ";"
+  );
+  console.log("export const bundleWithValidSignature = ");
+  const bundleWithValidSig = asTransactionObjects(
+    new Array<Transaction>(bundleWithValidSignature.length).map(tx => tx.hash)
+  )(bundleWithValidSignature).reverse();
+  console.log(bundleWithValidSig);
+  console.log("isValidBundle:" + isBundle(bundleWithValidSig));
 }
 generateBundle();

@@ -2,7 +2,13 @@
 
 import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
-import { padHBits, padHBytes, padSignedHBits, padTag } from "@helixnetwork/pad";
+import {
+  padHBits,
+  padHBytes,
+  padObsoleteTag,
+  padSignedHBits,
+  padTag
+} from "@helixnetwork/pad";
 import { add, normalizedBundleHash } from "@helixnetwork/winternitz";
 import {
   BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING,
@@ -88,7 +94,7 @@ export const addEntry = (
   } = entryWithDefaults;
   const lastIndex = transactions.length - 1 + length;
   const tag = padTag(entryWithDefaults.tag);
-  const obsoleteTag = tag;
+  const obsoleteTag = padObsoleteTag(entryWithDefaults.tag);
 
   return transactions
     .map(transaction => ({ ...transaction, lastIndex }))
@@ -210,7 +216,6 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
     } else {
       validBundle = true;
     }
-    validBundle = true;
   }
 
   return transactions.map((transaction, i) => ({
