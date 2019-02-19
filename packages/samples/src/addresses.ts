@@ -7,7 +7,7 @@ export const addresses = [
 ];
 
 export const addressesWithChecksum = [
-  "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1fcaa02119",
+  "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1fbe825a41",
   "8b3580689cf8c7aa6a9f3a980f9efcebd81425f0f783b5b72d07d71282492bc766a9c5f5",
   "e00efe1d215094cac547a8a3126f107ace52c8aa15688f8b2eacfa75eff9a238cc3caa39"
 ];
