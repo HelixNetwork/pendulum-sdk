@@ -103,7 +103,7 @@ export const bundleWithValidSignature: Transaction[] = [
     timestamp: 1550486592,
     currentIndex: 0,
     lastIndex: 1,
-    bundle: "aeaa495525bb3de65ca0c50c4f76b864c0e9239b51706ea58636244325f540d3",
+    bundle: "7998cf44ab42421d943e3479432a4714a6724d272e02435eedcd97d2020eb87e",
     trunkTransaction:
       "0000d5310dcf2a481edcc64e68f89de5dacfdc8e9458e473b0b90fa49517a2e7",
     branchTransaction:
@@ -188,7 +188,7 @@ export const bundleWithZeroValue = [
     timestamp: 1550440839,
     currentIndex: 0,
     lastIndex: 0,
-    bundle: "35c56ef33d1230c87cb9021dd8d98a124b279b04dabff47a7055e5a185d0554a",
+    bundle: "d506a9f0b1ce172458a205fb094d37f67213e72191706fd8772eef82d72cd9c2",
     trunkTransaction:
       "0000f7327a65c151d9051003de85710b57a88f92f4a901e89eb1c074a258d5d5",
     branchTransaction:
