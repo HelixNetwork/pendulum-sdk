@@ -130,7 +130,7 @@ test("addHBytes() adds hbytes and returns correct transactions.", t => {
 
 test("finalizeBundle() adds correct bundle hash.", t => {
   const bundleHash =
-    "d5bbc14bd83f24a2875fe08c2da3b7cf6441f59fea89e92edd4fe5397e1ef9d4";
+    "521ad4ff8ccad0333e316cc2ad02da1782e2067f32b685e3d3eae5ca41c10210";
   const incrObsoleteTag =
     "aaaa000000000000000000000000000000000000000000000000000000000000"; // todo increment by one
   const expected = bundle.map((transaction, i) => ({
@@ -138,7 +138,6 @@ test("finalizeBundle() adds correct bundle hash.", t => {
     obsoleteTag: i === 0 ? incrObsoleteTag : transaction.obsoleteTag,
     bundle: bundleHash
   }));
-  console.log(finalizeBundle(bundle));
   t.deepEqual(
     finalizeBundle(bundle),
     expected,

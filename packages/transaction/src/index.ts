@@ -110,7 +110,6 @@ export const isTransactionHash = (
   minWeightMagnitude?: number
 ): hash is Hash => {
   const hasCorrectHashLength = isHBytesOfExactLength(hash, HASH_HBYTE_SIZE);
-
   if (minWeightMagnitude) {
     return (
       hasCorrectHashLength &&

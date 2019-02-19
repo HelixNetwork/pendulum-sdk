@@ -35,7 +35,6 @@ helix
   .prepareTransfers(seed, [transfer1, transfer2])
   .then(function(HBytes) {
     storedHBytes = HBytes;
-    console.log("here=" + storedHBytes);
     // Finalize and broadcast the bundle to the IRI node
     return helix.sendHBytes(
       storedHBytes,
@@ -44,7 +43,7 @@ helix
     );
   })
 
-  .then(results => console.log(JSON.stringify("iam here" + results)))
+  .then(results => console.log(JSON.stringify(JSON.stringify(results))))
   .catch(err => {
     console.log(err);
   });

@@ -14,7 +14,7 @@ test("isTransactionHash() returns true for valid transaction hash.", t => {
 
 test("isTransactionHash() returns true if provided hash is valid and minWeightMagnitude <= weightMagnitude.", t => {
   t.is(
-    isTransactionHash(transactionObject.hash, 2),
+    isTransactionHash(transactionObject.hash, 1),
     true,
     "isTransactionHash() returns true if provided hash is valid and minWeightMagnitude <= weightMagnitude."
   );
