@@ -12,7 +12,6 @@ import {
   ProtocolCommand
 } from "../../../../types";
 import headers from "./headers";
-
 export const getHBytesCommand: GetHBytesCommand = {
   command: ProtocolCommand.GET_HBYTES,
   hashes: ["a".repeat(HASH_HBYTE_SIZE), "b".repeat(HASH_HBYTE_SIZE)]
@@ -84,8 +83,8 @@ nock("http://localhost:14265", headers)
 //   .persist()
 //   .post("/", {
 //     command: ProtocolCommand.GET_HBYTES,
-//     hashes: [bundle[4].hash]
+//     hashes: ["0000000000000000000000000000000000000000000000000000000000000000"]
 //   })
 //   .reply(200, {
-//     hbytes: [bundleHBytes[4]]
+//     hbytes: [bundleHBytes[3]]
 //   });
