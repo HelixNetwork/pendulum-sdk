@@ -22,12 +22,16 @@ var storedHBytes;
 // preparing transactions
 var transfer1 = {
   address: recipientAddress1,
-  value: 0
+  value: 0,
+  message: Converter.asciiToHBytes("abcd"),
+  tag: "abcd123"
 };
 
 var transfer2 = {
   address: recipientAddress2,
-  value: 0
+  value: 0,
+  message: Converter.asciiToHBytes("abcd"),
+  tag: "abcd123"
 };
 
 // Create bundle and return the HBytes of the prepared TXs
