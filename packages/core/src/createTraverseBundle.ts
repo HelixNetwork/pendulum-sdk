@@ -57,11 +57,9 @@ export const createTraverseBundle = (provider: Provider) => {
     bundle: ReadonlyArray<Transaction> = [],
     callback?: Callback<ReadonlyArray<Transaction>>
   ): Promise<ReadonlyArray<Transaction>> {
+    console.log("treaversebundel trunk=" + trunkTransaction);
     return Promise.resolve(validate(transactionHashValidator(trunkTransaction)))
-      .then(() => {
-        console.log("trynl=" + trunkTransaction);
-        return getHBytes([trunkTransaction]);
-      })
+      .then(() => getHBytes([trunkTransaction]))
       .then(([hbytes]) => asTransactionObject(hbytes, trunkTransaction))
       .tap(transaction =>
         validate(bundle.length === 0 && tailTransactionValidator(transaction))

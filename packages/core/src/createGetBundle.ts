@@ -58,7 +58,10 @@ export const createGetBundle = (provider: Provider) => {
     return Promise.resolve(
       validate(transactionHashValidator(tailTransactionHash))
     )
-      .then(() => traverseBundle(tailTransactionHash))
+      .then(() => {
+        console.log("createGetBunlde tail=" + tailTransactionHash);
+        return traverseBundle(tailTransactionHash);
+      })
       .tap(validateBundle)
       .asCallback(callback);
   };
