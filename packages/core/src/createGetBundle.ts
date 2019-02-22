@@ -58,12 +58,7 @@ export const createGetBundle = (provider: Provider) => {
     return Promise.resolve(
       validate(transactionHashValidator(tailTransactionHash))
     )
-      .then(() => {
-        console.log("before get bundle=" + tailTransactionHash);
-        let a = traverseBundle(tailTransactionHash);
-        console.log("after get bundle=" + JSON.stringify(a));
-        return a;
-      })
+      .then(() => traverseBundle(tailTransactionHash))
       .tap(validateBundle)
       .asCallback(callback);
   };

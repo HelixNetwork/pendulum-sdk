@@ -4,7 +4,8 @@ import {
   bundleHBytes,
   bundleWithZeroValue,
   transactionHBytes as hbytes,
-  transactionObject
+  transactionObject,
+  bundleWithZeroValueHBytes
 } from "@helixnetwork/samples";
 import test from "ava";
 import {
@@ -44,3 +45,11 @@ test("asFinalTransactionHBytes() converts transaction objects to reversed hbytes
     "asFinalTransactionHBytes() should convert transaction objects to reversed hbytes."
   );
 });
+
+// test("asFinalTransactionHBytes() converts transaction objects to reversed hbytes.", t => {
+//   t.deepEqual(
+//     asFinalTransactionHBytes([...bundleWithZeroValue]),
+//     [...bundleWithZeroValueHBytes].reverse(),
+//     "asFinalTransactionHBytes() should convert transaction objects to reversed hbytes."
+//   );
+// });
