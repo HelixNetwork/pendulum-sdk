@@ -207,7 +207,8 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
     hHash.squeeze(bundleHashHBytes, 0, hHash.getHashLength());
     bundleHash = hex(bundleHashHBytes);
     if (
-      normalizedBundleHash(Uint8Array.from(bundleHashHBytes)).indexOf(2) !== -1
+      normalizedBundleHash(Uint8Array.from(bundleHashHBytes)).indexOf(127) !==
+      -1
     ) {
       // Insecure bundle, increment obsoleteTag and recompute bundle hash
       obsoleteTagHBits[0] = hbits(
