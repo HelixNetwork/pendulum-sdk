@@ -89,18 +89,8 @@ export const createReplayBundle = (
       )
     )
       .then(() => getBundle(tail))
-      .then(bundle => {
-        console.log("before get final=" + bundle);
-        let a = asFinalTransactionHBytes(bundle);
-        console.log("after get final=" + JSON.stringify(a));
-        return a;
-      })
-      .then(hbytes => {
-        console.log("before get sendHbytes=" + hbytes);
-        let a = sendHBytes(hbytes, depth, minWeightMagnitude, reference);
-        console.log("after get sendHbytes=" + a);
-        return a;
-      })
+      .then(bundle => asFinalTransactionHBytes(bundle))
+      .then(hbytes => sendHBytes(hbytes, depth, minWeightMagnitude, reference))
       .asCallback(typeof arguments[3] === "function" ? arguments[3] : callback);
   };
 };

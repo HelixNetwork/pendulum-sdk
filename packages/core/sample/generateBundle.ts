@@ -38,11 +38,6 @@ const transfers: ReadonlyArray<Transfer> = [
     value: 3,
     tag: "aaaa",
     message: "abcd"
-  },
-  {
-    address: addChecksum("b".repeat(ADDRESS_BYTE_SIZE)),
-    value: 3,
-    tag: "aaaa"
   }
 ];
 //  const seed = 'abcd000000000000000000000000000000000000000000000000000000000000'
@@ -76,15 +71,15 @@ async function generateBundle() {
       remainderAddress
     }
   );
-  console.log(
-    "export const hbytes = " + JSON.stringify([hbytes].reverse()) + ";"
-  );
-  console.log("export const bundle = ");
-  console.log(
-    asTransactionObjects(
-      new Array<Transaction>(hbytes.length).map(tx => tx.hash)
-    )(hbytes).reverse()
-  );
+  // console.log(
+  //   "export const hbytes = " + JSON.stringify([hbytes].reverse()) + ";"
+  // );
+  // console.log("export const bundle = ");
+  // console.log(
+  //   asTransactionObjects(
+  //     new Array<Transaction>(hbytes.length).map(tx => tx.hash)
+  //   )(hbytes).reverse()
+  // );
   inputs = inputs.slice(0, 1);
 
   const bundleWithValidSignature: ReadonlyArray<
