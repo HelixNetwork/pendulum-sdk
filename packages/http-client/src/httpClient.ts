@@ -1,18 +1,18 @@
 /** @module http-client */
 
 import * as Promise from "bluebird";
-import { getSettingsWithDefaults, Settings } from "./settings";
-import { batchedSend, send } from "./request";
 import {
   BaseCommand,
-  ProtocolCommand,
+  CreateProvider,
   FindTransactionsCommand,
   GetBalancesCommand,
-  GetInclusionStatesCommand,
   GetHBytesCommand,
-  Provider,
-  CreateProvider
+  GetInclusionStatesCommand,
+  ProtocolCommand,
+  Provider
 } from "../../types";
+import { batchedSend, send } from "./request";
+import { getSettingsWithDefaults, Settings } from "./settings";
 
 const BATCH_SIZE = 1000;
 

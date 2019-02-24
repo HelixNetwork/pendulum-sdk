@@ -1,12 +1,12 @@
+import test from "ava";
 import * as nock from "nock";
-import { createHttpClient } from "../src";
 import {
   FindTransactionsCommand,
   FindTransactionsResponse,
   ProtocolCommand
 } from "../../types";
+import { createHttpClient } from "../src";
 import { headers } from "./send.test";
-import test from "ava";
 
 const API_VERSION = 1;
 

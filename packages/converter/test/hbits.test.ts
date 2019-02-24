@@ -21,7 +21,7 @@ test("Converter: Test number to bits and back to number conversion) ", t => {
   );
 });
 
-test("Converter: Test number to bits and back to number conversion) ", t => {
+test("Converter = Test number to bits and back to number conversion) ", t => {
   const expected: number = 1522184104751; //1522184057 114645499
   const hbits: Int8Array = fromValue(expected);
   const paddedBits =
@@ -160,7 +160,7 @@ test("Function: hbits - from number more than one byte) ", t => {
   );
 });
 
-test("Converter: Test value) ", t => {
+test("Converter: Test values) ", t => {
   const input: Int8Array = new Int8Array([
     0x00,
     0x01,
@@ -196,7 +196,7 @@ test("Converter: Test value) ", t => {
   );
 });
 
-test("Converter: Test value) ", t => {
+test("Converter:Test value) ", t => {
   const input: Int8Array = new Int8Array([0x01, 0x01, 0x00, 0x00]);
 
   const expected: number = 0x3;
@@ -231,7 +231,7 @@ test("Converter: Test hBitsToHBytes) ", t => {
   );
 });
 
-test("Converter: Test value) ", t => {
+test("Converters: Test values) ", t => {
   const input: Int8Array = new Int8Array([
     0x01,
     0x00,
