@@ -1,6 +1,6 @@
 import * as Promise from "bluebird";
+import { Callback, HBytes, Provider } from "../../types";
 import { createBroadcastTransactions, createStoreTransactions } from "./";
-import { Callback, Provider, HBytes } from "../../types";
 
 /**
  * @method createStoreAndBroadcast

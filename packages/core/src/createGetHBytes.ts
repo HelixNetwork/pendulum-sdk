@@ -1,14 +1,14 @@
-import * as Promise from "bluebird";
 import { transactionHashValidator } from "@helixnetwork/transaction";
+import * as Promise from "bluebird";
 import { arrayValidator, validate } from "../../guards";
 import {
   Callback,
   GetHBytesCommand,
   GetHBytesResponse,
   Hash,
+  HBytes,
   ProtocolCommand,
-  Provider,
-  HBytes
+  Provider
 } from "../../types";
 
 /**

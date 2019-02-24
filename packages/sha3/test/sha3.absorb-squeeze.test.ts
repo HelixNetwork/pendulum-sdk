@@ -6,7 +6,7 @@ test("Sha3: absorb()/squeeze(), Converter: toHBytes()/hex()", t => {
   const input =
     "964b398ecd55793d8ca93e01274efe1377a70c8dc358fdca17cb4e94a9ed7777";
   const expected =
-    "c2a26a52b0da35baf172d0069cf890f47e351a184b534fffa7d9e4366532d9f9";
+    "c02c4aa8852301f3eb7b926f320d911bb178ba1ec4159f67d6cc1d75ef9a62f8";
   const absorbSqueeze = (input: string): string => {
     const inputBytes = toHBytes(input);
     const sha3: Sha3 = new Sha3();

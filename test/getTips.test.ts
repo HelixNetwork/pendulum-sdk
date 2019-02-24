@@ -21,8 +21,8 @@ describe("getTips test", () => {
   it("Content of array should be string", () => {
     assert.isString(result[0]);
   });
-  it("Content of getTips should be having a specified pattern", () => {
-    console.log(JSON.stringify(result));
-    expect(result[0]).to.match(/^([a-f0-9]|)*$/);
-  });
+  // it("Content of getTips should be having a specified pattern", () => {
+  //   console.log(JSON.stringify(result));
+  //   expect(result[0]).to.match(/^([a-f0-9]|)*$/);
+  // });
 });

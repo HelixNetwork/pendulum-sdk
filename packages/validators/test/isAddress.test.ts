@@ -3,7 +3,7 @@ import { isAddress } from "../src";
 
 test("isAddress()", t => {
   const validAddressWithChecksum =
-    "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1fcaa02119";
+    "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1fbe825a41";
   const validAddressWithoutChecksum =
     "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1f";
   const validAddressWithInvalidChecksum =
