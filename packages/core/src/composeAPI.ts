@@ -43,14 +43,14 @@ import {
   createPrepareTransfers,
   createPromoteTransaction,
   createRemoveNeighbors,
-  createWereAddressesSpentFrom,
-  // createSendTransfer,
   createReplayBundle,
+  // createSendTransfer,
   createSendHBytes,
   createStoreAndBroadcast,
-  // Types
   createStoreTransactions,
+  // Types
   createTraverseBundle,
+  createWereAddressesSpentFrom,
   FindTransactionsQuery,
   GetAccountDataOptions,
   GetInputsOptions,
