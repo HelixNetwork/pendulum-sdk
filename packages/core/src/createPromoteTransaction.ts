@@ -1,4 +1,9 @@
 import * as Bluebird from "bluebird";
+import {
+  NULL_ADDRESS_HBYTES,
+  NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES,
+  NULL_TAG_HBYTES
+} from "../../constants";
 import * as errors from "../../errors";
 import {
   arrayValidator,
@@ -18,11 +23,6 @@ import {
 import { createCheckConsistency } from "./";
 import { getPrepareTransfersOptions } from "./createPrepareTransfers";
 import { createSendTransfer } from "./createSendTransfer";
-import {
-  NULL_ADDRESS_HBYTES,
-  NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES,
-  NULL_TAG_HBYTES
-} from "../../constants";
 
 export interface PromoteTransactionOptions {
   readonly delay: number;

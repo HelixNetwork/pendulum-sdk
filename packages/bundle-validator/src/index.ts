@@ -1,15 +1,21 @@
 /** @module bundle-validator */
 
-import { hex, toHBytes } from "@helixnetwork/converter";
-import { padHBytes } from "@helixnetwork/pad";
+import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
-import { validateSignatures } from "@helixnetwork/winternitz";
+import { padHBytes } from "@helixnetwork/pad";
 import { isTransaction } from "@helixnetwork/transaction";
 import { asTransactionHBytes } from "@helixnetwork/transaction-converter";
+import { validateSignatures } from "@helixnetwork/winternitz";
 import {
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  ADDRESS_BYTE_SIZE,
   BYTE_SIZE_USED_FOR_VALIDATION,
-  BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING
+  BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING,
+  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  TRANSACTION_CURRENT_INDEX_BYTE_SIZE,
+  TRANSACTION_LAST_INDEX_BITS_SIZE,
+  TRANSACTION_LAST_INDEX_BYTE_SIZE,
+  TRANSACTION_TIMESTAMP_BYTE_SIZE,
+  TRANSACTION_VALUE_BYTE_SIZE
 } from "../../constants";
 import * as errors from "../../errors";
 import { isArray, Validator } from "../../guards";
@@ -145,9 +151,9 @@ export default function isBundle(bundle: Bundle) {
 
   // Check if bundle hash is the same as returned by tx object
   if (bundleHashFromTxs !== bundleHash) {
-    // console.warn(
-    //   "bundleHashFromTxs = " + bundleHashFromTxs + "  bundleHash =" + bundleHash
-    // );
+    console.warn(
+      "bundleHashFromTxs = " + bundleHashFromTxs + "  bundleHash =" + bundleHash
+    );
     return false;
   }
 

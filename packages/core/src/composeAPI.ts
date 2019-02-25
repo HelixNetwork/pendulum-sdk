@@ -3,8 +3,20 @@ import {
   HttpClientSettings
 } from "@helixnetwork/http-client";
 import * as Bluebird from "bluebird";
-import { AttachToTangle, CreateProvider, Provider } from "../../types";
 import {
+  AttachToTangle,
+  BaseCommand,
+  CreateProvider,
+  Inputs,
+  Neighbor,
+  Provider,
+  Transaction,
+  Transfer
+} from "../../types";
+import {
+  AccountData,
+  Balances,
+  CheckConsistencyOptions,
   createAddNeighbors,
   createAttachToTangle,
   createBroadcastBundle,
@@ -17,7 +29,6 @@ import {
   createGetBundle,
   createGetHBytes,
   createGetInclusionStates,
-  // createWereAddressesSpentFrom,
   createGetInputs,
   createGetLatestInclusion,
   createGetNeighbors,
@@ -31,17 +42,27 @@ import {
   createIsReattachable,
   createPrepareTransfers,
   createPromoteTransaction,
-  // createSendTransfer,
   createRemoveNeighbors,
   createReplayBundle,
+  // createSendTransfer,
   createSendHBytes,
-  // Types
   createStoreAndBroadcast,
   createStoreTransactions,
-  createTraverseBundle
+  // Types
+  createTraverseBundle,
+  createWereAddressesSpentFrom,
+  FindTransactionsQuery,
+  GetAccountDataOptions,
+  GetInputsOptions,
+  GetNewAddressOptions,
+  GetNodeInfoResponse,
+  PrepareTransfersOptions,
+  PromoteTransactionOptions,
+  TransactionsToApprove
 } from "./";
 import { createGetBundlesFromAddresses } from "./createGetBundlesFromAddresses";
 import { createGetTransfers, GetTransfersOptions } from "./createGetTransfers";
+// import { createWereAddressesSpentFrom } from "./createWereAddressesSpentFrom";
 
 export interface Settings extends HttpClientSettings {
   readonly attachToTangle?: AttachToTangle;
@@ -132,7 +153,7 @@ export const composeAPI = (input: Partial<Settings> | CreateProvider = {}) => {
     interruptAttachingToTangle: createInterruptAttachingToTangle(provider),
     removeNeighbors: createRemoveNeighbors(provider),
     storeTransactions: createStoreTransactions(provider),
-    // wereAddressesSpentFrom: createWereAddressesSpentFrom(provider),
+    wereAddressesSpentFrom: createWereAddressesSpentFrom(provider),
     sendCommand: provider.send,
 
     // Wrapper methods

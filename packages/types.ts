@@ -87,7 +87,7 @@ export enum ProtocolCommand {
   REMOVE_NEIGHBORS = "removeNeighbors",
   GET_TIPS = "getTips",
   FIND_TRANSACTIONS = "findTransactions",
-  GET_HBYTES = "getBytes",
+  GET_HBYTES = "getHBytes",
   GET_INCLUSION_STATES = "getInclusionStates",
   GET_BALANCES = "getBalances",
   GET_TRANSACTIONS_TO_APPROVE = "getTransactionsToApprove",
@@ -114,7 +114,6 @@ export interface AddNeighborsResponse {
   readonly addedNeighbors: number;
   readonly duration: number;
 }
-
 export interface AttachToTangleCommand extends BaseCommand {
   command: ProtocolCommand.ATTACH_TO_TANGLE;
   readonly trunkTransaction: Hash;

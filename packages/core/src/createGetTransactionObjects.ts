@@ -2,7 +2,7 @@ import { transactionHashValidator } from "@helixnetwork/transaction";
 import { asTransactionObjects } from "@helixnetwork/transaction-converter";
 import * as Promise from "bluebird";
 import { arrayValidator, validate } from "../../guards";
-import { Callback, Hash, Provider, Transaction } from "../../types";
+import { Callback, Hash, HBytes, Provider, Transaction } from "../../types";
 import { createGetHBytes } from "./";
 
 /**

@@ -9,6 +9,7 @@ import {
 import test from "ava";
 import { SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE } from "../../constants";
 import { errors, extractJson } from "../src";
+import { any } from "bluebird";
 
 test("extractJson() parses JSON object.", t => {
   t.is(
@@ -37,7 +38,7 @@ test("extractJson() parses empty JSON object.", t => {
 test("extraJson() parses boolean values.", t => {
   t.is(
     extractJson(
-      bundleWithEmptyJSON.map(tx => ({
+      bundleWithEmptyJSON.map((tx: any) => ({
         ...tx,
         signatureMessageFragment:
           "66616c7365" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 10)
@@ -49,7 +50,7 @@ test("extraJson() parses boolean values.", t => {
 
   t.is(
     extractJson(
-      bundleWithEmptyJSON.map(tx => ({
+      bundleWithEmptyJSON.map((tx: any) => ({
         ...tx,
         signatureMessageFragment:
           "74727565" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 8)
@@ -63,7 +64,7 @@ test("extraJson() parses boolean values.", t => {
 test("extraJson() parses string values.", t => {
   t.is(
     extractJson(
-      bundleWithEmptyJSON.map(tx => ({
+      bundleWithEmptyJSON.map((tx: any) => ({
         ...tx,
         signatureMessageFragment:
           "2268656c6c6f2122" +
@@ -78,7 +79,7 @@ test("extraJson() parses string values.", t => {
 test("extraJson() parses JSON arrays.", t => {
   t.is(
     extractJson(
-      bundleWithEmptyJSON.map(tx => ({
+      bundleWithEmptyJSON.map((tx: any) => ({
         ...tx,
         signatureMessageFragment:
           "5b312c322c22746872656521225d" +
@@ -93,7 +94,7 @@ test("extraJson() parses JSON arrays.", t => {
 test("extraJson() parses null.", t => {
   t.is(
     extractJson(
-      bundleWithEmptyJSON.map(tx => ({
+      bundleWithEmptyJSON.map((tx: any) => ({
         ...tx,
         signatureMessageFragment:
           "6e756c6c" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 8)
@@ -108,7 +109,7 @@ test("extractJson() parses numbers", t => {
   t.is(
     extractJson(
       bundleWithEmptyJSON
-        .map(tx => ({
+        .map((tx: any) => ({
           ...tx,
           signatureMessageFragment:
             "33" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 2)
@@ -122,7 +123,7 @@ test("extractJson() parses numbers", t => {
   t.is(
     extractJson(
       bundleWithEmptyJSON
-        .map(tx => ({
+        .map((tx: any) => ({
           ...tx,
           signatureMessageFragment:
             "2d33" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 2)
@@ -136,7 +137,7 @@ test("extractJson() parses numbers", t => {
   t.is(
     extractJson(
       bundleWithEmptyJSON
-        .map(tx => ({
+        .map((tx: any) => ({
           ...tx,
           signatureMessageFragment:
             "332e3134" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 8)
@@ -150,7 +151,7 @@ test("extractJson() parses numbers", t => {
   t.is(
     extractJson(
       bundleWithEmptyJSON
-        .map(tx => ({
+        .map((tx: any) => ({
           ...tx,
           signatureMessageFragment:
             "332e3134" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 10)
@@ -164,7 +165,7 @@ test("extractJson() parses numbers", t => {
   t.is(
     extractJson(
       bundleWithEmptyJSON
-        .map(tx => ({
+        .map((tx: any) => ({
           ...tx,
           signatureMessageFragment:
             "2d332e3134" +
@@ -178,7 +179,7 @@ test("extractJson() parses numbers", t => {
   t.is(
     extractJson(
       bundleWithEmptyJSON
-        .map(tx => ({
+        .map((tx: any) => ({
           ...tx,
           signatureMessageFragment:
             "313233303030" +

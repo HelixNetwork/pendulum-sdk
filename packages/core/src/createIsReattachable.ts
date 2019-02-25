@@ -4,6 +4,7 @@ import { INVALID_ADDRESS } from "../../errors";
 import {
   addressValidator,
   arrayValidator,
+  hashValidator,
   hbytesValidator,
   validate
 } from "../../guards";

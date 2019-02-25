@@ -12,7 +12,6 @@ import {
   ProtocolCommand
 } from "../../../../types";
 import headers from "./headers";
-
 export const getHBytesCommand: GetHBytesCommand = {
   command: ProtocolCommand.GET_HBYTES,
   hashes: ["a".repeat(HASH_HBYTE_SIZE), "b".repeat(HASH_HBYTE_SIZE)]

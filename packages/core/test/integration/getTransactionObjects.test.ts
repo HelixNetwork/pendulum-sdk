@@ -1,5 +1,5 @@
 import { createHttpClient } from "@helixnetwork/http-client";
-import { bundle } from "@helixnetwork/samples";
+import { bundle, bundleWithZeroValue } from "@helixnetwork/samples";
 import test from "ava";
 import { INVALID_TRANSACTION_HASH } from "../../../errors";
 import { createGetTransactionObjects } from "../../src";

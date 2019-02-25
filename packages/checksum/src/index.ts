@@ -1,6 +1,6 @@
 /** @module checksum */
 
-import { hex, toHBytes } from "@helixnetwork/converter";
+import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
   ADDRESS_BYTE_SIZE,
@@ -13,7 +13,7 @@ import {
   INVALID_CHECKSUM,
   INVALID_HBYTES
 } from "../../errors";
-import { isHBytes } from "../../guards";
+import { isHash, isHBytes } from "../../guards";
 import { asArray, HBytes } from "../../types";
 
 export const errors = {

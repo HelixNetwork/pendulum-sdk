@@ -1,12 +1,13 @@
 /* tslint:disable no-console */
 import "isomorphic-fetch";
-import { API_VERSION, DEFAULT_URI, MAX_REQUEST_BATCH_SIZE } from "./settings";
 import {
   BaseCommand,
   FindTransactionsResponse,
+  GetBalancesResponse,
   ProtocolCommand
 } from "../../types";
 import { BatchableCommand } from "./httpClient";
+import { API_VERSION, DEFAULT_URI, MAX_REQUEST_BATCH_SIZE } from "./settings";
 
 const requestError = (statusText: string) =>
   Promise.reject(`Request error: ${statusText}`);
@@ -100,7 +101,7 @@ export const batchedSend = <C extends BaseCommand, R = any>(
           )
       ).then(res =>
         res.reduce(
-          (acc: ReadonlyArray<R>, batch: Object) => acc.concat(<R>batch),
+          (acc: ReadonlyArray<R>, batch: Object) => acc.concat(batch as R),
           []
         )
       );
@@ -114,7 +115,7 @@ export const batchedSend = <C extends BaseCommand, R = any>(
               _response =>
                 _response.findIndex(
                   (res: Object) =>
-                    (<FindTransactionsResponse>res).hashes.indexOf(hash) > -1
+                    (res as FindTransactionsResponse).hashes.indexOf(hash) > -1
                 ) > -1
             )
           )

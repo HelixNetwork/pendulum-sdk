@@ -1,13 +1,13 @@
+import { ADDRCONFIG } from "dns";
 import {
+  ADDRESS_BYTE_SIZE,
   ADDRESS_CHECKSUM_BYTE_SIZE,
   HASH_HBYTE_SIZE,
   MAX_INDEX_DIFF,
-  TAG_BYTE_SIZE,
-  ADDRESS_BYTE_SIZE
+  TAG_BYTE_SIZE
 } from "./constants";
 import * as errors from "./errors";
-import { Address, Hash, Tag, Transfer, HBytes } from "./types";
-import { ADDRCONFIG } from "dns";
+import { Address, Hash, HBytes, Tag, Transfer } from "./types";
 
 // Required for markdown generation with JSDoc
 /**
@@ -76,7 +76,7 @@ export const isEmpty = (hbytes: any): hbytes is HBytes =>
  */
 export const isEmptyBytes = (bytes: Uint8Array) => {
   let isValid = true;
-  bytes.forEach(val => (isValid = isValid && val == 0));
+  bytes.forEach(val => (isValid = isValid && val === 0));
   return isValid;
 };
 

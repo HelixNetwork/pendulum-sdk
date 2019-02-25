@@ -1,15 +1,15 @@
 import * as Promise from "bluebird";
 
 import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
-import { removeChecksum } from "@helixnetwork/checksum";
-import { hbits, hex, toHBytes } from "@helixnetwork/converter";
+import { isValidChecksum, removeChecksum } from "@helixnetwork/checksum";
+import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
+import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
 import {
   key,
   normalizedBundleHash,
   signatureFragment,
   subseed
 } from "@helixnetwork/winternitz";
-import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
 import {
   HASH_BYTE_SIZE,
   NULL_HASH_HBYTES,
@@ -45,7 +45,7 @@ import HMAC from "./hmac";
 const HASH_LENGTH = HASH_BYTE_SIZE;
 const SIGNATURE_MESSAGE_FRAGMENT_LENGTH = SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
 const SIGNATURE_MESSAGE_FRAGMENT_LENGTH_BYTE = SIGNATURE_TOTAL_BYTE_SIZE;
-//const KEY_FRAGMENT_LENGTH = 2 * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+// const KEY_FRAGMENT_LENGTH = 2 * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
 const SECURITY_LEVEL = 2;
 
 export interface PrepareTransfersOptions {

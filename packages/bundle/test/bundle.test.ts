@@ -1,6 +1,7 @@
 import test from "ava";
 import {
   ADDRESS_BYTE_SIZE,
+  HASH_HBYTE_SIZE,
   NULL_HASH_HBYTES,
   NULL_NONCE_HBYTES,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
@@ -19,13 +20,14 @@ const addresses = [
   "b".repeat(ADDRESS_BYTE_SIZE)
 ];
 const tag = "aaaa" + "0".repeat(12);
+const obsoleteTag = "aaaa" + "0".repeat(60);
 
 const bundle = [
   {
     address: addresses[0],
     value: -2,
     tag,
-    obsoleteTag: tag,
+    obsoleteTag,
     currentIndex: 0,
     lastIndex: 2,
     timestamp: 1522219,
@@ -43,7 +45,7 @@ const bundle = [
     address: addresses[0],
     value: 0,
     tag,
-    obsoleteTag: tag,
+    obsoleteTag,
     currentIndex: 1,
     lastIndex: 2,
     timestamp: 1522219,
@@ -61,7 +63,7 @@ const bundle = [
     address: addresses[1],
     value: 2,
     tag,
-    obsoleteTag: tag,
+    obsoleteTag,
     currentIndex: 2,
     lastIndex: 2,
     timestamp: 1522219,
@@ -128,8 +130,9 @@ test("addHBytes() adds hbytes and returns correct transactions.", t => {
 
 test("finalizeBundle() adds correct bundle hash.", t => {
   const bundleHash =
-    "473a5db62e32dff5a78a027b810753dc889a1fccb5119754b83b1688fd2f9372";
-  const incrObsoleteTag = "aaaa000000000001";
+    "71bcafcb2c130d7eb0f1deb304bd85df7f692fb7abb3d9ad99823cf7c49ef8c7";
+  const incrObsoleteTag =
+    "aaaa000000000000000000000000000000000000000000000000000000000001";
   const expected = bundle.map((transaction, i) => ({
     ...transaction,
     obsoleteTag: i === 0 ? incrObsoleteTag : transaction.obsoleteTag,

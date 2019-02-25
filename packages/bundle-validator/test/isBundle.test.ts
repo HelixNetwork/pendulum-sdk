@@ -1,4 +1,5 @@
 import {
+  bundle,
   bundleWithInvalidBundleHash,
   bundleWithInvalidLastIndex,
   bundleWithInvalidSignature,

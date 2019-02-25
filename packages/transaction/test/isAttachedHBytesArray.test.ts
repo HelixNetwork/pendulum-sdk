@@ -1,9 +1,11 @@
-import test from "ava";
 import {
   attachedHBytes,
   attachedHBytesOfInvalidChars,
   attachedHBytesOfInvalidLength,
+  attachedTransactionObjects,
+  transactionObject
 } from "@helixnetwork/samples";
+import test from "ava";
 import { isAttachedHBytesArray } from "../src";
 
 test("isAttachedHBytesArray()", t => {

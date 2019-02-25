@@ -12,8 +12,9 @@ import {
   Bundle,
   Callback,
   Hash,
+  HBytes,
   Provider,
-  HBytes
+  Transaction
 } from "../../types";
 import {
   createAttachToTangle,

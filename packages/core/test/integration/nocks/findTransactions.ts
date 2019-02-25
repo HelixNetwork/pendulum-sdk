@@ -1,3 +1,4 @@
+import { addresses as addr } from "@helixnetwork/samples";
 import * as nock from "nock";
 import {
   FindTransactionsCommand,
@@ -5,7 +6,6 @@ import {
   ProtocolCommand
 } from "../../../../types";
 import headers from "./headers";
-import { addresses as addr } from "@helixnetwork/samples";
 
 export const emptyFindTransactionsCommand: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
