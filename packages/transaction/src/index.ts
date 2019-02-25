@@ -33,13 +33,13 @@ import { Hash, HBytes, Transaction } from "../../types";
  *
  * @return {Hash} Transaction hash
  */
-export const transactionHash = (hBits: Int8Array): Hash => {
+export const transactionHash = (hbits: Uint8Array): Hash => {
   const hHash = new HHash(HHash.HASH_ALGORITHM_2);
-  const hash: Int8Array = new Int8Array(hHash.getHashLength());
+  const hash: Uint8Array = new Uint8Array(hHash.getHashLength());
 
   // generate the transaction hash
   hHash.initialize();
-  hHash.absorb(hBits, 0, hBits.length);
+  hHash.absorb(hbits, 0, hbits.length);
   hHash.squeeze(hash, 0, hHash.getHashLength());
   return hex(hash);
 };
@@ -146,7 +146,7 @@ export const isTransactionHBytes = (
     return (
       hasCorrectHBytesLength &&
       isTransactionHash(
-        transactionHash(hbytesToHBits(hbytes)),
+        transactionHash(hbytes), //hbytesToHBits(hbytes)
         minWeightMagnitude
       )
     );
