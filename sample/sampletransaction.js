@@ -3,9 +3,9 @@ const Helix = require("@helixnetwork/core");
 const Converter = require("@helixnetwork/converter");
 
 // Create a new instance of the Helix object
-// Use the provider field to specify which IRI node to connect to
+// Use the provider field to specify which node to connect to
 const helix = Helix.composeAPI({
-  provider: "https://helix:LW59AG75A84GSEES@hlxtest.net:14702"
+  provider: "http://localhost:14700"
 });
 
 const seed = "953c8169027a85415692cc05bd3a91f95c3be8e5c93c1d2b2e2c447b5ed082d2";
@@ -39,7 +39,7 @@ helix
   .prepareTransfers(seed, [transfer1, transfer2])
   .then(function(HBytes) {
     storedHBytes = HBytes;
-    // Finalize and broadcast the bundle to the IRI node
+    // Finalize and broadcast the bundle to the node
     return helix.sendHBytes(
       storedHBytes,
       3 /*depth*/,
