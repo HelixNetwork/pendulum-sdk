@@ -1,112 +1,147 @@
-import test from 'ava'
-import { addresses, addressesWithChecksum, addressWithChecksum, addressWithInvalidChecksum } from '@helixnetwork/samples'
-import { addChecksum, errors, isValidChecksum, removeChecksum } from '../src'
+import {
+  addresses,
+  addressesWithChecksum,
+  addressWithChecksum,
+  addressWithInvalidChecksum
+} from "@helixnetwork/samples";
+import test from "ava";
+import { ADDRESS_BYTE_SIZE } from "../../constants";
+import { addChecksum, errors, isValidChecksum, removeChecksum } from "../src";
 
-const invalidAddress = 'UYEEERFQYTPFAHIPXDQAQYWYMSMCLMGBTYAXLWFRFFWPYFOICOVLK9A9VYNCKK9TQUNBTARCEQXJHD'
+const invalidAddress =
+  "62633132333334343532333432333432333261616161616363616333453454334543";
+test("addChecksum() adds 8-hbytes checksum", t => {
+  t.is(
+    addChecksum(addresses[0]),
+    addressesWithChecksum[0],
+    "addChecksum() should add 8-hbytes checksum to the end of address."
+  );
+  t.deepEqual(
+    addChecksum(addresses.slice(0, 1)),
+    addressesWithChecksum.slice(0, 1),
+    "addChecksum() should add 8-hbytes checksum to the end of each address in a given array."
+  );
+});
 
-test('addChecksum() adds 9-trytes checksum', t => {
-    t.is(
-        addChecksum(addresses[0]),
-        addressesWithChecksum[0],
-        'addChecksum() should add 9-trytes checksum to the end of address.'
-    )
+test("addChecksum() returns the exact address, if was passed with checksum", t => {
+  t.is(
+    addChecksum(addressesWithChecksum[0]),
+    addressesWithChecksum[0],
+    "addChecksum() should return the exact address, if was passed with checksum."
+  );
+});
 
-    t.deepEqual(
-        addChecksum(addresses.slice(0, 1)),
-        addressesWithChecksum.slice(0, 1),
-        'addChecksum() should add 9-trytes checksum to the end of each address in a given array.'
-    )
-})
+test("addChecksum() throws error for invalid addresses", t => {
+  const error = t.throws(
+    () => addChecksum(invalidAddress),
+    Error,
+    "addChecksum() should throw error if address is invalid."
+  );
 
-test('addChecksum() returns the exact address, if was passed with checksum', t => {
-    t.is(
-        addChecksum(addressesWithChecksum[0]),
-        addressesWithChecksum[0],
-        'addChecksum() should return the exact address, if was passed with checksum.'
-    )
-})
+  t.is(
+    error.message,
+    errors.INVALID_ADDRESS,
+    "addChecksum() should throw correct error message."
+  );
+});
 
-test('addChecksum() throws error for invalid addresses', t => {
-    const error = t.throws(
-        () => addChecksum(invalidAddress),
-        Error,
-        'addChecksum() should throw error if address is invalid.'
-    )
+test("addChecksum() does not mutate the original array", t => {
+  const arr = [
+    ...addresses.slice(0, 1).map(a => a.slice(0, ADDRESS_BYTE_SIZE))
+  ];
 
-    t.is(error.message, errors.INVALID_ADDRESS, 'addChecksum() should throw correct error message.')
-})
+  addChecksum(arr);
 
-test('addChecksum() does not mutate the original array', t => {
-    const arr = [...addresses.slice(0, 1).map(a => a.slice(0, 81))]
+  t.deepEqual(
+    arr,
+    addresses.slice(0, 1),
+    "addChecksum() should not mutate the original array."
+  );
+});
 
-    addChecksum(arr)
+test("addChecksum() adds checksum of arbitrary length", t => {
+  const hbytes = "0".repeat(ADDRESS_BYTE_SIZE);
+  const hbytesWithChecksum = hbytes + "9e4e";
 
-    t.deepEqual(arr, addresses.slice(0, 1), 'addChecksum() should not mutate the original array.')
-})
+  t.is(
+    addChecksum(hbytes, 4, false),
+    hbytesWithChecksum,
+    "addChecsum() should add checksum of arbitrary length."
+  );
+});
 
-test('addChecksum() adds checksum of arbitrary length', t => {
-    const trytes = '9'.repeat(81)
-    const trytesWithChecksum = trytes + 'KZW'
+test("isValidChecksum() correctly validates the checksum", t => {
+  t.is(
+    isValidChecksum(addressWithInvalidChecksum),
+    false,
+    "isValidChecksum() should return false for address with invalid checksum."
+  );
 
-    t.is(addChecksum(trytes, 3, false), trytesWithChecksum, 'addChecsum() should add checksum of arbitrary length.')
-})
+  t.is(
+    isValidChecksum(addresses[0]),
+    false,
+    "isValidChecksum() should return false for address without checksum."
+  );
+});
 
-test('isValidChecksum() correctly validates the checksum', t => {
-    t.is(
-        isValidChecksum(addressWithInvalidChecksum),
-        false,
-        'isValidChecksum() should return false for address with invalid checksum.'
-    )
+test("isValidChecksum() throws error for invalid address", t => {
+  const error = t.throws(
+    () => isValidChecksum(invalidAddress),
+    Error,
+    "isValidChecksum() should throw error if invalid address was passed."
+  );
 
-    t.is(isValidChecksum(addresses[0]), false, 'isValidChecksum() should return false for address without checksum.')
-})
+  t.is(
+    error.message,
+    errors.INVALID_ADDRESS,
+    "isValidChecksum() should throw correct error message."
+  );
+});
 
-test('isValidChecksum() throws error for invalid address', t => {
-    const error = t.throws(
-        () => isValidChecksum(invalidAddress),
-        Error,
-        'isValidChecksum() should throw error if invalid address was passed.'
-    )
+test("removeChecksum() removes checksum from addresses with checksum", t => {
+  t.deepEqual(
+    removeChecksum(addressesWithChecksum.slice(0, 1)),
+    addresses.slice(0, 1),
+    "removeChecksum() should remove checksum from address with checksum."
+  );
 
-    t.is(error.message, errors.INVALID_ADDRESS, 'isValidChecksum() should throw correct error message.')
-})
+  t.deepEqual(
+    removeChecksum(addressesWithChecksum.slice(0, 1)),
+    addresses.slice(0, 1),
+    "removeChecksum() should remove checksum from each address with checksum in given array."
+  );
+});
 
-test('removeChecksum() removes checksum from addresses with checksum', t => {
-    t.deepEqual(
-        removeChecksum(addressesWithChecksum.slice(0, 1)),
-        addresses.slice(0, 1),
-        'removeChecksum() should remove checksum from address with checksum.'
-    )
+test("removeChecksum() returns the exact address, if was passed without checksum", t => {
+  t.deepEqual(
+    removeChecksum(addresses),
+    addresses,
+    "removeChecksum() should return the exact address if was passed without checksum."
+  );
+});
 
-    t.deepEqual(
-        removeChecksum(addressesWithChecksum.slice(0, 1)),
-        addresses.slice(0, 1),
-        'removeChecksum() should remove checksum from each address with checksum in given array.'
-    )
-})
+test("removeChecksum() does not mutate the original array", t => {
+  const arr = [addressWithChecksum];
 
-test('removeChecksum() returns the exact address, if was passed without checksum', t => {
-    t.deepEqual(
-        removeChecksum(addresses),
-        addresses,
-        'removeChecksum() should return the exact address if was passed without checksum.'
-    )
-})
+  removeChecksum(arr);
 
-test('removeChecksum() does not mutate the original array', t => {
-    const arr = [addressWithChecksum]
+  t.deepEqual(
+    arr,
+    [addressWithChecksum],
+    "removeChecksum() should not mutate the original array."
+  );
+});
 
-    removeChecksum(arr)
+test("removeChecksum() throws error for invalid addresses", t => {
+  const error = t.throws(
+    () => removeChecksum(invalidAddress),
+    Error,
+    "removeChecksum() should throw error if invalid address was passed."
+  );
 
-    t.deepEqual(arr, [addressWithChecksum], 'removeChecksum() should not mutate the original array.')
-})
-
-test('removeChecksum() throws error for invalid addresses', t => {
-    const error = t.throws(
-        () => removeChecksum(invalidAddress),
-        Error,
-        'removeChecksum() should throw error if invalid address was passed.'
-    )
-
-    t.is(error.message, errors.INVALID_ADDRESS, 'removeChecksum() should throw correct error message.')
-})
+  t.is(
+    error.message,
+    errors.INVALID_ADDRESS,
+    "removeChecksum() should throw correct error message."
+  );
+});

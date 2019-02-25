@@ -1,14 +1,26 @@
-import test from 'ava'
-import { isTag } from '../src'
+import test from "ava";
+import { isTag } from "../src";
 
-test('isTag() returns true for valid tag.', t => {
-    t.is(isTag('TAG'), true, 'isTag() should return true for valid tag.')
+test("isTag() returns true for valid tag.", t => {
+  t.is(isTag("aaaa"), true, "isTag() should return true for valid tag.");
 
-    t.is(isTag('TAG'.repeat(9)), true, 'isTag() should return true for valid tag.')
-})
+  t.is(
+    isTag("aaaa".repeat(4)),
+    true,
+    "isTag() should return true for valid tag."
+  );
+});
 
-test('isTag() returns false for tag tag.', t => {
-    t.is(isTag('Tag'), false, 'isTag() should return false for tag of invalid trytes.')
+test("isTag() returns false for tag tag.", t => {
+  t.is(
+    isTag("Ahaaa"),
+    false,
+    "isTag() should return false for tag of invalid bytes."
+  );
 
-    t.is(isTag('TAG'.repeat(9) + 'A'), false, 'isTag() shoud return false for tag of invalid length.')
-})
+  t.is(
+    isTag("aaaaa".repeat(4) + "a"),
+    false,
+    "isTag() should return false for tag of invalid length."
+  );
+});

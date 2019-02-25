@@ -1,18 +1,22 @@
-import test from 'ava'
-import { isEmpty, isNinesTrytes } from '../src'
+import test from "ava";
+import { isEmpty, isNinesHBytes } from "../src";
 
-test('isEmpty() returns true for all-9s.', t => {
-    t.is(isEmpty('99999'), true, 'isEmpty() should return true for all-9s.')
+test("isEmpty() returns true for all-0s.", t => {
+  t.is(isEmpty("0000"), true, "isEmpty() should return true for all-0s.");
 
-    t.is(
-        isNinesTrytes('99999'), // isEmtpy() alias
-        true,
-        'isNinesTrytes() should return true for all-9s.'
-    )
-})
+  t.is(
+    isNinesHBytes("0000"), // isEmpty() alias
+    true,
+    "isNinesHBytes() should return true for all-0s."
+  );
+});
 
-test('isEmpty() returns false for non-9s.', t => {
-    t.is(isEmpty('ASDF999'), false, 'isEmpty() should return false for non-9s.')
+test("isEmpty() returns false for non-0s.", t => {
+  t.is(isEmpty("abc000"), false, "isEmpty() should return false for non-0s.");
 
-    t.is(isNinesTrytes('ASDF999'), false, 'isNinesTrytes() should return false for non-9s.')
-})
+  t.is(
+    isNinesHBytes("abc000"),
+    false,
+    "isNinesHBytes() should return false for non-0s."
+  );
+});

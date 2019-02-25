@@ -2,12 +2,13 @@
   "compilerOptions": {
     "lib": ["dom", "es2015"],
     "noImplicitThis": true,
-	"noImplicitAny": false,
+    "noImplicitAny": false,
     "strict": true,
     "outDir": "out",
     "declaration": true,
     "declarationDir": "typings",
-    "sourceMap": true
+    "sourceMap": true,
+    "moduleResolution": "node"
   },
   "include": ["src", "test"]
 }

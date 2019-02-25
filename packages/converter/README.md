@@ -1,5 +1,4 @@
 # @helixnetwork/converter
-> Obsolete soon!
 
 Methods for converting ascii, values &amp; trytes to trits and back.
 
@@ -18,45 +17,41 @@ yarn add @helixnetwork/converter
 
 ## API Reference
 
-
+    
 * [converter](#module_converter)
 
-    * [.asciiToTrytes(input)](#module_converter.asciiToTrytes)
+    * [.asciiToHBytes(input)](#module_converter.asciiToHBytes)
 
-    * [.trytesToAscii(trytes)](#module_converter.trytesToAscii)
+    * [.hbytesToAscii(hbytes)](#module_converter.hbytesToAscii)
 
-    * [.trits(input)](#module_converter.trits)
+    * [.hbits(input)](#module_converter.hbits)
 
-    * [.trytes(trits)](#module_converter.trytes)
+    * [.hbytes(hBits)](#module_converter.hbytes)
 
-    * [.value(trits)](#module_converter.value)
+    * [.value(hBits)](#module_converter.value)
 
     * [.fromValue(value)](#module_converter.fromValue)
 
+    * [.toBytes(value, padding)](#module_converter.toBytes)
 
-<a name="module_converter.asciiToTrytes"></a>
 
-### *converter*.asciiToTrytes(input)
+<a name="module_converter.asciiToHBytes"></a>
+
+### *converter*.asciiToHBytes(input)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | input | <code>string</code> | ascii input |
 
-Converts an ascii encoded string to trytes.
+Converts an ascii encoded string to hbytes.
 
 ### How conversion works:
 
-An ascii value of `1 Byte` can be represented in `2 Trytes`:
+An ascii value of `1 Byte` can be represented in `2 HBytes`:
 
-1. We get the decimal unicode value of an individual ASCII character.
+1. We get the decimal unicode value of an individual ASCII character this code can be represented in a Byte
 
-2. From the decimal value, we then derive the two tryte values by calculating the tryte equivalent
-(e.g.: `100` is expressed as `19 + 3 * 27`), given that tryte alphabet contains `27` trytes values:
-  a. The first tryte value is the decimal value modulo `27` (which is the length of the alphabet).
-  b. The second value is the remainder of `decimal value - first value` devided by `27`.
-
-3. The two values returned from Step 2. are then input as indices into the available
-trytes alphabet (`9ABCDEFGHIJKLMNOPQRSTUVWXYZ`), to get the correct tryte value.
+2. Decimal value is then converted into hexadecimal value
 
 ### Example:
 
@@ -64,60 +59,53 @@ Lets say we want to convert ascii character `Z`.
 
 1. `Z` has a decimal unicode value of `90`.
 
-2. `90` can be represented as `9 + 3 * 27`. To make it simpler:
-  a. First value is `90 % 27 = 9`.
-  b. Second value is `(90 - 9) / 27 = 3`.
+2. `90` in hexadecimal is 5a
 
-3. Our two values are `9` and `3`. To get the tryte value now we simply insert it as indices
-into the tryte alphabet:
-  a. The first tryte value is `'9ABCDEFGHIJKLMNOPQRSTUVWXYZ'[9] = I`
-  b. The second tryte value is `'9ABCDEFGHIJKLMNOPQRSTUVWXYZ'[3] = C`
+Therefore ascii character `Z` is represented as `IC` in 5a.
 
-Therefore ascii character `Z` is represented as `IC` in trytes.
+**Returns**: <code>string</code> - string of hbytes  
+<a name="module_converter.hbytesToAscii"></a>
 
-**Returns**: <code>string</code> - string of trytes  
-<a name="module_converter.trytesToAscii"></a>
-
-### *converter*.trytesToAscii(trytes)
+### *converter*.hbytesToAscii(hbytes)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| trytes | <code>string</code> | trytes |
+| hbytes | <code>string</code> | hbytes |
 
-Converts trytes of _even_ length to an ascii string
+Converts hbytes of _even_ length to an ascii string
 
 **Returns**: <code>string</code> - string in ascii  
-<a name="module_converter.trits"></a>
+<a name="module_converter.hbits"></a>
 
-### *converter*.trits(input)
+### *converter*.hbits(input)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| input | <code>String</code> \| <code>Number</code> | Tryte string or value to be converted. |
+| input | <code>String</code> \| <code>Number</code> | HByte string or value to be converted. |
 
-Converts trytes or values to trits
+Converts hbytes or values to hbits
 
-**Returns**: <code>Int8Array</code> - trits  
-<a name="module_converter.trytes"></a>
+**Returns**: <code>Int8Array</code> - hbits  
+<a name="module_converter.hbytes"></a>
 
-### *converter*.trytes(trits)
+### *converter*.hbytes(hBits)
 
 | Param | Type |
 | --- | --- |
-| trits | <code>Int8Array</code> |
+| hBits | <code>Int8Array</code> | 
 
-Converts trits to trytes
+Converts hbits to hbytes
 
-**Returns**: <code>String</code> - trytes  
+**Returns**: <code>String</code> - hbytes  
 <a name="module_converter.value"></a>
 
-### *converter*.value(trits)
+### *converter*.value(hBits)
 
 | Param | Type |
 | --- | --- |
-| trits | <code>Int8Array</code> |
+| hBits | <code>Int8Array</code> | 
 
-Converts trits into an integer value
+Converts hbits into an integer value
 
 <a name="module_converter.fromValue"></a>
 
@@ -125,8 +113,20 @@ Converts trits into an integer value
 
 | Param | Type |
 | --- | --- |
-| value | <code>Number</code> |
+| value | <code>Number</code> | 
 
-Converts an integer value to trits
+Converts an integer value to hbits
 
-**Returns**: <code>Int8Array</code> - trits  
+**Returns**: <code>Int8Array</code> - hbits  
+<a name="module_converter.toBytes"></a>
+
+### *converter*.toBytes(value, padding)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>number</code> |  |
+| padding | <code>number</code> | Ł |
+
+Converts an integer value to byte array
+
+**Returns**: <code>Uint8Array</code> - bytes  

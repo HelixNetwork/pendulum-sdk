@@ -1,6 +1,6 @@
 # @helixnetwork/multisig
 
-Methods for generating multisig addresses ansd co-signing transactions.
+Methods for generating multisig addresses ansd co-schnorr transactions.
 
 > **Please note that this multisig package is not finalized yet and is subject to breaking changes.**
 

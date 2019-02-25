@@ -1,12 +1,12 @@
-import test from 'ava'
-import { trits } from '@helixnetwork/converter'
-import { bundle, bundleTrytes } from '@helixnetwork/samples'
-import { transactionHash } from '../src'
+import { toHBytes } from "@helixnetwork/converter";
+import { bundle, bundleHBytes } from "@helixnetwork/samples";
+import test from "ava";
+import { transactionHash } from "../src";
 
-test('transactionHash() returns the correct transaction hash.', t => {
-    t.is(
-        transactionHash(trits(bundleTrytes[0])),
-        bundle[0].hash,
-        'transactionHash() should return the correct transaction hash.'
-    )
-})
+test("transactionHash() returns the correct transaction hash.", t => {
+  t.is(
+    transactionHash(toHBytes(bundleHBytes[0])),
+    bundle[0].hash,
+    "transactionHash() should return the correct transaction hash."
+  );
+});

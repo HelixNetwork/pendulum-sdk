@@ -1,56 +1,58 @@
 {
-    "name": "@helixnetwork/multisig",
-    "version": "0.0.1-alpha.0",
-    "description": "Methods for generating multisig addresses and co-signing transactions.",
-    "main": "./out/multisig/src/index.js",
-    "typings": "typings/multisig/src",
-    "publishConfig": {
-        "access": "private"
-    },
-    "scripts": {
-        "prepare": "tsc",
-        "test": "tsc",
-        "format": "prettier",
-        "docs": "tsc && jsdoc2md --no-cache --plugin dmd-clear -t README_tpl.hbs --files './out/**/*.js' > README.md"
-    },
-    "contributors": [
-        "Dominik Schiener <dom@iota.org> (https://iota.org)",
-        "Edward Greve <edward@iota.org> (https://github.com/anyong)",
-        "Chris Dukakis <chris.dukakis@iota.org> (https://github.com/chrisdukakis)"
-    ],
-    "ava": {
-        "files": "out/multisig/test/*.test.js",
-        "failFast": true,
-        "failWithoutAssertions": false,
-        "compileEnhancements": false,
-        "verbose": true
-    },
-    "keywords": [
-        "iota",
-        "tangle",
-        "library",
-        "browser",
-        "javascript",
-        "nodejs",
-        "API"
-    ],
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/helixnetwork/helix.api/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/helixnetwork/helix.api.git"
-    },
-    "dependencies": {
-        "@helixnetwork/bundle": "^0.0.1-alpha.0",
-        "@helixnetwork/checksum": "^0.0.1-alpha.0",
-        "@helixnetwork/converter": "^0.0.1-alpha.0",
-        "@helixnetwork/core": "^0.0.1-alpha.0",
-        "@helixnetwork/kerl": "^0.0.1-alpha.0",
-        "@helixnetwork/signing": "^0.0.1-alpha.0",
-        "@types/bluebird": "^3.5.20",
-        "bluebird": "^3.5.1",
-        "isomorphic-fetch": "^2.2.1"
-    }
+  "name": "@helixnetwork/multisig",
+  "version": "1.0.0-alpha.0",
+  "description":
+    "Methods for generating multisig addresses and co-schnorr transactions.",
+  "main": "./out/multisig/src/index.js",
+  "typings": "typings/multisig/src",
+  "publishConfig": {
+    "access": "private"
+  },
+  "scripts": {
+    "prepare": "tsc",
+    "test": "tsc",
+    "format": "prettier",
+    "docs":
+      "tsc && jsdoc2md --no-cache --plugin dmd-clear -t README_tpl.hbs --files './out/**/*.js' > README.md"
+  },
+  "contributors": [
+    "Dominik Schiener <dom@iota.org> (https://iota.org)",
+    "Edward Greve <edward@iota.org> (https://github.com/anyong)",
+    "Chris Dukakis <chris.dukakis@iota.org> (https://github.com/chrisdukakis)"
+  ],
+  "ava": {
+    "files": "out/multisig/test/*.test.js",
+    "failFast": false,
+    "failWithoutAssertions": false,
+    "compileEnhancements": false,
+    "verbose": true
+  },
+  "keywords": [
+    "iota",
+    "tangle",
+    "library",
+    "browser",
+    "javascript",
+    "nodejs",
+    "API"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/helixnetwork/helix.api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/helixnetwork/helix.api.git"
+  },
+  "dependencies": {
+    "@helixnetwork/bundle": "^1.0.0-alpha.0",
+    "@helixnetwork/checksum": "^1.0.0-alpha.0",
+    "@helixnetwork/converter": "^1.0.0-alpha.0",
+    "@helixnetwork/core": "^1.0.0-alpha.0",
+    "@helixnetwork/hash-module": "^1.0.0-alpha.0",
+    "@helixnetwork/winternitz": "^1.0.0-alpha.0",
+    "@types/bluebird": "^3.5.20",
+    "bluebird": "^3.5.1",
+    "isomorphic-fetch": "^2.2.1"
+  }
 }

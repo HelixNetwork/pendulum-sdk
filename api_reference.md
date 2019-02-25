@@ -1994,7 +1994,7 @@ For attached transactions last 241 trytes are non-zero.
 | toUnit | <code>string</code> | Name of unit wich we convert to |
 
 Converts accross IOTA units. Valid unit names are:
-`i`, `Ki`, `Mi`, `Gi`, `Ti`, `Pi`
+`h`, `Kh`, `Mh`, `Gh`, `Th`, `Ph`
 
 <a name="module_validators"></a>
 
