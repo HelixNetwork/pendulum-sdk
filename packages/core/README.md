@@ -24,7 +24,7 @@ yarn add @helixnetwork/core
 
 ## API Reference
 
-    
+
 * [core](#module_core)
 
     * [.composeApi([settings])](#module_core.composeApi)
@@ -155,7 +155,7 @@ yarn add @helixnetwork/core
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [settings] | <code>object</code> \| <code>function</code> | <code>{} | provider</code> | Connection settings or `provider` factory |
-| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of IRI node |
+| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of helix node |
 | [settings.attachToTangle] | <code>function</code> |  | Function to override [`attachToTangle`](#module_core.attachToTangle) with |
 | [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | IOTA Api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
@@ -184,8 +184,8 @@ Composes API object from it's components
 | uris | <code>Array</code> | List of URI's |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Adds a list of neighbors to the connected IRI node by calling
-[`addNeighbors`](https://docs.iota.works/iri/api#endpoints/addNeighbors) command.
+Adds a list of neighbors to the connected helix node by calling
+[`addNeighbors`](https://docs.hlx.ai/hlx/api#endpoints/addNeighbors) command.
 Assumes `addNeighbors` command is available on the node.
 
 `addNeighbors` has temporary effect until your node relaunches.
@@ -229,7 +229,7 @@ addNeighbors(['udp://148.148.148.148:14265'])
 | [callback] | <code>Callback</code> | Optional callback |
 
 Performs the Proof-of-Work required to attach a transaction to the Tangle by
-calling [`attachToTangle`](https://docs.iota.works/iri/api#endpoints/attachToTangle) command.
+calling [`attachToTangle`](https://docs.hlx.ai/hlx/api#endpoints/attachToTangle) command.
 Returns list of transaction hbytes and overwrites the following fields:
  - `hash`
  - `nonce`
@@ -240,7 +240,7 @@ Returns list of transaction hbytes and overwrites the following fields:
 This method can be replaced with a local equivelant such as
 [`ccurl.interface.js`](https://github.com/iotaledger/ccurl.interface.js) in node.js,
 [`curl.lib.js`](https://github.com/iotaledger/curl.lib.js) which works on WebGL 2 enabled browsers
-or remote [`PoWbox`](https://powbox.devnet.iota.org/).
+or remote [`PoW-Integrator`](https://powbox.devnet.iota.org/).
 
 `trunkTransaction` and `branchTransaction` hashes are given by
 [`getTransactionToApprove`](#module_core.getTransactionsToApprove).
@@ -318,11 +318,11 @@ broadcastTransactions(tailHash)
 | [callback] | <code>Callback</code> | Optional callback |
 
 Broadcasts an list of _attached_ transaction hbytes to the network by calling
-[`boradcastTransactions`](https://docs.iota.org/iri/api#endpoints/broadcastTransactions) command.
+[`boradcastTransactions`](https://docs.hlx.ai/hlx/api#endpoints/broadcastTransactions) command.
 Tip selection and Proof-of-Work must be done first, by calling
 [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) and
 [`attachToTangle`](#module_core.attachToTangle) or an equivalent attach method or remote
-[`PoWbox`](https://powbox.testnet.iota.org/), which is a development tool.
+[`PoW-Integrator`](https://powbox.testnet.iota.org/), which is a development tool.
 
 You may use this method to increase odds of effective transaction propagation.
 
@@ -365,7 +365,7 @@ broadcastTransactions(hbytes)
 | [callback] | <code>Callback</code> | Optional callback. |
 
 Checks if a transaction is _consistent_ or a set of transactions are _co-consistent_, by calling
-[`checkConsistency`](https://docs.iota.org/iri/api#endpoints/checkConsistency) command.
+[`checkConsistency`](https://docs.hlx.ai/hlx/api#endpoints/checkConsistency) command.
 _Co-consistent_ transactions and the transactions that they approve (directly or inderectly),
 are not conflicting with each other and rest of the ledger.
 
@@ -417,7 +417,7 @@ const isPromotable = ({ hash, attachmentTimestamp }) => (
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`findTransactionObjects`](#module_core.findTransactionObjects)  
 <a name="module_core.findTransactionObjects"></a>
@@ -464,7 +464,7 @@ findTransactionObjects({ addresses: ['ADR...'] })
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`findTransactionObjects`](#module_core.findTransactions)  
 <a name="module_core.findTransactions"></a>
@@ -489,7 +489,7 @@ findTransactionObjects({ addresses: ['ADR...'] })
 | [callback] | <code>Callback</code> | Optional callback |
 
 Searches for transaction `hashes`  by calling
-[`findTransactions`](https://docs.iota.org/iri/api#endpoints/findTransactions) command.
+[`findTransactions`](https://docs.hlx.ai/hlx/api#endpoints/findTransactions) command.
 It allows to search for transactions by passing a `query` object with `addresses`, `tags` and `approvees` fields.
 Multiple query fields are supported and `findTransactions` returns intersection of results.
 
@@ -509,7 +509,7 @@ findTransactions({ addresses: ['ADRR...'] })
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`getAccountData`](#module_core.getAccountData)  
 <a name="module_core.getAccountData"></a>
@@ -573,7 +573,7 @@ getAccountData(seed, {
 | [callback] | <code>Callback</code> | Optional callback |
 
 Fetches _confirmed_ balances of given addresses at the latest solid milestone,
-by calling [`getBalances`](https://docs.iota.works/iri/api#endpoints/getBalances) command.
+by calling [`getBalances`](https://docs.hlx.ai/hlx/api#endpoints/getBalances) command.
 
 **Example**  
 ```js
@@ -591,7 +591,7 @@ getBalances([address], 100)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`getBundle`](#module_core.getBundle)  
 <a name="module_core.getBundle"></a>
@@ -645,7 +645,7 @@ getBundle(tail)
 | [callback] | <code>Callback</code> | Optional callback |
 
 Fetches the transaction hbytes given a list of transaction hashes, by calling
-[`getHBytes`](https://docs.iota.works/iri/api#endpoints/getHBytes) command.
+[`getHBytes`](https://docs.hlx.ai/hlx/api#endpoints/getHBytes) command.
 
 **Example**  
 ```js
@@ -665,7 +665,7 @@ getHBytes(hashes)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`getInclusionStates`](#module_core.getInclusionStates)  
 <a name="module_core.getInclusionStates"></a>
@@ -683,7 +683,7 @@ getHBytes(hashes)
 | [callback] | <code>Callback</code> | Optional callback |
 
 Fetches inclusion states of given list of transactions, by calling
-[`getInclusionStates`](https://docs.iota.works/iri/api#endpoints/getInclusionsStates) command.
+[`getInclusionStates`](https://docs.hlx.ai/hlx/api#endpoints/getInclusionsStates) command.
 
 **Example**  
 ```js
@@ -701,7 +701,7 @@ getInclusionStates(transactions)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`getInputs`](#module_core.getInputs)  
 <a name="module_core.getInputs"></a>
@@ -748,7 +748,7 @@ getInputs(seed, { start: 0, threhold })
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`getLatestInclusion`](#module_core.getLatestInclusion)  
 <a name="module_core.getLatestInclusion"></a>
@@ -864,7 +864,7 @@ getNewAddress(seed, { index })
 | [callback] | <code>Callback</code> | Optional callback |
 
 Returns information about connected node by calling
-[`getNodeInfo`](https://docs.iota.works/iri/api#endpoints/getNodeInfo) command.
+[`getNodeInfo`](https://docs.hlx.ai/hlx/api#endpoints/getNodeInfo) command.
 
 **Example**  
 ```js
@@ -966,7 +966,7 @@ getTransactionObjects(hashes)
 | [callback] | <code>Callback</code> | Optional callback |
 
 Does the _tip selection_ by calling
-[`getTransactionsToApprove`](https://docs.iota.works/iri/api#endpoints/getTransactionsToApprove) command.
+[`getTransactionsToApprove`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionsToApprove) command.
 Returns a pair of approved transactions, which are chosen randomly after validating the transaction hbytes,
 the signatures and cross-checking for conflicting transactions.
 
@@ -1160,11 +1160,11 @@ is interruptable through `interrupt` option.
 | uris | <code>Array</code> | List of URI's |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Removes a list of neighbors from the connected IRI node by calling
-[`removeNeighbors`](https://docs.iota.works/iri/api#endpoints/removeNeighbors) command.
+Removes a list of neighbors from the connected helix node by calling
+[`removeNeighbors`](https://docs.hlx.ai/hlx/api#endpoints/removeNeighbors) command.
 Assumes `removeNeighbors` command is available on the node.
 
-This method has temporary effect until your IRI node relaunches.
+This method has temporary effect until your helix node relaunches.
 
 <a name="module_core.createReplayBundle"></a>
 
@@ -1255,7 +1255,7 @@ prepareTransfers(seed, transfers)
 
 | Param | Type |
 | --- | --- |
-| provider | <code>Provider</code> | 
+| provider | <code>Provider</code> |
 
 **Returns**: <code>function</code> - [`storeAndBroadcast`](#module_core.storeAndBroadcast)  
 <a name="module_core.storeAndBroadcast"></a>
@@ -1303,11 +1303,11 @@ Any transactions stored with this command will eventaully be erased, as a result
 | [callback] | <code>Callback</code> | Optional callback |
 
 Persists a list of _attached_ transaction hbytes in the store of connected node by calling
-[`storeTransactions`](https://docs.iota.org/iri/api#endpoints/storeTransactions) command.
+[`storeTransactions`](https://docs.hlx.ai/hlx/api#endpoints/storeTransactions) command.
 Tip selection and Proof-of-Work must be done first, by calling
 [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) and
 [`attachToTangle`](#module_core.attachToTangle) or an equivalent attach method or remote
-[`PoWbox`](https://powbox.devnet.iota.org/).
+[`PoW-Integrator`](https://powbox.devnet.iota.org/).
 
 Persist the transaction hbytes in local storage **before** calling this command, to ensure
 reattachment is possible, until your bundle has been included.
@@ -1320,7 +1320,7 @@ Any transactions stored with this command will eventaully be erased, as a result
 
 | Param | Type |
 | --- | --- |
-| provider | <code>Provider</code> | 
+| provider | <code>Provider</code> |
 
 **Returns**: <code>function</code> - [`traverseBundle`](#module_core.traverseBundle)  
 <a name="module_core.traverseBundle"></a>

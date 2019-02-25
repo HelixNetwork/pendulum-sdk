@@ -1,6 +1,6 @@
 # @helixnetwork/http-client
 
-Sends commands to [`IRI`](https://github.com/iotaledger/iri) over `HTTP`.
+Sends commands to [`helix`](https://github.com/iotaledger/iri) over `HTTP`.
 Allows to create a network provider compatible with functions in [`@helixnetwork/core`](../core).
 
 ## Installation
@@ -63,7 +63,7 @@ Sends an http request to a specified host.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [settings] | <code>object</code> | <code>{}</code> |  |
-| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of IRI node |
+| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of helix node |
 | [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | IOTA Api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
 
@@ -74,10 +74,10 @@ Sends an http request to a specified host.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [settings] | <code>object</code> | <code>{}</code> |  |
-| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of IRI node |
+| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of helix node |
 | [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | IOTA Api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
 
-Create an http client to access IRI http API.
+Create an http client to access helix http API.
 
 **Returns**: Object  

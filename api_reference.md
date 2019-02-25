@@ -53,7 +53,7 @@
 
 | Param | Type |
 | --- | --- |
-| bundle | <code>Array.&lt;Transaction&gt;</code> | 
+| bundle | <code>Array.&lt;Transaction&gt;</code> |
 
 Validates all signatures of a bundle.
 
@@ -63,7 +63,7 @@ Validates all signatures of a bundle.
 
 | Param | Type |
 | --- | --- |
-| bundle | <code>Array.&lt;Transaction&gt;</code> | 
+| bundle | <code>Array.&lt;Transaction&gt;</code> |
 
 Checks if a bundle is _syntactically_ valid.
 Validates signatures and overall structure.
@@ -104,10 +104,10 @@ Creates a bunlde with given transaction entries.
 | entry | <code>object</code> |  | Entry of single or multiple transactions with the same address |
 | [entry.length] | <code>number</code> | <code>1</code> | Entry length, which indicates how many transactions in the bundle will occupy |
 | [entry.address] | <code>string</code> |  | Address, defaults to all-9s |
-| [entry.value] | <code>number</code> | <code>0</code> | Value to transfer in _IOTAs_ |
-| [entry.signatureMessageFragments] | <code>Array.&lt;string&gt;</code> |  | Array of signature message fragments trytes, defaults to all-9s |
+| [entry.value] | <code>number</code> | <code>0</code> | Value to transfer in _HLX_ |
+| [entry.signatureMessageFragments] | <code>Array.&lt;string&gt;</code> |  | Array of signature message fragment bytes, defaults to all-0s |
 | [entry.timestamp] | <code>number</code> |  | Transaction timestamp, defaults to `Math.floor(Date.now() / 1000)` |
-| [entry.tag] | <code>string</code> |  | Optional Tag, defaults to null tag (all-9s) |
+| [entry.tag] | <code>string</code> |  | Optional Tag, defaults to null tag (all-0s) |
 
 Creates a bunlde with given transaction entries
 
@@ -145,7 +145,7 @@ Finalizes the bundle by calculating the bundle hash
 
 | Param | Type |
 | --- | --- |
-| addressWithChecksum | <code>string</code> | 
+| addressWithChecksum | <code>string</code> |
 
 Validates the checksum of the given address trytes.
 
@@ -153,118 +153,7 @@ Validates the checksum of the given address trytes.
 
 ## converter
 
-* [converter](#module_converter)
-
-    * [.asciiToTrytes(input)](#module_converter.asciiToTrytes)
-
-    * [.trytesToAscii(trytes)](#module_converter.trytesToAscii)
-
-    * [.trits(input)](#module_converter.trits)
-
-    * [.trytes(trits)](#module_converter.trytes)
-
-    * [.value(trits)](#module_converter.value)
-
-    * [.fromValue(value)](#module_converter.fromValue)
-
-
-<a name="module_converter.asciiToTrytes"></a>
-
-### *converter*.asciiToTrytes(input)
-
-| Param | Type | Description |
-| --- | --- | --- |
-| input | <code>string</code> | ascii input |
-
-Converts an ascii encoded string to trytes.
-
-### How conversion works:
-
-An ascii value of `1 Byte` can be represented in `2 Trytes`:
-
-1. We get the decimal unicode value of an individual ASCII character.
-
-2. From the decimal value, we then derive the two tryte values by calculating the tryte equivalent
-(e.g.: `100` is expressed as `19 + 3 * 27`), given that tryte alphabet contains `27` trytes values:
-  a. The first tryte value is the decimal value modulo `27` (which is the length of the alphabet).
-  b. The second value is the remainder of `decimal value - first value` devided by `27`.
-
-3. The two values returned from Step 2. are then input as indices into the available
-trytes alphabet (`9ABCDEFGHIJKLMNOPQRSTUVWXYZ`), to get the correct tryte value.
-
-### Example:
-
-Lets say we want to convert ascii character `Z`.
-
-1. `Z` has a decimal unicode value of `90`.
-
-2. `90` can be represented as `9 + 3 * 27`. To make it simpler:
-  a. First value is `90 % 27 = 9`.
-  b. Second value is `(90 - 9) / 27 = 3`.
-
-3. Our two values are `9` and `3`. To get the tryte value now we simply insert it as indices
-into the tryte alphabet:
-  a. The first tryte value is `'9ABCDEFGHIJKLMNOPQRSTUVWXYZ'[9] = I`
-  b. The second tryte value is `'9ABCDEFGHIJKLMNOPQRSTUVWXYZ'[3] = C`
-
-Therefore ascii character `Z` is represented as `IC` in trytes.
-
-**Returns**: <code>string</code> - string of trytes  
-<a name="module_converter.trytesToAscii"></a>
-
-### *converter*.trytesToAscii(trytes)
-
-| Param | Type | Description |
-| --- | --- | --- |
-| trytes | <code>string</code> | trytes |
-
-Converts trytes of _even_ length to an ascii string
-
-**Returns**: <code>string</code> - string in ascii  
-<a name="module_converter.trits"></a>
-
-### *converter*.trits(input)
-
-| Param | Type | Description |
-| --- | --- | --- |
-| input | <code>String</code> \| <code>Number</code> | Tryte string or value to be converted. |
-
-Converts trytes or values to trits
-
-**Returns**: <code>Int8Array</code> - trits  
-<a name="module_converter.trytes"></a>
-
-### *converter*.trytes(trits)
-
-| Param | Type |
-| --- | --- |
-| trits | <code>Int8Array</code> | 
-
-Converts trits to trytes
-
-**Returns**: <code>String</code> - trytes  
-<a name="module_converter.value"></a>
-
-### *converter*.value(trits)
-
-| Param | Type |
-| --- | --- |
-| trits | <code>Int8Array</code> | 
-
-Converts trits into an integer value
-
-<a name="module_converter.fromValue"></a>
-
-### *converter*.fromValue(value)
-
-| Param | Type |
-| --- | --- |
-| value | <code>Number</code> | 
-
-Converts an integer value to trits
-
-**Returns**: <code>Int8Array</code> - trits  
-<a name="module_core"></a>
+> Documentation on the new conversions are currently in works.
 
 ## core
 
@@ -398,7 +287,7 @@ Converts an integer value to trits
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [settings] | <code>object</code> \| <code>function</code> | <code>{} | provider</code> | Connection settings or `provider` factory |
-| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of IRI node |
+| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of the node |
 | [settings.attachToTangle] | <code>function</code> |  | Function to override [`attachToTangle`](#module_core.attachToTangle) with |
 | [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | IOTA Api version to be sent as `X-IOTA-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
@@ -660,7 +549,7 @@ const isPromotable = ({ hash, attachmentTimestamp }) => (
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`findTransactionObjects`](#module_core.findTransactionObjects)  
 <a name="module_core.findTransactionObjects"></a>
@@ -707,7 +596,7 @@ findTransactionObjects({ addresses: ['ADR...'] })
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`findTransactionObjects`](#module_core.findTransactions)  
 <a name="module_core.findTransactions"></a>
@@ -1498,7 +1387,7 @@ prepareTransfers(seed, transfers)
 
 | Param | Type |
 | --- | --- |
-| provider | <code>Provider</code> | 
+| provider | <code>Provider</code> |
 
 **Returns**: <code>function</code> - [`storeAndBroadcast`](#module_core.storeAndBroadcast)  
 <a name="module_core.storeAndBroadcast"></a>
@@ -1563,7 +1452,7 @@ Any transactions stored with this command will eventaully be erased, as a result
 
 | Param | Type |
 | --- | --- |
-| provider | <code>Provider</code> | 
+| provider | <code>Provider</code> |
 
 **Returns**: <code>function</code> - [`traverseBundle`](#module_core.traverseBundle)  
 <a name="module_core.traverseBundle"></a>
@@ -1618,7 +1507,7 @@ Generates an address deterministically, according to the given seed, index and s
 
 | Param | Type |
 | --- | --- |
-| bundle | <code>array</code> | 
+| bundle | <code>array</code> |
 
 Takes a bundle as input and from the signatureMessageFragments extracts the correct JSON
 data which was encoded and sent with the transaction.
@@ -1676,9 +1565,9 @@ getBundle(tailHash)
 
 | Param | Type | Default |
 | --- | --- | --- |
-| command | <code>Command</code> |  | 
-| [uri] | <code>String</code> | <code>http://localhost:14265</code> | 
-| [apiVersion] | <code>String</code> \| <code>Number</code> | <code>1</code> | 
+| command | <code>Command</code> |  |
+| [uri] | <code>String</code> | <code>http://localhost:14265</code> |
+| [apiVersion] | <code>String</code> \| <code>Number</code> | <code>1</code> |
 
 Sends an http request to a specified host.
 
@@ -1689,7 +1578,7 @@ Sends an http request to a specified host.
 
 | Param | Type |
 | --- | --- |
-| command | <code>object</code> | 
+| command | <code>object</code> |
 
 **Returns**: <code>object</code> - response  
 <a name="module_http-client..setSettings"></a>
@@ -1932,7 +1821,7 @@ Calculates the transaction hash out of 8019 transaction trits.
 
 | Param | Type |
 | --- | --- |
-| tx | <code>object</code> | 
+| tx | <code>object</code> |
 
 Checks if input is valid transaction object.
 
@@ -1942,7 +1831,7 @@ Checks if input is valid transaction object.
 
 | Param | Type |
 | --- | --- |
-| transaction | <code>object</code> | 
+| transaction | <code>object</code> |
 
 Checks if given transaction object is tail transaction.
 A tail transaction is one with `currentIndex=0`.
@@ -1953,8 +1842,8 @@ A tail transaction is one with `currentIndex=0`.
 
 | Param | Type |
 | --- | --- |
-| hash | <code>string</code> | 
-| mwm | <code>number</code> | 
+| hash | <code>string</code> |
+| mwm | <code>number</code> |
 
 Checks if input is correct transaction hash (81 trytes)
 
@@ -1964,8 +1853,8 @@ Checks if input is correct transaction hash (81 trytes)
 
 | Param | Type |
 | --- | --- |
-| trytes | <code>string</code> | 
-| minWeightMagnitude | <code>number</code> | 
+| trytes | <code>string</code> |
+| minWeightMagnitude | <code>number</code> |
 
 Checks if input is correct transaction trytes (2673 trytes)
 
@@ -1975,7 +1864,7 @@ Checks if input is correct transaction trytes (2673 trytes)
 
 | Param | Type |
 | --- | --- |
-| trytes | <code>string</code> | 
+| trytes | <code>string</code> |
 
 Checks if input is valid attached transaction trytes.
 For attached transactions last 241 trytes are non-zero.
@@ -2042,4 +1931,3 @@ Defines network provider configuration and [`attachToTangle`](#module_core.attac
 
 Overides default [`attachToTangle`](#module_core.attachToTangle) with a local equivalent or
 [`PoWBox`](https://powbox.devnet.iota.org/)
-

@@ -15,14 +15,14 @@ import {
  *
  * @memberof module:core
  *
- * @param {Provider} provider - Network provider for accessing IRI
+ * @param {Provider} provider - Network provider for accessing a helix node
  *
  * @return {function} {@link #module_core.getInclusionStates `getInclusionStates`}
  */
 export const createGetInclusionStates = ({ send }: Provider) =>
   /**
    * Fetches inclusion states of given list of transactions, by calling
-   * [`getInclusionStates`](https://docs.iota.works/iri/api#endpoints/getInclusionsStates) command.
+   * [`getInclusionStates`](https://docs.hlx.ai/hlx/api#endpoints/getInclusionsStates) command.
    *
    * @example
    * ```js

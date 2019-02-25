@@ -82,10 +82,10 @@ export function returnType<T>(func: Func<T>) {
  * @memberof module:core
  *
  * @param {object | Function} [settings={} | provider] - Connection settings or `provider` factory
- * @param {string} [settings.provider=http://localhost:14265] Uri of IRI node
+ * @param {string} [settings.provider=http://localhost:14265] Uri of the node
  * @param {function} [settings.attachToTangle] - Function to override
  * [`attachToTangle`]{@link #module_core.attachToTangle} with
- * @param {string | number} [settings.apiVersion=1] - IOTA Api version to be sent as `X-HELIX-API-Version` header.
+ * @param {string | number} [settings.apiVersion=1] - helix.api version to be sent as `X-HELIX-API-Version` header.
  * @param {number} [settings.requestBatchSize=1000] - Number of search values per request.
  *
  * @return {API}
@@ -108,7 +108,7 @@ export const composeAPI = (input: Partial<Settings> | CreateProvider = {}) => {
    * @memberof API
    *
    * @param {object} settings - Provider settings object
-   * @param {string} [settings.provider] - Http `uri` of IRI node
+   * @param {string} [settings.provider] - Http `uri` of the node
    * @param {function} [settings.attachToTangle] - Function to override
    * [`attachToTangle`]{@link #module_core.attachToTangle} with
    */
@@ -122,7 +122,7 @@ export const composeAPI = (input: Partial<Settings> | CreateProvider = {}) => {
 
   /**
    * Overides default [`attachToTangle`]{@link #module_core.attachToTangle} with a local equivalent or
-   * [`PoWBox`](https://powbox.devnet.iota.org/)
+   * [`PoW-Integrator`]()
    *
    * @method overrideAttachToTangle
    *
@@ -137,7 +137,7 @@ export const composeAPI = (input: Partial<Settings> | CreateProvider = {}) => {
 
   /** @namespace API */
   const api = {
-    // IRI commands
+    // helix commands
     addNeighbors: createAddNeighbors(provider),
     attachToTangle,
     broadcastTransactions: createBroadcastTransactions(provider),

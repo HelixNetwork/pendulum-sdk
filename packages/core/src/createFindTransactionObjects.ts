@@ -11,7 +11,7 @@ import {
  *
  * @memberof module:core
  *
- * @param {Provider} provider - Network provider for accessing IRI
+ * @param {Provider} provider - Network provider for accessing a helix node
  *
  * @return {function} {@link #module_core.findTransactionObjects `findTransactionObjects`}
  */
@@ -21,7 +21,7 @@ export const createFindTransactionObjects = (provider: Provider) => {
 
   /**
    * Wrapper function for [`findTransactions`]{@link #module_core.findTransactions} and
-   * [`getBytes`]{@link #module_core.getBytes}.
+   * [`getHBytes`]{@link #module_core.getHBytes}.
    * Searches for transactions given a `query` object with `addresses`, `tags` and `approvees` fields.
    * Multiple query fields are supported and `findTransactionObjects` returns intersection of results.
    *

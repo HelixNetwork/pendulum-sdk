@@ -36,7 +36,7 @@
     "include": ["out/src/*.js", "out/test/*.js"]
   },
   "keywords": [
-    "iota",
+    "helix",
     "tangle",
     "library",
     "browser",

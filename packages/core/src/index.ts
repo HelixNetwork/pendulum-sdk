@@ -1,6 +1,6 @@
 /** @module core */
 
-// IRI commands
+// helix commands
 export {
   AddNeighborsCommand,
   AddNeighborsResponse,

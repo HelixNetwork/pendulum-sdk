@@ -24,7 +24,7 @@ import {
 export const createGetTransactionsToApprove = ({ send }: Provider) =>
   /**
    * Does the _tip selection_ by calling
-   * [`getTransactionsToApprove`](https://docs.iota.works/iri/api#endpoints/getTransactionsToApprove) command.
+   * [`getTransactionsToApprove`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionsToApprove) command.
    * Returns a pair of approved transactions, which are chosen randomly after validating the transaction hbytes,
    * the signatures and cross-checking for conflicting transactions.
    *

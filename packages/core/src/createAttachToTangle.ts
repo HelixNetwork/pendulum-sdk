@@ -31,7 +31,7 @@ import {
 export const createAttachToTangle = ({ send }: Provider): AttachToTangle => {
   /**
    * Performs the Proof-of-Work required to attach a transaction to the Tangle by
-   * calling [`attachToTangle`](https://docs.iota.works/iri/api#endpoints/attachToTangle) command.
+   * calling [`attachToTangle`](https://docs.helix.works/hlx/api#endpoints/attachToTangle) command.
    * Returns list of transaction hbytes and overwrites the following fields:
    *  - `hash`
    *  - `nonce`
@@ -40,9 +40,8 @@ export const createAttachToTangle = ({ send }: Provider): AttachToTangle => {
    *  - `attachmentTimestampUpperBound`
    *
    * This method can be replaced with a local equivelant such as
-   * [`ccurl.interface.js`](https://github.com/iotaledger/ccurl.interface.js) in node.js,
-   * [`curl.lib.js`](https://github.com/iotaledger/curl.lib.js) which works on WebGL 2 enabled browsers
-   * or remote [`PoWbox`](https://powbox.devnet.iota.org/).
+   * < in development >
+   * or remote [`PoW-Integrator`]().
    *
    * `trunkTransaction` and `branchTransaction` hashes are given by
    * {@link #module_core.getTransactionsToApprove `getTransactionToApprove`}.
