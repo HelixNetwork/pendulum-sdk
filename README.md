@@ -1,7 +1,6 @@
 # Helix API
 
-Based on IOTA-Client Reference Implementation in Javascript
-> DISCLAIMER: This readme and most of the code base are taken from the IOTA Foundation. This repository is NOT intended for public use and is subject to the agreed Non-Disclosure-Agreement.  As it was a spontaneous decision to fork from the newer typescript implementation, this repository is just freshly refactored, expect wrong naming and minor mistakes.  On a different note, the Helix signature scheme, which was already implemented in javascript, is now being translated to typescript, so expect some pushes to this repository from our side.
+Based on IOTA-Client Implementation ([**iota.js](https://github.com/iotaledger/iota.js)).
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/helixnetwork/helix.ap/master/LICENSE)  
 
@@ -91,14 +90,14 @@ Publish transfers by calling [`prepareTransfers`](packages/core#module_core.prep
 prepared hbytes to [`sendHBytes`](packages/core#module_core.sendHBytes) command.
 
 ```js
-// must be truly random 
+// must be truly random
 const seed = ' your seed here '
 
 // Array of transfers which defines transfer recipients and value transferred in helixs.
 const transfers = [{
     address: ' recipient address here ',
     value: 1000, // 1Kh
-    tag: '', // optional tag 
+    tag: '', // optional tag
     message: '' // optional message in trytes
 }]
 
@@ -125,3 +124,19 @@ helix.prepareTransfers(seed, transfers)
 For details on all available API methods please see the [reference page](api_reference.md).
 
 Documentation of helix protocol and [`Helix.Protocol`](https://hlx.readme.io/hcp) http API can be found on [Helix Internal Documentation](https://hlx.readme.io).
+
+## Next
+
+- remove `hbits notation, only `hbytes` are relevant for processing/storing. To avoid confusion we should introduce an additional `hString` variable.
+- Value Transfers: Change Address / wereAddressesSpentFrom and validity/consistency checks on server side.
+
+### UNIT TESTS
+- check traverseBundle.test
+- fix getNewAddress.test
+- fix replayBundle.test
+- fix sendBytes.test
+- check wereAddressesSpentFrom.test
+- check getTransfers.test
+- fix getNewAddress.test
+- check prepareTransfers.test
+- adapt packages/samples
