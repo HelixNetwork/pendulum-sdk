@@ -10,14 +10,14 @@ import { Hash } from "../../types";
 
 /**
  * Generates an address deterministically, according to the given seed, index and security level.
- *
+ * @todo set default security to 2 in future.
  * @method generateAddress
  *
  * @memberof module:core
  *
  * @param {string} seed
  * @param {number} index - Private key index
- * @param {number} [security=2] - Security level of the private key
+ * @param {number} [security=1] - Security level of the private key
  * @param {boolean} [checksum=false] - Flag to add 0hbytes checksum
  *
  * @returns {Hash} Address hbytes
@@ -25,7 +25,7 @@ import { Hash } from "../../types";
 export const generateAddress = (
   seed: string,
   index: number,
-  security: number = 2,
+  security: number = 1,
   checksum: boolean = false
 ): Hash => {
   // TODO: this part is added only to address generation not also when bundle is sign,
