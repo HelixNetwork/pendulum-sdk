@@ -127,7 +127,7 @@ Documentation of helix protocol and [`Helix.Protocol`](https://hlx.readme.io/hcp
 
 ## Next
 
-- remove `hbits notation, only `hbytes` are relevant for processing/storing. To avoid confusion we should introduce an additional `hString` variable.
+- remove `hbits` notation, only `hbytes` are relevant for processing/storing. To avoid confusion we should introduce an additional `hString` variable.
 - Value Transfers: Change Address / wereAddressesSpentFrom and validity/consistency checks on server side.
 - check traverseBundle.test
 - fix getNewAddress.test
