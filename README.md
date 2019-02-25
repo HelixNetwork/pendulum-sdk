@@ -1,6 +1,6 @@
 # Helix API
 
-Based on IOTA-Client Implementation ([**iota.js](https://github.com/iotaledger/iota.js)).
+Based on IOTA-Client Implementation ([**iota.js**](https://github.com/iotaledger/iota.js)).
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/helixnetwork/helix.ap/master/LICENSE)  
 
@@ -129,8 +129,6 @@ Documentation of helix protocol and [`Helix.Protocol`](https://hlx.readme.io/hcp
 
 - remove `hbits notation, only `hbytes` are relevant for processing/storing. To avoid confusion we should introduce an additional `hString` variable.
 - Value Transfers: Change Address / wereAddressesSpentFrom and validity/consistency checks on server side.
-
-### UNIT TESTS
 - check traverseBundle.test
 - fix getNewAddress.test
 - fix replayBundle.test
