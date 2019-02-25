@@ -46,7 +46,7 @@ const HASH_LENGTH = HASH_BYTE_SIZE;
 const SIGNATURE_MESSAGE_FRAGMENT_LENGTH = SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
 const SIGNATURE_MESSAGE_FRAGMENT_LENGTH_BYTE = SIGNATURE_TOTAL_BYTE_SIZE;
 // const KEY_FRAGMENT_LENGTH = 2 * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
-const SECURITY_LEVEL = 2;
+const SECURITY_LEVEL = 1;
 
 export interface PrepareTransfersOptions {
   readonly inputs: ReadonlyArray<Address>;
@@ -60,7 +60,7 @@ const defaults: PrepareTransfersOptions = {
   inputs: [],
   address: undefined,
   remainderAddress: undefined,
-  security: 2,
+  security: 1,
   hmacKey: undefined
 };
 
