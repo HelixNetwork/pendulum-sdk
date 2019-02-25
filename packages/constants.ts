@@ -1,28 +1,25 @@
-/** We will provide sizes for this */
-
 /**
  * Tryte has been converted into HByte
  * 1 HBytes is represented as a string with length 2, in hexadecimal representation,
  * because of this all values are multiplied with 2
  */
 
-export const SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE = 2 * 512; // 2 * 1024; // 2187;
-// public key for schnorr signature needs 32 byts
-export const ADDRESS_BYTE_SIZE = 2 * 32; // trytes 81;
-export const ADDRESS_BYTE_SIZE_PADDING = 2 * 32; // 32 is not multiple of 4
-export const TRANSACTION_VALUE_BYTE_SIZE = 2 * 8; // trytes 27;
-export const OBSOLETE_TAG_BYTE_SIZE = 2 * 32; // trytes 27
-export const TRANSACTION_TIMESTAMP_BYTE_SIZE = 2 * 8; // trytes 9
-export const TRANSACTION_CURRENT_INDEX_BYTE_SIZE = 2 * 8; // trytes 9
-export const TRANSACTION_LAST_INDEX_BYTE_SIZE = 2 * 8; // trytes 9
-export const HASH_HBYTE_SIZE = 2 * 32; // trytes 81
-export const HASH_BYTE_SIZE = 32; // trytes 81
+export const SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE = 2 * 512;
+export const ADDRESS_BYTE_SIZE = 2 * 32;
+export const ADDRESS_BYTE_SIZE_PADDING = 2 * 32;
+export const TRANSACTION_VALUE_BYTE_SIZE = 2 * 8;
+export const OBSOLETE_TAG_BYTE_SIZE = 2 * 32;
+export const TRANSACTION_TIMESTAMP_BYTE_SIZE = 2 * 8;
+export const TRANSACTION_CURRENT_INDEX_BYTE_SIZE = 2 * 8;
+export const TRANSACTION_LAST_INDEX_BYTE_SIZE = 2 * 8;
+export const HASH_HBYTE_SIZE = 2 * 32;
+export const HASH_BYTE_SIZE = 32;
 
-export const TAG_BYTE_SIZE = 2 * 8; // trytes 27
-export const TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE = 2 * 8; // trytes 9
-export const TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE = 2 * 8; // trytes 9
-export const NONCE_BYTE_SIZE = 2 * 8; // trytes 27
-export const SEED_BYTE_SIZE = 2 * 32; // trytes 81
+export const TAG_BYTE_SIZE = 2 * 8;
+export const TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE = 2 * 8;
+export const TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE = 2 * 8;
+export const NONCE_BYTE_SIZE = 2 * 8;
+export const SEED_BYTE_SIZE = 2 * 32;
 
 export const BYTE_SIZE_USED_FOR_VALIDATION =
   ADDRESS_BYTE_SIZE +
@@ -34,19 +31,19 @@ export const BYTE_SIZE_USED_FOR_VALIDATION =
 
 export const BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING = BYTE_SIZE_USED_FOR_VALIDATION; // padded to a multiple of 4
 // signature size security level 1
-export const TRANSACTION_HBYTE_SIZE = 2 * 768; //  //2 * 1232; - security level 2 //2256 bytes?; // trytes 2673;
+export const TRANSACTION_HBYTE_SIZE = 2 * 768;
 // Address checksum constants:
-export const ADDRESS_CHECKSUM_BYTE_SIZE = 8; // 9 trytes
-export const ADDRESS_MIN_CHECKSUM_BYTE_SIZE = 2; // 3 trytes
+export const ADDRESS_CHECKSUM_BYTE_SIZE = 8;
+export const ADDRESS_MIN_CHECKSUM_BYTE_SIZE = 2;
 
 // HBITS constants
-export const HASH_BITS_SIZE = 256; // trits 243
-// export const ADDRESS_SIZE_BITS = 256; // trits 243
-export const TRANSACTION_VALUE_BITS_SIZE = 64; // trits 81 -> 27 trytes -> 8 bytes -> 64 bits
-export const TRANSACTION_TIMESTAMP_BITS_SIZE = 64; // trits 27 -> 9 trytes
-export const TRANSACTION_CURRENT_INDEX_BITS_SIZE = 64; // trits 27
-export const TRANSACTION_LAST_INDEX_BITS_SIZE = 64; // trits 27
-export const TRANSACTION_OBSOLETE_TAG_BITS_SIZE = 256; // trits 81
+export const HASH_BITS_SIZE = 256;
+// export const ADDRESS_SIZE_BITS = 256;
+export const TRANSACTION_VALUE_BITS_SIZE = 64;
+export const TRANSACTION_TIMESTAMP_BITS_SIZE = 64;
+export const TRANSACTION_CURRENT_INDEX_BITS_SIZE = 64;
+export const TRANSACTION_LAST_INDEX_BITS_SIZE = 64;
+export const TRANSACTION_OBSOLETE_TAG_BITS_SIZE = 256;
 export const TRANSACTION_TAG_BITS_SIZE = 64;
 // export const SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS = 8 * 1024; // trits 2187 -> 2187 trytes -> 1024 bytes -> 8 * 1024 bits
 
