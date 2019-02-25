@@ -11,7 +11,7 @@ export const getNodeInfoCommand: GetNodeInfoCommand = {
 };
 
 export const getNodeInfoResponse: GetNodeInfoResponse = {
-  appName: "IRI",
+  appName: "SBX",
   appVersion: "",
   duration: 100,
   jreAvailableProcessors: 4,

@@ -1,7 +1,7 @@
 {
   "name": "@helixnetwork/hash-module",
   "version": "1.0.0-alpha.0",
-  "description": "IOTA-related cryptographic methods",
+  "description": "helix-related cryptographic methods",
   "main": "./out/src/index.js",
   "typings": "typings/src",
   "publishConfig": {
@@ -25,7 +25,7 @@
     "verbose": true
   },
   "keywords": [
-    "iota",
+    "helix",
     "tangle",
     "library",
     "browser",

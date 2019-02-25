@@ -24,13 +24,13 @@ import {
 export const createGetTransactionsToApprove = ({ send }: Provider) =>
   /**
    * Does the _tip selection_ by calling
-   * [`getTransactionsToApprove`](https://docs.iota.works/iri/api#endpoints/getTransactionsToApprove) command.
+   * [`getTransactionsToApprove`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionsToApprove) command.
    * Returns a pair of approved transactions, which are chosen randomly after validating the transaction hbytes,
    * the signatures and cross-checking for conflicting transactions.
    *
    * Tip selection is executed by a Random Walk (RW) starting at random point in given `depth`
    * ending up to the pair of selected tips. For more information about tip selection please refer to the
-   * [whitepaper](http://iotatoken.com/IOTA_Whitepaper.pdf).
+   * [whitepaper](http://hlx.ai/helix-whitepaper.pdf).
    *
    * The `reference` option allows to select tips in a way that the reference transaction is being approved too.
    * This is useful for promoting transactions, for example with

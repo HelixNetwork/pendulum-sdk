@@ -7,7 +7,7 @@ import { createGetInclusionStates, createGetNodeInfo } from "./";
  *
  * @memberof module:core
  *
- * @param {Provider} provider - Network provider for accessing IRI
+ * @param {Provider} provider - Network provider for accessing a helix node
  *
  * @return {function} {@link #module_core.getLatestInclusion `getLatestInclusion`}
  */

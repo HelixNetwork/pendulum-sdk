@@ -79,7 +79,7 @@ export interface Neighbor {
 /* List of Neighbors object, returned by `getNeighbors()` */
 export type Neighbors = ReadonlyArray<Neighbor>;
 
-/* List of IRI Commands */
+/* List of helix Commands */
 export enum ProtocolCommand {
   GET_NODE_INFO = "getNodeInfo",
   GET_NEIGHBORS = "getNeighbors",
@@ -99,12 +99,12 @@ export enum ProtocolCommand {
   WERE_ADDRESSES_SPENT_FROM = "wereAddressesSpentFrom"
 }
 
-/* IRI Command objects extend from this interface */
+/* helix Command objects extend from this interface */
 export interface BaseCommand {
   readonly command: string;
 }
 
-/** IRI Command/Response interfaces */
+/** helix Command/Response interfaces */
 export interface AddNeighborsCommand extends BaseCommand {
   command: ProtocolCommand.ADD_NEIGHBORS;
   readonly uris: ReadonlyArray<string>;

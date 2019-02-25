@@ -2,7 +2,7 @@
   "name": "@helixnetwork/core",
   "version": "1.0.0-alpha.0",
   "description":
-    "Core functionality to interact with the IOTA network: generate addresses, create, broadcast and monitor transactions.",
+    "Core functionality to interact with the helix network: generate addresses, create, broadcast and monitor transactions.",
   "main": "./out/core/src/index.js",
   "typings": "typings/core/src",
   "publishConfig": {
@@ -43,7 +43,7 @@
     ]
   },
   "keywords": [
-    "iota",
+    "helix",
     "tangle",
     "library",
     "browser",

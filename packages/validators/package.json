@@ -2,7 +2,7 @@
   "name": "@helixnetwork/validators",
   "version": "1.0.0-alpha.0",
   "description":
-    "Collection of guards and validators, useful in IOTA development.",
+    "Collection of guards and validators, useful in helix development.",
   "main": "./out/validators/src/index.js",
   "typings": "./typings/validators/src",
   "publishConfig": {
@@ -44,7 +44,7 @@
     "@helixnetwork/samples": "^1.0.0-alpha.0"
   },
   "keywords": [
-    "iota",
+    "helix",
     "tangle",
     "library",
     "browser",

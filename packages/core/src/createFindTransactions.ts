@@ -73,14 +73,14 @@ export const padTags = (query: FindTransactionsQuery) =>
  *
  * @memberof module:core
  *
- * @param {Provider} provider - Network provider for accessing IRI
+ * @param {Provider} provider - Network provider for accessing a helix node
  *
  * @return {function} {@link #module_core.findTransactions `findTransactionObjects`}
  */
 export const createFindTransactions = ({ send }: Provider) => {
   /**
    * Searches for transaction `hashes`  by calling
-   * [`findTransactions`](https://docs.iota.org/iri/api#endpoints/findTransactions) command.
+   * [`findTransactions`](https://docs.hlx.ai/hlx/api#endpoints/findTransactions) command.
    * It allows to search for transactions by passing a `query` object with `addresses`, `tags` and `approvees` fields.
    * Multiple query fields are supported and `findTransactions` returns intersection of results.
    *
