@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/bundle-validator",
-  "version": "0.0.1-alpha.0",
+  "version": "1.0.0-alpha.0",
   "description": "Syntactically validates bundle structure and signatures.",
   "main": "./out/bundle-validator/src/index.js",
   "typings": "typings/bundle-validator/src",
@@ -54,14 +54,14 @@
       "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
   },
   "dependencies": {
-    "@helixnetwork/converter": "^0.0.1-alpha.0",
-    "@helixnetwork/hash-module": "^0.0.1-alpha.0",
-    "@helixnetwork/winternitz": "^0.0.1-alpha.0",
-    "@helixnetwork/transaction": "^0.0.1-alpha.0",
-    "@helixnetwork/transaction-converter": "^0.0.1-alpha.0"
+    "@helixnetwork/converter": "^1.0.0-alpha.0",
+    "@helixnetwork/hash-module": "^1.0.0-alpha.0",
+    "@helixnetwork/winternitz": "^1.0.0-alpha.0",
+    "@helixnetwork/transaction": "^1.0.0-alpha.0",
+    "@helixnetwork/transaction-converter": "^1.0.0-alpha.0"
   },
   "devDependencies": {
-    "@helixnetwork/samples": "^0.0.1-alpha.0",
-    "@helixnetwork/pad": "^0.0.1-alpha.0"
+    "@helixnetwork/samples": "^1.0.0-alpha.0",
+    "@helixnetwork/pad": "^1.0.0-alpha.0"
   }
 }
