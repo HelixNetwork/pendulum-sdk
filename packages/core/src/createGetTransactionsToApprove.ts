@@ -30,7 +30,7 @@ export const createGetTransactionsToApprove = ({ send }: Provider) =>
    *
    * Tip selection is executed by a Random Walk (RW) starting at random point in given `depth`
    * ending up to the pair of selected tips. For more information about tip selection please refer to the
-   * [whitepaper](http://iotatoken.com/IOTA_Whitepaper.pdf).
+   * [whitepaper](http://hlx.ai/helix-whitepaper.pdf).
    *
    * The `reference` option allows to select tips in a way that the reference transaction is being approved too.
    * This is useful for promoting transactions, for example with

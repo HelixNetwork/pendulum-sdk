@@ -17,7 +17,7 @@ export interface UnitMap {
   };
 }
 
-// Map of IOTA Units based off of the standard System of Units
+// Map of Helix Units based off of the standard System of Units
 export const unitMap: UnitMap = {
   h: { val: new BigNumber(10).pow(0), dp: 0 },
   Kh: { val: new BigNumber(10).pow(3), dp: 3 },
@@ -28,7 +28,7 @@ export const unitMap: UnitMap = {
 };
 
 /**
- * Converts accross IOTA units. Valid unit names are:
+ * Converts accross Helix units. Valid unit names are:
  * `h`, `Kh`, `Mh`, `Gh`, `Th`, `Ph`
  *
  * @method convertUnits

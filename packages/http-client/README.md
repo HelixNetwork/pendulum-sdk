@@ -18,7 +18,7 @@ yarn add @helixnetwork/http-client
 
 ## API Reference
 
-    
+
 * [http-client](#module_http-client)
 
     * _static_
@@ -40,9 +40,9 @@ yarn add @helixnetwork/http-client
 
 | Param | Type | Default |
 | --- | --- | --- |
-| command | <code>Command</code> |  | 
-| [uri] | <code>String</code> | <code>http://localhost:14265</code> | 
-| [apiVersion] | <code>String</code> \| <code>Number</code> | <code>1</code> | 
+| command | <code>Command</code> |  |
+| [uri] | <code>String</code> | <code>http://localhost:14265</code> |
+| [apiVersion] | <code>String</code> \| <code>Number</code> | <code>1</code> |
 
 Sends an http request to a specified host.
 
@@ -53,7 +53,7 @@ Sends an http request to a specified host.
 
 | Param | Type |
 | --- | --- |
-| command | <code>object</code> | 
+| command | <code>object</code> |
 
 **Returns**: <code>object</code> - response  
 <a name="module_http-client..setSettings"></a>
@@ -64,7 +64,7 @@ Sends an http request to a specified host.
 | --- | --- | --- | --- |
 | [settings] | <code>object</code> | <code>{}</code> |  |
 | [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of helix node |
-| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | IOTA Api version to be sent as `X-HELIX-API-Version` header. |
+| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | Helix Api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
 
 <a name="module_http-client..createHttpClient"></a>
@@ -75,7 +75,7 @@ Sends an http request to a specified host.
 | --- | --- | --- | --- |
 | [settings] | <code>object</code> | <code>{}</code> |  |
 | [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of helix node |
-| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | IOTA Api version to be sent as `X-HELIX-API-Version` header. |
+| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | Helix Api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
 
 Create an http client to access helix http API.

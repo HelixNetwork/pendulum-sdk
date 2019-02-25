@@ -1,6 +1,6 @@
 # @helixnetwork/unit-converter
 
-Converts value across different IOTA units.
+Converts value across different Helix units.
 
 ## Installation
 
@@ -27,6 +27,5 @@ yarn add @helixnetwork/unit-converter
 | fromUnit | <code>string</code> | Name of original value unit |
 | toUnit | <code>string</code> | Name of unit wich we convert to |
 
-Converts accross IOTA units. Valid unit names are:
+Converts accross Helix units. Valid unit names are:
 `h`, `Kh`, `Mh`, `Gh`, `Th`, `Ph`
-

@@ -1,6 +1,6 @@
 # @helixnetwork/core
 
-Core functionality to interact with the IOTA network. Includes methods for:
+Core functionality to interact with the helix network. Includes methods for:
 - Generating addresses
 - Creating, attaching and broadcasting transactions
 - Querying for transactions
@@ -157,7 +157,7 @@ yarn add @helixnetwork/core
 | [settings] | <code>object</code> \| <code>function</code> | <code>{} | provider</code> | Connection settings or `provider` factory |
 | [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of helix node |
 | [settings.attachToTangle] | <code>function</code> |  | Function to override [`attachToTangle`](#module_core.attachToTangle) with |
-| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | IOTA Api version to be sent as `X-HELIX-API-Version` header. |
+| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | Helix Api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
 
 Composes API object from it's components
@@ -972,7 +972,7 @@ the signatures and cross-checking for conflicting transactions.
 
 Tip selection is executed by a Random Walk (RW) starting at random point in given `depth`
 ending up to the pair of selected tips. For more information about tip selection please refer to the
-[whitepaper](http://iotatoken.com/IOTA_Whitepaper.pdf).
+[whitepaper](http://hlx.ai/helix-whitepaper.pdf).
 
 The `reference` option allows to select tips in a way that the reference transaction is being approved too.
 This is useful for promoting transactions, for example with

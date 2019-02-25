@@ -1,7 +1,7 @@
 {
   "name": "@helixnetwork/unit-converter",
   "version": "1.0.0-alpha.0",
-  "description": "Converts value across different IOTA units.",
+  "description": "Converts value across different Helix units.",
   "main": "./out/src/index.js",
   "typings": "./out/src",
   "publishConfig": {
