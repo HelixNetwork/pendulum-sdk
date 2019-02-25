@@ -47,7 +47,7 @@ helix
     );
   })
 
-  .then(results => console.log(JSON.stringify(JSON.stringify(results))))
+  .then(results => console.log(JSON.stringify(results)))
   .catch(err => {
     console.log(err);
   });
