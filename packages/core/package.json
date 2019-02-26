@@ -67,9 +67,9 @@
     "@helixnetwork/hash-module": "^1.0.0-alpha.0",
     "@helixnetwork/http-client": "^1.0.0-alpha.0",
     "@helixnetwork/pad": "^1.0.0-alpha.0",
-    "@helixnetwork/winternitz": "^1.0.0-alpha.0",
     "@helixnetwork/transaction": "^1.0.0-alpha.0",
     "@helixnetwork/transaction-converter": "^1.0.0-alpha.0",
+    "@helixnetwork/winternitz": "^1.0.0-alpha.0",
     "@types/bluebird": "^3.5.20",
     "bluebird": "^3.5.1"
   },
