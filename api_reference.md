@@ -289,7 +289,7 @@ Validates the checksum of the given address trytes.
 | [settings] | <code>object</code> \| <code>function</code> | <code>{} | provider</code> | Connection settings or `provider` factory |
 | [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of the node |
 | [settings.attachToTangle] | <code>function</code> |  | Function to override [`attachToTangle`](#module_core.attachToTangle) with |
-| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | IOTA Api version to be sent as `X-IOTA-API-Version` header. |
+| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | Helix Api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
 
 Composes API object from it's components
@@ -1067,7 +1067,7 @@ the signatures and cross-checking for conflicting transactions.
 
 Tip selection is executed by a Random Walk (RW) starting at random point in given `depth`
 ending up to the pair of selected tips. For more information about tip selection please refer to the
-[whitepaper](http://iotatoken.com/IOTA_Whitepaper.pdf).
+[whitepaper](https://hlx.ai/helix-protocol.pdf).
 
 The `reference` option allows to select tips in a way that the reference transaction is being approved too.
 This is useful for promoting transactions, for example with
@@ -1076,7 +1076,7 @@ This is useful for promoting transactions, for example with
 **Example**  
 ```js
 const depth = 3
-const minWeightMagnitude = 14
+const minWeightMagnitude = 2
 
 getTransactionsToApprove(depth)
   .then(transactionsToApprove =>
@@ -1589,7 +1589,7 @@ Sends an http request to a specified host.
 | --- | --- | --- | --- |
 | [settings] | <code>object</code> | <code>{}</code> |  |
 | [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of IRI node |
-| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | IOTA Api version to be sent as `X-IOTA-API-Version` header. |
+| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | Helix Api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
 
 <a name="module_http-client..createHttpClient"></a>
@@ -1600,7 +1600,7 @@ Sends an http request to a specified host.
 | --- | --- | --- | --- |
 | [settings] | <code>object</code> | <code>{}</code> |  |
 | [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of IRI node |
-| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | IOTA Api version to be sent as `X-IOTA-API-Version` header. |
+| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | Helix Api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
 
 Create an http client to access IRI http API.
@@ -1882,7 +1882,7 @@ For attached transactions last 241 trytes are non-zero.
 | fromUnit | <code>string</code> | Name of original value unit |
 | toUnit | <code>string</code> | Name of unit wich we convert to |
 
-Converts accross IOTA units. Valid unit names are:
+Converts accross HLX units. Valid unit names are:
 `h`, `Kh`, `Mh`, `Gh`, `Th`, `Ph`
 
 <a name="module_validators"></a>
