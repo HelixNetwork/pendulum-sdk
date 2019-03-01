@@ -1,9 +1,7 @@
 /* tslint:disable variable-name no-conditional-assignment */
 
-// note: cryptojs is using keccak rather than sha3, opposed to their naming, hence we currently use js-sha3. We might consider different sha3 implementations.
-import * as ipfs from "ipfs";
+/** CURRENTLY BEING PORTED FROM JS IMPL. */
 import * as errors from "./errors";
-import { hex } from "@helixnetwork/converter";
 
 /**
  * @class Ipfs
@@ -11,8 +9,6 @@ import { hex } from "@helixnetwork/converter";
  */
 
 export default class Ipfs {
-
-  private ipfs: any;
 
   /**
    * @constructor
