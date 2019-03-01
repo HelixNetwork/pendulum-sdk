@@ -17,7 +17,7 @@ yarn add @helixnetwork/converter
 
 ## API Reference
 
-
+    
 * [converter](#module_converter)
 
     * [.asciiToHBytes(input)](#module_converter.asciiToHBytes)
@@ -92,7 +92,7 @@ Converts hbytes or values to hbits
 
 | Param | Type |
 | --- | --- |
-| hBits | <code>Int8Array</code> |
+| hBits | <code>Int8Array</code> | 
 
 Converts hbits to hbytes
 
@@ -103,7 +103,7 @@ Converts hbits to hbytes
 
 | Param | Type |
 | --- | --- |
-| hBits | <code>Int8Array</code> |
+| hBits | <code>Int8Array</code> | 
 
 Converts hbits into an integer value
 
@@ -113,7 +113,7 @@ Converts hbits into an integer value
 
 | Param | Type |
 | --- | --- |
-| value | <code>Number</code> |
+| value | <code>Number</code> | 
 
 Converts an integer value to hbits
 
