@@ -29,3 +29,4 @@ yarn add @helixnetwork/unit-converter
 
 Converts accross Helix units. Valid unit names are:
 `h`, `Kh`, `Mh`, `Gh`, `Th`, `Ph`
+

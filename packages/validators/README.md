@@ -1,6 +1,6 @@
 # @helixnetwork/validators
 
-Collection of guards and validators, useful in helix development.
+Collection of guards and validators, useful in Helix development.
 
 ## Installation
 
@@ -17,7 +17,7 @@ yarn add @helixnetwork/validators
 
 ## API Reference
 
-
+    
 * [validators](#module_validators)
 
     * [~isHBytes(hbytes, [length])](#module_validators..isHBytes)
@@ -53,8 +53,8 @@ yarn add @helixnetwork/validators
 
 | Param | Type | Default |
 | --- | --- | --- |
-| hbytes | <code>string</code> |  |
-| [length] | <code>string</code> \| <code>number</code> | <code>&quot;&#x27;1,&#x27;&quot;</code> |
+| hbytes | <code>string</code> |  | 
+| [length] | <code>string</code> \| <code>number</code> | <code>&quot;&#x27;1,&#x27;&quot;</code> | 
 
 Checks if input is correct hbytes consisting of [9A-Z]; optionally validate length
 
@@ -64,8 +64,8 @@ Checks if input is correct hbytes consisting of [9A-Z]; optionally validate leng
 
 | Param | Type |
 | --- | --- |
-| hbytes | <code>string</code> |
-| length | <code>number</code> |
+| hbytes | <code>string</code> | 
+| length | <code>number</code> | 
 
 <a name="module_validators..isHBytesOfMaxLength"></a>
 
@@ -73,8 +73,8 @@ Checks if input is correct hbytes consisting of [9A-Z]; optionally validate leng
 
 | Param | Type |
 | --- | --- |
-| hbytes | <code>string</code> |
-| length | <code>number</code> |
+| hbytes | <code>string</code> | 
+| length | <code>number</code> | 
 
 <a name="module_validators..isEmpty"></a>
 
@@ -82,7 +82,7 @@ Checks if input is correct hbytes consisting of [9A-Z]; optionally validate leng
 
 | Param | Type |
 | --- | --- |
-| hash | <code>string</code> |
+| hash | <code>string</code> | 
 
 Checks if input contains `9`s only.
 
@@ -92,7 +92,7 @@ Checks if input contains `9`s only.
 
 | Param | Type |
 | --- | --- |
-| bytes | <code>Uint8Array</code> |
+| bytes | <code>Uint8Array</code> | 
 
 Checks if input contains `9`s only.
 
@@ -102,7 +102,7 @@ Checks if input contains `9`s only.
 
 | Param | Type |
 | --- | --- |
-| hash | <code>string</code> |
+| hash | <code>string</code> | 
 
 Checks if input is correct hash (81 hbytes) or address with checksum (90 hbytes)
 
@@ -112,7 +112,7 @@ Checks if input is correct hash (81 hbytes) or address with checksum (90 hbytes)
 
 | Param | Type |
 | --- | --- |
-| hash | <code>string</code> |
+| hash | <code>string</code> | 
 
 Checks if input is correct address or address with checksum (90 hbytes)
 
@@ -122,7 +122,7 @@ Checks if input is correct address or address with checksum (90 hbytes)
 
 | Param | Type |
 | --- | --- |
-| address | <code>string</code> |
+| address | <code>string</code> | 
 
 Checks if input is valid input object. Address can be passed with or without checksum.
 It does not validate the checksum.
@@ -133,7 +133,7 @@ It does not validate the checksum.
 
 | Param | Type |
 | --- | --- |
-| tag | <code>string</code> |
+| tag | <code>string</code> | 
 
 Checks that input is valid tag hbytes.
 
@@ -143,7 +143,7 @@ Checks that input is valid tag hbytes.
 
 | Param | Type |
 | --- | --- |
-| transfer | <code>Transfer</code> |
+| transfer | <code>Transfer</code> | 
 
 Checks if input is valid `transfer` object.
 
@@ -153,7 +153,7 @@ Checks if input is valid `transfer` object.
 
 | Param | Type |
 | --- | --- |
-| uri | <code>string</code> |
+| uri | <code>string</code> | 
 
 Checks that a given `URI` is valid
 
@@ -197,3 +197,4 @@ try {
 | address | <code>string</code> | Address hbytes, with checksum |
 
 Checks integrity of given address by validating the checksum.
+

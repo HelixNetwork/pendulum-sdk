@@ -12,3 +12,4 @@ or using [yarn](https://yarnpkg.com/):
 ```
 yarn add @helixnetwork/sha3
 ```
+
