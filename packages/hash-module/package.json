@@ -1,7 +1,7 @@
 {
   "name": "@helixnetwork/hash-module",
   "version": "1.0.0-alpha.0",
-  "description": "helix-related cryptographic methods",
+  "description": "Helix-related cryptographic methods",
   "main": "./out/src/index.js",
   "typings": "typings/src",
   "publishConfig": {
@@ -41,10 +41,6 @@
     "type": "git",
     "url":
       "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
-  },
-  "dependencies": {
-    "@types/crypto-js": "^3.1.38",
-    "crypto-js": "^3.1.9-1"
   },
   "devDependencies": {
     "@helixnetwork/converter": "^1.0.0-alpha.0",
