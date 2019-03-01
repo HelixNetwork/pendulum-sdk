@@ -1,0 +1,60 @@
+{
+  "name": "@helixnetwork/rsa",
+  "version": "1.0.0-alpha.0",
+  "description": "",
+  "main": "./out/src/index.js",
+  "typings": "typings/src",
+  "publishConfig": {
+    "access": "private"
+  },
+  "scripts": {
+    "prepare": "tsc",
+    "test": "tsc && nyc ava",
+    "test-ci": "nyc ava",
+    "format": "prettier",
+    "docs":
+      "tsc && jsdoc2md --no-cache --plugin dmd-clear -t README_tpl.hbs --files './out/**/*.js' > README.md"
+  },
+  "contributors": [
+    "Frauke Sophie Abben <fsa@hlx.ai> (https://hlx.ai)",
+    "Oliver Fohrmann <of@hlx.ai> (https://hlx.ai)"
+  ],
+  "ava": {
+    "files": "out/test/*.test.js",
+    "failFast": false,
+    "failWithoutAssertions": false,
+    "compileEnhancements": false,
+    "verbose": true
+  },
+  "nyc": {
+    "watermarks": {
+      "functions": [80, 95],
+      "branches": [80, 95],
+      "statements": [80, 95]
+    },
+    "include": ["out/*/src/*.js", "out/*/test/*.js"]
+  },
+  "keywords": [
+    "helix",
+    "tangle",
+    "library",
+    "winternitz",
+    "javascript",
+    "nodejs",
+    "API"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/helixnetwork/helix.api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/helixnetwork/helix.api.git"
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "@helixnetwork/converter": "^1.0.0-alpha.0"
+  }
+}
