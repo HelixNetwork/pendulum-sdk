@@ -1,7 +1,7 @@
 {
   "name": "@helixnetwork/converter",
   "version": "1.0.0-alpha.0",
-  "description": "Convert values & trytes to trits and back",
+  "description": "Converter for ASCII and hexadecimal bytes (hbytes).",
   "main": "./out/src/index.js",
   "typings": "typings/src",
   "publishConfig": {
