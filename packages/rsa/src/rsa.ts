@@ -61,7 +61,7 @@ export function decrypt(hash: string, rsa: NodeRSA) {
  *
  * @param {String} pubKeyPath path to pub key-file
  * @param {String} prvKeyPath path to prv key-file
- * @return
+ * @return {object}
  **/
 
 export function importKeyFiles(pubKeyPath: string, prvKeyPath: string) {
