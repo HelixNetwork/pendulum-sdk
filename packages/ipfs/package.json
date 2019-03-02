@@ -52,9 +52,7 @@
     "url": "https://github.com/helixnetwork/helix.api.git"
   },
   "dependencies": {
-
-  },
-  "devDependencies": {
-    "@helixnetwork/converter": "^1.0.0-alpha.0"
+    "ipfs-http-client": "^29.1.1",
+    "@helixnetwork/rsa": "^1.0.0-alpha.0"
   }
 }
