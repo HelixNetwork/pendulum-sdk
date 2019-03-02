@@ -1,19 +1,18 @@
-import { hex, toHBytes } from "@helixnetwork/converter";
 import test from "ava";
 import Rsa from "../src";
 
-/** @todo wip */
 test("RSA: encrypt()/decrypt()", t => {
-  const input =
-    "c02c4aa8852301f3eb7b926f320d911bb178ba1ec4159f67d6cc1d75ef9a62f8";
-  const encryptDecrypt = (input: string): string => {
-    let output = input; // encrypt/decrypt here
-    return output;
-  };
+    const message = "c213d39764dd60a0174a134ed8f7047dc7d14ff882a4355469a72732788ef3a3";
+    const testKey = Rsa.importKeyFiles('./samples/pub-test.pem', './samples/prv-test.pem');
 
-  t.is(
-    encryptDecrypt(input),
-    input,
-    "Encrypted and decrypted message should corrrespond to pre-image."
-  );
-});
+    const encryptDecrypt = (input: string): string => {
+      const encrypted = Rsa.encrypt(input, testKey.pub);
+      return Rsa.decrypt(encrypted, testKey.prv);
+    };
+
+    t.is(
+      encryptDecrypt(message),
+        message,
+      "Encrypted and then decrypted message should correspond to the original message."
+    );
+  });
