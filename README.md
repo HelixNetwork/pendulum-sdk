@@ -20,24 +20,24 @@ Thanks for everyone involved in the process of developing the Official Helix API
 npm run init
 ```
 
-This will install all dependencies, build and link the packages together. helix.js uses [Lerna](https://lernajs.io/) to manage multiple packages. You can re-bootstrap your setup at any point with `lerna bootstrap` command.
+This will install all dependencies, build and link the packages together. helix.api uses [Lerna](https://lernajs.io/) to manage multiple packages. You can re-bootstrap your setup at any point with `lerna bootstrap` command.
 
 ### Run the tests
 
 Make your changes on a single or across multiple packages and test the system in integration. Run from the _root directory_:
 
 ```
-npm test
+npm run test
 ```
 
 To run tests of specific package just `cd` to the package directory and run `npm test` from there.
 
-You may also want to configure your editor to build the source uppon save and watch the tests running.
+You may also want to configure your editor to build the source upon save and watch the tests running.
 Once building on save is setup, you can start watching tests with `npm test --watch` from each package directory.
 
 ### Generate docs
 
-Please update the documention when needed by editing [`JSDoc`](http://usejsdoc.org) annotations and running `npm run docs` from the _root directory_.
+Please update the documentation when needed by editing [`JSDoc`](http://usejsdoc.org) annotations and running `npm run docs` from the _root directory_.
 
 ## Using the API
 
@@ -97,16 +97,16 @@ const seed = ' your seed here '
 const transfers = [{
     address: ' recipient address here ',
     value: 1000, // 1Kh
-    tag: '', // optional tag
-    message: '' // optional message in trytes
+    tag: '', // optional tag in hexString
+    message: '' // optional message in hexString
 }]
 
 // Depth or how far to go for tip selection entry point
 const depth = 3
 
 // Difficulty of Proof-of-Work required to attach transaction to tangle.
-// Minimum value on mainnet & spamnet is `14`, `9` on devnet and other testnets.
-const minWeightMagnitude = 14
+// Minimum value on testnet is currently 2.
+const minWeightMagnitude = 2
 
 helix.prepareTransfers(seed, transfers)
     .then(hbytes => helix.sendHBytes(hbytes, depth, minWeightMagnitude))
@@ -138,3 +138,6 @@ Documentation of helix protocol and [`Helix.Protocol`](https://hlx.readme.io/hcp
 - fix getNewAddress.test
 - check prepareTransfers.test
 - adapt packages/samples
+- Add schnorr package
+- Add rsa package
+- Add ipfs package

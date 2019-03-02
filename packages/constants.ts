@@ -48,12 +48,12 @@ export const TRANSACTION_TAG_BITS_SIZE = 64;
 // export const SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS = 8 * 1024; // trits 2187 -> 2187 trytes -> 1024 bytes -> 8 * 1024 bits
 
 // Schnorr signature constants:
-// export const SIGNATURE_R_BYTE_SIZE = 32;
-// export const SIGNATURE_S_BYTE_SIZE = 32;
+export const SIGNATURE_R_BYTE_SIZE = 32;
+export const SIGNATURE_S_BYTE_SIZE = 32;
 export const SIGNATURE_PUBLIC_KEY_BYTE_SIZE = 32;
 export const SIGNATURE_SECRETE_KEY_BYTE_SIZE = 512;
 export const SIGNATURE_TOTAL_BYTE_SIZE = 512;
-// SIGNATURE_R_BYTE_SIZE + SIGNATURE_S_BYTE_SIZE;
+//SIGNATURE_R_BYTE_SIZE + SIGNATURE_S_BYTE_SIZE;
 
 // Other constants:
 export const SIGNATURE_FRAGMENT_NO = 16; // 32; // previous 27

@@ -1,6 +1,6 @@
 # @helixnetwork/core
 
-Core functionality to interact with the helix network. Includes methods for:
+Core functionality to interact with the Helix network. Includes methods for:
 - Generating addresses
 - Creating, attaching and broadcasting transactions
 - Querying for transactions
@@ -24,7 +24,7 @@ yarn add @helixnetwork/core
 
 ## API Reference
 
-
+    
 * [core](#module_core)
 
     * [.composeApi([settings])](#module_core.composeApi)
@@ -71,7 +71,7 @@ yarn add @helixnetwork/core
 
     * [.createGetHBytes(provider)](#module_core.createGetHBytes)
 
-    * [.getHBytes(hashes, [callback])](#module_core.getHBytes)
+    * [.getBytes(hashes, [callback])](#module_core.getBytes)
 
     * [.createGetInclusionStates(provider)](#module_core.createGetInclusionStates)
 
@@ -155,9 +155,9 @@ yarn add @helixnetwork/core
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [settings] | <code>object</code> \| <code>function</code> | <code>{} | provider</code> | Connection settings or `provider` factory |
-| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of helix node |
+| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of the node |
 | [settings.attachToTangle] | <code>function</code> |  | Function to override [`attachToTangle`](#module_core.attachToTangle) with |
-| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | Helix Api version to be sent as `X-HELIX-API-Version` header. |
+| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | helix.api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
 
 Composes API object from it's components
@@ -184,7 +184,7 @@ Composes API object from it's components
 | uris | <code>Array</code> | List of URI's |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Adds a list of neighbors to the connected helix node by calling
+Adds a list of neighbors to the connected node by calling
 [`addNeighbors`](https://docs.hlx.ai/hlx/api#endpoints/addNeighbors) command.
 Assumes `addNeighbors` command is available on the node.
 
@@ -229,7 +229,7 @@ addNeighbors(['udp://148.148.148.148:14265'])
 | [callback] | <code>Callback</code> | Optional callback |
 
 Performs the Proof-of-Work required to attach a transaction to the Tangle by
-calling [`attachToTangle`](https://docs.hlx.ai/hlx/api#endpoints/attachToTangle) command.
+calling [`attachToTangle`](https://docs.helix.works/hlx/api#endpoints/attachToTangle) command.
 Returns list of transaction hbytes and overwrites the following fields:
  - `hash`
  - `nonce`
@@ -238,9 +238,8 @@ Returns list of transaction hbytes and overwrites the following fields:
  - `attachmentTimestampUpperBound`
 
 This method can be replaced with a local equivelant such as
-[`ccurl.interface.js`](https://github.com/iotaledger/ccurl.interface.js) in node.js,
-[`curl.lib.js`](https://github.com/iotaledger/curl.lib.js) which works on WebGL 2 enabled browsers
-or remote [`PoW-Integrator`](https://powbox.devnet.iota.org/).
+< in development >
+or remote [`PoW-Integrator`]().
 
 `trunkTransaction` and `branchTransaction` hashes are given by
 [`getTransactionToApprove`](#module_core.getTransactionsToApprove).
@@ -388,7 +387,7 @@ checkConsistency(tailHash)
 
 Consistent transactions might remain pending due to networking issues,
 or if not referenced by recent milestones issued by
-[Coordinator](https://docs.iota.org/introduction/tangle/consensus).
+[Coordinator](https://docs.hlx.ai/tangle/coo).
 Therefore `checkConsistency` with a time heuristic can determine
 if a transaction should be [_promoted_](promoteTransaction)
 or [_reattached_](replayBundle).
@@ -509,7 +508,7 @@ findTransactions({ addresses: ['ADRR...'] })
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing a helix node |
+| provider | <code>Provider</code> | Network provider for accessing a helix node. |
 
 **Returns**: <code>function</code> - [`getAccountData`](#module_core.getAccountData)  
 <a name="module_core.getAccountData"></a>
@@ -591,7 +590,7 @@ getBalances([address], 100)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing a helix node |
+| provider | <code>Provider</code> | Network provider for accessing a helix node. |
 
 **Returns**: <code>function</code> - [`getBundle`](#module_core.getBundle)  
 <a name="module_core.getBundle"></a>
@@ -630,10 +629,10 @@ getBundle(tail)
 | --- | --- | --- |
 | provider | <code>Provider</code> | Network provider |
 
-**Returns**: <code>function</code> - [`getHBytes`](#module_core.getHBytes)  
-<a name="module_core.getHBytes"></a>
+**Returns**: <code>function</code> - [`getBytes`](#module_core.getBytes)  
+<a name="module_core.getBytes"></a>
 
-### *core*.getHBytes(hashes, [callback])
+### *core*.getBytes(hashes, [callback])
 **Fulfil**: <code>HBytes[]</code> - Transaction hbytes  
 **Reject**: Error{}
 - `INVALID_TRANSACTION_HASH`: Invalid hash
@@ -645,11 +644,11 @@ getBundle(tail)
 | [callback] | <code>Callback</code> | Optional callback |
 
 Fetches the transaction hbytes given a list of transaction hashes, by calling
-[`getHBytes`](https://docs.hlx.ai/hlx/api#endpoints/getHBytes) command.
+[`getBytes`](https://docs.hlx.ai/hlx/api#endpoints/getHBytes) command.
 
 **Example**  
 ```js
-getHBytes(hashes)
+getBytes(hashes)
   // Parsing as transaction objects
   .then(hbytes => asTransactionObjects(hashes)(hbytes))
   .then(transactions => {
@@ -824,7 +823,7 @@ Returns list of connected neighbors.
 | seed | <code>string</code> |  | At least 81 hbytes long seed |
 | [options] | <code>object</code> |  |  |
 | [options.index] | <code>number</code> | <code>0</code> | Key index to start search at |
-| [options.security] | <code>number</code> | <code>2</code> | Security level |
+| [options.security] | <code>number</code> | <code>1</code> | Security level |
 | [options.checksum] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to include 9-hbytes checksum or not |
 | [options.total] | <code>number</code> |  | `Deprecated` Number of addresses to generate. |
 | [options.returnAll] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to return all addresses, from start up to new address. |
@@ -1085,7 +1084,7 @@ It is possible to prepare and sign transactions offline, by omitting the provide
 | seed | <code>string</code> |  |  |
 | transfers | <code>object</code> |  |  |
 | [options] | <code>object</code> |  |  |
-| [options.inputs] | <code>Array.&lt;Input&gt;</code> |  | Inputs used for schnorr. Needs to have correct security, keyIndex and address value |
+| [options.inputs] | <code>Array.&lt;Input&gt;</code> |  | Inputs used for signing. Needs to have correct security, keyIndex and address value |
 | [options.inputs[].address] | <code>Hash</code> |  | Input address hbytes |
 | [options.inputs[].keyIndex] | <code>number</code> |  | Key index at which address was generated |
 | [options.inputs[].security] | <code>number</code> | <code>2</code> | Security level |
@@ -1101,7 +1100,7 @@ It is possible to prepare and sign transactions offline, by omitting the provide
 | [options.hmacKey] | <code>Hash</code> | HMAC key used for attaching an HMAC |
 
 Prepares the transaction hbytes by generating a bundle, filling in transfers and inputs,
-adding remainder and schnorr. It can be used to generate and sign bundles either online or offline.
+adding remainder and signing. It can be used to generate and sign bundles either online or offline.
 For offline usage, please see [`createPrepareTransfers`](#module_core.createPrepareTransfers)
 which creates a `prepareTransfers` without a network provider.
 
@@ -1255,7 +1254,7 @@ prepareTransfers(seed, transfers)
 
 | Param | Type |
 | --- | --- |
-| provider | <code>Provider</code> |
+| provider | <code>Provider</code> | 
 
 **Returns**: <code>function</code> - [`storeAndBroadcast`](#module_core.storeAndBroadcast)  
 <a name="module_core.storeAndBroadcast"></a>
@@ -1320,7 +1319,7 @@ Any transactions stored with this command will eventaully be erased, as a result
 
 | Param | Type |
 | --- | --- |
-| provider | <code>Provider</code> |
+| provider | <code>Provider</code> | 
 
 **Returns**: <code>function</code> - [`traverseBundle`](#module_core.traverseBundle)  
 <a name="module_core.traverseBundle"></a>
@@ -1355,12 +1354,16 @@ traverseBundle(tail)
 <a name="module_core.generateAddress"></a>
 
 ### *core*.generateAddress(seed, index, [security], [checksum])
+**Todo**
+
+- [ ] set default security to 2 in future.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | seed | <code>string</code> |  |  |
 | index | <code>number</code> |  | Private key index |
-| [security] | <code>number</code> | <code>2</code> | Security level of the private key |
+| [security] | <code>number</code> | <code>1</code> | Security level of the private key |
 | [checksum] | <code>boolean</code> | <code>false</code> | Flag to add 0hbytes checksum |
 
 Generates an address deterministically, according to the given seed, index and security level.

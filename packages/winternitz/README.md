@@ -5,11 +5,12 @@ Winternitz OTS
 
 Install using [npm](https://www.npmjs.org/):
 ```
-npm install @helixnetwork/signing
+npm install @helixnetwork/winternitz
 ```
 
 or using [yarn](https://yarnpkg.com/):
 
 ```
-yarn add @helixnetwork/signing
+yarn add @helixnetwork/winternitz
 ```
+

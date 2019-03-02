@@ -118,7 +118,7 @@ export const asTransactionObject = (
 
   const noOfBitsInBytes = 4;
   // TODO: check if this limitation is necessary:
-  // previous value has been limitted to 11 trytes
+  // previous value has been limitted to 4 bytes
   const usefulBytesFromValue = TRANSACTION_VALUE_BYTE_SIZE;
   const noOfBitsInValue = 4 * usefulBytesFromValue;
 

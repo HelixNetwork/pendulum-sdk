@@ -1,6 +1,6 @@
 # @helixnetwork/converter
 
-Methods for converting ascii, values &amp; trytes to trits and back.
+Methods for converting ascii values to hbytes, hbits and back.
 
 ## Installation
 

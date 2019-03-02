@@ -18,7 +18,7 @@ yarn add @helixnetwork/http-client
 
 ## API Reference
 
-
+    
 * [http-client](#module_http-client)
 
     * _static_
@@ -40,9 +40,9 @@ yarn add @helixnetwork/http-client
 
 | Param | Type | Default |
 | --- | --- | --- |
-| command | <code>Command</code> |  |
-| [uri] | <code>String</code> | <code>http://localhost:14265</code> |
-| [apiVersion] | <code>String</code> \| <code>Number</code> | <code>1</code> |
+| command | <code>Command</code> |  | 
+| [uri] | <code>String</code> | <code>http://localhost:14265</code> | 
+| [apiVersion] | <code>String</code> \| <code>Number</code> | <code>1</code> | 
 
 Sends an http request to a specified host.
 
@@ -53,7 +53,7 @@ Sends an http request to a specified host.
 
 | Param | Type |
 | --- | --- |
-| command | <code>object</code> |
+| command | <code>object</code> | 
 
 **Returns**: <code>object</code> - response  
 <a name="module_http-client..setSettings"></a>
