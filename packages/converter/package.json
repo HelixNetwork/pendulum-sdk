@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/converter",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description": "Converter for ASCII and hexadecimal bytes (hbytes).",
   "main": "./out/src/index.js",
   "typings": "typings/src",
