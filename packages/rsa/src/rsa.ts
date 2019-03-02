@@ -1,6 +1,6 @@
 /* tslint:disable variable-name no-conditional-assignment */
 
-/** CURRENTLY BEING PORTED FROM JS IMPL. */
+/** WIP AS PORTED FROM JS IMPL. */
 import * as NodeRSA from "node-rsa";
 import * as errors from "./errors";
 import * as fs from "fs";
