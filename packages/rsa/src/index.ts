@@ -1,2 +1,2 @@
-import { default as Rsa } from "./rsa";
-export default Rsa;
+/** @module rsa */
+export * from "./rsa";
