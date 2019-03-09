@@ -1,6 +1,6 @@
 /** @module transaction-converter */
 
-import { hBitsToHBytes, hbytesToHBits, value } from "@helixnetwork/converter";
+import { hBitsToHBytes, hbytesToHBits, value, toHBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { padHBits, padHBytes, padSignedHBits } from "@helixnetwork/pad";
 import { transactionHash } from "@helixnetwork/transaction";
@@ -118,7 +118,7 @@ export const asTransactionObject = (
 
   const noOfBitsInBytes = 4;
   // TODO: check if this limitation is necessary:
-  // previous value has been limitted to 11 trytes
+  // previous value has been limitted to 4 bytes
   const usefulBytesFromValue = TRANSACTION_VALUE_BYTE_SIZE;
   const noOfBitsInValue = 4 * usefulBytesFromValue;
 
@@ -130,10 +130,6 @@ export const asTransactionObject = (
   const startIndexObsoleteTagBytes =
     startIndexValueBytes + TRANSACTION_VALUE_BYTE_SIZE;
 
-  // If the limitation is necessary this validation should be enabled otherwise removed
-  // Value was represented using 27 trytes: 2268 -> 2295
-  // Trits index 6804 -> 6885
-  // Only first 11 trytes are used to store value all the other are expected to be 0
   // for (
   //   let i = startIndexValueBytes + usefulBytesFromValue;
   //   i < startIndexObsoleteTagBytes;
@@ -165,7 +161,7 @@ export const asTransactionObject = (
     startIndexTimestampUpTrasnBytes + TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE;
 
   return {
-    hash: hash || transactionHash(hbits),
+    hash: hash || transactionHash(toHBytes(hbytes)),
     signatureMessageFragment: hbytes.slice(
       startIndexSignMsgFragBytes,
       startIndexSignMsgFragBytes + SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
@@ -179,55 +175,55 @@ export const asTransactionObject = (
         startIndexValueBytes * noOfBitsInBytes,
         startIndexValueBytes * noOfBitsInBytes + noOfBitsInValue
       )
-    ), // 33 trits?
+    ),
     obsoleteTag: hbytes.slice(
       startIndexObsoleteTagBytes,
       startIndexObsoleteTagBytes + OBSOLETE_TAG_BYTE_SIZE
-    ), // 27 trytes
+    ),
     timestamp: value(
       hbits.slice(
         noOfBitsInBytes * startIndexTimestampBytes,
         noOfBitsInBytes *
           (startIndexTimestampBytes + TRANSACTION_TIMESTAMP_BYTE_SIZE)
       )
-    ), // 27 trits => 9 trytes
+    ),
     currentIndex: value(
       hbits.slice(
         noOfBitsInBytes * startIndexCurrIndexBytes,
         noOfBitsInBytes *
           (startIndexCurrIndexBytes + TRANSACTION_CURRENT_INDEX_BYTE_SIZE)
       )
-    ), // 27 trits
+    ),
     lastIndex: value(
       hbits.slice(
         startIndexLastIndexBytes * noOfBitsInBytes,
         noOfBitsInBytes *
           (startIndexLastIndexBytes + TRANSACTION_LAST_INDEX_BYTE_SIZE)
       )
-    ), // 27 trits => 9 trytes
+    ),
     bundle: hbytes.slice(
       startIndexBundleBytes,
       startIndexBundleBytes + HASH_HBYTE_SIZE
-    ), // 81 trytes
+    ),
     trunkTransaction: hbytes.slice(
       startIndexTrunkTrasnBytes,
       startIndexTrunkTrasnBytes + HASH_HBYTE_SIZE
-    ), // 81 trytes
+    ),
     branchTransaction: hbytes.slice(
       startIndexBranchTrasnBytes,
       startIndexBranchTrasnBytes + HASH_HBYTE_SIZE
-    ), // 81 trytes
+    ),
     tag: hbytes.slice(
       startIndexTagTrasnBytes,
       startIndexTagTrasnBytes + TAG_BYTE_SIZE
-    ), // 27 trytes
+    ),
     attachmentTimestamp: value(
       hbits.slice(
         noOfBitsInBytes * startIndexTimestampTrasnBytes,
         noOfBitsInBytes *
           (startIndexTimestampTrasnBytes + TRANSACTION_TIMESTAMP_BYTE_SIZE)
       )
-    ), // 27 trits
+    ),
     attachmentTimestampLowerBound: value(
       hbits.slice(
         noOfBitsInBytes * startIndexTimestampLowTrasnBytes,
@@ -235,7 +231,7 @@ export const asTransactionObject = (
           (startIndexTimestampLowTrasnBytes +
             TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE)
       )
-    ), // 27 trits
+    ),
     attachmentTimestampUpperBound: value(
       hbits.slice(
         noOfBitsInBytes * startIndexTimestampUpTrasnBytes,

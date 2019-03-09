@@ -75,13 +75,13 @@ export const getKeysToBatch = <C>(
   );
 
 /**
- * Create an http client to access IRI http API.
+ * Create an http client to access helix http API.
  *
  * @method createHttpClient
  *
  * @param {object} [settings={}]
- * @param {string} [settings.provider=http://localhost:14265] Uri of IRI node
- * @param {string | number} [settings.apiVersion=1] - IOTA Api version to be sent as `X-HELIX-API-Version` header.
+ * @param {string} [settings.provider=http://localhost:14265] Uri of helix node
+ * @param {string | number} [settings.apiVersion=1] - Helix Api version to be sent as `X-HELIX-API-Version` header.
  * @param {number} [settings.requestBatchSize=1000] - Number of search values per request.
  * @return Object
  */
@@ -124,8 +124,8 @@ export const createHttpClient: CreateProvider = (
      * @member setSettings
      *
      * @param {object} [settings={}]
-     * @param {string} [settings.provider=http://localhost:14265] Uri of IRI node
-     * @param {string | number} [settings.apiVersion=1] - IOTA Api version to be sent as `X-HELIX-API-Version` header.
+     * @param {string} [settings.provider=http://localhost:14265] Uri of helix node
+     * @param {string | number} [settings.apiVersion=1] - Helix Api version to be sent as `X-HELIX-API-Version` header.
      * @param {number} [settings.requestBatchSize=1000] - Number of search values per request.
      */
     setSettings: (newSettings?: Partial<Settings>): void => {

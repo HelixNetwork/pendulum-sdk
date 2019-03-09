@@ -1,7 +1,7 @@
 # @helixnetwork/bundle
 
 Utilities for generating and schnorr bundles.
-A bundle in HELIX is an atomic set of transactions.
+A bundle in Helix is an atomic set of transactions.
 
 ## Installation
 
@@ -51,10 +51,10 @@ Creates a bunlde with given transaction entries.
 | entry | <code>object</code> |  | Entry of single or multiple transactions with the same address |
 | [entry.length] | <code>number</code> | <code>1</code> | Entry length, which indicates how many transactions in the bundle will occupy |
 | [entry.address] | <code>string</code> |  | Address, defaults to all-9s |
-| [entry.value] | <code>number</code> | <code>0</code> | Value to transfer in _IOTAs_ |
-| [entry.signatureMessageFragments] | <code>Array.&lt;string&gt;</code> |  | Array of signature message fragments hbytes, defaults to all-9s |
+| [entry.value] | <code>number</code> | <code>0</code> | Value to transfer in _HLX_ |
+| [entry.signatureMessageFragments] | <code>Array.&lt;string&gt;</code> |  | Array of signature message fragments hbytes, defaults to all-0s |
 | [entry.timestamp] | <code>number</code> |  | Transaction timestamp, defaults to `Math.floor(Date.now() / 1000)` |
-| [entry.tag] | <code>string</code> |  | Optional Tag, defaults to null tag (all-9s) |
+| [entry.tag] | <code>string</code> |  | Optional Tag, defaults to null tag (all-0s) |
 
 Creates a bunlde with given transaction entries
 

@@ -23,7 +23,7 @@ import {
 export const createGetHBytes = ({ send }: Provider) =>
   /**
    * Fetches the transaction hbytes given a list of transaction hashes, by calling
-   * [`getBytes`](https://docs.iota.works/iri/api#endpoints/getHBytes) command.
+   * [`getBytes`](https://docs.hlx.ai/hlx/api#endpoints/getHBytes) command.
    *
    * @example
    * ```js

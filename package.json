@@ -1,8 +1,7 @@
 {
   "name": "helix.api",
-  "version": "0.0.1-alpha.0",
-  "description":
-    "Helix API Library forked from IOTA Client Reference Implementation",
+  "version": "1.0.0-alpha.0",
+  "description": "Helix API Library forked from IOTA Client Reference Implementation",
   "scripts": {
     "init": "npm i && lerna bootstrap",
     "test": "lerna run test --stream",
@@ -16,6 +15,7 @@
     "Dominik Schiener <dom@iota.org> (https://iota.org)",
     "Edward Greve <edward@iota.org> (https://github.com/anyong)",
     "Chris Dukakis <chris.dukakis@iota.org> (https://github.com/chrisdukakis)",
+    "Sachu Shaji Abraham <sachushajiabraham@gmail.com> (https://github.com/sachushaji)",
     "Oliver Fohrmann <of@hlx.ai> (https://github.com/ofo42)",
     "Frauke Sophie Abben <fsa@hlx.ai> (https://github.com/fsbbn)"
   ],
@@ -30,9 +30,19 @@
     "verbose": true
   },
   "lint-staged": {
-    "*.{js,ts,json}": ["prettier --write", "git add"]
+    "*.{js,ts,json}": [
+      "prettier --write",
+      "git add"
+    ]
   },
-  "keywords": ["helix", "tangle", "library", "javascript", "nodejs", "API"],
+  "keywords": [
+    "helix",
+    "tangle",
+    "library",
+    "javascript",
+    "nodejs",
+    "API"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/HelixNetwork/helix.api/issues"

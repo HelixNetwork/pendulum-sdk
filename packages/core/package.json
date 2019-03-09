@@ -1,8 +1,8 @@
 {
   "name": "@helixnetwork/core",
-  "version": "0.0.1-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description":
-    "Core functionality to interact with the IOTA network: generate addresses, create, broadcast and monitor transactions.",
+    "Core functionality to interact with the helix network: generate addresses, create, broadcast and monitor transactions.",
   "main": "./out/core/src/index.js",
   "typings": "typings/core/src",
   "publishConfig": {
@@ -43,7 +43,7 @@
     ]
   },
   "keywords": [
-    "iota",
+    "helix",
     "tangle",
     "library",
     "browser",
@@ -60,22 +60,22 @@
     "url": "https://github.com/helixnetwork/helix.api.git"
   },
   "dependencies": {
-    "@helixnetwork/bundle": "^0.0.1-alpha.0",
-    "@helixnetwork/bundle-validator": "^0.0.1-alpha.0",
-    "@helixnetwork/checksum": "^0.0.1-alpha.0",
-    "@helixnetwork/converter": "^0.0.1-alpha.0",
-    "@helixnetwork/hash-module": "^0.0.1-alpha.0",
-    "@helixnetwork/http-client": "^0.0.1-alpha.0",
-    "@helixnetwork/pad": "^0.0.1-alpha.0",
-    "@helixnetwork/winternitz": "^0.0.1-alpha.0",
-    "@helixnetwork/transaction": "^0.0.1-alpha.0",
-    "@helixnetwork/transaction-converter": "^0.0.1-alpha.0",
+    "@helixnetwork/bundle": "^1.0.0-alpha.1",
+    "@helixnetwork/bundle-validator": "^1.0.0-alpha.1",
+    "@helixnetwork/checksum": "^1.0.0-alpha.1",
+    "@helixnetwork/converter": "^1.0.0-alpha.1",
+    "@helixnetwork/hash-module": "^1.0.0-alpha.1",
+    "@helixnetwork/http-client": "^1.0.0-alpha.1",
+    "@helixnetwork/pad": "^1.0.0-alpha.1",
+    "@helixnetwork/transaction": "^1.0.0-alpha.1",
+    "@helixnetwork/transaction-converter": "^1.0.0-alpha.1",
+    "@helixnetwork/winternitz": "^1.0.0-alpha.1",
     "@types/bluebird": "^3.5.20",
     "bluebird": "^3.5.1"
   },
   "devDependencies": {
     "@babel/plugin-syntax-async-generators": "^7.0.0-beta.49",
-    "@helixnetwork/samples": "^0.0.1-alpha.0",
+    "@helixnetwork/samples": "^1.0.0-alpha.1",
     "@types/nock": "^9.1.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",

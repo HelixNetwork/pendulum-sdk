@@ -53,7 +53,7 @@
 
 | Param | Type |
 | --- | --- |
-| bundle | <code>Array.&lt;Transaction&gt;</code> | 
+| bundle | <code>Array.&lt;Transaction&gt;</code> |
 
 Validates all signatures of a bundle.
 
@@ -63,7 +63,7 @@ Validates all signatures of a bundle.
 
 | Param | Type |
 | --- | --- |
-| bundle | <code>Array.&lt;Transaction&gt;</code> | 
+| bundle | <code>Array.&lt;Transaction&gt;</code> |
 
 Checks if a bundle is _syntactically_ valid.
 Validates signatures and overall structure.
@@ -78,7 +78,7 @@ Validates signatures and overall structure.
 
     * [~addEntry(transactions, entry)](#module_bundle..addEntry)
 
-    * [~addTrytes(transactions, fragments, [offset])](#module_bundle..addTrytes)
+    * [~addHBytes(transactions, fragments, [offset])](#module_bundle..addHBytes)
 
     * [~finalizeBundle(transactions)](#module_bundle..finalizeBundle)
 
@@ -103,26 +103,26 @@ Creates a bunlde with given transaction entries.
 | transactions | <code>Array.&lt;Transaction&gt;</code> |  | List of transactions currently in the bundle |
 | entry | <code>object</code> |  | Entry of single or multiple transactions with the same address |
 | [entry.length] | <code>number</code> | <code>1</code> | Entry length, which indicates how many transactions in the bundle will occupy |
-| [entry.address] | <code>string</code> |  | Address, defaults to all-9s |
-| [entry.value] | <code>number</code> | <code>0</code> | Value to transfer in _IOTAs_ |
-| [entry.signatureMessageFragments] | <code>Array.&lt;string&gt;</code> |  | Array of signature message fragments trytes, defaults to all-9s |
+| [entry.address] | <code>string</code> |  | Address, defaults to all-0s |
+| [entry.value] | <code>number</code> | <code>0</code> | Value to transfer in _HLX_ |
+| [entry.signatureMessageFragments] | <code>Array.&lt;string&gt;</code> |  | Array of signature message fragment bytes, defaults to all-0s |
 | [entry.timestamp] | <code>number</code> |  | Transaction timestamp, defaults to `Math.floor(Date.now() / 1000)` |
-| [entry.tag] | <code>string</code> |  | Optional Tag, defaults to null tag (all-9s) |
+| [entry.tag] | <code>string</code> |  | Optional Tag, defaults to null tag (all-0s) |
 
 Creates a bunlde with given transaction entries
 
 **Returns**: <code>Array.&lt;Transaction&gt;</code> - Bundle  
-<a name="module_bundle..addTrytes"></a>
+<a name="module_bundle..addHBytes"></a>
 
-### *bundle*~addTrytes(transactions, fragments, [offset])
+### *bundle*~addHBytes(transactions, fragments, [offset])
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | transactions | <code>Array.&lt;Transaction&gt;</code> |  | Transactions in the bundle |
-| fragments | <code>Array.&lt;Trytes&gt;</code> |  | Message signature fragments to add |
+| fragments | <code>Array.&lt;HBytes&gt;</code> |  | Message signature fragments to add |
 | [offset] | <code>number</code> | <code>0</code> | Optional offset to start appending signature message fragments |
 
-Adds a list of trytes in the bundle starting at offset
+Adds a list of hbytes in the bundle starting at offset
 
 **Returns**: <code>Array.&lt;Transaction&gt;</code> - Transactions of finalized bundle  
 <a name="module_bundle..finalizeBundle"></a>
@@ -145,126 +145,15 @@ Finalizes the bundle by calculating the bundle hash
 
 | Param | Type |
 | --- | --- |
-| addressWithChecksum | <code>string</code> | 
+| addressWithChecksum | <code>string</code> |
 
-Validates the checksum of the given address trytes.
+Validates the checksum of the given address hbytes.
 
 <a name="module_converter"></a>
 
 ## converter
 
-* [converter](#module_converter)
-
-    * [.asciiToTrytes(input)](#module_converter.asciiToTrytes)
-
-    * [.trytesToAscii(trytes)](#module_converter.trytesToAscii)
-
-    * [.trits(input)](#module_converter.trits)
-
-    * [.trytes(trits)](#module_converter.trytes)
-
-    * [.value(trits)](#module_converter.value)
-
-    * [.fromValue(value)](#module_converter.fromValue)
-
-
-<a name="module_converter.asciiToTrytes"></a>
-
-### *converter*.asciiToTrytes(input)
-
-| Param | Type | Description |
-| --- | --- | --- |
-| input | <code>string</code> | ascii input |
-
-Converts an ascii encoded string to trytes.
-
-### How conversion works:
-
-An ascii value of `1 Byte` can be represented in `2 Trytes`:
-
-1. We get the decimal unicode value of an individual ASCII character.
-
-2. From the decimal value, we then derive the two tryte values by calculating the tryte equivalent
-(e.g.: `100` is expressed as `19 + 3 * 27`), given that tryte alphabet contains `27` trytes values:
-  a. The first tryte value is the decimal value modulo `27` (which is the length of the alphabet).
-  b. The second value is the remainder of `decimal value - first value` devided by `27`.
-
-3. The two values returned from Step 2. are then input as indices into the available
-trytes alphabet (`9ABCDEFGHIJKLMNOPQRSTUVWXYZ`), to get the correct tryte value.
-
-### Example:
-
-Lets say we want to convert ascii character `Z`.
-
-1. `Z` has a decimal unicode value of `90`.
-
-2. `90` can be represented as `9 + 3 * 27`. To make it simpler:
-  a. First value is `90 % 27 = 9`.
-  b. Second value is `(90 - 9) / 27 = 3`.
-
-3. Our two values are `9` and `3`. To get the tryte value now we simply insert it as indices
-into the tryte alphabet:
-  a. The first tryte value is `'9ABCDEFGHIJKLMNOPQRSTUVWXYZ'[9] = I`
-  b. The second tryte value is `'9ABCDEFGHIJKLMNOPQRSTUVWXYZ'[3] = C`
-
-Therefore ascii character `Z` is represented as `IC` in trytes.
-
-**Returns**: <code>string</code> - string of trytes  
-<a name="module_converter.trytesToAscii"></a>
-
-### *converter*.trytesToAscii(trytes)
-
-| Param | Type | Description |
-| --- | --- | --- |
-| trytes | <code>string</code> | trytes |
-
-Converts trytes of _even_ length to an ascii string
-
-**Returns**: <code>string</code> - string in ascii  
-<a name="module_converter.trits"></a>
-
-### *converter*.trits(input)
-
-| Param | Type | Description |
-| --- | --- | --- |
-| input | <code>String</code> \| <code>Number</code> | Tryte string or value to be converted. |
-
-Converts trytes or values to trits
-
-**Returns**: <code>Int8Array</code> - trits  
-<a name="module_converter.trytes"></a>
-
-### *converter*.trytes(trits)
-
-| Param | Type |
-| --- | --- |
-| trits | <code>Int8Array</code> | 
-
-Converts trits to trytes
-
-**Returns**: <code>String</code> - trytes  
-<a name="module_converter.value"></a>
-
-### *converter*.value(trits)
-
-| Param | Type |
-| --- | --- |
-| trits | <code>Int8Array</code> | 
-
-Converts trits into an integer value
-
-<a name="module_converter.fromValue"></a>
-
-### *converter*.fromValue(value)
-
-| Param | Type |
-| --- | --- |
-| value | <code>Number</code> | 
-
-Converts an integer value to trits
-
-**Returns**: <code>Int8Array</code> - trits  
-<a name="module_core"></a>
+> Documentation on the new conversions are currently in works.
 
 ## core
 
@@ -278,7 +167,7 @@ Converts an integer value to trits
 
     * [.createAttachToTangle(provider)](#module_core.createAttachToTangle)
 
-    * [.attachToTangle(trunkTransaction, branchTransaction, minWeightMagnitude, trytes, [callback])](#module_core.attachToTangle)
+    * [.attachToTangle(trunkTransaction, branchTransaction, minWeightMagnitude, hbytes, [callback])](#module_core.attachToTangle)
 
     * [.createBroadcastBundle(provider)](#module_core.createBroadcastBundle)
 
@@ -286,7 +175,7 @@ Converts an integer value to trits
 
     * [.createBroadcastTransactions(provider)](#module_core.createBroadcastTransactions)
 
-    * [.broadcastTransactions(trytes, [callback])](#module_core.broadcastTransactions)
+    * [.broadcastTransactions(hbytes, [callback])](#module_core.broadcastTransactions)
 
     * [.createCheckConsistency(provider)](#module_core.createCheckConsistency)
 
@@ -348,9 +237,9 @@ Converts an integer value to trits
 
     * [.getTransactionsToApprove(depth, [reference], [callback])](#module_core.getTransactionsToApprove)
 
-    * [.createGetTrytes(provider)](#module_core.createGetTrytes)
+    * [.createGetHBytes(provider)](#module_core.createGetHBytes)
 
-    * [.getTrytes(hashes, [callback])](#module_core.getTrytes)
+    * [.getHBytes(hashes, [callback])](#module_core.getHBytes)
 
     * [.createIsPromotable(provider, [depth])](#module_core.createIsPromotable)
 
@@ -372,17 +261,17 @@ Converts an integer value to trits
 
     * [.replayBundle(tail, depth, minWeightMagnitude, [callback])](#module_core.replayBundle)
 
-    * [.createSendTrytes(provider)](#module_core.createSendTrytes)
+    * [.createSendHBytes(provider)](#module_core.createSendHBytes)
 
-    * [.sendTrytes(trytes, depth, minWeightMagnitude, [reference], [callback])](#module_core.sendTrytes)
+    * [.sendHBytes(hbytes, depth, minWeightMagnitude, [reference], [callback])](#module_core.sendHBytes)
 
     * [.createStoreAndBroadcast(provider)](#module_core.createStoreAndBroadcast)
 
-    * [.storeAndBroadcast(trytes, [callback])](#module_core.storeAndBroadcast)
+    * [.storeAndBroadcast(hbytes, [callback])](#module_core.storeAndBroadcast)
 
     * [.createStoreTransactions(provider)](#module_core.createStoreTransactions)
 
-    * [.storeTransactions(trytes, [callback])](#module_core.storeTransactions)
+    * [.storeTransactions(hbytes, [callback])](#module_core.storeTransactions)
 
     * [.createTraverseBundle(provider)](#module_core.createTraverseBundle)
 
@@ -398,9 +287,9 @@ Converts an integer value to trits
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [settings] | <code>object</code> \| <code>function</code> | <code>{} | provider</code> | Connection settings or `provider` factory |
-| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of IRI node |
+| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14700&quot;</code> | Uri of the node |
 | [settings.attachToTangle] | <code>function</code> |  | Function to override [`attachToTangle`](#module_core.attachToTangle) with |
-| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | IOTA Api version to be sent as `X-IOTA-API-Version` header. |
+| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | Helix Api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
 
 Composes API object from it's components
@@ -427,8 +316,8 @@ Composes API object from it's components
 | uris | <code>Array</code> | List of URI's |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Adds a list of neighbors to the connected IRI node by calling
-[`addNeighbors`](https://docs.iota.works/iri/api#endpoints/addNeighbors) command.
+Adds a list of neighbors to the connected node by calling
+[`addNeighbors`](https://docs.helix.net/hlx/api#endpoints/addNeighbors) command.
 Assumes `addNeighbors` command is available on the node.
 
 `addNeighbors` has temporary effect until your node relaunches.
@@ -453,13 +342,13 @@ addNeighbors(['udp://148.148.148.148:14265'])
 **Returns**: <code>function</code> - [`attachToTangle`](#module_core.attachToTangle)  
 <a name="module_core.attachToTangle"></a>
 
-### *core*.attachToTangle(trunkTransaction, branchTransaction, minWeightMagnitude, trytes, [callback])
-**Fulfil**: <code>TransactionTrytes[]</code> Array of transaction trytes with nonce and attachment timestamps  
+### *core*.attachToTangle(trunkTransaction, branchTransaction, minWeightMagnitude, hbytes, [callback])
+**Fulfil**: <code>TransactionHBytes[]</code> Array of transaction hbytes with nonce and attachment timestamps  
 **Reject**: <code>Error</code>
 - `INVALID_TRUNK_TRANSACTION`: Invalid `trunkTransaction`
 - `INVALID_BRANCH_TRANSACTION`: Invalid `branchTransaction`
 - `INVALID_MIN_WEIGHT_MAGNITUDE`: Invalid `minWeightMagnitude` argument
-- `INVALID_TRANSACTION_TRYTES`: Invalid transaction trytes
+- `INVALID_TRANSACTION_TRYTES`: Invalid transaction hbytes
 - `INVALID_TRANSACTIONS_TO_APPROVE`: Invalid transactions to approve
 - Fetch error  
 
@@ -468,12 +357,12 @@ addNeighbors(['udp://148.148.148.148:14265'])
 | trunkTransaction | <code>Hash</code> | Trunk transaction as returned by [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) |
 | branchTransaction | <code>Hash</code> | Branch transaction as returned by [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) |
 | minWeightMagnitude | <code>number</code> | Number of minimun trailing zeros in tail transaction hash |
-| trytes | <code>Array.&lt;TransactionTrytes&gt;</code> | List of transaction trytes |
+| hbytes | <code>Array.&lt;TransactionHBytes&gt;</code> | List of transaction hbytes |
 | [callback] | <code>Callback</code> | Optional callback |
 
 Performs the Proof-of-Work required to attach a transaction to the Tangle by
-calling [`attachToTangle`](https://docs.iota.works/iri/api#endpoints/attachToTangle) command.
-Returns list of transaction trytes and overwrites the following fields:
+calling [`attachToTangle`](https://docs.helix.net/hlx/api#endpoints/attachToTangle) command.
+Returns list of transaction hbytes and overwrites the following fields:
  - `hash`
  - `nonce`
  - `attachmentTimestamp`
@@ -481,9 +370,9 @@ Returns list of transaction trytes and overwrites the following fields:
  - `attachmentTimestampUpperBound`
 
 This method can be replaced with a local equivelant such as
-[`ccurl.interface.js`](https://github.com/iotaledger/ccurl.interface.js) in node.js,
-[`curl.lib.js`](https://github.com/iotaledger/curl.lib.js) which works on WebGL 2 enabled browsers
-or remote [`PoWbox`](https://powbox.devnet.iota.org/).
+[`pow.interface.js`](https://github.com/helixnetwork/pow.interface.js) in node.js,
+[`pow.lib`](https://github.com/helixnetwork/pow.lib) which works on WebGL 2 enabled browsers
+or remote [`PoW-Integrator`](https://pow.helix.net/).
 
 `trunkTransaction` and `branchTransaction` hashes are given by
 [`getTransactionToApprove`](#module_core.getTransactionsToApprove).
@@ -492,9 +381,9 @@ or remote [`PoWbox`](https://powbox.devnet.iota.org/).
 ```js
 getTransactionsToApprove(depth)
   .then(({ trunkTransaction, branchTransaction }) =>
-    attachToTangle(trunkTransaction, branchTransaction, minWightMagnitude, trytes)
+    attachToTangle(trunkTransaction, branchTransaction, minWightMagnitude, hbytes)
   )
-  .then(attachedTrytes => {
+  .then(attachedHBytes => {
     // ...
   })
   .catch(err => {
@@ -549,19 +438,19 @@ broadcastTransactions(tailHash)
 **Returns**: <code>function</code> - [`broadcastTransactions`](#module_core.broadcastTransactions)  
 <a name="module_core.broadcastTransactions"></a>
 
-### *core*.broadcastTransactions(trytes, [callback])
-**Fulfil**: <code>Trytes[]</code> Attached transaction trytes  
+### *core*.broadcastTransactions(hbytes, [callback])
+**Fulfil**: <code>HBytes[]</code> Attached transaction hbytes  
 **Reject**: <code>Error</code>
-- `INVALID_ATTACHED_TRYTES`: Invalid array of attached trytes
+- `INVALID_ATTACHED_TRYTES`: Invalid array of attached hbytes
 - Fetch error  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| trytes | <code>Array.&lt;TransactionTrytes&gt;</code> | Attached Transaction trytes |
+| hbytes | <code>Array.&lt;TransactionHBytes&gt;</code> | Attached Transaction hbytes |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Broadcasts an list of _attached_ transaction trytes to the network by calling
-[`boradcastTransactions`](https://docs.iota.org/iri/api#endpoints/broadcastTransactions) command.
+Broadcasts an list of _attached_ transaction hbytes to the network by calling
+[`boradcastTransactions`](https://docs.helix.net/hlx/api#endpoints/broadcastTransactions) command.
 Tip selection and Proof-of-Work must be done first, by calling
 [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) and
 [`attachToTangle`](#module_core.attachToTangle) or an equivalent attach method or remote
@@ -569,13 +458,13 @@ Tip selection and Proof-of-Work must be done first, by calling
 
 You may use this method to increase odds of effective transaction propagation.
 
-Persist the transaction trytes in local storage **before** calling this command for first time, to ensure
+Persist the transaction hbytes in local storage **before** calling this command for first time, to ensure
 that reattachment is possible, until your bundle has been included.
 
 **Example**  
 ```js
-broadcastTransactions(trytes)
-  .then(trytes => {
+broadcastTransactions(hbytes)
+  .then(hbytes => {
      // ...
   })
   .catch(err => {
@@ -608,7 +497,7 @@ broadcastTransactions(trytes)
 | [callback] | <code>Callback</code> | Optional callback. |
 
 Checks if a transaction is _consistent_ or a set of transactions are _co-consistent_, by calling
-[`checkConsistency`](https://docs.iota.org/iri/api#endpoints/checkConsistency) command.
+[`checkConsistency`](https://docs.helix.net/hlx/api#endpoints/checkConsistency) command.
 _Co-consistent_ transactions and the transactions that they approve (directly or inderectly),
 are not conflicting with each other and rest of the ledger.
 
@@ -660,7 +549,7 @@ const isPromotable = ({ hash, attachmentTimestamp }) => (
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`findTransactionObjects`](#module_core.findTransactionObjects)  
 <a name="module_core.findTransactionObjects"></a>
@@ -685,7 +574,7 @@ const isPromotable = ({ hash, attachmentTimestamp }) => (
 | [callback] | <code>Callback</code> | Optional callback |
 
 Wrapper function for [`findTransactions`](#module_core.findTransactions) and
-[`getTrytes`](#module_core.getTrytes).
+[`getHBytes`](#module_core.getHBytes).
 Searches for transactions given a `query` object with `addresses`, `tags` and `approvees` fields.
 Multiple query fields are supported and `findTransactionObjects` returns intersection of results.
 
@@ -707,7 +596,7 @@ findTransactionObjects({ addresses: ['ADR...'] })
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`findTransactionObjects`](#module_core.findTransactions)  
 <a name="module_core.findTransactions"></a>
@@ -732,7 +621,7 @@ findTransactionObjects({ addresses: ['ADR...'] })
 | [callback] | <code>Callback</code> | Optional callback |
 
 Searches for transaction `hashes`  by calling
-[`findTransactions`](https://docs.iota.org/iri/api#endpoints/findTransactions) command.
+[`findTransactions`](https://docs.helix.net/hlx/api#endpoints/findTransactions) command.
 It allows to search for transactions by passing a `query` object with `addresses`, `tags` and `approvees` fields.
 Multiple query fields are supported and `findTransactions` returns intersection of results.
 
@@ -752,7 +641,7 @@ findTransactions({ addresses: ['ADRR...'] })
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`getAccountData`](#module_core.getAccountData)  
 <a name="module_core.getAccountData"></a>
@@ -816,7 +705,7 @@ getAccountData(seed, {
 | [callback] | <code>Callback</code> | Optional callback |
 
 Fetches _confirmed_ balances of given addresses at the latest solid milestone,
-by calling [`getBalances`](https://docs.iota.works/iri/api#endpoints/getBalances) command.
+by calling [`getBalances`](https://docs.helix.net/hlx/api#endpoints/getBalances) command.
 
 **Example**  
 ```js
@@ -834,7 +723,7 @@ getBalances([address], 100)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`getBundle`](#module_core.getBundle)  
 <a name="module_core.getBundle"></a>
@@ -871,7 +760,7 @@ getBundle(tail)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`getInclusionStates`](#module_core.getInclusionStates)  
 <a name="module_core.getInclusionStates"></a>
@@ -889,7 +778,7 @@ getBundle(tail)
 | [callback] | <code>Callback</code> | Optional callback |
 
 Fetches inclusion states of given list of transactions, by calling
-[`getInclusionStates`](https://docs.iota.works/iri/api#endpoints/getInclusionsStates) command.
+[`getInclusionStates`](https://docs.helix.net/hlx/api#endpoints/getInclusionsStates) command.
 
 **Example**  
 ```js
@@ -907,7 +796,7 @@ getInclusionStates(transactions)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`getInputs`](#module_core.getInputs)  
 <a name="module_core.getInputs"></a>
@@ -954,7 +843,7 @@ getInputs(seed, { start: 0, threhold })
 
 | Param | Type | Description |
 | --- | --- | --- |
-| provider | <code>Provider</code> | Network provider for accessing IRI |
+| provider | <code>Provider</code> | Network provider for accessing a helix node |
 
 **Returns**: <code>function</code> - [`getLatestInclusion`](#module_core.getLatestInclusion)  
 <a name="module_core.getLatestInclusion"></a>
@@ -1027,11 +916,11 @@ Returns list of connected neighbors.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| seed | <code>string</code> |  | At least 81 trytes long seed |
+| seed | <code>string</code> |  | At least 32 hbytes long seed |
 | [options] | <code>object</code> |  |  |
 | [options.index] | <code>number</code> | <code>0</code> | Key index to start search at |
 | [options.security] | <code>number</code> | <code>2</code> | Security level |
-| [options.checksum] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to include 9-trytes checksum or not |
+| [options.checksum] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to include 0-hbytes checksum or not |
 | [options.total] | <code>number</code> |  | `Deprecated` Number of addresses to generate. |
 | [options.returnAll] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to return all addresses, from start up to new address. |
 | [callback] | <code>Callback</code> |  | Optional callback |
@@ -1070,7 +959,7 @@ getNewAddress(seed, { index })
 | [callback] | <code>Callback</code> | Optional callback |
 
 Returns information about connected node by calling
-[`getNodeInfo`](https://docs.iota.works/iri/api#endpoints/getNodeInfo) command.
+[`getNodeInfo`](https://docs.helix.net/hlx/api#endpoints/getNodeInfo) command.
 
 **Example**  
 ```js
@@ -1172,13 +1061,13 @@ getTransactionObjects(hashes)
 | [callback] | <code>Callback</code> | Optional callback |
 
 Does the _tip selection_ by calling
-[`getTransactionsToApprove`](https://docs.iota.works/iri/api#endpoints/getTransactionsToApprove) command.
-Returns a pair of approved transactions, which are chosen randomly after validating the transaction trytes,
+[`getTransactionsToApprove`](https://docs.helix.net/hlx/api#endpoints/getTransactionsToApprove) command.
+Returns a pair of approved transactions, which are chosen randomly after validating the transaction hbytes,
 the signatures and cross-checking for conflicting transactions.
 
 Tip selection is executed by a Random Walk (RW) starting at random point in given `depth`
 ending up to the pair of selected tips. For more information about tip selection please refer to the
-[whitepaper](http://iotatoken.com/IOTA_Whitepaper.pdf).
+[whitepaper](https://hlx.ai/helix-protocol.pdf).
 
 The `reference` option allows to select tips in a way that the reference transaction is being approved too.
 This is useful for promoting transactions, for example with
@@ -1187,30 +1076,30 @@ This is useful for promoting transactions, for example with
 **Example**  
 ```js
 const depth = 3
-const minWeightMagnitude = 14
+const minWeightMagnitude = 2
 
 getTransactionsToApprove(depth)
   .then(transactionsToApprove =>
-     attachToTanle(minWightMagnitude, trytes, { transactionsToApprove })
+     attachToTanle(minWightMagnitude, hbytes, { transactionsToApprove })
   )
   .then(storeAndBroadcast)
   .catch(err => {
     // handle errors here
   })
 ```
-<a name="module_core.createGetTrytes"></a>
+<a name="module_core.createGetHBytes"></a>
 
-### *core*.createGetTrytes(provider)
+### *core*.createGetHBytes(provider)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | provider | <code>Provider</code> | Network provider |
 
-**Returns**: <code>function</code> - [`getTrytes`](#module_core.getTrytes)  
-<a name="module_core.getTrytes"></a>
+**Returns**: <code>function</code> - [`getHBytes`](#module_core.getHBytes)  
+<a name="module_core.getHBytes"></a>
 
-### *core*.getTrytes(hashes, [callback])
-**Fulfil**: <code>Trytes[]</code> - Transaction trytes  
+### *core*.getHBytes(hashes, [callback])
+**Fulfil**: <code>HBytes[]</code> - Transaction hbytes  
 **Reject**: Error{}
 - `INVALID_TRANSACTION_HASH`: Invalid hash
 - Fetch error  
@@ -1220,14 +1109,14 @@ getTransactionsToApprove(depth)
 | hashes | <code>Array.&lt;Hash&gt;</code> | List of transaction hashes |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Fetches the transaction trytes given a list of transaction hashes, by calling
-[`getTrytes`](https://docs.iota.works/iri/api#endpoints/getTrytes) command.
+Fetches the transaction hbytes given a list of transaction hashes, by calling
+[`getHBytes`](https://docs.helix.net/hlx/api#endpoints/getHBytes) command.
 
 **Example**  
 ```js
-getTrytes(hashes)
+getHBytes(hashes)
   // Parsing as transaction objects
-  .then(trytes => asTransactionObjects(hashes)(trytes))
+  .then(hbytes => asTransactionObjects(hashes)(hbytes))
   .then(transactions => {
     // ...
   })
@@ -1312,7 +1201,7 @@ It is possible to prepare and sign transactions offline, by omitting the provide
 <a name="module_core.prepareTransfers"></a>
 
 ### *core*.prepareTransfers(seed, transfers, [options], [callback])
-**Fulfil**: <code>array</code> trytes Returns bundle trytes  
+**Fulfil**: <code>array</code> hbytes Returns bundle hbytes  
 **Reject**: <code>Error</code>
 - `INVALID_SEED`
 - `INVALID_TRANSFER_ARRAY`
@@ -1329,7 +1218,7 @@ It is possible to prepare and sign transactions offline, by omitting the provide
 | transfers | <code>object</code> |  |  |
 | [options] | <code>object</code> |  |  |
 | [options.inputs] | <code>Array.&lt;Input&gt;</code> |  | Inputs used for signing. Needs to have correct security, keyIndex and address value |
-| [options.inputs[].address] | <code>Hash</code> |  | Input address trytes |
+| [options.inputs[].address] | <code>Hash</code> |  | Input address hbytes |
 | [options.inputs[].keyIndex] | <code>number</code> |  | Key index at which address was generated |
 | [options.inputs[].security] | <code>number</code> | <code>2</code> | Security level |
 | [options.inputs[].balance] | <code>number</code> |  | Balance in iotas |
@@ -1343,7 +1232,7 @@ It is possible to prepare and sign transactions offline, by omitting the provide
 | --- | --- | --- |
 | [options.hmacKey] | <code>Hash</code> | HMAC key used for attaching an HMAC |
 
-Prepares the transaction trytes by generating a bundle, filling in transfers and inputs,
+Prepares the transaction hbytes by generating a bundle, filling in transfers and inputs,
 adding remainder and signing. It can be used to generate and sign bundles either online or offline.
 For offline usage, please see [`createPrepareTransfers`](#module_core.createPrepareTransfers)
 which creates a `prepareTransfers` without a network provider.
@@ -1403,11 +1292,11 @@ is interruptable through `interrupt` option.
 | uris | <code>Array</code> | List of URI's |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Removes a list of neighbors from the connected IRI node by calling
-[`removeNeighbors`](https://docs.iota.works/iri/api#endpoints/removeNeighbors) command.
+Removes a list of neighbors from the connected a helix node node by calling
+[`removeNeighbors`](https://docs.helix.net/hlx/api#endpoints/removeNeighbors) command.
 Assumes `removeNeighbors` command is available on the node.
 
-This method has temporary effect until your IRI node relaunches.
+This method has temporary effect until your a helix node node relaunches.
 
 <a name="module_core.createReplayBundle"></a>
 
@@ -1433,7 +1322,7 @@ This method has temporary effect until your IRI node relaunches.
 | --- | --- | --- |
 | tail | <code>Hash</code> | Tail transaction hash. Tail transaction is the transaction in the bundle with `currentIndex == 0`. |
 | depth | <code>number</code> | The depth at which Random Walk starts. A value of `3` is typically used by wallets, meaning that RW starts 3 milestones back. |
-| minWeightMagnitude | <code>number</code> | Minimum number of trailing zeros in transaction hash. This is used by [`attachToTangle`](#module_core.attachToTangle) function to search for a valid `nonce`. Currently is `14` on mainnet & spamnnet and `9` on most other testnets. |
+| minWeightMagnitude | <code>number</code> | Minimum number of trailing zeros in transaction hash. This is used by [`attachToTangle`](#module_core.attachToTangle) function to search for a valid `nonce`. MWM is currently set to `2` on the testnet. |
 | [callback] | <code>Callback</code> | Optional callback |
 
 Reattaches a transfer to tangle by selecting tips & performing the Proof-of-Work again.
@@ -1451,18 +1340,18 @@ replayBundle(tail)
   })
 })
 ```
-<a name="module_core.createSendTrytes"></a>
+<a name="module_core.createSendHBytes"></a>
 
-### *core*.createSendTrytes(provider)
+### *core*.createSendHBytes(provider)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | provider | <code>Provider</code> | Network provider |
 
-**Returns**: <code>function</code> - [`sendTrytes`](#module_core.sendTrytes)  
-<a name="module_core.sendTrytes"></a>
+**Returns**: <code>function</code> - [`sendHBytes`](#module_core.sendHBytes)  
+<a name="module_core.sendHBytes"></a>
 
-### *core*.sendTrytes(trytes, depth, minWeightMagnitude, [reference], [callback])
+### *core*.sendHBytes(hbytes, depth, minWeightMagnitude, [reference], [callback])
 **Fulfil**: <code>Transaction[]</code>  Returns list of attached transactions  
 **Reject**: <code>Error</code>
 - `INVALID_TRANSACTION_TRYTES`
@@ -1472,19 +1361,19 @@ replayBundle(tail)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| trytes | <code>Array.&lt;Trytes&gt;</code> | List of trytes to attach, store & broadcast |
+| hbytes | <code>Array.&lt;HBytes&gt;</code> | List of hbytes to attach, store & broadcast |
 | depth | <code>number</code> | Depth |
 | minWeightMagnitude | <code>number</code> | Min weight magnitude |
 | [reference] | <code>string</code> | Optional reference hash |
 | [callback] | <code>Callback</code> | Optional callback |
 
 [Attaches to tanlge](#module_core.attachToTangle), [stores](#module_core.storeTransactions)
-and [broadcasts](#module_core.broadcastTransactions) a list of transaction trytes.
+and [broadcasts](#module_core.broadcastTransactions) a list of transaction hbytes.
 
 **Example**  
 ```js
 prepareTransfers(seed, transfers)
-  .then(trytes => sendTrytes(trytes, depth, minWeightMagnitude))
+  .then(hbytes => sendHBytes(hbytes, depth, minWeightMagnitude))
   .then(transactions => {
     // ...
   })
@@ -1498,27 +1387,27 @@ prepareTransfers(seed, transfers)
 
 | Param | Type |
 | --- | --- |
-| provider | <code>Provider</code> | 
+| provider | <code>Provider</code> |
 
 **Returns**: <code>function</code> - [`storeAndBroadcast`](#module_core.storeAndBroadcast)  
 <a name="module_core.storeAndBroadcast"></a>
 
-### *core*.storeAndBroadcast(trytes, [callback])
-**Fulfil**: <code>Trytes[]</code> Attached transaction trytes  
+### *core*.storeAndBroadcast(hbytes, [callback])
+**Fulfil**: <code>HBytes[]</code> Attached transaction hbytes  
 **Reject**: <code>Error</code>
-- `INVALID_ATTACHED_TRYTES`: Invalid attached trytes
+- `INVALID_ATTACHED_TRYTES`: Invalid attached hbytes
 - Fetch error  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| trytes | <code>Array.&lt;Trytes&gt;</code> | Attached transaction trytes |
+| hbytes | <code>Array.&lt;HBytes&gt;</code> | Attached transaction hbytes |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Stores and broadcasts a list of _attached_ transaction trytes by calling
+Stores and broadcasts a list of _attached_ transaction hbytes by calling
 [`storeTransactions`](#module_core.storeTransactions) and
 [`broadcastTransactions`](#module_core.broadcastTransactions).
 
-Note: Persist the transaction trytes in local storage **before** calling this command, to ensure
+Note: Persist the transaction hbytes in local storage **before** calling this command, to ensure
 that reattachment is possible, until your bundle has been included.
 
 Any transactions stored with this command will eventaully be erased, as a result of a snapshot.
@@ -1534,28 +1423,28 @@ Any transactions stored with this command will eventaully be erased, as a result
 **Returns**: <code>function</code> - [`storeTransactions`](#module_core.storeTransactions)  
 <a name="module_core.storeTransactions"></a>
 
-### *core*.storeTransactions(trytes, [callback])
-**Fullfil**: <code>Trytes[]</code> Attached transaction trytes  
+### *core*.storeTransactions(hbytes, [callback])
+**Fullfil**: <code>HBytes[]</code> Attached transaction hbytes  
 **Reject**: <code>Error</code>
-- `INVALID_ATTACHED_TRYTES`: Invalid attached trytes
+- `INVALID_ATTACHED_TRYTES`: Invalid attached hbytes
 - Fetch error  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| trytes | <code>Array.&lt;Trytes&gt;</code> | Attached transaction trytes |
+| hbytes | <code>Array.&lt;HBytes&gt;</code> | Attached transaction hbytes |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Persists a list of _attached_ transaction trytes in the store of connected node by calling
-[`storeTransactions`](https://docs.iota.org/iri/api#endpoints/storeTransactions) command.
+Persists a list of _attached_ transaction hbytes in the store of connected node by calling
+[`storeTransactions`](https://docs.helix.net/hlx/api#endpoints/storeTransactions) command.
 Tip selection and Proof-of-Work must be done first, by calling
 [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) and
 [`attachToTangle`](#module_core.attachToTangle) or an equivalent attach method or remote
 [`PoWbox`](https://powbox.devnet.iota.org/).
 
-Persist the transaction trytes in local storage **before** calling this command, to ensure
+Persist the transaction hbytes in local storage **before** calling this command, to ensure
 reattachment is possible, until your bundle has been included.
 
-Any transactions stored with this command will eventaully be erased, as a result of a snapshot.
+Any transactions stored with this command will eventually be erased, as a result of a snapshot.
 
 <a name="module_core.createTraverseBundle"></a>
 
@@ -1563,7 +1452,7 @@ Any transactions stored with this command will eventaully be erased, as a result
 
 | Param | Type |
 | --- | --- |
-| provider | <code>Provider</code> | 
+| provider | <code>Provider</code> |
 
 **Returns**: <code>function</code> - [`traverseBundle`](#module_core.traverseBundle)  
 <a name="module_core.traverseBundle"></a>
@@ -1604,11 +1493,11 @@ traverseBundle(tail)
 | seed | <code>string</code> |  |  |
 | index | <code>number</code> |  | Private key index |
 | [security] | <code>number</code> | <code>2</code> | Security level of the private key |
-| [checksum] | <code>boolean</code> | <code>false</code> | Flag to add 9trytes checksum |
+| [checksum] | <code>boolean</code> | <code>false</code> | Flag to add 4 hbytes checksum |
 
 Generates an address deterministically, according to the given seed, index and security level.
 
-**Returns**: <code>Hash</code> - Address trytes  
+**Returns**: <code>Hash</code> - Address hbytes  
 <a name="module_extract-json"></a>
 
 ## extract-json
@@ -1618,7 +1507,7 @@ Generates an address deterministically, according to the given seed, index and s
 
 | Param | Type |
 | --- | --- |
-| bundle | <code>array</code> | 
+| bundle | <code>array</code> |
 
 Takes a bundle as input and from the signatureMessageFragments extracts the correct JSON
 data which was encoded and sent with the transaction.
@@ -1676,9 +1565,9 @@ getBundle(tailHash)
 
 | Param | Type | Default |
 | --- | --- | --- |
-| command | <code>Command</code> |  | 
-| [uri] | <code>String</code> | <code>http://localhost:14265</code> | 
-| [apiVersion] | <code>String</code> \| <code>Number</code> | <code>1</code> | 
+| command | <code>Command</code> |  |
+| [uri] | <code>String</code> | <code>http://localhost:14700</code> |
+| [apiVersion] | <code>String</code> \| <code>Number</code> | <code>1</code> |
 
 Sends an http request to a specified host.
 
@@ -1689,7 +1578,7 @@ Sends an http request to a specified host.
 
 | Param | Type |
 | --- | --- |
-| command | <code>object</code> | 
+| command | <code>object</code> |
 
 **Returns**: <code>object</code> - response  
 <a name="module_http-client..setSettings"></a>
@@ -1699,8 +1588,8 @@ Sends an http request to a specified host.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [settings] | <code>object</code> | <code>{}</code> |  |
-| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of IRI node |
-| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | IOTA Api version to be sent as `X-IOTA-API-Version` header. |
+| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14700&quot;</code> | Uri of a helix node node |
+| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | Helix Api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
 
 <a name="module_http-client..createHttpClient"></a>
@@ -1710,11 +1599,11 @@ Sends an http request to a specified host.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [settings] | <code>object</code> | <code>{}</code> |  |
-| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of IRI node |
-| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | IOTA Api version to be sent as `X-IOTA-API-Version` header. |
+| [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14700&quot;</code> | Uri of a helix node node |
+| [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | Helix Api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
 
-Create an http client to access IRI http API.
+Create an http client to access a helix node http API.
 
 **Returns**: Object  
 <a name="module_multisig"></a>
@@ -1763,27 +1652,27 @@ Create an http client to access IRI http API.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| seed | <code>Int8Array</code> | Seed trits |
+| seed | <code>Int8Array</code> | Seed hbits |
 | index | <code>number</code> | Private key index |
 
-**Returns**: <code>Int8Array</code> - subseed trits  
+**Returns**: <code>Int8Array</code> - subseed hbits  
 <a name="module_signing..key"></a>
 
 ### *signing*~key(subseed, length)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| subseed | <code>Int8Array</code> | Subseed trits |
+| subseed | <code>Int8Array</code> | Subseed hbits |
 | length | <code>number</code> | Private key length |
 
-**Returns**: <code>Int8Array</code> - Private key trits  
+**Returns**: <code>Int8Array</code> - Private key hbits  
 <a name="module_signing..digests"></a>
 
 ### *signing*~digests(key)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| key | <code>Int8Array</code> | Private key trits |
+| key | <code>Int8Array</code> | Private key hbits |
 
 <a name="module_signing..address"></a>
 
@@ -1791,9 +1680,9 @@ Create an http client to access IRI http API.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| digests | <code>Int8Array</code> | Digests trits |
+| digests | <code>Int8Array</code> | Digests hbits |
 
-**Returns**: <code>Int8Array</code> - Address trits  
+**Returns**: <code>Int8Array</code> - Address hbits  
 <a name="module_signing..digest"></a>
 
 ### *signing*~digest(normalizedBundleFragment, signatureFragment)
@@ -1801,9 +1690,9 @@ Create an http client to access IRI http API.
 | Param | Type | Description |
 | --- | --- | --- |
 | normalizedBundleFragment | <code>array</code> | Normalized bundle fragment |
-| signatureFragment | <code>Int8Array</code> | Signature fragment trits |
+| signatureFragment | <code>Int8Array</code> | Signature fragment hbits |
 
-**Returns**: <code>Int8Array</code> - Digest trits  
+**Returns**: <code>Int8Array</code> - Digest hbits  
 <a name="module_signing..signatureFragment"></a>
 
 ### *signing*~signatureFragment(normalizeBundleFragment, keyFragment)
@@ -1811,18 +1700,18 @@ Create an http client to access IRI http API.
 | Param | Type | Description |
 | --- | --- | --- |
 | normalizeBundleFragment | <code>array</code> | normalized bundle fragment |
-| keyFragment | <code>keyFragment</code> | key fragment trits |
+| keyFragment | <code>keyFragment</code> | key fragment hbits |
 
-**Returns**: <code>Int8Array</code> - Signature Fragment trits  
+**Returns**: <code>Int8Array</code> - Signature Fragment hbits  
 <a name="module_signing..validateSignatures"></a>
 
 ### *signing*~validateSignatures(expectedAddress, signatureFragments, bundleHash)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| expectedAddress | <code>string</code> | Expected address trytes |
-| signatureFragments | <code>array</code> | Array of signatureFragments trytes |
-| bundleHash | <code>string</code> | Bundle hash trytes |
+| expectedAddress | <code>string</code> | Expected address hbytes |
+| signatureFragments | <code>array</code> | Array of signatureFragments hbytes |
+| bundleHash | <code>string</code> | Bundle hash hbytes |
 
 <a name="module_signing..normalizedBundleHash"></a>
 
@@ -1830,7 +1719,7 @@ Create an http client to access IRI http API.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| bundlehash | <code>Hash</code> | Bundle hash trytes |
+| bundlehash | <code>Hash</code> | Bundle hash hbytes |
 
 Normalizes the bundle hash, with resulting digits summing to zero.
 
@@ -1841,35 +1730,36 @@ Normalizes the bundle hash, with resulting digits summing to zero.
 
 * [transaction-converter](#module_transaction-converter)
 
-    * [~asTransactionTrytes(transactions)](#module_transaction-converter..asTransactionTrytes)
+    * [~asTransactionHBytes(transactions)](#module_transaction-converter..asTransactionHBytes)
 
-    * [~asTransactionObject(trytes)](#module_transaction-converter..asTransactionObject)
+    * [~asTransactionObject(hbytes)](#module_transaction-converter..asTransactionObject)
 
     * [~asTransactionObjects([hashes])](#module_transaction-converter..asTransactionObjects)
 
-    * [~transactionObjectsMapper(trytes)](#module_transaction-converter..transactionObjectsMapper)
+    * [~transactionObjectsMapper(hbytes)](#module_transaction-converter..transactionObjectsMapper)
 
 
-<a name="module_transaction-converter..asTransactionTrytes"></a>
+<a name="module_transaction-converter..asTransactionHBytes"></a>
 
-### *transaction-converter*~asTransactionTrytes(transactions)
+### *transaction-converter*~asTransactionHBytes(transactions)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | transactions | <code>Transaction</code> \| <code>Array.&lt;Transaction&gt;</code> | Transaction object(s) |
 
-Converts a transaction object or a list of those into transaction trytes.
+Converts a transaction object or a list of those into transaction hbytes.
 
-**Returns**: <code>Trytes</code> \| <code>Array.&lt;Trytes&gt;</code> - Transaction trytes  
+**Returns**: <code>HBytes</code> \| <code>Array.&lt;HBytes&gt;</code> - Transaction hbytes  
 <a name="module_transaction-converter..asTransactionObject"></a>
 
-### *transaction-converter*~asTransactionObject(trytes)
+### *transaction-converter*~asTransactionObject(hbytes)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| trytes | <code>Trytes</code> | Transaction trytes |
+| hbytes | <code>HBytes</code> | Transaction hbytes |
 
-Converts transaction trytes of 2673 trytes into a transaction object.
+Converts transaction hbytes of 768
+ hbytes into a transaction object.
 
 **Returns**: <code>Transaction</code> - Transaction object  
 <a name="module_transaction-converter..asTransactionObjects"></a>
@@ -1880,18 +1770,18 @@ Converts transaction trytes of 2673 trytes into a transaction object.
 | --- | --- | --- |
 | [hashes] | <code>Array.&lt;Hash&gt;</code> | Optional list of known hashes. Known hashes are directly mapped to transaction objects, otherwise all hashes are being recalculated. |
 
-Converts a list of transaction trytes into list of transaction objects.
+Converts a list of transaction hbytes into list of transaction objects.
 Accepts a list of hashes and returns a mapper. In cases hashes are given,
 the mapper function map them to converted objects.
 
 **Returns**: <code>function</code> - [`transactionObjectsMapper`](#module_transaction.transactionObjectsMapper)  
 <a name="module_transaction-converter..transactionObjectsMapper"></a>
 
-### *transaction-converter*~transactionObjectsMapper(trytes)
+### *transaction-converter*~transactionObjectsMapper(hbytes)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| trytes | <code>Array.&lt;Trytes&gt;</code> | List of transaction trytes to convert |
+| hbytes | <code>Array.&lt;HBytes&gt;</code> | List of transaction hbytes to convert |
 
 Maps the list of given hashes to a list of converted transaction objects.
 
@@ -1902,7 +1792,7 @@ Maps the list of given hashes to a list of converted transaction objects.
 
 * [transaction](#module_transaction)
 
-    * [~transactionHash(trits)](#module_transaction..transactionHash)
+    * [~transactionHash(hbits)](#module_transaction..transactionHash)
 
     * [~isTransaction(tx)](#module_transaction..isTransaction)
 
@@ -1910,20 +1800,22 @@ Maps the list of given hashes to a list of converted transaction objects.
 
     * [~isTransactionHash(hash, mwm)](#module_transaction..isTransactionHash)
 
-    * [~isTransactionTrytes(trytes, minWeightMagnitude)](#module_transaction..isTransactionTrytes)
+    * [~isTransactionHBytes(hbytes, minWeightMagnitude)](#module_transaction..isTransactionHBytes)
 
-    * [~isAttachedTrytes(trytes)](#module_transaction..isAttachedTrytes)
+    * [~isAttachedHBytes(hbytes)](#module_transaction..isAttachedHBytes)
 
 
 <a name="module_transaction..transactionHash"></a>
 
-### *transaction*~transactionHash(trits)
+### *transaction*~transactionHash(hbits)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| trits | <code>Int8Array</code> | Int8Array of 8019 transaction trits |
+| hbits | <code>Int8Array</code> | Int8Array of 6144
+ transaction hbits |
 
-Calculates the transaction hash out of 8019 transaction trits.
+Calculates the transaction hash out of 6144
+ transaction hbits.
 
 **Returns**: <code>Hash</code> - Transaction hash  
 <a name="module_transaction..isTransaction"></a>
@@ -1932,7 +1824,7 @@ Calculates the transaction hash out of 8019 transaction trits.
 
 | Param | Type |
 | --- | --- |
-| tx | <code>object</code> | 
+| tx | <code>object</code> |
 
 Checks if input is valid transaction object.
 
@@ -1942,7 +1834,7 @@ Checks if input is valid transaction object.
 
 | Param | Type |
 | --- | --- |
-| transaction | <code>object</code> | 
+| transaction | <code>object</code> |
 
 Checks if given transaction object is tail transaction.
 A tail transaction is one with `currentIndex=0`.
@@ -1953,32 +1845,34 @@ A tail transaction is one with `currentIndex=0`.
 
 | Param | Type |
 | --- | --- |
-| hash | <code>string</code> | 
-| mwm | <code>number</code> | 
+| hash | <code>string</code> |
+| mwm | <code>number</code> |
 
-Checks if input is correct transaction hash (81 trytes)
+Checks if input is correct transaction hash (32
+ hbytes)
 
-<a name="module_transaction..isTransactionTrytes"></a>
+<a name="module_transaction..isTransactionHBytes"></a>
 
-### *transaction*~isTransactionTrytes(trytes, minWeightMagnitude)
-
-| Param | Type |
-| --- | --- |
-| trytes | <code>string</code> | 
-| minWeightMagnitude | <code>number</code> | 
-
-Checks if input is correct transaction trytes (2673 trytes)
-
-<a name="module_transaction..isAttachedTrytes"></a>
-
-### *transaction*~isAttachedTrytes(trytes)
+### *transaction*~isTransactionHBytes(hbytes, minWeightMagnitude)
 
 | Param | Type |
 | --- | --- |
-| trytes | <code>string</code> | 
+| hbytes | <code>string</code> |
+| minWeightMagnitude | <code>number</code> |
 
-Checks if input is valid attached transaction trytes.
-For attached transactions last 241 trytes are non-zero.
+Checks if input is correct transaction hbytes (768
+ hbytes)
+
+<a name="module_transaction..isAttachedHBytes"></a>
+
+### *transaction*~isAttachedHBytes(hbytes)
+
+| Param | Type |
+| --- | --- |
+| hbytes | <code>string</code> |
+
+Checks if input is valid attached transaction hbytes.
+For attached transactions last 30 hbytes are non-zero.
 
 <a name="module_unit-converter"></a>
 
@@ -1993,7 +1887,7 @@ For attached transactions last 241 trytes are non-zero.
 | fromUnit | <code>string</code> | Name of original value unit |
 | toUnit | <code>string</code> | Name of unit wich we convert to |
 
-Converts accross IOTA units. Valid unit names are:
+Converts accross HLX units. Valid unit names are:
 `h`, `Kh`, `Mh`, `Gh`, `Th`, `Ph`
 
 <a name="module_validators"></a>
@@ -2005,7 +1899,7 @@ Converts accross IOTA units. Valid unit names are:
 
 | Param | Type | Description |
 | --- | --- | --- |
-| address | <code>string</code> | Address trytes, with checksum |
+| address | <code>string</code> | Address hbytes, with checksum |
 
 Checks integrity of given address by validating the checksum.
 
@@ -2027,7 +1921,7 @@ Checks integrity of given address by validating the checksum.
 | Param | Type | Description |
 | --- | --- | --- |
 | settings | <code>object</code> | Provider settings object |
-| [settings.provider] | <code>string</code> | Http `uri` of IRI node |
+| [settings.provider] | <code>string</code> | Http `uri` of a helix node node |
 | [settings.attachToTangle] | <code>function</code> | Function to override [`attachToTangle`](#module_core.attachToTangle) with |
 
 Defines network provider configuration and [`attachToTangle`](#module_core.attachToTangle) method.
@@ -2042,4 +1936,3 @@ Defines network provider configuration and [`attachToTangle`](#module_core.attac
 
 Overides default [`attachToTangle`](#module_core.attachToTangle) with a local equivalent or
 [`PoWBox`](https://powbox.devnet.iota.org/)
-

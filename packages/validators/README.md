@@ -1,6 +1,6 @@
 # @helixnetwork/validators
 
-Collection of guards and validators, useful in IOTA development.
+Collection of guards and validators, useful in Helix development.
 
 ## Installation
 

@@ -22,11 +22,11 @@ import {
 export const createBroadcastTransactions = ({ send }: Provider) =>
   /**
    * Broadcasts an list of _attached_ transaction hbytes to the network by calling
-   * [`boradcastTransactions`](https://docs.iota.org/iri/api#endpoints/broadcastTransactions) command.
+   * [`boradcastTransactions`](https://docs.hlx.ai/hlx/api#endpoints/broadcastTransactions) command.
    * Tip selection and Proof-of-Work must be done first, by calling
    * [`getTransactionsToApprove`]{@link #module_core.getTransactionsToApprove} and
    * [`attachToTangle`]{@link #module_core.attachToTangle} or an equivalent attach method or remote
-   * [`PoWbox`](https://powbox.testnet.iota.org/), which is a development tool.
+   * [`PoW-Integrator`](https://powbox.testnet.iota.org/), which is a development tool.
    *
    * You may use this method to increase odds of effective transaction propagation.
    *

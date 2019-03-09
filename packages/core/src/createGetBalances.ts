@@ -30,7 +30,7 @@ import {
 export const createGetBalances = ({ send }: Provider) =>
   /**
    * Fetches _confirmed_ balances of given addresses at the latest solid milestone,
-   * by calling [`getBalances`](https://docs.iota.works/iri/api#endpoints/getBalances) command.
+   * by calling [`getBalances`](https://docs.hlx.ai/hlx/api#endpoints/getBalances) command.
    *
    * @example
    * ```js
@@ -72,7 +72,7 @@ export const createGetBalances = ({ send }: Provider) =>
       .then(() =>
         send<GetBalancesCommand, GetBalancesResponse>({
           command: ProtocolCommand.GET_BALANCES,
-          addresses: removeChecksum(addresses), // Addresses passed to IRI should not have the checksum
+          addresses: removeChecksum(addresses), // Addresses passed to the node should not have the checksum
           threshold
         })
       )

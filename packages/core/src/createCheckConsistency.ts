@@ -33,7 +33,7 @@ const defaults = {
 export const createCheckConsistency = ({ send }: Provider) =>
   /**
    * Checks if a transaction is _consistent_ or a set of transactions are _co-consistent_, by calling
-   * [`checkConsistency`](https://docs.iota.org/iri/api#endpoints/checkConsistency) command.
+   * [`checkConsistency`](https://docs.hlx.ai/hlx/api#endpoints/checkConsistency) command.
    * _Co-consistent_ transactions and the transactions that they approve (directly or inderectly),
    * are not conflicting with each other and rest of the ledger.
    *
@@ -58,7 +58,7 @@ export const createCheckConsistency = ({ send }: Provider) =>
    *
    * Consistent transactions might remain pending due to networking issues,
    * or if not referenced by recent milestones issued by
-   * [Coordinator](https://docs.iota.org/introduction/tangle/consensus).
+   * [Coordinator](https://docs.hlx.ai/tangle/coo).
    * Therefore `checkConsistency` with a time heuristic can determine
    * if a transaction should be [_promoted_]{@link promoteTransaction}
    * or [_reattached_]{@link replayBundle}.

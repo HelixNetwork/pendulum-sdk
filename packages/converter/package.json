@@ -1,7 +1,7 @@
 {
   "name": "@helixnetwork/converter",
-  "version": "0.0.1-alpha.0",
-  "description": "Convert values & trytes to trits and back",
+  "version": "1.0.0-alpha.1",
+  "description": "Converter for ASCII and hexadecimal bytes (hbytes).",
   "main": "./out/src/index.js",
   "typings": "typings/src",
   "publishConfig": {
@@ -36,7 +36,7 @@
     "include": ["out/src/*.js", "out/test/*.js"]
   },
   "keywords": [
-    "iota",
+    "helix",
     "tangle",
     "library",
     "browser",

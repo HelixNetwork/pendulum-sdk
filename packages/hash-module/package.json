@@ -1,7 +1,7 @@
 {
   "name": "@helixnetwork/hash-module",
-  "version": "0.0.1-alpha.0",
-  "description": "IOTA-related cryptographic methods",
+  "version": "1.0.0-alpha.1",
+  "description": "Helix-related cryptographic methods",
   "main": "./out/src/index.js",
   "typings": "typings/src",
   "publishConfig": {
@@ -25,7 +25,7 @@
     "verbose": true
   },
   "keywords": [
-    "iota",
+    "helix",
     "tangle",
     "library",
     "browser",
@@ -42,12 +42,8 @@
     "url":
       "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
   },
-  "dependencies": {
-    "@types/crypto-js": "^3.1.38",
-    "crypto-js": "^3.1.9-1"
-  },
   "devDependencies": {
-    "@helixnetwork/converter": "^0.0.1-alpha.0",
-    "@helixnetwork/sha3": "^0.0.1-alpha.0"
+    "@helixnetwork/converter": "^1.0.0-alpha.1",
+    "@helixnetwork/sha3": "^1.0.0-alpha.1"
   }
 }

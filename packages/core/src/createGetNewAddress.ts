@@ -17,6 +17,8 @@ import {
 import { createFindTransactions, generateAddress } from "./";
 import { createWereAddressesSpentFrom } from "./createWereAddressesSpentFrom";
 
+/** @todo change default security level to 2 in future update. */
+
 export interface GetNewAddressOptions {
   readonly index: number;
   readonly security: number;
@@ -53,7 +55,7 @@ export const createIsAddressUsed = (provider: Provider) => {
  * @param {string} seed
  * @param {options} [options]
  * @param {number} [options.start=0] - Key index offset to start the search at
- * @param {number} [options.security=2] - Security level
+ * @param {number} [options.security=1] - Security level
  *
  * @return {Promise}
  * @fulfil {Hash[]} List of addresses up to (and including) first unused address
@@ -123,7 +125,7 @@ export const getNewAddressOptions = getOptionsWithDefaults<
   GetNewAddressOptions
 >({
   index: 0,
-  security: 2,
+  security: 1,
   checksum: false,
   total: undefined,
   returnAll: false
@@ -163,7 +165,7 @@ export const createGetNewAddress = (provider: Provider, caller?: string) => {
    * @param {string} seed - At least 81 hbytes long seed
    * @param {object} [options]
    * @param {number} [options.index=0] - Key index to start search at
-   * @param {number} [options.security=2] - Security level
+   * @param {number} [options.security=1] - Security level
    * @param {boolean} [options.checksum=false] - `Deprecated` Flag to include 9-hbytes checksum or not
    * @param {number} [options.total] - `Deprecated` Number of addresses to generate.
    * @param {boolean} [options.returnAll=false] - `Deprecated` Flag to return all addresses, from start up to new address.

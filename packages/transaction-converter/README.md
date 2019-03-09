@@ -1,6 +1,6 @@
 # @helixnetwork/transaction-converter
 
-Methods for calculating transaction hashes and converting transaction objects to transaction trytes and back.
+Methods for calculating transaction hashes and converting transaction objects to transaction hbytes and back.
 
 ## Installation
 

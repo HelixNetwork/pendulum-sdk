@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/pad",
-  "version": "0.0.1-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description": "Padding utility",
   "main": "./out/pad/src/index.js",
   "typings": "typings/pad/src",
@@ -34,7 +34,7 @@
     "include": ["out/*/src/*.js", "out/*/test/*.js"]
   },
   "keywords": [
-    "iota",
+    "helix",
     "tangle",
     "library",
     "browser",

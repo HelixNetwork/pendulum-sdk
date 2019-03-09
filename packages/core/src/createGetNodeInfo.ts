@@ -19,7 +19,7 @@ import {
 export const createGetNodeInfo = ({ send }: Provider) =>
   /**
    * Returns information about connected node by calling
-   * [`getNodeInfo`](https://docs.iota.works/iri/api#endpoints/getNodeInfo) command.
+   * [`getNodeInfo`](https://docs.hlx.ai/hlx/api#endpoints/getNodeInfo) command.
    *
    * @example
    *
