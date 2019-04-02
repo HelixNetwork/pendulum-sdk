@@ -162,21 +162,13 @@ export const addHBytes = (
  * @return {Transaction[]} Transactions of finalized bundle
  */
 export const finalizeBundle = (transactions: Bundle): Bundle => {
-  const valueHBits = transactions
-    .map(tx => hbits(tx.value))
-    .map(padSignedHBits(TRANSACTION_VALUE_BITS_SIZE));
+  const valueHBits = transactions.map(tx => hbits(tx.value));
 
-  const timestampHBits = transactions
-    .map(tx => hbits(tx.timestamp))
-    .map(padHBits(TRANSACTION_TIMESTAMP_BITS_SIZE));
+  const timestampHBits = transactions.map(tx => hbits(tx.timestamp));
 
-  const currentIndexHBits = transactions
-    .map(tx => hbits(tx.currentIndex))
-    .map(padHBits(TRANSACTION_CURRENT_INDEX_BITS_SIZE));
+  const currentIndexHBits = transactions.map(tx => hbits(tx.currentIndex));
 
-  const lastIndexHBits = padHBits(TRANSACTION_LAST_INDEX_BITS_SIZE)(
-    hbits(transactions[0].lastIndex)
-  );
+  const lastIndexHBits = hbits(transactions[0].lastIndex);
 
   const obsoleteTagHBits = transactions
     .map(tx => hbits(tx.obsoleteTag))

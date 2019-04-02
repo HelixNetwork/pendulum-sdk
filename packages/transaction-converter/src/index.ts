@@ -1,6 +1,6 @@
 /** @module transaction-converter */
 
-import { hBitsToHBytes, hbytesToHBits, value, toHBytes } from "@helixnetwork/converter";
+import { hBitsToHBytes, hbytesToHBits, hbits, value, toHBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { padHBits, padHBytes, padSignedHBits } from "@helixnetwork/pad";
 import { transactionHash } from "@helixnetwork/transaction";
@@ -49,48 +49,20 @@ export function asTransactionHBytes(
     [
       transaction.signatureMessageFragment,
       transaction.address,
-      hBitsToHBytes(
-        padSignedHBits(TRANSACTION_VALUE_BITS_SIZE)(
-          hbytesToHBits(transaction.value)
-        )
-      ),
+      hBitsToHBytes(hbits(transaction.value)),
       padHBytes(OBSOLETE_TAG_BYTE_SIZE)(transaction.obsoleteTag),
-      hBitsToHBytes(
-        padHBits(TRANSACTION_TIMESTAMP_BITS_SIZE)(
-          hbytesToHBits(transaction.timestamp)
-        )
-      ),
-      hBitsToHBytes(
-        padHBits(TRANSACTION_CURRENT_INDEX_BITS_SIZE)(
-          hbytesToHBits(transaction.currentIndex)
-        )
-      ),
-      hBitsToHBytes(
-        padHBits(TRANSACTION_LAST_INDEX_BITS_SIZE)(
-          hbytesToHBits(transaction.lastIndex)
-        )
-      ),
+      hBitsToHBytes(hbits(transaction.timestamp)),
+      hBitsToHBytes(hbits(transaction.currentIndex)),
+      hBitsToHBytes(hbits(transaction.lastIndex)),
       transaction.bundle,
       transaction.trunkTransaction,
       transaction.branchTransaction,
       padHBytes(OBSOLETE_TAG_BYTE_SIZE)(
         transaction.tag || transaction.obsoleteTag
       ),
-      hBitsToHBytes(
-        padHBits(TRANSACTION_TIMESTAMP_BITS_SIZE)(
-          hbytesToHBits(transaction.attachmentTimestamp)
-        )
-      ),
-      hBitsToHBytes(
-        padHBits(TRANSACTION_TIMESTAMP_BITS_SIZE)(
-          hbytesToHBits(transaction.attachmentTimestampLowerBound)
-        )
-      ),
-      hBitsToHBytes(
-        padHBits(TRANSACTION_TIMESTAMP_BITS_SIZE)(
-          hbytesToHBits(transaction.attachmentTimestampUpperBound)
-        )
-      ),
+      hBitsToHBytes(hbits(transaction.attachmentTimestamp)),
+      hBitsToHBytes(hbits(transaction.attachmentTimestampLowerBound)),
+      hBitsToHBytes(hbits(transaction.attachmentTimestampUpperBound)),
       transaction.nonce
     ].join("")
   );
@@ -239,11 +211,11 @@ export const asTransactionObject = (
           (startIndexTimestampUpTrasnBytes +
             TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE)
       )
-    ), // 27 trits
+    ),
     nonce: hbytes.slice(
       startIndexNonceBytes,
       startIndexNonceBytes + NONCE_BYTE_SIZE
-    ) // 27 trytes
+    )
   };
 };
 
