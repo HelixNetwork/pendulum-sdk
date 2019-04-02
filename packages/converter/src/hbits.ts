@@ -88,12 +88,12 @@ export const hBitsToHBytes = hbytes;
  */
 // tslint:disable-next-line no-shadowed-variable
 export function value(hBits: Int8Array): number {
-  const isNegative = !!(hBits[hBits.length - 1] === 1);
+  const isNegative = hBits[0] === 1;
   let strBits = "";
-  for (let i = hBits.length; i-- > 0; ) {
+  for (let i = 0; i < hBits.length; i++) {
     strBits += isNegative ? ~hBits[i] & 0x01 : hBits[i] & 0x01;
   }
-  return (isNegative ? -1 : 1) * parseInt(strBits, 2);
+  return (isNegative ? -1 * (parseInt(strBits, 2) + 1): parseInt(strBits, 2));
 }
 
 /**
@@ -120,20 +120,13 @@ export const hBitsToValue = value;
  */
 // tslint:disable-next-line no-shadowed-variable
 export function fromValue(value: number): Int8Array {
-  const isNegative = !!(value < 0);
-  const binary = value
-    .toString(2)
-    .split("")
-    .reverse();
-  let extraBitForSign = 0;
-  if (!isNegative) {
-    extraBitForSign = binary[binary.length - 1] === "1" ? 1 : 0;
-  }
-  const destination = new Int8Array(binary.length + extraBitForSign);
+  const isNegative = value < 0;
+  const binary = isNegative? (-value-1).toString(2): value.toString(2);
+  let destination = new Int8Array(64).fill(isNegative? 1: 0);
   for (let i = 0; i < binary.length; i++) {
-    destination[i] = isNegative
-      ? ~parseInt(binary[i], 10) & 0x01
-      : parseInt(binary[i], 10);
+    destination[i + (64 - binary.length)] = isNegative ?
+    ~parseInt(binary[i], 10) & 0x01
+    : parseInt(binary[i], 10);
   }
   return destination;
 }
