@@ -250,7 +250,7 @@ export function validateSignatures(
  * @param bundleHash
  */
 export const normalizedBundleHash = (bundleHash: Uint8Array): Uint8Array => {
-  const normalizedBundle = bundleHash; // toHBytes(bundleHash);
+  const normalizedBundle = Int8Array.from(bundleHash); // toHBytes(bundleHash);
 
   for (let i = 0; i < 2; i++) {
     let sum = 0;
