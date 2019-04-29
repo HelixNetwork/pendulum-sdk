@@ -29,7 +29,7 @@ var transfer1 = {
 
 var transfer2 = {
   address: recipientAddress2,
-  value: 536561674354688,
+  value: 53,
   message: Converter.asciiToHBytes("abcd"),
   tag: "abcd123"
 };
