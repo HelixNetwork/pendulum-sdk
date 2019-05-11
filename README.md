@@ -20,7 +20,7 @@ Thanks for everyone involved in the process of developing the Official Helix API
 npm run init
 ```
 
-This will install all dependencies, build and link the packages together. helix.api uses [Lerna](https://lernajs.io/) to manage multiple packages. You can re-bootstrap your setup at any point with `lerna bootstrap` command.
+This will install all dependencies, build and link the packages together. helix.api uses [Lerna](https://lerna.js.org) to manage multiple packages. You can re-bootstrap your setup at any point with `lerna bootstrap` command.
 
 ### Run the tests
 
