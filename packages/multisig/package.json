@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/multisig",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description":
     "Methods for generating multisig addresses and co-schnorr transactions.",
   "main": "./out/multisig/src/index.js",
@@ -45,12 +45,12 @@
     "url": "https://github.com/helixnetwork/helix.api.git"
   },
   "dependencies": {
-    "@helixnetwork/bundle": "^1.0.0-alpha.1",
-    "@helixnetwork/checksum": "^1.0.0-alpha.1",
-    "@helixnetwork/converter": "^1.0.0-alpha.1",
-    "@helixnetwork/core": "^1.0.0-alpha.1",
-    "@helixnetwork/hash-module": "^1.0.0-alpha.1",
-    "@helixnetwork/winternitz": "^1.0.0-alpha.1",
+    "@helixnetwork/bundle": "^1.0.0-alpha.2",
+    "@helixnetwork/checksum": "^1.0.0-alpha.2",
+    "@helixnetwork/converter": "^1.0.0-alpha.2",
+    "@helixnetwork/core": "^1.0.0-alpha.2",
+    "@helixnetwork/hash-module": "^1.0.0-alpha.2",
+    "@helixnetwork/winternitz": "^1.0.0-alpha.2",
     "@types/bluebird": "^3.5.20",
     "bluebird": "^3.5.1",
     "isomorphic-fetch": "^2.2.1"
