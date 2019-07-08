@@ -264,7 +264,7 @@ export const arrayValidator = <T>(
   return [
     arr,
     (x: ReadonlyArray<any>): x is ReadonlyArray<T> =>
-      x.every(value => isValid(value)),
+      Array.isArray(x) && x.every(value => isValid(value)),
     customMsg || msg
   ];
 };

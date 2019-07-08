@@ -123,3 +123,16 @@ test.cb("prepareTransfers() invokes callback", t => {
 //         }
 //     );
 // });
+
+test("prepareTransfers() throws intuitive error when provided invalid transfers array", async t => {
+  const invalidTransfer = {
+    address: addChecksum("a".repeat(2 * 32)),
+    value: 3
+  } as any;
+
+  t.is(
+    t.throws(() => prepareTransfers("abcd", invalidTransfer)).message,
+    `Invalid transfer array: ${invalidTransfer}`,
+    "prepareTransfers() should throw intuitive error when provided invalid transfers array"
+  );
+});
