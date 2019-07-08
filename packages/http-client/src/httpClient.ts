@@ -101,7 +101,7 @@ export const createHttpClient: CreateProvider = (
       command: Readonly<C>
     ): Promise<Readonly<R>> =>
       Promise.try(() => {
-        const { provider, requestBatchSize, apiVersion } = _settings;
+        const { provider, requestBatchSize, apiVersion, timeout } = _settings;
 
         if (isBatchableCommand(command)) {
           const keysToBatch = getKeysToBatch(command, requestBatchSize);
@@ -117,7 +117,7 @@ export const createHttpClient: CreateProvider = (
           }
         }
 
-        return send<C, R>(command, provider, apiVersion);
+        return send<C, R>(command, provider, apiVersion, timeout);
       }),
 
     /**
@@ -127,9 +127,12 @@ export const createHttpClient: CreateProvider = (
      * @param {string} [settings.provider=http://localhost:14265] Uri of helix node
      * @param {string | number} [settings.apiVersion=1] - Helix Api version to be sent as `X-HELIX-API-Version` header.
      * @param {number} [settings.requestBatchSize=1000] - Number of search values per request.
+     * @param {timeout} [settings.timeout] - Timeout.
      */
     setSettings: (newSettings?: Partial<Settings>): void => {
       _settings = getSettingsWithDefaults({ ..._settings, ...newSettings });
+      // tslint:disable-next-line:no-console
+      console.log(settings);
     }
   };
 };

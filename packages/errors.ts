@@ -52,3 +52,5 @@ export const invalidChecksum = (address: string) =>
   `Invalid Checksum: ${address}`;
 export const inconsistentTransaction = (reason: string) =>
   `Transaction is inconsistent. Reason: ${reason}`;
+export const requestError = (statusText: string) =>
+  `Request error: ${statusText}`;
