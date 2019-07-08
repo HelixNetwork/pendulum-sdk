@@ -11,8 +11,7 @@ import {
 import { BatchableCommand } from "./httpClient";
 import { API_VERSION, DEFAULT_URI, MAX_REQUEST_BATCH_SIZE } from "./settings";
 
-const requestError = (statusText: string) =>
-  Promise.reject(`Request error: ${statusText}`);
+const requestError = (statusText: string) => `Request error: ${statusText}`;
 
 /**
  * Sends an http request to a specified host.
@@ -59,28 +58,32 @@ export const send = <C extends BaseCommand, R = any>(
     headers,
     body: JSON.stringify(command),
     signal: abortSignal
-  })
-    .then(res => {
-      if (abortTimout) {
-        clearTimeout(abortTimout);
-      }
-      if (!res.ok) {
-        throw errors.requestError(res.statusText);
-      }
-
-      return res.json();
-    })
-    .then((json: any) => {
-      if (json.error) {
-        throw errors.requestError(json.error);
-      } else if (json.exception) {
-        throw errors.requestError(json.exception);
-      }
-
-      return json;
-    });
+  }).then(res =>
+    res
+      .json()
+      .then(json => {
+        if (abortTimout) {
+          clearTimeout(abortTimout);
+        }
+        return res.ok
+          ? json
+          : Promise.reject(
+              requestError(
+                json.error || json.exception
+                  ? json.error || json.exception
+                  : res.statusText
+              )
+            );
+      })
+      .catch(error => {
+        if (!res.ok && error.type === "invalid-json") {
+          throw requestError(res.statusText);
+        } else {
+          throw error;
+        }
+      })
+  );
 };
-
 /**
  * Sends a batched http request to a specified host
  * supports findTransactions, getBalances & getHBytes commands
@@ -170,6 +173,6 @@ export const batchedSend = <C extends BaseCommand, R = any>(
           )
         };
       default:
-        requestError("Invalid batched request.");
+        throw requestError("Invalid batched request.");
     }
   });

@@ -171,11 +171,7 @@ export const createPrepareTransfers = (
         transactions: [],
         hbytes: [],
         seed,
-        transfers: transfers.map(transfer => ({
-          ...transfer,
-          message: transfer.message || "",
-          tag: transfer.tag || ""
-        })),
+        transfers,
         timestamp: Math.floor(
           (typeof now === "function" ? now() : Date.now()) / 1000
         ),
@@ -227,7 +223,7 @@ export const addHMACPlaceholder = (
             transfer.value > 0
               ? {
                   ...transfer,
-                  message: NULL_HASH_HBYTES + transfer.message
+                  message: NULL_HASH_HBYTES + (transfer.message || "")
                 }
               : transfer
         )
@@ -377,7 +373,8 @@ export const createAddRemainder = (provider?: Provider) => {
 
 export const getRemainderAddressStartIndex = (
   inputs: ReadonlyArray<Address>
-): number => [...inputs].sort((a, b) => a.keyIndex - b.keyIndex)[0].keyIndex + 1;
+): number =>
+  [...inputs].sort((a, b) => a.keyIndex - b.keyIndex)[0].keyIndex + 1;
 
 export const verifyNotSendingToInputs = (
   props: PrepareTransfersProps
