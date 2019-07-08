@@ -64,3 +64,30 @@ test("send() returns correct error message for bad request.", t => {
     );
   });
 });
+
+const invalidGetTransactionsToApproveCommand = {
+  command: ProtocolCommand.GET_TRANSACTIONS_TO_APPROVE,
+  depth: 42000
+};
+const invalidGetTransactionsToApproveResponse = {
+  error: "Invalid depth input",
+  duration: 0
+};
+
+export const badSendJSONResponseNock = nock(
+  "http://localhost:24265",
+  headers(API_VERSION)
+)
+  .persist()
+  .post("/", invalidGetTransactionsToApproveCommand)
+  .reply(400, invalidGetTransactionsToApproveResponse);
+
+test("send() parses and returns json encoded error of bad request.", t => {
+  return send(invalidGetTransactionsToApproveCommand).catch(error => {
+    t.is(
+      error,
+      `Request error: ${invalidGetTransactionsToApproveResponse.error}`,
+      "httpClient.send() should parse and return json encoded error of bad request."
+    );
+  });
+});
