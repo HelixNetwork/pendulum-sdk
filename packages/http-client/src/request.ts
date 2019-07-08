@@ -47,17 +47,20 @@ export const send = <C extends BaseCommand, R = any>(
         json =>
           res.ok
             ? json
-            : requestError(
-                json.error || json.exception
-                  ? json.error || json.exception
-                  : res.statusText
+            : Promise.reject(
+                requestError(
+                  json.error || json.exception
+                    ? json.error || json.exception
+                    : res.statusText
+                )
               )
       )
       .catch(error => {
         if (!res.ok && error.type === "invalid-json") {
-          return requestError(res.statusText);
+          throw requestError(res.statusText);
+        } else {
+          throw error;
         }
-        throw error;
       })
   );
 
