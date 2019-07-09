@@ -1,3 +1,41 @@
-export { createHttpClient } from './httpClient'
-export { Settings as HttpClientSettings } from './settings'
-export { /* batchedSend, */ send } from './request'
+export { createHttpClient } from "./httpClient";
+export { Settings as HttpClientSettings } from "./settings";
+export {
+  Provider,
+  BaseCommand,
+  ProtocolCommand,
+  AddNeighborsCommand,
+  AddNeighborsResponse,
+  AttachToTangleCommand,
+  AttachToTangleResponse,
+  BroadcastTransactionsCommand,
+  BroadcastTransactionsResponse,
+  CheckConsistencyCommand,
+  CheckConsistencyResponse,
+  FindTransactionsQuery,
+  FindTransactionsCommand,
+  FindTransactionsResponse,
+  GetBalancesCommand,
+  GetBalancesResponse,
+  Balances,
+  GetInclusionStatesCommand,
+  GetInclusionStatesResponse,
+  GetNeighborsCommand,
+  GetNeighborsResponse,
+  GetNodeInfoCommand,
+  GetNodeInfoResponse,
+  GetTipsCommand,
+  GetTipsResponse,
+  GetTransactionsToApproveCommand,
+  GetTransactionsToApproveResponse,
+  TransactionsToApprove,
+  GetHBytesCommand,
+  GetHBytesResponse,
+  InterruptAttachingToTangleCommand,
+  InterruptAttachingToTangleResponse,
+  RemoveNeighborsCommand,
+  RemoveNeighborsResponse,
+  StoreTransactionsCommand,
+  StoreTransactionsResponse
+} from "../../types";
+export { /* batchedSend, */ send } from "./request";

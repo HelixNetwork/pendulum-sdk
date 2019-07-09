@@ -1,6 +1,12 @@
 /** @module transaction-converter */
 
-import { hBitsToHBytes, hbytesToHBits, hbits, value, toHBytes } from "@helixnetwork/converter";
+import {
+  hBitsToHBytes,
+  hbytesToHBits,
+  hbits,
+  value,
+  toHBytes
+} from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { padHBits, padHBytes, padSignedHBits } from "@helixnetwork/pad";
 import { transactionHash } from "@helixnetwork/transaction";
@@ -28,6 +34,8 @@ import {
 import * as errors from "../../errors";
 import { isHBytesOfExactLength } from "../../guards";
 import { asArray, Hash, HBytes, Transaction } from "../../types";
+
+export { Transaction };
 
 export function asTransactionHBytes(transactions: Transaction): HBytes;
 export function asTransactionHBytes(

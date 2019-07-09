@@ -2,6 +2,19 @@
 
 // helix commands
 export {
+  Address,
+  Transfer,
+  Bundle,
+  Transaction,
+  Inputs,
+  Balance,
+  Neighbor,
+  Neighbors,
+  BaseCommand,
+  ProtocolCommand,
+  AttachToTangle,
+  Callback,
+  Provider,
   AddNeighborsCommand,
   AddNeighborsResponse,
   AttachToTangleCommand,
@@ -154,6 +167,7 @@ export { generateAddress } from "./generateAddress";
 
 // Errors
 import * as errors from "../../errors";
+import { ProtocolCommand } from "../../types";
 export { errors };
 
 // export api factory with default provider

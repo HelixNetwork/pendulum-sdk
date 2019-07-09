@@ -24,6 +24,8 @@ import {
 } from "../../guards";
 import { Hash, HBytes, Transaction } from "../../types";
 
+export { Transaction };
+
 /**
  * Calculates the transaction hash out of 8019 transaction hbits.
  *

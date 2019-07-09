@@ -34,6 +34,8 @@ export interface BundleEntry {
   readonly signatureMessageFragments: ReadonlyArray<HBytes>;
 }
 
+export { Transaction, Bundle };
+
 export const getEntryWithDefaults = (
   entry: Partial<BundleEntry>
 ): BundleEntry => ({
