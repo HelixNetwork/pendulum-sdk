@@ -3,7 +3,6 @@
 import * as Promise from "bluebird";
 import {
   BaseCommand,
-  CreateProvider,
   FindTransactionsCommand,
   GetBalancesCommand,
   GetHBytesCommand,
@@ -85,9 +84,7 @@ export const getKeysToBatch = <C>(
  * @param {number} [settings.requestBatchSize=1000] - Number of search values per request.
  * @return Object
  */
-export const createHttpClient: CreateProvider = (
-  settings?: Partial<Settings>
-): Provider => {
+export const createHttpClient = (settings?: Partial<Settings>): Provider => {
   let _settings = getSettingsWithDefaults({ ...settings });
   return {
     /**
