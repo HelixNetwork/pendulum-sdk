@@ -1,12 +1,14 @@
 /** @module  extract-json */
 
 import { hbytesToAscii } from "@helixnetwork/converter";
-import { Transaction } from "../../types";
+import { Bundle, Transaction } from "../../types";
 
 export const errors = {
   INVALID_JSON: "Invalid JSON encoded message",
   INVALID_BUNDLE: "Invalid bundle"
 };
+
+export { Bundle, Transaction };
 
 const numericHBytesRegex = /^(2d|2b)?(30|31|32|33|34|35|36|37|38|39)+((2e)(30|31|32|33|34|35|36|37|38|39)+)?((65|45)(2d|2b)?(30|31|32|33|34|35|36|37|38|39)+)?00/;
 /**
@@ -50,7 +52,7 @@ const numericHBytesRegex = /^(2d|2b)?(30|31|32|33|34|35|36|37|38|39)+((2e)(30|31
  *
  * @returns {string | number | null}
  */
-export const extractJson = (bundle: Transaction[]): string | number | null => {
+export const extractJson = (bundle: Bundle): string | number | null => {
   if (!Array.isArray(bundle) || bundle[0] === undefined) {
     throw new Error(errors.INVALID_BUNDLE);
   }

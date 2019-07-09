@@ -17,13 +17,15 @@ import {
   TRANSACTION_TIMESTAMP_BYTE_SIZE,
   TRANSACTION_VALUE_BYTE_SIZE
 } from "../../constants";
-import * as errors from "../../errors";
+import { INVALID_BUNDLE } from "../../errors";
 import { isArray, Validator } from "../../guards";
 import { Bundle, Hash, HBytes, Transaction } from "../../types";
 
 interface SignatureFragments {
   readonly [key: string]: ReadonlyArray<HBytes>;
 }
+
+export { Transaction, Bundle, INVALID_BUNDLE };
 
 /**
  * Validates all signatures of a bundle.
@@ -174,5 +176,5 @@ export default function isBundle(bundle: Bundle) {
 export const bundleValidator: Validator<Bundle> = (bundle: Bundle) => [
   bundle,
   isBundle,
-  errors.INVALID_BUNDLE
+  INVALID_BUNDLE
 ];

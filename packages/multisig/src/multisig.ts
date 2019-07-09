@@ -33,6 +33,8 @@ import {
   TAG_BYTE_SIZE
 } from "../../constants";
 
+export { Bundle, Callback, Provider, Transaction, Transfer };
+
 export interface MultisigInput {
   readonly address: string;
   readonly balance: number;
