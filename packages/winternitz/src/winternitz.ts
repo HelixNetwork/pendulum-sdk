@@ -1,12 +1,35 @@
 // by: Frauke Sophie Abben <fsa@hlx.ai> (https://hlx.ai)
 import { hex, toHBytes } from "@helixnetwork/converter";
-import Sha3 from "@helixnetwork/sha3";
-import * as errors from "./errors";
 import { padByteArray } from "@helixnetwork/pad";
+import Sha3 from "@helixnetwork/sha3";
+import { HASH_BITS_SIZE } from "../../constants";
+import * as errors from "./errors";
 
 const BN = require("bcrypto/lib/bn.js");
 
 const SIGNATURE_FRAGMENT = 16;
+
+// Winternitz signature parameters:
+
+// Number of message bits signed with one key - compression rate
+const w = 8;
+// Number of security levels
+const s = 2;
+// Number of hash in bits
+const n = HASH_BITS_SIZE; // 256
+// Number of message in bits
+const m = HASH_BITS_SIZE; // 256
+// Number of message parts
+const messagePartsNo = m / w; // 32
+// Number of rounds to hash
+const roundsNo = 2 ^ (w - 1); // 255
+// Number of signature fragment bits
+const f = Math.floor(messagePartsNo / s); // 16
+// Specific security level sl can be between 1 and s
+// Signature key length = n * f *sl
+// Signature length security level 1
+const sigLevelOneSizeBytes = f * n / 8; // 512
+const middleValue = 2 ^ (w - 1);
 
 export function add(seed: Uint8Array, index: number): Uint8Array {
   const subseedBN: any = new BN(seed);
@@ -27,18 +50,18 @@ export function subseed(seed: Uint8Array, index: number): Uint8Array {
   if (index < 0) {
     throw new Error(errors.ILLEGAL_KEY_INDEX);
   }
-  if (seed.length % 2 !== 0) {
+  if (seed.length % s !== 0) {
     throw new Error(errors.ILLEGAL_SEED_LENGTH);
   }
-  let subseed: Uint8Array = add(seed, index);
-  while (subseed.length % 32 !== 0) {
-    subseed = padByteArray(32)(subseed);
+  let result: Uint8Array = add(seed, index);
+  while (result.length % messagePartsNo !== 0) {
+    result = padByteArray(messagePartsNo)(result);
   }
   const sha3 = new Sha3();
-  sha3.absorb(subseed, 0, subseed.length);
-  sha3.squeeze(subseed, 0, subseed.length);
+  sha3.absorb(result, 0, result.length);
+  sha3.squeeze(result, 0, result.length);
 
-  return subseed;
+  return result;
 }
 
 /**
@@ -50,20 +73,20 @@ export function subseed(seed: Uint8Array, index: number): Uint8Array {
  * @return {Uint8Array} Private key
  */
 export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
-  if (subseed.length % 32 !== 0) {
+  if (subseed.length % messagePartsNo !== 0) {
     throw new Error(errors.ILLEGAL_SUBSEED_LENGTH);
   }
   const sha3 = new Sha3();
   sha3.absorb(subseed, 0, subseed.length);
 
   const buffer = new Uint8Array(Sha3.HASH_LENGTH);
-  const result = new Uint8Array(securityLevel * 16 * 32);
+  const result = new Uint8Array(securityLevel * f * messagePartsNo);
   let offset = 0;
 
   while (securityLevel-- > 0) {
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < f; i++) {
       sha3.squeeze(buffer, 0, Sha3.HASH_LENGTH);
-      for (let j = 0; j < 32; j++) {
+      for (let j = 0; j < messagePartsNo; j++) {
         result[offset++] = buffer[j];
       }
     }
@@ -80,32 +103,35 @@ export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
  */
 // tslint:disable-next-line no-shadowed-variable
 export function digests(key: Uint8Array): Uint8Array {
-  const l = Math.floor(key.length / 512); // security level (1 or 2)
-  const result = new Uint8Array(l * 32);
+  const l = Math.floor(key.length / sigLevelOneSizeBytes); // security level (1 or 2)
+  const result = new Uint8Array(l * messagePartsNo);
   let buffer = new Uint8Array(Sha3.HASH_LENGTH);
 
   for (let i = 0; i < l; i++) {
-    const keyFragment = key.slice(i * 512, (i + 1) * 512);
+    const keyFragment = key.slice(
+      i * sigLevelOneSizeBytes,
+      (i + 1) * sigLevelOneSizeBytes
+    );
 
-    for (let j = 0; j < 16; j++) {
-      buffer = keyFragment.slice(j * 32, (j + 1) * 32);
+    for (let j = 0; j < f; j++) {
+      buffer = keyFragment.slice(j * messagePartsNo, (j + 1) * messagePartsNo);
 
-      for (let k = 0; k < 255; k++) {
+      for (let k = 0; k < roundsNo; k++) {
         const keyFragmentSha3 = new Sha3();
         keyFragmentSha3.absorb(buffer, 0, buffer.length);
         keyFragmentSha3.squeeze(buffer, 0, Sha3.HASH_LENGTH);
         keyFragmentSha3.reset();
       }
-      for (let k = 0; k < 32; k++) {
-        keyFragment[j * 32 + k] = buffer[k];
+      for (let k = 0; k < messagePartsNo; k++) {
+        keyFragment[j * messagePartsNo + k] = buffer[k];
       }
     }
     const digestsSha3 = new Sha3();
     digestsSha3.absorb(keyFragment, 0, keyFragment.length);
     digestsSha3.squeeze(buffer, 0, Sha3.HASH_LENGTH);
 
-    for (let j = 0; j < 32; j++) {
-      result[i * 32 + j] = buffer[j];
+    for (let j = 0; j < messagePartsNo; j++) {
+      result[i * messagePartsNo + j] = buffer[j];
     }
   }
   return result;
@@ -120,13 +146,13 @@ export function digests(key: Uint8Array): Uint8Array {
  */
 // tslint:disable-next-line no-shadowed-variable
 export function address(digests: Uint8Array): Uint8Array {
-  const address = new Uint8Array(Sha3.HASH_LENGTH);
+  const result = new Uint8Array(Sha3.HASH_LENGTH);
 
   const sha3 = new Sha3();
   sha3.absorb(digests.slice(), 0, digests.length);
-  sha3.squeeze(address, 0, Sha3.HASH_LENGTH);
+  sha3.squeeze(result, 0, Sha3.HASH_LENGTH);
 
-  return address;
+  return result;
 }
 
 /**
@@ -145,8 +171,11 @@ export function digest(
 
   let buffer = new Uint8Array(Sha3.HASH_LENGTH);
 
-  for (let i = 0; i < 16; i++) {
-    buffer = signatureFragment.slice(i * 32, (i + 1) * 32);
+  for (let i = 0; i < f; i++) {
+    buffer = signatureFragment.slice(
+      i * messagePartsNo,
+      (i + 1) * messagePartsNo
+    );
 
     for (let j = normalizedBundleFragment[i]; j-- > 0; ) {
       const signatureFragmentSha3 = new Sha3();
@@ -177,17 +206,20 @@ export function signatureFragment(
 
   const sha3 = new Sha3();
 
-  for (let i = 0; i < 16; i++) {
-    const hash = sigFragment.slice(i * 32, (i + 1) * 32);
+  for (let i = 0; i < f; i++) {
+    const hash = sigFragment.slice(
+      i * messagePartsNo,
+      (i + 1) * messagePartsNo
+    );
 
-    for (let j = 0; j < 255 - normalizedBundleFragment[i]; j++) {
+    for (let j = 0; j < roundsNo - normalizedBundleFragment[i]; j++) {
       sha3.absorb(hash, 0, Sha3.HASH_LENGTH);
       sha3.squeeze(hash, 0, Sha3.HASH_LENGTH);
       sha3.reset();
     }
 
-    for (let j = 0; j < 32; j++) {
-      sigFragment[i * 32 + j] = hash[j];
+    for (let j = 0; j < messagePartsNo; j++) {
+      sigFragment[i * messagePartsNo + j] = hash[j];
     }
   }
   //  console.log("signatureFragment: normalizedBundleFragment: " + hex(normalizedBundleFragment));
@@ -219,14 +251,14 @@ export function validateSignatures(
     throw new Error(errors.INVALID_BUNDLE_HASH);
   }
 
-  const normalizedBundleFragments = Array<Uint8Array>(2);
+  const normalizedBundleFragments = Array<Uint8Array>(s);
   const normalizedBundle = normalizedBundleHash(toHBytes(bundleHash));
   // Split hash into 2 fragments
-  for (let i = 0; i < 2; i++) {
-    normalizedBundleFragments[i] = normalizedBundle.slice(i * 16, (i + 1) * 16);
+  for (let i = 0; i < s; i++) {
+    normalizedBundleFragments[i] = normalizedBundle.slice(i * f, (i + 1) * f);
   }
   // Get digests
-  const digests = new Uint8Array(signatureFragments.length * 32);
+  const digests = new Uint8Array(signatureFragments.length * messagePartsNo);
 
   for (let i = 0; i < signatureFragments.length; i++) {
     const digestBuffer = digest(
@@ -234,8 +266,8 @@ export function validateSignatures(
       toHBytes(signatureFragments[i])
     );
 
-    for (let j = 0; j < 32; j++) {
-      digests[i * 32 + j] = digestBuffer[j];
+    for (let j = 0; j < messagePartsNo; j++) {
+      digests[i * messagePartsNo + j] = digestBuffer[j];
     }
   }
   return expectedAddress === hex(address(digests));
@@ -252,26 +284,26 @@ export function validateSignatures(
 export const normalizedBundleHash = (bundleHash: Uint8Array): Uint8Array => {
   const normalizedBundle = Int8Array.from(bundleHash); // toHBytes(bundleHash);
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < s; i++) {
     let sum = 0;
-    for (let j = 0; j < 16; j++) {
-      sum += normalizedBundle[i * 16 + j];
+    for (let j = 0; j < f; j++) {
+      sum += normalizedBundle[i * f + j];
     }
 
     if (sum >= 0) {
       while (sum-- > 0) {
-        for (let j = 0; j < 16; j++) {
-          if (normalizedBundle[i * 16 + j] > -128) {
-            normalizedBundle[i * 16 + j]--;
+        for (let j = 0; j < f; j++) {
+          if (normalizedBundle[i * f + j] > -middleValue) {
+            normalizedBundle[i * f + j]--;
             break;
           }
         }
       }
     } else {
       while (sum++ < 0) {
-        for (let j = 0; j < 16; j++) {
-          if (normalizedBundle[i * 16 + j] < 127) {
-            normalizedBundle[i * 16 + j]++;
+        for (let j = 0; j < f; j++) {
+          if (normalizedBundle[i * f + j] < middleValue - 1) {
+            normalizedBundle[i * f + j]++;
             break;
           }
         }
