@@ -1,6 +1,7 @@
 import { addChecksum } from "@helixnetwork/checksum";
 import { hex, toHBytes } from "@helixnetwork/converter";
 import { address, digests, key, subseed } from "@helixnetwork/winternitz";
+import { securityLevelValidator, seedValidator, validate } from "../../guards";
 import {
   ADDRESS_BYTE_SIZE,
   ADDRESS_CHECKSUM_BYTE_SIZE,
@@ -34,6 +35,9 @@ export const generateAddress = (
   while (seed.length % HASH_HBYTE_SIZE !== 0) {
     seed += 0;
   }
+
+  validate(seedValidator(seed), securityLevelValidator(security));
+
   const keyHBytes = key(subseed(toHBytes(seed), index), security);
   const digestsHBytes = digests(keyHBytes);
   const addressHBytes = hex(address(digestsHBytes));
