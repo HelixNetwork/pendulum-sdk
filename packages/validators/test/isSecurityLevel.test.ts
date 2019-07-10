@@ -21,4 +21,10 @@ test("isSecurityLevel() returns false for invalid security level.", t => {
     false,
     "isSecurityLevel() should return false for security level of 0."
   );
+
+  t.is(
+    isSecurityLevel(4),
+    false,
+    "isSecurityLevel() should return false for security level above 3."
+  );
 });
