@@ -3,3 +3,4 @@ export const ILLEGAL_SEED_LENGTH = "Illegal seed length";
 export const ILLEGAL_SUBSEED_LENGTH = "Illegal subseed length";
 export const ILLEGAL_KEY_INDEX = "Illegal key index";
 export const ILLEGAL_HASH_LENGTH = "Illegal hash length";
+export const ILLEGAL_NUMBER_OF_FRAGMENTS = "Illegal number of fragments";

@@ -1,6 +1,11 @@
 import { hex, toHBytes } from "@helixnetwork/converter";
 import test from "ava";
 import {
+  HASH_BYTE_SIZE,
+  SECURITY_LEVELS,
+  SIGNATURE_TOTAL_BYTE_SIZE
+} from "../../constants";
+import {
   address,
   digests,
   key,
@@ -11,7 +16,7 @@ import {
 } from "../src";
 
 const seed = "abcd000000000000000000000000000000000000000000000000000000000000";
-test("Winternitz signatures!", t => {
+test("Winternitz signatures - security level 2!", t => {
   const msg: string =
     "0505fa03fa01fe00fcfefc0703ff02000005010603fdfd03fc0303fafef907f9";
   const securityLevel = 2;
@@ -25,12 +30,19 @@ test("Winternitz signatures!", t => {
     .map((_, i) =>
       hex(
         signatureFragment(
-          normalizedBundleHash(toHBytes(msg)).slice(i * 16, (i + 1) * 16),
-          keyHBytes.slice(i * 512, (i + 1) * 512)
+          normalizedBundleHash(toHBytes(msg)).slice(
+            i * HASH_BYTE_SIZE / SECURITY_LEVELS,
+            (i + 1) * HASH_BYTE_SIZE / SECURITY_LEVELS
+          ),
+          keyHBytes.slice(
+            i * SIGNATURE_TOTAL_BYTE_SIZE,
+            (i + 1) * SIGNATURE_TOTAL_BYTE_SIZE
+          )
         )
       )
     );
-
+  // tslint:disable-next-line:no-console
+  console.log(signature);
   const isValid = validateSignatures(addressHBytes, signature, msg);
 
   t.is(isValid, true, "Winternitz signatures should be valid!");
