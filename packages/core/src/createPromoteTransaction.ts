@@ -75,7 +75,7 @@ export const createPromoteTransaction = (
    * @param {int} depth
    * @param {int} minWeightMagnitude
    * @param {array} [spamTransfers] - Array of spam transfers to promote with.
-   * By default it will issue an all-9s, zero-value transfer.
+   * By default it will issue an all-0s, zero-value transfer.
    * @param {object} [options]
    * @param {number} [options.delay] - Delay between spam transactions in `ms`
    * @param {boolean|function} [options.interrupt] - Interrupt signal, which can be a function that evaluates

@@ -139,7 +139,7 @@ test("prepareTransfers() throws intuitive error when provided invalid transfers 
 
 test("prepareTransfers() throws error for inputs without security level.", async t => {
   const input: any = {
-    address: "i".repeat(2 * 32),
+    address: "b".repeat(2 * 32),
     keyIndex: 0,
     balance: 1
   };
