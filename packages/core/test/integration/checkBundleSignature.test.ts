@@ -57,9 +57,8 @@ test("checkBundleSignature() prepares the correct array of hbytes offline.", asy
   // console.log(transaction)
   // console.log('checkBundleSignature - bundle');
   // console.log(bundle)
-  // todo check test
   t.is(
-    true, //validateBundleSignatures(bundle),
+    validateBundleSignatures(bundle),
     true,
     "checkBundleSignature() should return true for bundle with valid signatures."
   );
