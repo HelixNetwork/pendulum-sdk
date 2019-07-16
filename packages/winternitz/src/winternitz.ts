@@ -2,38 +2,34 @@
 import { hex, toHBytes } from "@helixnetwork/converter";
 import { padByteArray } from "@helixnetwork/pad";
 import Sha3 from "@helixnetwork/sha3";
-import {
-  HASH_BITS_SIZE,
-  SECURITY_LEVELS,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
-  SIGNATURE_TOTAL_BYTE_SIZE
-} from "../../constants";
+import { HASH_BITS_SIZE, SECURITY_LEVELS } from "../../constants";
 import * as errors from "./errors";
 
+// tslint:disable-next-line:no-var-requires
 const BN = require("bcrypto/lib/bn.js");
 
 // Winternitz signature parameters:
-
 // Number of message bits signed with one key - compression rate
-const w = 8;
+const w = 4;
 // Number of security levels
 const NUMBER_OF_SECURITY_LEVELS = SECURITY_LEVELS;
 // Number of hash in bits
 const HASH_LENGTH_BITS = HASH_BITS_SIZE; // 256
-const HASH_LENGTH_BYTES = HASH_LENGTH_BITS / 8; // 32
+const HASH_LENGTH_BYTES = HASH_LENGTH_BITS / 8;
 // Number of message in bits
-const m = HASH_BITS_SIZE; // 256
+const m = HASH_BITS_SIZE;
 // Number of rounds to hash
-const NUMBER_OF_ROUNDS = 2 ^ (w - 1); // 255
+const NUMBER_OF_ROUNDS = Math.pow(2, w) - 1;
 // Number of signature fragment bits
-const NUMBER_OF_FRAGMENTS_CHUNKS = Math.floor(
-  HASH_LENGTH_BYTES / NUMBER_OF_SECURITY_LEVELS
-); // 16
+const NUMBER_OF_FRAGMENTS_CHUNKS =
+  HASH_LENGTH_BITS / (NUMBER_OF_SECURITY_LEVELS * w); // 16
 // Specific security level sl can be between 1 and NUMBER_OF_SECURITY_LEVELS
 // Signature key length = HASH_LENGTH_BITS * NUMBER_OF_FRAGMENTS_CHUNKS *sl
 // Signature length security level 1
-const FRAGMENT_LENGTH_BYTES = SIGNATURE_TOTAL_BYTE_SIZE; //must be equal with NUMBER_OF_FRAGMENTS_CHUNKS * HASH_LENGTH_BYTES; // 512
-const MIDDLE_VALUE = 2 ^ (w - 1);
+const FRAGMENT_LENGTH_BYTES = NUMBER_OF_FRAGMENTS_CHUNKS * HASH_LENGTH_BYTES;
+const NORMALIZED_FRAGMENT_LENGTH = NUMBER_OF_FRAGMENTS_CHUNKS;
+export const MIN_VALUE = -1 * Math.pow(2, w - 1);
+export const MAX_VALUE = Math.pow(2, w - 1) - 1;
 
 export function add(seed: Uint8Array, index: number): Uint8Array {
   const subseedBN: any = new BN(seed);
@@ -54,9 +50,6 @@ export function subseed(seed: Uint8Array, index: number): Uint8Array {
   if (index < 0) {
     throw new Error(errors.ILLEGAL_KEY_INDEX);
   }
-  if (seed.length % NUMBER_OF_SECURITY_LEVELS !== 0) {
-    throw new Error(errors.ILLEGAL_SEED_LENGTH);
-  }
   let result: Uint8Array = add(seed, index);
   while (result.length % HASH_LENGTH_BYTES !== 0) {
     result = padByteArray(HASH_LENGTH_BYTES)(result);
@@ -65,6 +58,22 @@ export function subseed(seed: Uint8Array, index: number): Uint8Array {
   sha3.absorb(result, 0, result.length);
   sha3.squeeze(result, 0, result.length);
 
+  // console.log('NORMALIZED_FRAGMENT_LENGTH ' + NORMALIZED_FRAGMENT_LENGTH);
+  // console.log('HASH_LENGTH_BYTES ' + HASH_LENGTH_BYTES);
+  // console.log('NUMBER_OF_SECURITY_LEVELS ' + NUMBER_OF_SECURITY_LEVELS);
+  // console.log('NUMBER_OF_FRAGMENTS_CHUNKS ' + NUMBER_OF_FRAGMENTS_CHUNKS);
+  // console.log('FRAGMENT_LENGTH_BYTES ' + FRAGMENT_LENGTH_BYTES);
+  // console.log('HASH_LENGTH_BITS ' + HASH_LENGTH_BITS);
+  // console.log('MIN_VALUE ' + MIN_VALUE);
+  // console.log('MAX_VALUE ' + MAX_VALUE);
+  // console.log('NUMBER_OF_ROUNDS ' + NUMBER_OF_ROUNDS);
+  // console.log('w ' + w);
+  //
+  // console.log('subseed - SEED: ' + hex(seed));
+  // console.log('subseed - SUBSEED: ' + hex(result));
+  //
+  // console.log('---------------------------------');
+
   return result;
 }
 
@@ -72,12 +81,12 @@ export function subseed(seed: Uint8Array, index: number): Uint8Array {
  * @method key
  *
  * @param {Uint8Array} subseed - Subseed
- * @param {number} securityLevel - security level (1 or 2)
+ * @param {number} securityLevel - security level (1 - 4)
  *
  * @return {Uint8Array} Private key
  */
 export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
-  if (subseed.length % FRAGMENT_LENGTH_BYTES !== 0) {
+  if (subseed.length % HASH_LENGTH_BYTES !== 0) {
     throw new Error(errors.ILLEGAL_SUBSEED_LENGTH);
   }
   const sha3 = new Sha3();
@@ -88,7 +97,9 @@ export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
   }
 
   const buffer = new Uint8Array(Sha3.HASH_LENGTH);
-  const result = new Uint8Array(securityLevel * FRAGMENT_LENGTH_BYTES);
+  const result = new Uint8Array(
+    securityLevel * NUMBER_OF_FRAGMENTS_CHUNKS * HASH_LENGTH_BYTES
+  );
   let offset = 0;
 
   while (securityLevel-- > 0) {
@@ -99,6 +110,7 @@ export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
       }
     }
   }
+  // console.log('key - PRIVATE KEY ' + hex(result) + ' size = ' + HASH_LENGTH_BYTES * NUMBER_OF_FRAGMENTS_CHUNKS);
   return result;
 }
 
@@ -112,9 +124,8 @@ export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
 // tslint:disable-next-line no-shadowed-variable
 export function digests(key: Uint8Array): Uint8Array {
   const l = Math.floor(key.length / FRAGMENT_LENGTH_BYTES); // security level (1 or 2)
-  const result = new Uint8Array(l * FRAGMENT_LENGTH_BYTES);
+  const result = new Uint8Array(l * HASH_LENGTH_BYTES);
   let buffer = new Uint8Array(Sha3.HASH_LENGTH);
-
   for (let i = 0; i < l; i++) {
     const keyFragment = key.slice(
       i * FRAGMENT_LENGTH_BYTES,
@@ -170,22 +181,21 @@ export function address(digests: Uint8Array): Uint8Array {
  * @method digest
  *
  * @param {array} normalizedBundleFragment - Normalized bundle fragment
- * @param {Uint8Array} signatureFragment - Signature fragment
+ * @param {Uint8Array} signFragments - Signature fragment
  *
  * @return {Uint8Array} Public key fragment
  */
 export function digest(
   normalizedBundleFragment: Uint8Array,
-  signatureFragment: Uint8Array
+  signFragments: Uint8Array
 ): Uint8Array {
   const digestSha3 = new Sha3();
-
   let buffer = new Uint8Array(Sha3.HASH_LENGTH);
 
   for (let i = 0; i < NUMBER_OF_FRAGMENTS_CHUNKS; i++) {
-    buffer = signatureFragment.slice(
-      i * FRAGMENT_LENGTH_BYTES,
-      (i + 1) * FRAGMENT_LENGTH_BYTES
+    buffer = signFragments.slice(
+      i * HASH_LENGTH_BYTES,
+      (i + 1) * HASH_LENGTH_BYTES
     );
 
     for (let j = normalizedBundleFragment[i]; j-- > 0; ) {
@@ -194,6 +204,7 @@ export function digest(
       signatureFragmentSha3.squeeze(buffer, 0, Sha3.HASH_LENGTH);
       signatureFragmentSha3.reset();
     }
+
     digestSha3.absorb(buffer, 0, Sha3.HASH_LENGTH);
   }
 
@@ -211,9 +222,25 @@ export function digest(
  */
 export function signatureFragment(
   normalizedBundleFragment: Uint8Array,
-  keyFragment: Uint8Array
+  keyFragment: Uint8Array,
+  normalizedBundleFragmentOffset = 0,
+  keyFragmentOffset = 0
 ): Uint8Array {
-  const sigFragment = keyFragment.slice();
+  if (
+    normalizedBundleFragment.length - normalizedBundleFragmentOffset <
+    NORMALIZED_FRAGMENT_LENGTH
+  ) {
+    throw new Error(errors.ILLEGAL_NORMALIZED_FRAGMENT_LENGTH);
+  }
+
+  if (keyFragment.length - keyFragmentOffset < FRAGMENT_LENGTH_BYTES) {
+    throw new Error(errors.ILLEGAL_KEY_FRAGMENT_LENGTH);
+  }
+
+  const sigFragment = keyFragment.slice(
+    keyFragmentOffset,
+    keyFragmentOffset + FRAGMENT_LENGTH_BYTES
+  );
 
   const sha3 = new Sha3();
 
@@ -222,42 +249,77 @@ export function signatureFragment(
       i * HASH_LENGTH_BYTES,
       (i + 1) * HASH_LENGTH_BYTES
     );
-
-    for (let j = 0; j < NUMBER_OF_ROUNDS - normalizedBundleFragment[i]; j++) {
+    for (
+      let j = 0;
+      j <
+      NUMBER_OF_ROUNDS -
+        normalizedBundleFragment[normalizedBundleFragmentOffset + i];
+      j++
+    ) {
       sha3.absorb(hash, 0, Sha3.HASH_LENGTH);
       sha3.squeeze(hash, 0, Sha3.HASH_LENGTH);
       sha3.reset();
     }
-
+    // console.log("signatureFragment - hash[i]: " + " " + i + " " + hex(hash));
     for (let j = 0; j < HASH_LENGTH_BYTES; j++) {
       sigFragment[i * HASH_LENGTH_BYTES + j] = hash[j];
     }
   }
-  //  console.log("signatureFragment: normalizedBundleFragment: " + hex(normalizedBundleFragment));
-  //  console.log("keyFragment: " + hex(keyFragment));
-  //  console.log("sigFragment " + hex(sigFragment));
-
+  // console.log("signatureFragment - normalizedBundleFragment: " + hex(normalizedBundleFragment));
+  // console.log("signatureFragment - keyFragment: " + hex(keyFragment));
+  // console.log("signatureFragment - sigFragment " + hex(sigFragment));
   return sigFragment;
+}
+
+export function signatureFragments(
+  seed: Uint8Array,
+  index: number,
+  numberOfFragments: number, // equals to level numbers
+  bundle: Uint8Array
+): Uint8Array {
+  const normalizedBundle = normalizedBundleHash(bundle);
+  const keyFragments = key(subseed(seed, index), numberOfFragments);
+  const signature = new Uint8Array(numberOfFragments * FRAGMENT_LENGTH_BYTES);
+  // console.log('signatureFragments  normalizedBundle' + hex(normalizedBundle));
+  // console.log('signatureFragments  FRAGMENT_LENGTH_BYTES' + FRAGMENT_LENGTH_BYTES);
+  // console.log('signatureFragments  NORMALIZED_FRAGMENT_LENGTH' + NORMALIZED_FRAGMENT_LENGTH);
+  // console.log('signatureFragments  numberOfFragments' + numberOfFragments);
+
+  for (let i = 0; i < numberOfFragments; i++) {
+    signature.set(
+      signatureFragment(
+        normalizedBundle.slice(
+          i * NORMALIZED_FRAGMENT_LENGTH,
+          (i + 1) * NORMALIZED_FRAGMENT_LENGTH
+        ),
+        keyFragments.slice(
+          i * FRAGMENT_LENGTH_BYTES,
+          (i + 1) * FRAGMENT_LENGTH_BYTES
+        )
+      ),
+      i * FRAGMENT_LENGTH_BYTES
+    );
+  }
+
+  // console.log('signatureFragment - singature list ')
+  // console.log(hex(signature));
+  return signature;
 }
 
 /**
  * @method validateSignatures
  *
  * @param {string} expectedAddress - Expected address in hexadecimal encoding
- * @param {array} signatureFragments - Array of signatureFragments in hexadecimal encoding
+ * @param {array} signFragments - Array of signatureFragments in hexadecimal encoding
  * @param {string} bundleHash - Bundle hash in hexadecimal encoding
  *
  * @return {boolean}
  */
 export function validateSignatures(
   expectedAddress: string,
-  signatureFragments: ReadonlyArray<string>,
+  signFragments: ReadonlyArray<string>,
   bundleHash: string
 ): boolean {
-  // console.log("signing.ts: expectedAddress: " + expectedAddress);
-  // console.log("signatureFragments: " + signatureFragments);
-  // console.log("hash " + bundleHash);
-
   if (!bundleHash) {
     throw new Error(errors.INVALID_BUNDLE_HASH);
   }
@@ -266,27 +328,33 @@ export function validateSignatures(
     NUMBER_OF_SECURITY_LEVELS
   );
   const normalizedBundle = normalizedBundleHash(toHBytes(bundleHash));
-  // Split hash into 2 fragments
+  // Split hash into fragments for each security level
   for (let i = 0; i < NUMBER_OF_SECURITY_LEVELS; i++) {
     normalizedBundleFragments[i] = normalizedBundle.slice(
-      i * NUMBER_OF_FRAGMENTS_CHUNKS,
-      (i + 1) * NUMBER_OF_FRAGMENTS_CHUNKS
+      i * NORMALIZED_FRAGMENT_LENGTH,
+      (i + 1) * NORMALIZED_FRAGMENT_LENGTH
     );
   }
-  // Get digests
-  const digests = new Uint8Array(signatureFragments.length * HASH_LENGTH_BYTES);
+  const digestsResults = new Uint8Array(
+    signFragments.length * HASH_LENGTH_BYTES
+  );
 
-  for (let i = 0; i < signatureFragments.length; i++) {
+  for (let i = 0; i < signFragments.length; i++) {
     const digestBuffer = digest(
       normalizedBundleFragments[i],
-      toHBytes(signatureFragments[i])
+      toHBytes(signFragments[i])
     );
 
     for (let j = 0; j < HASH_LENGTH_BYTES; j++) {
-      digests[i * HASH_LENGTH_BYTES + j] = digestBuffer[j];
+      digestsResults[i * HASH_LENGTH_BYTES + j] = digestBuffer[j];
     }
   }
-  return expectedAddress === hex(address(digests));
+  // console.log("validateSignatures - digests: " + hex(digestsResults));
+  // console.log("validateSignatures - expectedAddress: " + expectedAddress);
+  // console.log("validateSignatures - actualAddress: " + hex(address(digestsResults)));
+  // console.log("validateSignatures - signatureFragments: " + signFragments);
+  // console.log("validateSignatures " + bundleHash);
+  return expectedAddress === hex(address(digestsResults));
 }
 
 /**
@@ -298,38 +366,60 @@ export function validateSignatures(
  * @param bundleHash
  */
 export const normalizedBundleHash = (bundleHash: Uint8Array): Uint8Array => {
-  const normalizedBundle = Int8Array.from(bundleHash); // toHBytes(bundleHash);
+  const int8Bundle = Int8Array.from(bundleHash);
+  let normalizedBundle = int8Bundle;
+  const bitsInByte = 8;
+  if (w < bitsInByte) {
+    const splitFactor = 8 / w;
+    normalizedBundle = new Int8Array(splitFactor * HASH_LENGTH_BYTES);
+    let k = 0;
+    int8Bundle.forEach((value, index) => {
+      const highByte4 = (value >> w) & 0x0f;
+      const lowByte4 = value & 0x0f;
+      normalizedBundle[k++] = highByte4 & 0x08 ? highByte4 | 0xf0 : highByte4;
+      normalizedBundle[k++] = lowByte4 & 0x08 ? lowByte4 | 0xf0 : lowByte4;
+    });
+    k = 0;
+  }
 
   for (let i = 0; i < NUMBER_OF_SECURITY_LEVELS; i++) {
     let sum = 0;
-    for (let j = 0; j < NUMBER_OF_FRAGMENTS_CHUNKS; j++) {
-      sum += normalizedBundle[i * NUMBER_OF_FRAGMENTS_CHUNKS + j];
+    for (let j = 0; j < NORMALIZED_FRAGMENT_LENGTH; j++) {
+      sum += normalizedBundle[i * NORMALIZED_FRAGMENT_LENGTH + j];
     }
 
     if (sum >= 0) {
       while (sum-- > 0) {
-        for (let j = 0; j < NUMBER_OF_FRAGMENTS_CHUNKS; j++) {
+        for (let j = 0; j < NORMALIZED_FRAGMENT_LENGTH; j++) {
           if (
-            normalizedBundle[i * NUMBER_OF_FRAGMENTS_CHUNKS + j] > -MIDDLE_VALUE
+            normalizedBundle[i * NORMALIZED_FRAGMENT_LENGTH + j] > MIN_VALUE
           ) {
-            normalizedBundle[i * NUMBER_OF_FRAGMENTS_CHUNKS + j]--;
+            normalizedBundle[i * NORMALIZED_FRAGMENT_LENGTH + j]--;
             break;
           }
         }
       }
     } else {
       while (sum++ < 0) {
-        for (let j = 0; j < NUMBER_OF_FRAGMENTS_CHUNKS; j++) {
+        for (let j = 0; j < NORMALIZED_FRAGMENT_LENGTH; j++) {
           if (
-            normalizedBundle[i * NUMBER_OF_FRAGMENTS_CHUNKS + j] <
-            MIDDLE_VALUE - 1
+            normalizedBundle[i * NORMALIZED_FRAGMENT_LENGTH + j] < MAX_VALUE
           ) {
-            normalizedBundle[i * NUMBER_OF_FRAGMENTS_CHUNKS + j]++;
+            normalizedBundle[i * NORMALIZED_FRAGMENT_LENGTH + j]++;
             break;
           }
         }
       }
     }
+  }
+  // if w is less then one byte
+  if (w < bitsInByte) {
+    normalizedBundle.forEach((v, index) => {
+      if (v < MIN_VALUE || v > MAX_VALUE) {
+        throw Error("Bundle normalization error " + v);
+      }
+      normalizedBundle[index] = normalizedBundle[index] & 0x0f;
+    });
   }
   return Uint8Array.from(normalizedBundle);
 };

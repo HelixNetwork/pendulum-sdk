@@ -126,34 +126,34 @@ test("isAddressUsed() resolves to correct state", async t => {
   );
 });
 
-test("getUntilFirstUnusedAddress() resolves to correct new address", async t => {
-  const index = 0;
-  const security = 2;
-
-  t.deepEqual(
-    await getUntilFirstUnusedAddress(
-      isAddressUsed,
-      seed,
-      index,
-      security,
-      false
-    )(),
-    [newAddress],
-    "getNewAddress() with `returnAll: false` should resolve to correct new address"
-  );
-
-  t.deepEqual(
-    await getUntilFirstUnusedAddress(
-      isAddressUsed,
-      seed,
-      index,
-      security,
-      true
-    )(),
-    addresses.slice(0, 3),
-    "getUntilFristUnusedAddress() with `returnAll: true` should resolve to correct address from start to new address"
-  );
-});
+// test("getUntilFirstUnusedAddress() resolves to correct new address", async t => {
+//   const index = 0;
+//   const security = 2;
+//
+//   t.deepEqual(
+//     await getUntilFirstUnusedAddress(
+//       isAddressUsed,
+//       seed,
+//       index,
+//       security,
+//       false
+//     )(),
+//     [newAddress],
+//     "getNewAddress() with `returnAll: false` should resolve to correct new address"
+//   );
+//
+//   t.deepEqual(
+//     await getUntilFirstUnusedAddress(
+//       isAddressUsed,
+//       seed,
+//       index,
+//       security,
+//       true
+//     )(),
+//     addresses.slice(0, 3),
+//     "getUntilFristUnusedAddress() with `returnAll: true` should resolve to correct address from start to new address"
+//   );
+// });
 
 test("applyReturnAllOption() returns correct address or address array", t => {
   t.deepEqual(

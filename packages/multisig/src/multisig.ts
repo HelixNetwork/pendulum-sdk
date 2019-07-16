@@ -27,6 +27,7 @@ import Address from "./address";
 import {
   ADDRESS_BYTE_SIZE,
   NULL_TAG_HBYTES,
+  SECURITY_LEVELS,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
   SIGNATURE_SECRETE_KEY_BYTE_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE,
@@ -397,7 +398,7 @@ export default class Multisig {
           const normalizedBundleFragments = [];
 
           // Split hash into 3 fragments
-          for (let k = 0; k < 2; k++) {
+          for (let k = 0; k < SECURITY_LEVELS; k++) {
             normalizedBundleFragments[k] = normalizedBundle.slice(
               k * HASH_FRAGMENT_BYTE,
               (k + 1) * HASH_FRAGMENT_BYTE
@@ -406,7 +407,7 @@ export default class Multisig {
 
           //  First bundle fragment uses 27 hbytes
           const firstBundleFragment =
-            normalizedBundleFragments[numSignedTxs % 2];
+            normalizedBundleFragments[numSignedTxs % SECURITY_LEVELS];
 
           //  Calculate the new signatureFragment with the first bundle fragment
           const firstSignedFragment = signatureFragment(
@@ -418,15 +419,14 @@ export default class Multisig {
           _bundle.push({
             signatureMessageFragment: hbytes(firstSignedFragment)
           });
-          const secretKeySignatureSizePerSecurityLevel = SIGNATURE_SECRETE_KEY_BYTE_SIZE;
           for (let j = 1; j < security; j++) {
             const nextFragment = keyBytes.slice(
-              secretKeySignatureSizePerSecurityLevel * j,
-              (j + 1) * secretKeySignatureSizePerSecurityLevel
+              SIGNATURE_SECRETE_KEY_BYTE_SIZE * j,
+              (j + 1) * SIGNATURE_SECRETE_KEY_BYTE_SIZE
             );
             // is there any need to split the key basd on security levels?
             const nextBundleFragment =
-              normalizedBundleFragments[(numSignedTxs + j) % 2];
+              normalizedBundleFragments[(numSignedTxs + j) % SECURITY_LEVELS];
             //  Calculate the new signatureFragment with the first bundle fragment
             const nextSignedFragment = signatureFragment(
               nextBundleFragment,
