@@ -13,7 +13,5 @@
     "preid": "alpha",
     "message": "publish %s"
   },
-  "version": "1.0.0-alpha.2",
-  "npmClient": "yarn",
-  "npmClientArgs": ["--production", "--no-optional"]
+  "version": "1.0.0-alpha.2"
 }
