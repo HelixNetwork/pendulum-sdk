@@ -1,6 +1,7 @@
 import { getOptionsWithDefaults } from "../../types";
 export interface Settings {
   readonly provider: string;
+  readonly timeout?: number;
   readonly host?: string; // deprecated
   readonly port?: number | string; // deprecated
   readonly sandbox?: string; // removed
@@ -27,6 +28,7 @@ export const getSettingsWithDefaults = (
 ): Settings => {
   const {
     provider,
+    timeout,
     host,
     port,
     sandbox,
@@ -66,5 +68,10 @@ export const getSettingsWithDefaults = (
     }
   }
 
-  return { provider: _provider, requestBatchSize, apiVersion };
+  return {
+    provider: _provider,
+    requestBatchSize,
+    apiVersion,
+    timeout: settings.timeout
+  };
 };

@@ -7,12 +7,13 @@ import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
 import {
   key,
   normalizedBundleHash,
-  signatureFragment,
+  signatureFragments,
   subseed
 } from "@helixnetwork/winternitz";
 import {
   HASH_BYTE_SIZE,
   NULL_HASH_HBYTES,
+  SECURITY_LEVELS,
   SEED_BYTE_SIZE,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE
@@ -171,11 +172,7 @@ export const createPrepareTransfers = (
         transactions: [],
         hbytes: [],
         seed,
-        transfers: transfers.map(transfer => ({
-          ...transfer,
-          message: transfer.message || "",
-          tag: transfer.tag || ""
-        })),
+        transfers,
         timestamp: Math.floor(
           (typeof now === "function" ? now() : Date.now()) / 1000
         ),
@@ -227,7 +224,7 @@ export const addHMACPlaceholder = (
             transfer.value > 0
               ? {
                   ...transfer,
-                  message: NULL_HASH_HBYTES + transfer.message
+                  message: NULL_HASH_HBYTES + (transfer.message || "")
                 }
               : transfer
         )
@@ -377,7 +374,8 @@ export const createAddRemainder = (provider?: Provider) => {
 
 export const getRemainderAddressStartIndex = (
   inputs: ReadonlyArray<Address>
-): number => [...inputs].sort((a, b) => a.keyIndex - b.keyIndex)[0].keyIndex + 1;
+): number =>
+  [...inputs].sort((a, b) => a.keyIndex - b.keyIndex)[0].keyIndex + 1;
 
 export const verifyNotSendingToInputs = (
   props: PrepareTransfersProps
@@ -410,34 +408,27 @@ export const addSignatures = (
   props: PrepareTransfersProps
 ): PrepareTransfersProps => {
   const { transactions, inputs, seed } = props;
-  const normalizedBundle = normalizedBundleHash(
-    toHBytes(transactions[0].bundle)
-  );
-
   return {
     ...props,
     transactions: addHBytes(
       transactions,
       inputs.reduce((acc: ReadonlyArray<HBytes>, { keyIndex, security }) => {
-        const keyHBytes = key(
-          subseed(toHBytes(seed), keyIndex),
-          security || SECURITY_LEVEL
+        const allSignatureFragments = hex(
+          signatureFragments(
+            toHBytes(seed),
+            keyIndex,
+            security || SECURITY_LEVEL,
+            toHBytes(transactions[0].bundle)
+          )
         );
+
         return acc.concat(
           Array(security)
             .fill(null)
             .map((_, i) =>
-              hex(
-                signatureFragment(
-                  normalizedBundle.slice(
-                    i * HASH_LENGTH / 2,
-                    (i + 1) * HASH_LENGTH / 2
-                  ),
-                  keyHBytes.slice(
-                    i * SIGNATURE_MESSAGE_FRAGMENT_LENGTH_BYTE,
-                    (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_LENGTH_BYTE
-                  )
-                )
+              allSignatureFragments.slice(
+                i * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+                (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
               )
             )
         );

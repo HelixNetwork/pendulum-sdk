@@ -2,14 +2,15 @@
   "name": "@helixnetwork/winternitz",
   "version": "1.0.0-alpha.2",
   "description": "Winternitz signing functions",
-  "main": "./out/src/index.js",
-  "typings": "typings/src",
+  "main": "./out/winternitz/src/index.js",
+  "typings": "typings/winternitz/src",
   "publishConfig": {
     "access": "private"
   },
   "scripts": {
     "prepare": "tsc",
-    "test": "tsc && ava",
+    "test": "tsc && nyc ava",
+    "test-ci": "nyc ava",
     "format": "prettier",
     "docs":
       "tsc && jsdoc2md --no-cache --plugin dmd-clear -t README_tpl.hbs --files './out/**/*.js' > README.md"
@@ -19,11 +20,19 @@
     "Oliver Fohrmann <of@hlx.ai> (https://hlx.ai)"
   ],
   "ava": {
-    "files": "out/test/*.test.js",
+    "files": "out/winternitz/test/*.test.js",
     "failFast": false,
     "failWithoutAssertions": false,
     "compileEnhancements": false,
     "verbose": true
+  },
+  "nyc": {
+    "watermarks": {
+      "functions": [80, 95],
+      "branches": [80, 95],
+      "statements": [80, 95]
+    },
+    "include": ["out/*/src/*.js", "out/*/test/*.js"]
   },
   "keywords": [
     "helix",

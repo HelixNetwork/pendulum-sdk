@@ -9,6 +9,7 @@ import {
   padSignedHBits,
   padTag
 } from "@helixnetwork/pad";
+// import {add, normalizedBundleHash} from "@helixnetwork/winternitz/out/winternitz/src";
 import { add, normalizedBundleHash } from "@helixnetwork/winternitz";
 import {
   BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING,
@@ -33,6 +34,8 @@ export interface BundleEntry {
   readonly timestamp: number;
   readonly signatureMessageFragments: ReadonlyArray<HBytes>;
 }
+
+export { Transaction, Bundle };
 
 export const getEntryWithDefaults = (
   entry: Partial<BundleEntry>
@@ -199,8 +202,7 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
     hHash.squeeze(bundleHashHBytes, 0, hHash.getHashLength());
     bundleHash = hex(bundleHashHBytes);
     if (
-      normalizedBundleHash(Uint8Array.from(bundleHashHBytes)).indexOf(127) !==
-      -1
+      normalizedBundleHash(Uint8Array.from(bundleHashHBytes)).indexOf(15) !== -1
     ) {
       // Insecure bundle, increment obsoleteTag and recompute bundle hash
       obsoleteTagHBits[0] = hbits(
