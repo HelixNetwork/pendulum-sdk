@@ -1,8 +1,10 @@
 import { validateBundleSignatures } from "@helixnetwork/bundle-validator";
 import { addChecksum } from "@helixnetwork/checksum";
+import { hex, toHBytes } from "@helixnetwork/converter";
 import { createHttpClient } from "@helixnetwork/http-client";
 import { addresses, seed } from "@helixnetwork/samples";
 import { asTransactionObjects } from "@helixnetwork/transaction-converter";
+import { address, digests, key, subseed } from "@helixnetwork/winternitz";
 import test from "ava";
 import { HBytes, Transaction, Transfer } from "../../../types";
 import { createPrepareTransfers } from "../../src";
@@ -45,18 +47,16 @@ test("checkBundleSignature() prepares the correct array of hbytes offline.", asy
       remainderAddress
     }
   );
-  //
-  // console.log('checkBundleSignature - hbytes');
-  // console.log(hbytes)
-  const transaction: Transaction[] = new Array<Transaction>(2);
+
+  const keyHBytes = key(subseed(toHBytes(seed), 0), 2);
+  const digestsHBytes = digests(keyHBytes);
+  const addressHBytes = hex(address(digestsHBytes));
+
+  const transaction: Transaction[] = new Array<Transaction>(hbytes.length);
   const bundle: Transaction[] = asTransactionObjects(
     transaction.map(tx => tx.hash)
   )(hbytes);
 
-  // console.log('checkBundleSignature - transaction');
-  // console.log(transaction)
-  // console.log('checkBundleSignature - bundle');
-  // console.log(bundle)
   t.is(
     validateBundleSignatures(bundle),
     true,
