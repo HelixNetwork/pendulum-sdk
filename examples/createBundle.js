@@ -87,7 +87,7 @@ helix
         "Transaction hash from tangle: " + bundleFromTangle[i]["hash"]
       );
       let computedTransactionHash = Transaction.transactionHash(
-        transactions[i]
+        Converter.toHBytes(transactions[i])
       );
       console.log(
         "New computed hash (in helix.lib): " + computedTransactionHash
