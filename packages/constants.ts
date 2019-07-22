@@ -20,6 +20,7 @@ export const TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE = 2 * 8;
 export const TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE = 2 * 8;
 export const NONCE_BYTE_SIZE = 2 * 8;
 export const SEED_BYTE_SIZE = 2 * 32;
+export const PAD_BYTE_SIZE = 2 * 24;
 
 export const BYTE_SIZE_USED_FOR_VALIDATION =
   ADDRESS_BYTE_SIZE +

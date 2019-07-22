@@ -17,9 +17,9 @@ import {
 } from "../src";
 
 const seed = "abcd000000000000000000000000000000000000000000000000000000000000";
-const keyIndex = 2;
+const keyIndex = 0;
 const msg: string =
-  "0505fa03fa01fe00fcfefc0703ff02000005010603fdfd03fc0303fafef907f9";
+  "380a8ce38e34ea3de9a76c678259223a2a915e9905200c3a3067c6aa9eea05a4";
 
 test("Winternitz signatures - security level 1!", t => {
   const isValid = testWinternitz(1);

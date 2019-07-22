@@ -5,13 +5,20 @@
 import { hbytesToHBits, hex } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
+  ADDRESS_BYTE_SIZE,
   HASH_BITS_SIZE,
   HASH_HBYTE_SIZE,
   NONCE_BYTE_SIZE,
   OBSOLETE_TAG_BYTE_SIZE,
   SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
   TAG_BYTE_SIZE,
-  TRANSACTION_HBYTE_SIZE
+  TRANSACTION_CURRENT_INDEX_BYTE_SIZE,
+  TRANSACTION_HBYTE_SIZE,
+  TRANSACTION_LAST_INDEX_BYTE_SIZE,
+  TRANSACTION_TIMESTAMP_BYTE_SIZE,
+  TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE,
+  TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE,
+  TRANSACTION_VALUE_BYTE_SIZE
 } from "../../constants";
 import * as errors from "../../errors";
 import {
@@ -25,6 +32,32 @@ import {
 import { Hash, HBytes, Transaction } from "../../types";
 
 export { Transaction };
+
+export const START_INDEX_SIGNATURE_MESSAGE = 0;
+
+export const START_INDEX_ADDRESS =
+  START_INDEX_SIGNATURE_MESSAGE + SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+export const START_INDEX_VALUE = START_INDEX_ADDRESS + ADDRESS_BYTE_SIZE;
+export const START_INDEX_OBSOLETE_TAG =
+  START_INDEX_VALUE + TRANSACTION_VALUE_BYTE_SIZE;
+export const START_INDEX_TIMESTAMP =
+  START_INDEX_OBSOLETE_TAG + OBSOLETE_TAG_BYTE_SIZE;
+export const START_INDEX_CURRENT_INDEX =
+  START_INDEX_TIMESTAMP + TRANSACTION_TIMESTAMP_BYTE_SIZE;
+export const START_INDEX_LAST_INDEX_BYTES =
+  START_INDEX_CURRENT_INDEX + TRANSACTION_CURRENT_INDEX_BYTE_SIZE;
+export const START_INDEX_BUNDLE =
+  START_INDEX_LAST_INDEX_BYTES + TRANSACTION_LAST_INDEX_BYTE_SIZE;
+export const START_TRUNK_TRANS = START_INDEX_BUNDLE + HASH_HBYTE_SIZE;
+export const START_BRANCH_TRANS = START_TRUNK_TRANS + HASH_HBYTE_SIZE;
+export const START_INDEX_TAG = START_BRANCH_TRANS + HASH_HBYTE_SIZE;
+export const START_INDEX_ATTACHED_TIMESTAMP = START_INDEX_TAG + TAG_BYTE_SIZE;
+export const START_INDEX_TIMESTAMP_LOW =
+  START_INDEX_ATTACHED_TIMESTAMP + TRANSACTION_TIMESTAMP_BYTE_SIZE;
+export const START_INDEX_TIMESTAMP_UP =
+  START_INDEX_TIMESTAMP_LOW + TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE;
+export const START_INDEX_NONCE =
+  START_INDEX_TIMESTAMP_UP + TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE;
 
 /**
  * Calculates the transaction hash out of 8019 transaction hbits.
@@ -113,7 +146,15 @@ export const isTransactionHash = (
   minWeightMagnitude?: number
 ): hash is Hash => {
   const hasCorrectHashLength = isHBytesOfExactLength(hash, HASH_HBYTE_SIZE);
+
   if (minWeightMagnitude) {
+    console.log(
+      hasCorrectHashLength &&
+        hbytesToHBits(hash)
+          .slice(-Math.abs(minWeightMagnitude))
+          .every(hBit => hBit === 0)
+    );
+
     return (
       hasCorrectHashLength &&
       hbytesToHBits(hash)
@@ -169,7 +210,12 @@ export const isTransactionHBytes = (
  */
 export const isAttachedHBytes = (hbytes: any): hbytes is HBytes =>
   isHBytesOfExactLength(hbytes, TRANSACTION_HBYTE_SIZE) &&
-  !/^[00]+$/.test(hbytes.slice(TRANSACTION_HBYTE_SIZE - HASH_BITS_SIZE)); // 2 * HASH_HBYTE_SIZE
+  hbytes
+    .slice(
+      START_INDEX_ATTACHED_TIMESTAMP,
+      START_INDEX_ATTACHED_TIMESTAMP + TRANSACTION_TIMESTAMP_BYTE_SIZE
+    )
+    .search("0") !== -1;
 
 export const isAttachedHBytesArray = isArray(isAttachedHBytes);
 export const isTransactionArray = isArray(isTransaction);

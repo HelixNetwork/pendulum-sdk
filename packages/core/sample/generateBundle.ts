@@ -1,103 +1,157 @@
 import { addChecksum } from "@helixnetwork/checksum";
+import { toHBytes } from "@helixnetwork/converter";
 import { createHttpClient } from "@helixnetwork/http-client";
 import {
   addresses,
   bundleWithValidSignature,
   seed
 } from "@helixnetwork/samples";
+import { transactionHash } from "@helixnetwork/transaction";
 import { ADDRESS_BYTE_SIZE } from "../../constants";
-import { Transaction, Transfer } from "../../types";
-import { createPrepareTransfers } from "../src";
+import { HBytes, Transaction, Transfer } from "../../types";
+import { composeAPI, createPrepareTransfers } from "../src";
 
 import isBundle from "@helixnetwork/bundle-validator";
-import { asTransactionObjects } from "@helixnetwork/transaction-converter";
+import {
+  asTransactionHBytes,
+  asTransactionObjects
+} from "@helixnetwork/transaction-converter";
 import { createGetNewAddress } from "../src/createGetNewAddress";
 import "../test/integration/nocks/prepareTransfers";
 
 const client = createHttpClient();
 const getNewAddress = createGetNewAddress(client, "lib");
-
-let inputs: ReadonlyArray<any> = [
-  {
-    address: "ed7ddda54ba1666c2b760d8d397b88eaa76efb361e4707cd70073234248439f9",
-    keyIndex: 0,
-    security: 2,
-    balance: 4
-  },
-  {
-    address: "6214373e99f3e335e630441a96341fbb8fbff9b416a793e1069c5bd28a76eb53",
-    keyIndex: 1,
-    security: 2,
-    balance: 4
-  }
-];
-
-const transfers: ReadonlyArray<Transfer> = [
-  {
-    address: addChecksum("a".repeat(ADDRESS_BYTE_SIZE)),
-    value: 3,
-    tag: "aaaa",
-    message: "abcd"
-  }
-];
-//  const seed = 'abcd000000000000000000000000000000000000000000000000000000000000'
-const now = () => 1522219924;
-const prepareTransfers = createPrepareTransfers(undefined, now, "lib");
-const prepareTransfersWithNetwork = createPrepareTransfers(
-  createHttpClient(),
-  now,
-  "lib"
-);
+const helix = composeAPI({
+  provider: "https://hlxtest.net:8087"
+});
 
 async function generateBundle() {
-  // calculate addressesȘ
-  const addresses: string[] = new Array<string>(3);
-  const addr = await getNewAddress(seed, { index: 0, total: 3 });
-  for (let i = 0; i < 3; i++) {
-    addresses[i] = addr[i];
-  }
-
-  inputs = inputs.map((value, i) => {
-    value.address = addresses[i];
-    return value;
-  });
-  const remainderAddress = addresses[2];
-
-  const hbytes: ReadonlyArray<string> = await prepareTransfers(
+  createAndPrintBundle(
+    "export const bundle: Transaction[] = ",
+    "export const bundleHBytes: HBytes[] = ",
     seed,
-    transfers,
-    {
-      inputs,
-      remainderAddress
-    }
+    [
+      {
+        address: addChecksum("a".repeat(ADDRESS_BYTE_SIZE)),
+        value: 3,
+        tag: "aaaa",
+        message: "abcd"
+      }
+    ],
+    [
+      {
+        address: addresses[0],
+        keyIndex: 0,
+        security: 2,
+        balance: 4
+      },
+      {
+        address: addresses[1],
+        keyIndex: 1,
+        security: 2,
+        balance: 4
+      }
+    ],
+    addresses[2]
   );
-  // console.log(
-  //   "export const hbytes = " + JSON.stringify([hbytes].reverse()) + ";"
-  // );
-  // console.log("export const bundle = ");
-  // console.log(
-  //   asTransactionObjects(
-  //     new Array<Transaction>(hbytes.length).map(tx => tx.hash)
-  //   )(hbytes).reverse()
-  // );
-  inputs = inputs.slice(0, 1);
 
-  const bundleWithValidSignature: ReadonlyArray<
-    string
-  > = await prepareTransfers(seed, transfers.slice(0, 1), {
-    inputs,
-    remainderAddress
-  });
-  console.log(
-    "export const bundleWithValidSignatureHBytes = " +
-      JSON.stringify([...bundleWithValidSignature].reverse()) +
-      ";"
+  createAndPrintBundle(
+    "export const bundleWithValidSignature = ",
+    "export const bundleWithValidSignatureHBytes = ",
+    seed,
+    [
+      {
+        address: addChecksum("a".repeat(ADDRESS_BYTE_SIZE)),
+        value: 3,
+        tag: "aaaa",
+        message: "abcd"
+      }
+    ],
+    [
+      {
+        address: addresses[0],
+        keyIndex: 0,
+        security: 2,
+        balance: 3
+      }
+    ]
   );
-  console.log("export const bundleWithValidSignature = ");
-  const bundleWithValidSig = asTransactionObjects(
-    new Array<Transaction>(bundleWithValidSignature.length).map(tx => tx.hash)
-  )(bundleWithValidSignature).reverse();
-  console.log(bundleWithValidSig);
-  console.log("isValidBundle:" + isBundle(bundleWithValidSig));
+
+  createAndPrintBundle(
+    "export const bundleWithZeroValue = ",
+    "export const bundleWithZeroValueHBytes = ",
+    seed,
+    [
+      {
+        address: addChecksum("a".repeat(ADDRESS_BYTE_SIZE)),
+        value: 0,
+        tag: "aaaa",
+        message: "abcd"
+      }
+    ]
+  );
 }
+
+async function createAndPrintBundle(
+  msgBundle: string,
+  msgHbytes: string,
+  currentSeed: string,
+  transfers: ReadonlyArray<Transfer>,
+  inputs?: ReadonlyArray<any>,
+  remainderAddress?: string
+) {
+  try {
+    let resultHbytes: ReadonlyArray<string>;
+
+    if (!inputs && !remainderAddress) {
+      resultHbytes = await helix.prepareTransfers(currentSeed, transfers);
+    } else {
+      resultHbytes = await helix.prepareTransfers(currentSeed, transfers, {
+        inputs,
+        remainderAddress
+      });
+    }
+    attachIntoTangle(msgBundle, msgHbytes, resultHbytes);
+  } catch (e) {
+    // tslint:disable-next-line:no-console
+    console.error(e);
+  }
+}
+
+async function attachIntoTangle(
+  msgBundle: string,
+  msgHbytes: string,
+  hbytes: ReadonlyArray<string>
+) {
+  try {
+    const resultBundle = await helix.sendHBytes(
+      hbytes,
+      5 /*depth*/,
+      2 /*minimum weight magnitude*/
+    );
+    console.log(
+      "----------------------------------------------------------------------------"
+    );
+    console.log(msgBundle);
+    console.log(resultBundle);
+
+    console.log(msgHbytes);
+    const resultHbytes = asTransactionHBytes(resultBundle);
+    console.log(resultHbytes);
+    for (var i = 0; i < resultHbytes.length; i++) {
+      let computedTransactionHash = transactionHash(toHBytes(resultHbytes[i]));
+
+      console.log(
+        "New computed hash (in helix.lib): " + computedTransactionHash
+      );
+      console.log(
+        "Equal hashes? " + resultBundle[i]["hash"] == computedTransactionHash
+      );
+    }
+  } catch (e) {
+    // tslint:disable-next-line:no-console
+    console.error(e);
+  }
+}
+
 generateBundle();
