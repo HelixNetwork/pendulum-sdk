@@ -26,7 +26,7 @@ const helix = composeAPI({
 });
 
 async function generateBundle() {
-  createAndPrintBundle(
+  await createAndPrintBundle(
     "export const bundle: Transaction[] = ",
     "export const bundleHBytes: HBytes[] = ",
     seed,
@@ -55,7 +55,7 @@ async function generateBundle() {
     addresses[2]
   );
 
-  createAndPrintBundle(
+  await createAndPrintBundle(
     "export const bundleWithValidSignature = ",
     "export const bundleWithValidSignatureHBytes = ",
     seed,
@@ -77,7 +77,7 @@ async function generateBundle() {
     ]
   );
 
-  createAndPrintBundle(
+  await createAndPrintBundle(
     "export const bundleWithZeroValue = ",
     "export const bundleWithZeroValueHBytes = ",
     seed,
@@ -144,8 +144,9 @@ async function attachIntoTangle(
       console.log(
         "New computed hash (in helix.lib): " + computedTransactionHash
       );
+      console.log("Old hash (in helix.lib): " + resultBundle[i]["hash"]);
       console.log(
-        "Equal hashes? " + resultBundle[i]["hash"] == computedTransactionHash
+        "Equal hashes? " + (resultBundle[i]["hash"] === computedTransactionHash)
       );
     }
   } catch (e) {

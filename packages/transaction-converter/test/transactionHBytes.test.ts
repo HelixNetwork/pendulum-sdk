@@ -20,12 +20,6 @@ test("asTransactionHBytes() converts transaction object to transaction hbytes.",
     hbytes,
     "asTransactionHBytes() should convert transaction object to transaction hbytes."
   );
-  const input = "placeholder";
-  const placeholder = (input: string): string => {
-    return input;
-  };
-
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
 });
 
 test("asTransactionHBytes() converts transaction object array to transaction hbytes array.", t => {
@@ -34,12 +28,6 @@ test("asTransactionHBytes() converts transaction object array to transaction hby
     [hbytes],
     "asTransactionHBytes() should convert transaction object array to transaction hbytes array."
   );
-  const input = "placeholder";
-  const placeholder = (input: string): string => {
-    return input;
-  };
-
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
 });
 
 test("transactionHBytes() converts transaction object to transaction hbytes.", t => {
@@ -48,12 +36,6 @@ test("transactionHBytes() converts transaction object to transaction hbytes.", t
     hbytes,
     "transactionHBytes() should convert transaction object to transaction hbytes."
   );
-  const input = "placeholder";
-  const placeholder = (input: string): string => {
-    return input;
-  };
-
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
 });
 
 test("asFinalTransactionHBytes() converts transaction objects to reversed hbytes.", t => {
@@ -62,10 +44,4 @@ test("asFinalTransactionHBytes() converts transaction objects to reversed hbytes
     [...bundleHBytes].reverse(),
     "asFinalTransactionHBytes() should convert transaction objects to reversed hbytes."
   );
-  const input = "placeholder";
-  const placeholder = (input: string): string => {
-    return input;
-  };
-
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
 });

@@ -56,7 +56,7 @@ export const extractJson = (bundle: Bundle): string | number | null => {
   if (!Array.isArray(bundle) || bundle[0] === undefined) {
     throw new Error(errors.INVALID_BUNDLE);
   }
-  // Sanity check: if the first tryte pair is not opening bracket, it's not a message
+  // Sanity check: if the first byte pair is not opening bracket, it's not a message
   const firstHBytePair =
     bundle[0].signatureMessageFragment[0] +
     bundle[0].signatureMessageFragment[1];
