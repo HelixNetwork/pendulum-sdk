@@ -8,7 +8,10 @@ export const padHBytes = (length: number) => (hbytes: HBytes) =>
 
 export const padHBits = (length: number) => (hbits: Int8Array) =>
   hbits.length < length
-    ? new Int8Array(length).map((n, i) => hbits[i] || 0)
+    ? new Int8Array(length).map(
+        (n, i) =>
+          i >= length - hbits.length ? hbits[i - (length - hbits.length)] : 0
+      )
     : hbits;
 
 export const padSignedHBits = (length: number) => (hbits: Int8Array) =>
