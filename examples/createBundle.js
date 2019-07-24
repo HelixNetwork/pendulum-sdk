@@ -93,8 +93,8 @@ helix
         "New computed hash (in helix.lib): " + computedTransactionHash
       );
       console.log(
-        "Equal hashes? " + bundleFromTangle[i]["hash"] ==
-          computedTransactionHash
+        "Equal hashes? " +
+          (bundleFromTangle[i]["hash"] == computedTransactionHash)
       );
     }
   })

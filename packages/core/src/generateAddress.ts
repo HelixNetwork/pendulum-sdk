@@ -29,19 +29,6 @@ export const generateAddress = (
   security: number = 1,
   checksum: boolean = false
 ): Hash => {
-  // TODO: this part is added only to address generation not also when bundle is sign,
-  // because of this there are differences between address generated and seed for which address is generated
-
-  // while (seed.length % HASH_HBYTE_SIZE !== 0) {
-  //   seed += 0;
-  // }
-
-  // console.log('generateAddress ------------------------------------------------ ');
-  // console.log('generateAddress seed ------------------------------------------------ ' + seed);
-  // console.log('generateAddress index ------------------------------------------------ ' + index);
-  // console.log('generateAddress security ------------------------------------------------ ' + security);
-  // console.log('generateAddress checksum ------------------------------------------------ ' + checksum);
-
   validate(seedValidator(seed), securityLevelValidator(security));
 
   const keyHBytes = key(subseed(toHBytes(seed), index), security);

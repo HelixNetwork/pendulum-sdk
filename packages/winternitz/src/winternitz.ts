@@ -173,7 +173,7 @@ export function address(digests: Uint8Array): Uint8Array {
   const sha3 = new Sha3();
   sha3.absorb(digests.slice(), 0, digests.length);
   sha3.squeeze(result, 0, Sha3.HASH_LENGTH);
-
+  // console.log('winternitz = address ' + hex(result));
   return result;
 }
 
@@ -280,6 +280,14 @@ export function signatureFragments(
   const normalizedBundle = normalizedBundleHash(bundle);
   const keyFragments = key(subseed(seed, index), numberOfFragments);
   const signature = new Uint8Array(numberOfFragments * FRAGMENT_LENGTH_BYTES);
+
+  const digestsHBytes = digests(keyFragments);
+  const addressHBytes = hex(address(digestsHBytes));
+  // console.log('signatureFragment addressHBytes' + addressHBytes);
+  // console.log('signatureFragments  index ' + index);
+  // console.log('signatureFragments  seed ' + hex(seed));
+  // console.log('signatureFragments  bundle ' + hex(bundle));
+  // console.log('signatureFragments  numberOfFragments ' + numberOfFragments);
   // console.log('signatureFragments  normalizedBundle' + hex(normalizedBundle));
   // console.log('signatureFragments  FRAGMENT_LENGTH_BYTES' + FRAGMENT_LENGTH_BYTES);
   // console.log('signatureFragments  NORMALIZED_FRAGMENT_LENGTH' + NORMALIZED_FRAGMENT_LENGTH);
@@ -350,10 +358,10 @@ export function validateSignatures(
     }
   }
   // console.log("validateSignatures - digests: " + hex(digestsResults));
-  // console.log("validateSignatures - expectedAddress: " + expectedAddress);
-  // console.log("validateSignatures - actualAddress: " + hex(address(digestsResults)));
-  // console.log("validateSignatures - signatureFragments: " + signFragments);
-  // console.log("validateSignatures " + bundleHash);
+  //  console.log("validateSignatures - expectedAddress: " + expectedAddress);
+  //  console.log("validateSignatures - actualAddress: " + hex(address(digestsResults)));
+  //  console.log("validateSignatures - signatureFragments: " + signFragments);
+  //  console.log("validateSignatures " + bundleHash);
   return expectedAddress === hex(address(digestsResults));
 }
 

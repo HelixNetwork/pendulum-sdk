@@ -13,9 +13,13 @@ import "./nocks/wereAddressesSpentFrom";
 
 import {
   addresses,
+  addresseDefaultSecLevel,
   addressesWithChecksum,
+  addresseWithChecksumDefaultSecLevel,
   newAddress,
+  newAddressDefaultSecurity,
   newAddressWithChecksum,
+  newAddressWithChecksumDefaultSecurity,
   seed
 } from "@helixnetwork/samples";
 
@@ -23,49 +27,49 @@ const client = createHttpClient();
 const getNewAddress = createGetNewAddress(client, "lib");
 const isAddressUsed = createIsAddressUsed(client);
 
-// test("getNewAddress() resolves to correct new address", async t => {
-//     t.is(
-//         await getNewAddress(seed, { index: 0 }),
-//         newAddress,
-//         "getNewAddress() should resolve to correct new address"
-//     );
-// });
+test("getNewAddress() resolves to correct new address", async t => {
+  t.is(
+    await getNewAddress(seed, { index: 0 }),
+    addresseDefaultSecLevel[2],
+    "getNewAddress() should resolve to correct new address"
+  );
+});
 
-// test("getNewAddress() with total option resolves to correct addresses", async t => {
-//     t.deepEqual(
-//         addresses.slice(0, 2),
-//         await getNewAddress(seed, { index: 0, total: 2 }),
-//         "getNewAddress() with `total` option resolves to correct addresses"
-//     );
-// });
-//
-// test("getNewAddress() with `returnAll` option resolves to correct addresses", async t => {
-//     t.deepEqual(
-//         addresses.slice(1, 3),
-//         await getNewAddress(seed, { index: 1, returnAll: true }),
-//         "getNewAddress() with `returnAll` option should resolve to addresses from `start` up to new address"
-//     );
-// });
-//
-// test("getNewAddresses() with `checksum` option resolves to correct addresses", async t => {
-//     t.is(
-//         await getNewAddress(seed, { index: 0, checksum: true }),
-//         newAddressWithChecksum,
-//         "getNewAddress() with `checksum` option should resolve to correct address"
-//     );
-//
-//     t.deepEqual(
-//         await getNewAddress(seed, { index: 0, total: 2, checksum: true }),
-//         addressesWithChecksum.slice(0, 2),
-//         "getNewAddress() with `total` & `checksum` options resolves to correct addresses"
-//     );
-//
-//     t.deepEqual(
-//         await getNewAddress(seed, { index: 1, returnAll: true, checksum: true }),
-//         addressesWithChecksum.slice(1, 3),
-//         "getNewAddress() with `checksum` & `returnAll` options should resolve to correct addresses"
-//     );
-// });
+test("getNewAddress() with total option resolves to correct addresses", async t => {
+  t.deepEqual(
+    addresseDefaultSecLevel.slice(0, 2),
+    await getNewAddress(seed, { index: 0, total: 2 }),
+    "getNewAddress() with `total` option resolves to correct addresses"
+  );
+});
+
+test("getNewAddress() with `returnAll` option resolves to correct addresses", async t => {
+  t.deepEqual(
+    addresseDefaultSecLevel.slice(1, 3),
+    await getNewAddress(seed, { index: 1, returnAll: true }),
+    "getNewAddress() with `returnAll` option should resolve to addresses from `start` up to new address"
+  );
+});
+
+test("getNewAddresses() with `checksum` option resolves to correct addresses", async t => {
+  t.is(
+    await getNewAddress(seed, { index: 0, checksum: true }),
+    newAddressWithChecksumDefaultSecurity,
+    "getNewAddress() with `checksum` option should resolve to correct address"
+  );
+
+  t.deepEqual(
+    await getNewAddress(seed, { index: 0, total: 2, checksum: true }),
+    addresseWithChecksumDefaultSecLevel.slice(0, 2),
+    "getNewAddress() with `total` & `checksum` options resolves to correct addresses"
+  );
+
+  t.deepEqual(
+    await getNewAddress(seed, { index: 1, returnAll: true, checksum: true }),
+    addresseWithChecksumDefaultSecLevel.slice(1, 3),
+    "getNewAddress() with `checksum` & `returnAll` options should resolve to correct addresses"
+  );
+});
 
 test("getNewAddress() rejects with correct errors for invalid arguments", t => {
   const invalidSeed = "asdasDSFDAFD";
@@ -88,24 +92,24 @@ test.cb("getNewAddress() invokes callback", t => {
   getNewAddress(seed, { index: 0, total: 1 }, t.end);
 });
 
-// test.cb("getNewAddress() passes correct arguments to callback", t => {
-//     getNewAddress(seed, { index: 0 }, (err, res) => {
-//         t.is(
-//             err,
-//             null,
-//             "getNewAddress() should pass null as first argument in callback for successuful requests"
-//         );
-//
-//         t.is(
-//             res,
-//             newAddress,
-//             "getNewAddress() should pass the correct response as second argument in callback"
-//         );
-//
-//         t.end();
-//     });
-// });
-//
+test.cb("getNewAddress() passes correct arguments to callback", t => {
+  getNewAddress(seed, { index: 0 }, (err, res) => {
+    t.is(
+      err,
+      null,
+      "getNewAddress() should pass null as first argument in callback for successuful requests"
+    );
+
+    t.is(
+      res,
+      newAddressDefaultSecurity,
+      "getNewAddress() should pass the correct response as second argument in callback"
+    );
+
+    t.end();
+  });
+});
+
 test("isAddressUsed() resolves to correct state", async t => {
   t.is(
     await isAddressUsed(addresses[0]),
@@ -126,34 +130,34 @@ test("isAddressUsed() resolves to correct state", async t => {
   );
 });
 
-// test("getUntilFirstUnusedAddress() resolves to correct new address", async t => {
-//   const index = 0;
-//   const security = 2;
-//
-//   t.deepEqual(
-//     await getUntilFirstUnusedAddress(
-//       isAddressUsed,
-//       seed,
-//       index,
-//       security,
-//       false
-//     )(),
-//     [newAddress],
-//     "getNewAddress() with `returnAll: false` should resolve to correct new address"
-//   );
-//
-//   t.deepEqual(
-//     await getUntilFirstUnusedAddress(
-//       isAddressUsed,
-//       seed,
-//       index,
-//       security,
-//       true
-//     )(),
-//     addresses.slice(0, 3),
-//     "getUntilFristUnusedAddress() with `returnAll: true` should resolve to correct address from start to new address"
-//   );
-// });
+test("getUntilFirstUnusedAddress() resolves to correct new address", async t => {
+  const index = 0;
+  const security = 2;
+
+  t.deepEqual(
+    await getUntilFirstUnusedAddress(
+      isAddressUsed,
+      seed,
+      index,
+      security,
+      false
+    )(),
+    [newAddress],
+    "getNewAddress() with `returnAll: false` should resolve to correct new address"
+  );
+
+  t.deepEqual(
+    await getUntilFirstUnusedAddress(
+      isAddressUsed,
+      seed,
+      index,
+      security,
+      true
+    )(),
+    addresses.slice(0, 3),
+    "getUntilFristUnusedAddress() with `returnAll: true` should resolve to correct address from start to new address"
+  );
+});
 
 test("applyReturnAllOption() returns correct address or address array", t => {
   t.deepEqual(

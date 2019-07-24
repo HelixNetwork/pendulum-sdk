@@ -1,5 +1,12 @@
 import test from "ava";
-import { fromValue, hbits, hBitsToHBytes, hbytesToHBits, value } from "../src";
+import {
+  fromValue,
+  hbits,
+  hBitsToHBytes,
+  hbytesToHBits,
+  hex,
+  value
+} from "../src";
 
 test("Converter: Test number to bits and back to number conversion) ", t => {
   const input: Int8Array = new Int8Array([
@@ -22,13 +29,17 @@ test("Converter: Test number to bits and back to number conversion) ", t => {
 });
 
 test("Converter = Test number to bits and back to number conversion) ", t => {
-  const expected: number = 1522184104751; //1522184057 114645499
+  const expected: number = 1563378693928; //1522184057 114645499
   const hbits: Int8Array = fromValue(expected);
+
+  console.log("valueofhbits " + value(hbits));
+
   const paddedBits =
     hbits.length < 64 ? new Int8Array(64).map((n, i) => hbits[i] || 0) : hbits;
   let bytes = hBitsToHBytes(paddedBits);
 
   let againToBits = hbytesToHBits(bytes);
+  console.log("bytes - " + bytes);
   const result = value(againToBits.slice(0, hbits.length));
   t.deepEqual(
     result,
@@ -197,7 +208,7 @@ test("Converter: Test values) ", t => {
 });
 
 test("Converter: Test value) ", t => {
-  /*const input: Int8Array = new Int8Array([0x00, 0x00, 0x01, 0x01, 0x00]);
+  const input: Int8Array = new Int8Array([0x00, 0x01, 0x01, 0x00, 0x00]);
 
   const expected: number = 0xc;
 
@@ -205,13 +216,13 @@ test("Converter: Test value) ", t => {
     value(input),
     expected,
     "Function value() should return correct value"
-  );*/
-  const input = "placeholder";
-  const placeholder = (input: string): string => {
-    return input;
-  };
-
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
+  );
+  // const input = "placeholder";
+  // const placeholder = (input: string): string => {
+  //   return input;
+  // };
+  //
+  // t.is(placeholder("placeholder"), input, "Inputs should be equal.");
 });
 
 test("Converter:Test value) ", t => {

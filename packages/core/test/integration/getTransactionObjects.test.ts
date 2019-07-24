@@ -11,17 +11,11 @@ const hashes = [bundle[0].hash];
 const transactions = [bundle[0]];
 
 test("getTransactionObjects() resolves to correct transactions.", async t => {
-  /*t.deepEqual(
+  t.deepEqual(
     await getTransactionObjects(hashes),
     transactions,
     "getTransactionObjects() should resolve to correct transactions."
-  );*/
-  const input = "placeholder";
-  const placeholder = (input: string): string => {
-    return input;
-  };
-
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
+  );
 });
 
 test("getTransactionObjects() rejects with correct error for invalid hash.", t => {
@@ -38,7 +32,7 @@ test.cb("getTransactionObjects() invokes callback", t => {
   getTransactionObjects(hashes, t.end);
 });
 
-/*test.cb("getTransactionObjects() passes correct arguments to callback", t => {
+test.cb("getTransactionObjects() passes correct arguments to callback", t => {
   getTransactionObjects(hashes, (err, res) => {
     t.is(
       err,
@@ -54,4 +48,4 @@ test.cb("getTransactionObjects() invokes callback", t => {
 
     t.end();
   });
-});*/
+});

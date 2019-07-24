@@ -1,6 +1,6 @@
 /** @module bundle */
 
-import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
+import { hbits, hbytes, hex, toHBytes, value } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
   padHBits,
@@ -205,8 +205,8 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
       normalizedBundleHash(Uint8Array.from(bundleHashHBytes)).indexOf(15) !== -1
     ) {
       // Insecure bundle, increment obsoleteTag and recompute bundle hash
-      obsoleteTagHBits[0] = hbits(
-        hex(add(toHBytes(hbytes(obsoleteTagHBits[0])), 1))
+      obsoleteTagHBits[0] = padHBits(TRANSACTION_OBSOLETE_TAG_BITS_SIZE)(
+        hbits(value(obsoleteTagHBits[0]) + 1)
       );
     } else {
       validBundle = true;

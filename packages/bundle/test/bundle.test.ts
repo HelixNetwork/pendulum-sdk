@@ -129,10 +129,10 @@ test("addHBytes() adds hbytes and returns correct transactions.", t => {
 });
 
 test("finalizeBundle() adds correct bundle hash.", t => {
-  /*const bundleHash =
-    "71bcafcb2c130d7eb0f1deb304bd85df7f692fb7abb3d9ad99823cf7c49ef8c7";
+  const bundleHash =
+    "fccc0d39a7211124c94cd2223b78c4ab8852435e4da493020fe7eaeebc826ca1";
   const incrObsoleteTag =
-    "aaaa000000000000000000000000000000000000000000000000000000000001";
+    "000000000000000000000000000000000000000000000000000000000000001e";
   const expected = bundle.map((transaction, i) => ({
     ...transaction,
     obsoleteTag: i === 0 ? incrObsoleteTag : transaction.obsoleteTag,
@@ -142,11 +142,5 @@ test("finalizeBundle() adds correct bundle hash.", t => {
     finalizeBundle(bundle),
     expected,
     "finalizeBundle() should add correct bundle hash."
-  );*/
-  const input = "placeholder";
-  const placeholder = (input: string): string => {
-    return input;
-  };
-
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
+  );
 });

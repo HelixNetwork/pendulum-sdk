@@ -26,7 +26,7 @@ const helix = composeAPI({
 });
 
 async function generateBundle() {
-  createAndPrintBundle(
+  await createAndPrintBundle(
     "export const bundle: Transaction[] = ",
     "export const bundleHBytes: HBytes[] = ",
     seed,
@@ -55,7 +55,7 @@ async function generateBundle() {
     addresses[2]
   );
 
-  createAndPrintBundle(
+  await createAndPrintBundle(
     "export const bundleWithValidSignature = ",
     "export const bundleWithValidSignatureHBytes = ",
     seed,
@@ -77,7 +77,40 @@ async function generateBundle() {
     ]
   );
 
-  createAndPrintBundle(
+  await createAndPrintBundle(
+    "export const bytesTransaction = ",
+    "export const hbytes = ",
+    seed,
+    [
+      {
+        address: addChecksum("a".repeat(2 * 32)),
+        value: 3,
+        tag: "aaaa",
+        message: "0"
+      },
+      {
+        address: addChecksum("b".repeat(2 * 32)),
+        value: 3,
+        tag: "aaaa"
+      }
+    ],
+    [
+      {
+        address: addresses[0],
+        keyIndex: 0,
+        security: 2,
+        balance: 3
+      },
+      {
+        address: addresses[1],
+        keyIndex: 1,
+        security: 2,
+        balance: 4
+      }
+    ]
+  );
+
+  await createAndPrintBundle(
     "export const bundleWithZeroValue = ",
     "export const bundleWithZeroValueHBytes = ",
     seed,
@@ -87,6 +120,20 @@ async function generateBundle() {
         value: 0,
         tag: "aaaa",
         message: "abcd"
+      }
+    ]
+  );
+
+  await createAndPrintBundle(
+    "prepare transfer: export const bundleWithZeroValue = ",
+    "expectedZeroValueHBytes = ",
+    seed,
+    [
+      {
+        address: "0".repeat(2 * 32),
+        value: 0,
+        message: "aa",
+        tag: "0000000000000000"
       }
     ]
   );
@@ -144,8 +191,9 @@ async function attachIntoTangle(
       console.log(
         "New computed hash (in helix.lib): " + computedTransactionHash
       );
+      console.log("Old hash (in helix.lib): " + resultBundle[i]["hash"]);
       console.log(
-        "Equal hashes? " + resultBundle[i]["hash"] == computedTransactionHash
+        "Equal hashes? " + (resultBundle[i]["hash"] === computedTransactionHash)
       );
     }
   } catch (e) {
