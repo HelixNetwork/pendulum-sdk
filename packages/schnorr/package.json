@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/schnorr",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "Schnorr Signature Scheme",
   "main": "./out/schnorr/src/index.js",
   "typings": "typings/schnorr/src",
@@ -45,9 +45,9 @@
       "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
   },
   "dependencies": {
-    "@helixnetwork/converter": "^1.0.0-alpha.2",
-    "@helixnetwork/hash-module": "^1.0.0-alpha.2",
-    "@helixnetwork/pad": "^1.0.0-alpha.2",
+    "@helixnetwork/converter": "^1.0.0-alpha.3",
+    "@helixnetwork/hash-module": "^1.0.0-alpha.3",
+    "@helixnetwork/pad": "^1.0.0-alpha.3",
     "schnorr": "^0.4.0"
   },
   "devDependencies": {
