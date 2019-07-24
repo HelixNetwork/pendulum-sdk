@@ -83,7 +83,6 @@ export const getUntilFirstUnusedAddress = (
 
     return isAddressUsed(nextAddress).then(used => {
       if (used) {
-        console.warn("Address " + nextAddress + " is already used.");
         return iterate();
       }
 

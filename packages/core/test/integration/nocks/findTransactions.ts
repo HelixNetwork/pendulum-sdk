@@ -1,4 +1,7 @@
-import { addresses as addr } from "@helixnetwork/samples";
+import {
+  addresses as addr,
+  addresseDefaultSecLevel
+} from "@helixnetwork/samples";
 import * as nock from "nock";
 import {
   FindTransactionsCommand,
@@ -105,6 +108,18 @@ nock("http://localhost:14265", headers)
   .persist()
   .post("/", {
     command: ProtocolCommand.FIND_TRANSACTIONS,
+    addresses: [
+      addresseDefaultSecLevel[0],
+      addresseDefaultSecLevel[1],
+      addresseDefaultSecLevel[2]
+    ]
+  })
+  .reply(200, findTransactionsResponse);
+
+nock("http://localhost:14265", headers)
+  .persist()
+  .post("/", {
+    command: ProtocolCommand.FIND_TRANSACTIONS,
     bundles: ["0".repeat(2 * 32)]
   })
   .reply(200, findTransactionsResponse);
@@ -114,5 +129,37 @@ nock("http://localhost:14265", headers)
   .post("/", {
     command: ProtocolCommand.FIND_TRANSACTIONS,
     addresses: [addr[1], addr[2]]
+  })
+  .reply(200, findTransactionsResponse);
+
+nock("http://localhost:14265", headers)
+  .persist()
+  .post("/", {
+    command: ProtocolCommand.FIND_TRANSACTIONS,
+    addresses: [addresseDefaultSecLevel[1], addresseDefaultSecLevel[2]]
+  })
+  .reply(200, findTransactionsResponse);
+
+nock("http://localhost:14265", headers)
+  .persist()
+  .post("/", {
+    command: ProtocolCommand.FIND_TRANSACTIONS,
+    addresses: [addresseDefaultSecLevel[2]]
+  })
+  .reply(200, emptyFindTransactionsResponse);
+
+nock("http://localhost:14265", headers)
+  .persist()
+  .post("/", {
+    command: ProtocolCommand.FIND_TRANSACTIONS,
+    addresses: [addresseDefaultSecLevel[0]]
+  })
+  .reply(200, findTransactionsResponse);
+
+nock("http://localhost:14265", headers)
+  .persist()
+  .post("/", {
+    command: ProtocolCommand.FIND_TRANSACTIONS,
+    addresses: [addresseDefaultSecLevel[1]]
   })
   .reply(200, findTransactionsResponse);

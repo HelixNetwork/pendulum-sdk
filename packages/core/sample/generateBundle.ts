@@ -78,6 +78,39 @@ async function generateBundle() {
   );
 
   await createAndPrintBundle(
+    "export const bytesTransaction = ",
+    "export const hbytes = ",
+    seed,
+    [
+      {
+        address: addChecksum("a".repeat(2 * 32)),
+        value: 3,
+        tag: "aaaa",
+        message: "0"
+      },
+      {
+        address: addChecksum("b".repeat(2 * 32)),
+        value: 3,
+        tag: "aaaa"
+      }
+    ],
+    [
+      {
+        address: addresses[0],
+        keyIndex: 0,
+        security: 2,
+        balance: 3
+      },
+      {
+        address: addresses[1],
+        keyIndex: 1,
+        security: 2,
+        balance: 4
+      }
+    ]
+  );
+
+  await createAndPrintBundle(
     "export const bundleWithZeroValue = ",
     "export const bundleWithZeroValueHBytes = ",
     seed,
@@ -87,6 +120,20 @@ async function generateBundle() {
         value: 0,
         tag: "aaaa",
         message: "abcd"
+      }
+    ]
+  );
+
+  await createAndPrintBundle(
+    "prepare transfer: export const bundleWithZeroValue = ",
+    "expectedZeroValueHBytes = ",
+    seed,
+    [
+      {
+        address: "0".repeat(2 * 32),
+        value: 0,
+        message: "aa",
+        tag: "0000000000000000"
       }
     ]
   );

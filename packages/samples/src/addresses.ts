@@ -13,19 +13,25 @@ export const addressesWithChecksum = [
 ];
 
 // security level = 1, index = 0,1,2
-export const addresses_level1 = [
+export const addresseDefaultSecLevel = [
   "f0bde01f8330ad872c80487b4c608592fe22ac2566b102edd8d79dd3e70d547a",
   "f4e9fde09f52409a4e27a30fd0e001c13b358411f30c1d1857263e9d746b77d4",
   "6f97575b81c480edb80437a4dcbc8d848474c270d485e59612213088cb557ff2"
 ];
 
-export const addressesWithChecksum_level1 = [
+export const addresseWithChecksumDefaultSecLevel = [
   "f0bde01f8330ad872c80487b4c608592fe22ac2566b102edd8d79dd3e70d547a9038a99e",
   "f4e9fde09f52409a4e27a30fd0e001c13b358411f30c1d1857263e9d746b77d465f7ca37",
   "6f97575b81c480edb80437a4dcbc8d848474c270d485e59612213088cb557ff242a10073"
 ];
 
-// security level = 2,
+// default level = 1, index = 2
+export const newAddressDefaultSecurity =
+  "6f97575b81c480edb80437a4dcbc8d848474c270d485e59612213088cb557ff2";
+export const newAddressWithChecksumDefaultSecurity =
+  "6f97575b81c480edb80437a4dcbc8d848474c270d485e59612213088cb557ff242a10073";
+
+// security level = 2 index = 2,
 export const newAddress =
   "43ad30058f25d524ab6d86e6a7290fab67c1d70aeea10d55f1b7908f30547a13";
 export const newAddressWithChecksum =
