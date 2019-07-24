@@ -39,15 +39,15 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
   "lib"
 );
 
-test("prepareTransfers() with network prepares the correct array of hbytes.", async t => {
+test("prepareTransfers() with network prepares the correct array of txs.", async t => {
   const hbytes = await prepareTransfersWithNetwork("abcd", transfers);
   t.deepEqual(
     hbytes,
     expected,
-    "prepareTranfers() should prepare the correct array of hbytes."
+    "prepareTranfers() should prepare the correct array of txs."
   );
 });
-test("prepareTransfer() prepares correct hbytes for zero value transfers", async t => {
+test("prepareTransfer() prepares correct txs for zero value transfers", async t => {
   const zeroValueHBytes = await prepareTransfersWithNetwork(
     "abcd",
     zeroValueTransfer
@@ -55,7 +55,7 @@ test("prepareTransfer() prepares correct hbytes for zero value transfers", async
   t.deepEqual(
     zeroValueHBytes,
     expectedZeroValueHBytes,
-    "prepareTransfers() should prepare the correct hbytes for zero value transfers"
+    "prepareTransfers() should prepare the correct txs for zero value transfers"
   );
 });
 

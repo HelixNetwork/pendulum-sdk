@@ -53,7 +53,7 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
   now,
   "lib"
 );
-test("prepareTransfers() prepares the correct array of hbytes offline.", async t => {
+test("prepareTransfers() prepares the correct array of txs offline.", async t => {
   const hbytes = await prepareTransfers("abcd", transfers, {
     inputs,
     remainderAddress
@@ -61,7 +61,7 @@ test("prepareTransfers() prepares the correct array of hbytes offline.", async t
   t.deepEqual(
     hbytes,
     expected,
-    "prepareTransfers() should prepare the correct array of hbytes."
+    "prepareTransfers() should prepare the correct array of txs."
   );
 });
 
@@ -96,7 +96,7 @@ test.cb("prepareTransfers() passes correct arguments to callback", t => {
       t.deepEqual(
         res,
         expected,
-        "prepareTransfers() should pass the correct hbytes as second argument in callback"
+        "prepareTransfers() should pass the correct txs as second argument in callback"
       );
       t.end();
     }

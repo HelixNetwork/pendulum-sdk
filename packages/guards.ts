@@ -17,7 +17,7 @@ import { Address, Hash, HBytes, Tag, Transfer } from "./types";
 /* Type guards */
 
 /**
- * Checks if input is correct hbytes consisting of [9A-Z]; optionally validate length
+ * Checks if input is correct txs consisting of [9A-Z]; optionally validate length
  * @method isHBytes
  *
  * @param {string} hbytes
@@ -83,7 +83,7 @@ export const isEmptyBytes = (bytes: Uint8Array) => {
 export const isNinesHBytes = isEmpty;
 
 /**
- * Checks if input is correct hash (81 hbytes) or address with checksum (90 hbytes)
+ * Checks if input is correct hash (81 txs) or address with checksum (90 txs)
  *
  * @method isHash
  *
@@ -95,7 +95,7 @@ export const isHash = (hash: any): hash is Hash =>
   isHBytesOfExactLength(hash, HASH_HBYTE_SIZE) ||
   isHBytesOfExactLength(hash, HASH_HBYTE_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE);
 /**
- * Checks if input is correct address or address with checksum (90 hbytes)
+ * Checks if input is correct address or address with checksum (90 txs)
  *
  * @method isAddress
  *
@@ -133,7 +133,7 @@ export const isInput = (input: any): input is Address => {
 };
 
 /**
- * Checks that input is valid tag hbytes.
+ * Checks that input is valid tag txs.
  *
  * @method isTag
  *
@@ -225,10 +225,10 @@ export type Validator<T> = (x: T, err?: string) => Validatable<T>;
  *   validate([
  *     value, // Given value
  *     isHBytes, // Validator function
- *     'Invalid hbytes' // Error message
+ *     'Invalid txs' // Error message
  *   ])
  * } catch (err) {
- *   console.log(err.message) // 'Invalid hbytes'
+ *   console.log(err.message) // 'Invalid txs'
  * }
  * ```
  *
