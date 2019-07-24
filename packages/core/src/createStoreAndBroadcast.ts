@@ -16,11 +16,11 @@ export const createStoreAndBroadcast = (provider: Provider) => {
   const broadcastTransactions = createBroadcastTransactions(provider);
 
   /**
-   * Stores and broadcasts a list of _attached_ transaction hbytes by calling
+   * Stores and broadcasts a list of _attached_ transaction tx by calling
    * [`storeTransactions`]{@link #module_core.storeTransactions} and
    * [`broadcastTransactions`]{@link #module_core.broadcastTransactions}.
    *
-   * Note: Persist the transaction hbytes in local storage **before** calling this command, to ensure
+   * Note: Persist the transaction tx in local storage **before** calling this command, to ensure
    * that reattachment is possible, until your bundle has been included.
    *
    * Any transactions stored with this command will eventaully be erased, as a result of a snapshot.
@@ -29,13 +29,13 @@ export const createStoreAndBroadcast = (provider: Provider) => {
    *
    * @memberof module:core
    *
-   * @param {Array<HBytes>} hbytes - Attached transaction hbytes
+   * @param {Array<HBytes>} tx - Attached transaction tx
    * @param {Callback} [callback] - Optional callback
    *
    * @return {Promise<HBytes[]>}
-   * @fulfil {HBytes[]} Attached transaction hbytes
+   * @fulfil {HBytes[]} Attached transaction tx
    * @reject {Error}
-   * - `INVALID_ATTACHED_HBYTES`: Invalid attached hbytes
+   * - `INVALID_ATTACHED_HBYTES`: Invalid attached tx
    * - Fetch error
    */
   return (

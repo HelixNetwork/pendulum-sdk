@@ -47,15 +47,15 @@ export const createStoreTransactions = ({ send }: Provider) =>
    * - Fetch error
    */
   (
-    hbytes: ReadonlyArray<HBytes>,
+    tx: ReadonlyArray<HBytes>,
     callback?: Callback<ReadonlyArray<HBytes>>
   ): Promise<ReadonlyArray<HBytes>> =>
-    Promise.resolve(validate(arrayValidator(attachedHBytesValidator)(hbytes)))
+    Promise.resolve(validate(arrayValidator(attachedHBytesValidator)(tx)))
       .then(() =>
         send<StoreTransactionsCommand, StoreTransactionsResponse>({
           command: ProtocolCommand.STORE_TRANSACTIONS,
-          hbytes
+          tx
         })
       )
-      .then(() => hbytes)
+      .then(() => tx)
       .asCallback(callback);

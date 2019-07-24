@@ -8,28 +8,24 @@ import "./nocks/broadcastTransactions";
 import { getTransactionsToApproveCommand } from "./nocks/getTransactionsToApprove";
 import "./nocks/storeTransactions";
 
-const { minWeightMagnitude, hbytes } = attachToTangleCommand;
+const { minWeightMagnitude, tx } = attachToTangleCommand;
 const { depth } = getTransactionsToApproveCommand;
 
 const sendHBytes = createSendHBytes(createHttpClient());
 
 test("sendHBytes() attaches to tangle, broadcasts, stores and resolves to transaction objects.", async t => {
   t.deepEqual(
-    await sendHBytes(hbytes, depth, minWeightMagnitude),
+    await sendHBytes(tx, depth, minWeightMagnitude),
     bundle,
     "sendHBytes() should attach to tangle, broadcast, store and resolve to transaction objects."
   );
 });
 
-test("sendHBytes() does not mutate original hbytes.", async t => {
-  const hbytesCopy = [...hbytes];
+test("sendHBytes() does not mutate original tx.", async t => {
+  const hbytesCopy = [...tx];
 
   await sendHBytes(hbytesCopy, depth, minWeightMagnitude);
-  t.deepEqual(
-    hbytesCopy,
-    hbytes,
-    "sendHBytes() should not mutate original hbytes."
-  );
+  t.deepEqual(hbytesCopy, tx, "sendHBytes() should not mutate original tx.");
 });
 
 test("sendHBytes() rejects with correct errors for invalid input.", t => {
@@ -39,16 +35,16 @@ test("sendHBytes() rejects with correct errors for invalid input.", t => {
     t.throws(() => sendHBytes(invalidHBytes, depth, minWeightMagnitude), Error)
       .message,
     `${INVALID_TRANSACTION_HBYTES}: ${invalidHBytes[0]}`,
-    "sendHBytes() should throw correct error for invalid hbytes."
+    "sendHBytes() should throw correct error for invalid tx."
   );
 });
 
 test.cb("sendHBytes() invokes callback", t => {
-  sendHBytes(hbytes, depth, minWeightMagnitude, undefined, t.end);
+  sendHBytes(tx, depth, minWeightMagnitude, undefined, t.end);
 });
 
 test.cb("sendHBytes() passes correct arguments to callback", t => {
-  sendHBytes(hbytes, depth, minWeightMagnitude, undefined, (err, res) => {
+  sendHBytes(tx, depth, minWeightMagnitude, undefined, (err, res) => {
     t.is(
       err,
       null,

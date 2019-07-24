@@ -119,16 +119,16 @@ export interface AttachToTangleCommand extends BaseCommand {
   readonly trunkTransaction: Hash;
   readonly branchTransaction: Hash;
   readonly minWeightMagnitude: number;
-  readonly hbytes: ReadonlyArray<TransactionHBytes>;
+  readonly tx: ReadonlyArray<TransactionHBytes>;
 }
 
 export interface AttachToTangleResponse {
-  readonly hbytes: ReadonlyArray<TransactionHBytes>;
+  readonly tx: ReadonlyArray<TransactionHBytes>;
 }
 
 export interface BroadcastTransactionsCommand extends BaseCommand {
   command: ProtocolCommand.BROADCAST_TRANSACTIONS;
-  readonly hbytes: ReadonlyArray<HBytes>;
+  readonly tx: ReadonlyArray<HBytes>;
 }
 
 export type BroadcastTransactionsResponse = void;
@@ -274,7 +274,7 @@ export interface RemoveNeighborsResponse {
 
 export interface StoreTransactionsCommand extends BaseCommand {
   command: ProtocolCommand.STORE_TRANSACTIONS;
-  readonly hbytes: ReadonlyArray<HBytes>;
+  readonly tx: ReadonlyArray<HBytes>;
 }
 
 export type StoreTransactionsResponse = void;
