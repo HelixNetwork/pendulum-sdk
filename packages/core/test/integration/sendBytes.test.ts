@@ -8,24 +8,24 @@ import "./nocks/broadcastTransactions";
 import { getTransactionsToApproveCommand } from "./nocks/getTransactionsToApprove";
 import "./nocks/storeTransactions";
 
-const { minWeightMagnitude, tx } = attachToTangleCommand;
+const { minWeightMagnitude, txs } = attachToTangleCommand;
 const { depth } = getTransactionsToApproveCommand;
 
 const sendHBytes = createSendHBytes(createHttpClient());
 
 test("sendHBytes() attaches to tangle, broadcasts, stores and resolves to transaction objects.", async t => {
   t.deepEqual(
-    await sendHBytes(tx, depth, minWeightMagnitude),
+    await sendHBytes(txs, depth, minWeightMagnitude),
     bundle,
     "sendHBytes() should attach to tangle, broadcast, store and resolve to transaction objects."
   );
 });
 
-test("sendHBytes() does not mutate original tx.", async t => {
-  const hbytesCopy = [...tx];
+test("sendHBytes() does not mutate original txs.", async t => {
+  const hbytesCopy = [...txs];
 
   await sendHBytes(hbytesCopy, depth, minWeightMagnitude);
-  t.deepEqual(hbytesCopy, tx, "sendHBytes() should not mutate original tx.");
+  t.deepEqual(hbytesCopy, txs, "sendHBytes() should not mutate original txs.");
 });
 
 test("sendHBytes() rejects with correct errors for invalid input.", t => {
@@ -35,16 +35,16 @@ test("sendHBytes() rejects with correct errors for invalid input.", t => {
     t.throws(() => sendHBytes(invalidHBytes, depth, minWeightMagnitude), Error)
       .message,
     `${INVALID_TRANSACTION_HBYTES}: ${invalidHBytes[0]}`,
-    "sendHBytes() should throw correct error for invalid tx."
+    "sendHBytes() should throw correct error for invalid txs."
   );
 });
 
 test.cb("sendHBytes() invokes callback", t => {
-  sendHBytes(tx, depth, minWeightMagnitude, undefined, t.end);
+  sendHBytes(txs, depth, minWeightMagnitude, undefined, t.end);
 });
 
 test.cb("sendHBytes() passes correct arguments to callback", t => {
-  sendHBytes(tx, depth, minWeightMagnitude, undefined, (err, res) => {
+  sendHBytes(txs, depth, minWeightMagnitude, undefined, (err, res) => {
     t.is(
       err,
       null,

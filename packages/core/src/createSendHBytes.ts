@@ -41,12 +41,12 @@ export const createSendHBytes = (
 
   /**
    * [Attaches to tanlge]{@link #module_core.attachToTangle}, [stores]{@link #module_core.storeTransactions}
-   * and [broadcasts]{@link #module_core.broadcastTransactions} a list of transaction tx.
+   * and [broadcasts]{@link #module_core.broadcastTransactions} a list of transaction txs.
    *
    * @example
    * ```js
    * prepareTransfers(seed, transfers)
-   *   .then(tx => sendHBytes(tx, depth, minWeightMagnitude))
+   *   .then(txs => sendHBytes(txs, depth, minWeightMagnitude))
    *   .then(transactions => {
    *     // ...
    *   })
@@ -59,7 +59,7 @@ export const createSendHBytes = (
    *
    * @memberof module:core
    *
-   * @param {HBytes[]} tx - List of tx to attach, store & broadcast
+   * @param {HBytes[]} txs - List of txs to attach, store & broadcast
    * @param {number} depth - Depth
    * @param {number} minWeightMagnitude - Min weight magnitude
    * @param {string} [reference] - Optional reference hash

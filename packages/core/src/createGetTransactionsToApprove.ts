@@ -25,7 +25,7 @@ export const createGetTransactionsToApprove = ({ send }: Provider) =>
   /**
    * Does the _tip selection_ by calling
    * [`getTransactionsToApprove`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionsToApprove) command.
-   * Returns a pair of approved transactions, which are chosen randomly after validating the transaction tx,
+   * Returns a pair of approved transactions, which are chosen randomly after validating the transaction txs,
    * the signatures and cross-checking for conflicting transactions.
    *
    * Tip selection is executed by a Random Walk (RW) starting at random point in given `depth`
@@ -44,7 +44,7 @@ export const createGetTransactionsToApprove = ({ send }: Provider) =>
    *
    * getTransactionsToApprove(depth)
    *   .then(transactionsToApprove =>
-   *      attachToTanle(minWightMagnitude, tx, { transactionsToApprove })
+   *      attachToTanle(minWightMagnitude, txs, { transactionsToApprove })
    *   )
    *   .then(storeAndBroadcast)
    *   .catch(err => {

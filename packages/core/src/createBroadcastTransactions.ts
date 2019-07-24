@@ -59,17 +59,17 @@ export const createBroadcastTransactions = ({ send }: Provider) =>
    * - Fetch error
    */
   (
-    tx: ReadonlyArray<HBytes>,
+    txs: ReadonlyArray<HBytes>,
     callback?: Callback<ReadonlyArray<HBytes>>
   ): Promise<ReadonlyArray<HBytes>> =>
     Promise.resolve(
-      validate(arrayValidator<HBytes>(attachedHBytesValidator)(tx))
+      validate(arrayValidator<HBytes>(attachedHBytesValidator)(txs))
     )
       .then(() =>
         send<BroadcastTransactionsCommand, BroadcastTransactionsResponse>({
           command: ProtocolCommand.BROADCAST_TRANSACTIONS,
-          tx
+          txs
         })
       )
-      .then(() => tx)
+      .then(() => txs)
       .asCallback(callback);

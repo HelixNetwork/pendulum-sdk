@@ -8,7 +8,7 @@ import headers from "./headers";
 
 export const broadcastTransactionsCommand: BroadcastTransactionsCommand = {
   command: ProtocolCommand.BROADCAST_TRANSACTIONS,
-  tx: bundleHBytes
+  txs: bundleHBytes
 };
 
 export const broadcastTransactionsNock = nock("http://localhost:14265", headers)

@@ -9,53 +9,53 @@ import { storeTransactionsCommand } from "./nocks/storeTransactions";
 const storeAndBroadcast = createStoreAndBroadcast(createHttpClient());
 
 test("storeAndBroadcast() stores and broadcasts transactions.", async t => {
-  const { tx } = storeTransactionsCommand;
+  const { txs } = storeTransactionsCommand;
   t.deepEqual(
-    await storeAndBroadcast([...tx]),
-    tx,
+    await storeAndBroadcast([...txs]),
+    txs,
     "storeAndBroadcast() should store and bradcast transactions."
   );
 });
 
-test("storeAndBroadcast() does not mutate original tx.", async t => {
-  const { tx } = storeTransactionsCommand;
+test("storeAndBroadcast() does not mutate original txs.", async t => {
+  const { txs } = storeTransactionsCommand;
 
-  await storeAndBroadcast(tx);
+  await storeAndBroadcast(txs);
   t.deepEqual(
-    tx,
-    storeTransactionsCommand.tx,
-    "storeAndBroadcast() should not mutate original tx."
+    txs,
+    storeTransactionsCommand.txs,
+    "storeAndBroadcast() should not mutate original txs."
   );
 });
 
-test("storeAndBroadcast() rejects with correct error for invalid attached tx.", t => {
+test("storeAndBroadcast() rejects with correct error for invalid attached txs.", t => {
   const invalidHBytes = ["asdasDSFDAFD"];
 
   t.is(
     t.throws(() => storeAndBroadcast(invalidHBytes), Error).message,
     `${INVALID_ATTACHED_HBYTES}: ${invalidHBytes[0]}`,
-    "storeAndBroadcast() should throw error for invalid attached tx."
+    "storeAndBroadcast() should throw error for invalid attached txs."
   );
 });
 
-test("storeAndBroadcast() rejects with correct errors for attached tx of invalid length.", t => {
+test("storeAndBroadcast() rejects with correct errors for attached txs of invalid length.", t => {
   const invalidHBytes = ["asdasDSFDAFD"];
 
   t.is(
     t.throws(() => storeAndBroadcast(attachedHBytesOfInvalidLength), Error)
       .message,
     `${INVALID_ATTACHED_HBYTES}: ${attachedHBytesOfInvalidLength[0]}`,
-    "storeAndBroadcast() should throw error for attached tx of invalid length."
+    "storeAndBroadcast() should throw error for attached txs of invalid length."
   );
 });
 
 test.cb("storeAndBroadcast() invokes callback", t => {
-  storeAndBroadcast([...storeTransactionsCommand.tx], t.end);
+  storeAndBroadcast([...storeTransactionsCommand.txs], t.end);
 });
 
 test.cb("storeAndBroadcast() passes correct arguments to callback", t => {
-  const { tx } = storeTransactionsCommand;
-  storeAndBroadcast([...tx], (err, res) => {
+  const { txs } = storeTransactionsCommand;
+  storeAndBroadcast([...txs], (err, res) => {
     t.is(
       err,
       null,
@@ -64,7 +64,7 @@ test.cb("storeAndBroadcast() passes correct arguments to callback", t => {
 
     t.deepEqual(
       res,
-      tx,
+      txs,
       "storeAndBroadcast() should pass the correct response as second argument in callback"
     );
 

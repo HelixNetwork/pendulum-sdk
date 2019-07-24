@@ -32,7 +32,7 @@ export const createAttachToTangle = ({ send }: Provider): AttachToTangle => {
   /**
    * Performs the Proof-of-Work required to attach a transaction to the Tangle by
    * calling [`attachToTangle`](https://docs.helix.works/hlx/api#endpoints/attachToTangle) command.
-   * Returns list of transaction tx and overwrites the following fields:
+   * Returns list of transaction txs and overwrites the following fields:
    *  - `hash`
    *  - `nonce`
    *  - `attachmentTimestamp`
@@ -51,7 +51,7 @@ export const createAttachToTangle = ({ send }: Provider): AttachToTangle => {
    * ```js
    * getTransactionsToApprove(depth)
    *   .then(({ trunkTransaction, branchTransaction }) =>
-   *     attachToTangle(trunkTransaction, branchTransaction, minWightMagnitude, tx)
+   *     attachToTangle(trunkTransaction, branchTransaction, minWightMagnitude, txs)
    *   )
    *   .then(attachedHBytes => {
    *     // ...
@@ -70,16 +70,16 @@ export const createAttachToTangle = ({ send }: Provider): AttachToTangle => {
    * @param {Hash} branchTransaction - Branch transaction as returned by
    * [`getTransactionsToApprove`]{@link #module_core.getTransactionsToApprove}
    * @param {number} minWeightMagnitude - Number of minimun trailing zeros in tail transaction hash
-   * @param {TransactionHBytes[]} tx - List of transaction tx
+   * @param {TransactionHBytes[]} txs - List of transaction txs
    * @param {Callback} [callback] - Optional callback
    *
    * @return {Promise}
-   * @fulfil {TransactionHBytes[]} Array of transaction tx with nonce and attachment timestamps
+   * @fulfil {TransactionHBytes[]} Array of transaction txs with nonce and attachment timestamps
    * @reject {Error}
    * - `INVALID_TRUNK_TRANSACTION`: Invalid `trunkTransaction`
    * - `INVALID_BRANCH_TRANSACTION`: Invalid `branchTransaction`
    * - `INVALID_MIN_WEIGHT_MAGNITUDE`: Invalid `minWeightMagnitude` argument
-   * - `INVALID_TRANSACTION_HBYTES`: Invalid transaction tx
+   * - `INVALID_TRANSACTION_HBYTES`: Invalid transaction txs
    * - `INVALID_TRANSACTIONS_TO_APPROVE`: Invalid transactions to approve
    * - Fetch error
    */
@@ -87,13 +87,13 @@ export const createAttachToTangle = ({ send }: Provider): AttachToTangle => {
     trunkTransaction: Hash,
     branchTransaction: Hash,
     minWeightMagnitude: number,
-    tx: ReadonlyArray<TransactionHBytes>,
+    txs: ReadonlyArray<TransactionHBytes>,
     callback?: Callback<ReadonlyArray<TransactionHBytes>>
   ): Promise<ReadonlyArray<TransactionHBytes>> {
     return Promise.resolve(
       validate(
         integerValidator(minWeightMagnitude),
-        arrayValidator<TransactionHBytes>(transactionHBytesValidator)(tx),
+        arrayValidator<TransactionHBytes>(transactionHBytesValidator)(txs),
         transactionHashValidator(trunkTransaction, INVALID_TRUNK_TRANSACTION),
         transactionHashValidator(branchTransaction, INVALID_BRANCH_TRANSACTION)
       )
@@ -104,10 +104,10 @@ export const createAttachToTangle = ({ send }: Provider): AttachToTangle => {
           trunkTransaction,
           branchTransaction,
           minWeightMagnitude,
-          tx
+          txs
         })
       )
-      .then(({ tx }) => tx)
+      .then(({ txs }) => txs)
       .asCallback(typeof arguments[2] === "function" ? arguments[2] : callback);
   };
 };

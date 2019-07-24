@@ -19,27 +19,27 @@ test("attachToTangle() resolves to correct balances response", async t => {
       attachToTangleCommand.trunkTransaction,
       attachToTangleCommand.branchTransaction,
       attachToTangleCommand.minWeightMagnitude,
-      [...attachToTangleCommand.tx]
+      [...attachToTangleCommand.txs]
     ),
-    attachToTangleResponse.tx,
+    attachToTangleResponse.txs,
     "attachToTangle() should resolve to correct balances"
   );
 });
 
-test("attachToTangle() does not mutate original tx", async t => {
-  const tx = [...attachToTangleCommand.tx];
+test("attachToTangle() does not mutate original txs", async t => {
+  const txs = [...attachToTangleCommand.txs];
 
   await attachToTangle(
     attachToTangleCommand.trunkTransaction,
     attachToTangleCommand.branchTransaction,
     attachToTangleCommand.minWeightMagnitude,
-    tx
+    txs
   );
 
   t.deepEqual(
-    tx,
-    attachToTangleCommand.tx,
-    "attachToTangle() should not mutate original tx"
+    txs,
+    attachToTangleCommand.txs,
+    "attachToTangle() should not mutate original txs"
   );
 });
 
@@ -53,7 +53,7 @@ test("attachToTangle() rejects with correct errors for invalid input", t => {
           invalidHBytes[0],
           attachToTangleCommand.branchTransaction,
           attachToTangleCommand.minWeightMagnitude,
-          attachToTangleCommand.tx
+          attachToTangleCommand.txs
         ),
       Error
     ).message,
@@ -68,7 +68,7 @@ test("attachToTangle() rejects with correct errors for invalid input", t => {
           attachToTangleCommand.trunkTransaction,
           invalidHBytes[0],
           attachToTangleCommand.minWeightMagnitude,
-          attachToTangleCommand.tx
+          attachToTangleCommand.txs
         ),
       Error
     ).message,
@@ -88,7 +88,7 @@ test("attachToTangle() rejects with correct errors for invalid input", t => {
       Error
     ).message,
     `${INVALID_TRANSACTION_HBYTES}: ${invalidHBytes[0]}`,
-    "attachToTangle() should throw error for invalid tx"
+    "attachToTangle() should throw error for invalid txs"
   );
 });
 
@@ -97,7 +97,7 @@ test.cb("attachToTangle() invokes callback", t => {
     attachToTangleCommand.trunkTransaction,
     attachToTangleCommand.branchTransaction,
     attachToTangleCommand.minWeightMagnitude,
-    attachToTangleCommand.tx,
+    attachToTangleCommand.txs,
     t.end
   );
 });
@@ -107,7 +107,7 @@ test.cb("attachToTangle() passes correct arguments to callback", t => {
     attachToTangleCommand.trunkTransaction,
     attachToTangleCommand.branchTransaction,
     attachToTangleCommand.minWeightMagnitude,
-    attachToTangleCommand.tx,
+    attachToTangleCommand.txs,
     (err, res) => {
       t.is(
         err,
@@ -117,7 +117,7 @@ test.cb("attachToTangle() passes correct arguments to callback", t => {
 
       t.deepEqual(
         res,
-        attachToTangleResponse.tx,
+        attachToTangleResponse.txs,
         "attachToTangle() should pass the correct response as second argument in callback"
       );
 
