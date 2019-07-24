@@ -2,7 +2,7 @@
   "name": "helix.api",
   "version": "1.0.0-alpha.2",
   "description":
-    "Helix API Library forked from IOTA Client Reference Implementation",
+    "Helix API Library forked from IOTA Client (iota.js)",
   "scripts": {
     "init": "npm i && lerna bootstrap",
     "test": "lerna run test --stream",
@@ -17,8 +17,10 @@
     "Edward Greve <edward@iota.org> (https://github.com/anyong)",
     "Chris Dukakis <chris.dukakis@iota.org> (https://github.com/chrisdukakis)",
     "Sachu Shaji Abraham <sachushajiabraham@gmail.com> (https://github.com/sachushaji)",
-    "Oliver Fohrmann <of@hlx.ai> (https://github.com/ofo42)",
-    "Frauke Sophie Abben <fsa@hlx.ai> (https://github.com/fsbbn)"
+    "Oliver Fohrmann <of@hlx.ai> (https://github.com/oliverfn)",
+    "Frauke Sophie Abben <fsa@hlx.ai> (https://github.com/fsbbn)",
+    "Cristina Vasiu <cv@hlx.ai> (https://github.com/cristina_vasiu)",
+    "Adrian Tocu <adt@hlx.ai> (https://github.com/adrian_tocu)"
   ],
   "ava": {
     "files": [
