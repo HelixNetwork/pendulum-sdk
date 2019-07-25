@@ -4,8 +4,8 @@ export type Maybe<T> = T | void;
 export type Hash = string;
 export type Tag = string;
 export type HBytes = string;
-export type TransactionHBytes = string;
-export type AttachedTransactionHBytes = string;
+export type TransactionTxHex = string;
+export type AttachedTransactionTxHex = string;
 
 export interface Balance {
   readonly balance: number;
@@ -119,11 +119,11 @@ export interface AttachToTangleCommand extends BaseCommand {
   readonly trunkTransaction: Hash;
   readonly branchTransaction: Hash;
   readonly minWeightMagnitude: number;
-  readonly txs: ReadonlyArray<TransactionHBytes>;
+  readonly txs: ReadonlyArray<TransactionTxHex>;
 }
 
 export interface AttachToTangleResponse {
-  readonly txs: ReadonlyArray<TransactionHBytes>;
+  readonly txs: ReadonlyArray<TransactionTxHex>;
 }
 
 export interface BroadcastTransactionsCommand extends BaseCommand {
@@ -253,7 +253,7 @@ export interface GetTransactionStringsCommand extends BaseCommand {
 }
 
 export interface GetTransactionStringsResponse {
-  readonly hbytes: ReadonlyArray<HBytes>;
+  readonly txs: ReadonlyArray<HBytes>;
 }
 
 export interface InterruptAttachingToTangleCommand extends BaseCommand {
@@ -299,7 +299,7 @@ export type AttachToTangle = (
   trunkTransaction: Hash,
   branchTransaction: Hash,
   minWeightMagnitude: number,
-  hbytes: ReadonlyArray<HBytes>,
+  txs: ReadonlyArray<HBytes>,
   callback?: Callback<ReadonlyArray<HBytes>>
 ) => Promise<ReadonlyArray<HBytes>>;
 

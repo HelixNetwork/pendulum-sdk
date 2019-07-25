@@ -14,13 +14,13 @@ test("txHexToAscii()", t => {
   t.is(
     txHexToAscii(hbytes),
     expected,
-    "fromHBytes() should convert hbytes to ascii."
+    "fromHBytes() should convert transactionStrings to ascii."
   );
 
   const invalidHBytesError = t.throws(
     () => txHexToAscii(nonHBytes),
     Error,
-    "fromHBytes() should throw error for non-hbytes."
+    "fromHBytes() should throw error for non-transactionStrings."
   );
 
   t.is(invalidHBytesError.message, INVALID_HBYTES, "incorrect error message");
@@ -28,7 +28,7 @@ test("txHexToAscii()", t => {
   const oddLengthError = t.throws(
     () => txHexToAscii(hbytesOfOddLength),
     Error,
-    "fromHBytes() should throw error for hbytes of odd length."
+    "fromHBytes() should throw error for transactionStrings of odd length."
   );
 
   t.is(oddLengthError.message, INVALID_ODD_LENGTH, "incorrect error message");

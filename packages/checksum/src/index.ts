@@ -29,13 +29,13 @@ const ADDRESS_WITH_CHECKSUM_HBYTES_LENGTH =
 const MIN_CHECKSUM_HBYTES_LENGTH = ADDRESS_MIN_CHECKSUM_BYTE_SIZE;
 
 /**
- * Generates and appends the 8-hbytes checksum of the given hbytes, usually an address.
+ * Generates and appends the 8-transactionStrings checksum of the given transactionStrings, usually an address.
  *
  * @method addChecksum
  *
- * @param {string | string[]} input - Input hbytes
+ * @param {string | string[]} input - Input transactionStrings
  *
- * @param {number} [checksumLength=9] - Checksum hbytes length
+ * @param {number} [checksumLength=9] - Checksum transactionStrings length
  *
  * @param {boolean} [isAddress=true] - Flag to denote if given input is address. Defaults to `true`.
  *
@@ -106,11 +106,11 @@ export function addChecksum(
 }
 
 /**
- * Removes the 8-hbytes checksum of the given input.
+ * Removes the 8-transactionStrings checksum of the given input.
  *
  * @method removeChecksum
  *
- * @param {string | string[]} input - Input hbytes
+ * @param {string | string[]} input - Input transactionStrings
  *
  * @return {string | string[]} HBytes without checksum
  */
@@ -141,7 +141,7 @@ export function removeChecksum(input: HBytes | ReadonlyArray<HBytes>) {
 }
 
 /**
- * Validates the checksum of the given address hbytes.
+ * Validates the checksum of the given address transactionStrings.
  *
  * @method isValidChecksum
  *

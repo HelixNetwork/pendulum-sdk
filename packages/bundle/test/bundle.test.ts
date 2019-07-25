@@ -116,7 +116,7 @@ test("addEntry() adds new entry and returns correct transactions.", t => {
   );
 });
 
-test("addHBytes() adds hbytes and returns correct transactions.", t => {
+test("addHBytes() adds transactionStrings and returns correct transactions.", t => {
   t.deepEqual(
     addHBytes(bundle, ["abcdef", "abcdef", "abcdef"]),
     bundle.map(transaction => ({
@@ -124,7 +124,7 @@ test("addHBytes() adds hbytes and returns correct transactions.", t => {
       signatureMessageFragment:
         "abcdef" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 6)
     })),
-    "addEntry should add hbytes and return correct transactions."
+    "addEntry should add transactionStrings and return correct transactions."
   );
 });
 

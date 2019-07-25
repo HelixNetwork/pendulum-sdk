@@ -74,7 +74,7 @@ export const getPrepareTransfersOptions = (
 
 export interface PrepareTransfersProps {
   readonly transactions: ReadonlyArray<Transaction>;
-  readonly hbytes: ReadonlyArray<HBytes>;
+  readonly txs: ReadonlyArray<HBytes>;
   readonly transfers: ReadonlyArray<Transfer>;
   readonly seed: HBytes;
   readonly security: number;
@@ -108,7 +108,7 @@ export const createPrepareTransfers = (
   const addRemainder = createAddRemainder(provider);
 
   /**
-   * Prepares the transaction hbytes by generating a bundle, filling in transfers and inputs,
+   * Prepares the transaction transactionStrings by generating a bundle, filling in transfers and inputs,
    * adding remainder and signing. It can be used to generate and sign bundles either online or offline.
    * For offline usage, please see [`createPrepareTransfers`]{@link #module_core.createPrepareTransfers}
    * which creates a `prepareTransfers` without a network provider.
@@ -123,7 +123,7 @@ export const createPrepareTransfers = (
    *
    * @param {object} [options]
    * @param {Input[]} [options.inputs] Inputs used for signing. Needs to have correct security, keyIndex and address value
-   * @param {Hash} [options.inputs[].address] Input address hbytes
+   * @param {Hash} [options.inputs[].address] Input address transactionStrings
    * @param {number} [options.inputs[].keyIndex] Key index at which address was generated
    * @param {number} [options.inputs[].security = 2] Security level
    * @param {number} [options.inputs[].balance] Balance in iotas
@@ -134,7 +134,7 @@ export const createPrepareTransfers = (
    * @param {function} [callback] Optional callback
    *
    * @return {Promise}
-   * @fulfil {array} hbytes Returns bundle hbytes
+   * @fulfil {array} transactionStrings Returns bundle transactionStrings
    * @reject {Error}
    * - `INVALID_SEED`
    * - `INVALID_TRANSFER_ARRAY`
@@ -162,7 +162,7 @@ export const createPrepareTransfers = (
       if (isHBytes(seed) && seed.length < SEED_BYTE_SIZE) {
         /* tslint:disable-next-line:no-console */
         console.warn(
-          "WARNING: Seeds with less length than 81 hbytes are not secure! Use a random, 81-hbytes long seed!"
+          "WARNING: Seeds with less length than 81 transactionStrings are not secure! Use a random, 81-transactionStrings long seed!"
         );
       }
     }
@@ -170,7 +170,7 @@ export const createPrepareTransfers = (
     const props = Promise.resolve(
       validatePrepareTransfers({
         transactions: [],
-        hbytes: [],
+        txs: [],
         seed,
         transfers,
         timestamp: Math.floor(
@@ -191,7 +191,7 @@ export const createPrepareTransfers = (
       addHMAC,
       asTransactionHBytes
     )(props)
-      .then(({ hbytes }: PrepareTransfersProps) => hbytes)
+      .then(({ txs }: PrepareTransfersProps) => txs)
       .asCallback(callback);
   };
 };
@@ -452,5 +452,5 @@ export const asTransactionHBytes = (
   props: PrepareTransfersProps
 ): PrepareTransfersProps => ({
   ...props,
-  hbytes: asFinalTransactionHBytes(props.transactions)
+  txs: asFinalTransactionHBytes(props.transactions)
 });

@@ -10,16 +10,16 @@ import { addChecksum, errors, isValidChecksum, removeChecksum } from "../src";
 
 const invalidAddress =
   "62633132333334343532333432333432333261616161616363616333453454334543";
-test("addChecksum() adds 8-hbytes checksum", t => {
+test("addChecksum() adds 8-transactionStrings checksum", t => {
   t.is(
     addChecksum(addresses[0]),
     addressesWithChecksum[0],
-    "addChecksum() should add 8-hbytes checksum to the end of address."
+    "addChecksum() should add 8-transactionStrings checksum to the end of address."
   );
   t.deepEqual(
     addChecksum(addresses.slice(0, 1)),
     addressesWithChecksum.slice(0, 1),
-    "addChecksum() should add 8-hbytes checksum to the end of each address in a given array."
+    "addChecksum() should add 8-transactionStrings checksum to the end of each address in a given array."
   );
 });
 

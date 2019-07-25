@@ -19,9 +19,9 @@ import { Hash } from "../../types";
  * @param {string} seed
  * @param {number} index - Private key index
  * @param {number} [security=1] - Security level of the private key
- * @param {boolean} [checksum=false] - Flag to add 0hbytes checksum
+ * @param {boolean} [checksum=false] - Flag to add 8 txBytes checksum
  *
- * @returns {Hash} Address hbytes
+ * @returns {Hash} Address transactionStrings
  */
 export const generateAddress = (
   seed: string,

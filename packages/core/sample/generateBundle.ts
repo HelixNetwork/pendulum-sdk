@@ -79,7 +79,7 @@ async function generateBundle() {
 
   await createAndPrintBundle(
     "export const bytesTransaction = ",
-    "export const hbytes = ",
+    "export const transactionStrings = ",
     seed,
     [
       {
@@ -168,11 +168,11 @@ async function createAndPrintBundle(
 async function attachIntoTangle(
   msgBundle: string,
   msgHbytes: string,
-  hbytes: ReadonlyArray<string>
+  txs: ReadonlyArray<string>
 ) {
   try {
     const resultBundle = await helix.sendTransactionStrings(
-      hbytes,
+      txs,
       5 /*depth*/,
       2 /*minimum weight magnitude*/
     );

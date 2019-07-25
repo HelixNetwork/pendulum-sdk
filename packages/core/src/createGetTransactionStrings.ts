@@ -22,14 +22,14 @@ import {
  */
 export const createGetTransactionStrings = ({ send }: Provider) =>
   /**
-   * Fetches the transaction hbytes given a list of transaction hashes, by calling
+   * Fetches the transaction transactionStrings given a list of transaction hashes, by calling
    * [`getTransactionStrings`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionStrings) command.
    *
    * @example
    * ```js
    * getTransactionStrings(hashes)
    *   // Parsing as transaction objects
-   *   .then(hbytes => asTransactionObjects(hashes)(hbytes))
+   *   .then(transactionStrings => asTransactionObjects(hashes)(transactionStrings))
    *   .then(transactions => {
    *     // ...
    *   })
@@ -46,7 +46,7 @@ export const createGetTransactionStrings = ({ send }: Provider) =>
    * @param {Callback} [callback] - Optional callback
    *
    * @return {Promise}
-   * @fulfil {HBytes[]} - Transaction hbytes
+   * @fulfil {HBytes[]} - Transaction transactionStrings
    * @reject Error{}
    * - `INVALID_TRANSACTION_HASH`: Invalid hash
    * - Fetch error
@@ -64,6 +64,6 @@ export const createGetTransactionStrings = ({ send }: Provider) =>
           hashes
         })
       )
-      .then(({ hbytes }) => hbytes)
+      .then(({ txs }) => txs)
       .asCallback(callback);
   };

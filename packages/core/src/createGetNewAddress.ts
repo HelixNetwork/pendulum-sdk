@@ -162,11 +162,11 @@ export const createGetNewAddress = (provider: Provider, caller?: string) => {
    *
    * @memberof module:core
    *
-   * @param {string} seed - At least 81 hbytes long seed
+   * @param {string} seed - At least 81 transactionStrings long seed
    * @param {object} [options]
    * @param {number} [options.index=0] - Key index to start search at
    * @param {number} [options.security=1] - Security level
-   * @param {boolean} [options.checksum=false] - `Deprecated` Flag to include 9-hbytes checksum or not
+   * @param {boolean} [options.checksum=false] - `Deprecated` Flag to include 9-transactionStrings checksum or not
    * @param {number} [options.total] - `Deprecated` Number of addresses to generate.
    * @param {boolean} [options.returnAll=false] - `Deprecated` Flag to return all addresses, from start up to new address.
    * @param {Callback} [callback] - Optional callback

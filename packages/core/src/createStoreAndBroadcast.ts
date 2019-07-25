@@ -39,10 +39,10 @@ export const createStoreAndBroadcast = (provider: Provider) => {
    * - Fetch error
    */
   return (
-    hbytes: ReadonlyArray<HBytes>,
+    txs: ReadonlyArray<HBytes>,
     callback?: Callback<ReadonlyArray<HBytes>>
   ): Promise<ReadonlyArray<HBytes>> =>
-    storeTransactions(hbytes)
+    storeTransactions(txs)
       .then(broadcastTransactions)
       .asCallback(callback);
 };

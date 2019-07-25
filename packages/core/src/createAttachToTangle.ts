@@ -16,7 +16,7 @@ import {
   Hash,
   ProtocolCommand,
   Provider,
-  TransactionHBytes
+  TransactionTxHex
 } from "../../types";
 
 /**
@@ -70,11 +70,11 @@ export const createAttachToTangle = ({ send }: Provider): AttachToTangle => {
    * @param {Hash} branchTransaction - Branch transaction as returned by
    * [`getTransactionsToApprove`]{@link #module_core.getTransactionsToApprove}
    * @param {number} minWeightMagnitude - Number of minimun trailing zeros in tail transaction hash
-   * @param {TransactionHBytes[]} txs - List of transaction txs
+   * @param {TransactionTxHex[]} txs - List of transaction txs
    * @param {Callback} [callback] - Optional callback
    *
    * @return {Promise}
-   * @fulfil {TransactionHBytes[]} Array of transaction txs with nonce and attachment timestamps
+   * @fulfil {TransactionTxHex[]} Array of transaction txs with nonce and attachment timestamps
    * @reject {Error}
    * - `INVALID_TRUNK_TRANSACTION`: Invalid `trunkTransaction`
    * - `INVALID_BRANCH_TRANSACTION`: Invalid `branchTransaction`
@@ -87,13 +87,13 @@ export const createAttachToTangle = ({ send }: Provider): AttachToTangle => {
     trunkTransaction: Hash,
     branchTransaction: Hash,
     minWeightMagnitude: number,
-    txs: ReadonlyArray<TransactionHBytes>,
-    callback?: Callback<ReadonlyArray<TransactionHBytes>>
-  ): Promise<ReadonlyArray<TransactionHBytes>> {
+    txs: ReadonlyArray<TransactionTxHex>,
+    callback?: Callback<ReadonlyArray<TransactionTxHex>>
+  ): Promise<ReadonlyArray<TransactionTxHex>> {
     return Promise.resolve(
       validate(
         integerValidator(minWeightMagnitude),
-        arrayValidator<TransactionHBytes>(transactionHBytesValidator)(txs),
+        arrayValidator<TransactionTxHex>(transactionHBytesValidator)(txs),
         transactionHashValidator(trunkTransaction, INVALID_TRUNK_TRANSACTION),
         transactionHashValidator(branchTransaction, INVALID_BRANCH_TRANSACTION)
       )

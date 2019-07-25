@@ -1,6 +1,6 @@
 import { addChecksum } from "@helixnetwork/checksum";
 import { createHttpClient } from "@helixnetwork/http-client";
-import { hbytesLevel1 as expected } from "@helixnetwork/samples";
+import { transactionStringsDefaultSecurity as expected } from "@helixnetwork/samples";
 import test from "ava";
 import { HBytes, Transfer } from "../../../types";
 import { createPrepareTransfers } from "../../src";
@@ -40,9 +40,9 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
 );
 
 test("prepareTransfers() with network prepares the correct array of txs.", async t => {
-  const hbytes = await prepareTransfersWithNetwork("abcd", transfers);
+  const txs = await prepareTransfersWithNetwork("abcd", transfers);
   t.deepEqual(
-    hbytes,
+    txs,
     expected,
     "prepareTranfers() should prepare the correct array of txs."
   );

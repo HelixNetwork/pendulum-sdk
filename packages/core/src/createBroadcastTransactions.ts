@@ -49,7 +49,7 @@ export const createBroadcastTransactions = ({ send }: Provider) =>
    *
    * @memberof module:core
    *
-   * @param {TransactionHBytes[]} hbytes - Attached Transaction hbytes
+   * @param {TransactionTxHex[]} hbytes - Attached Transaction hbytes
    * @param {Callback} [callback] - Optional callback
    *
    * @return {Promise}

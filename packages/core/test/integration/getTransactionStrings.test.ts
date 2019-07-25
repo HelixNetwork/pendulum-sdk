@@ -12,7 +12,7 @@ const getTransactionStrings = createGetTransactionStrings(createHttpClient());
 test("getTransactionStrings() resolves to correct response", async t => {
   t.deepEqual(
     await getTransactionStrings(getTransactionStringsCommand.hashes),
-    getTransactionStringsResponse.hbytes,
+    getTransactionStringsResponse.txs,
     "getTransactionStrings() should resolve to correct tryte array"
   );
 });
@@ -41,7 +41,7 @@ test.cb("getTransactionStrings() passes correct arguments to callback", t => {
 
     t.deepEqual(
       res,
-      getTransactionStringsResponse.hbytes,
+      getTransactionStringsResponse.txs,
       "getTransactionStrings() should pass the correct response as second argument in callback"
     );
 

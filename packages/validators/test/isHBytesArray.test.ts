@@ -1,5 +1,5 @@
 import test from "ava";
-import { hbytes } from "@helixnetwork/samples";
+import { transactionStrings } from "@helixnetwork/samples";
 import { isHBytesArray } from "../src";
 
 test("isHBytesArray()", t => {
@@ -9,7 +9,7 @@ test("isHBytesArray()", t => {
   ];
 
   t.deepEqual(
-    isHBytesArray(hbytes),
+    isHBytesArray(transactionStrings),
     true,
     "isHBytesArray() returns true for valid bytes"
   );

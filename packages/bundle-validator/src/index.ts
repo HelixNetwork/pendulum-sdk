@@ -100,7 +100,7 @@ export default function isBundle(bundle: Bundle) {
       return false;
     }
 
-    // Get the transaction hbytes
+    // Get the transaction transactionStrings
     const thisTxHBytes = asTransactionHBytes(bundleTx);
     const thisTxBytes = toTxBytes(
       padHBytes(BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING)(

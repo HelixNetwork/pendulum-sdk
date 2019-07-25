@@ -77,7 +77,7 @@ export const createBundle = (
  * @param {number} [entry.length=1] - Entry length, which indicates how many transactions in the bundle will occupy
  * @param {string} [entry.address] - Address, defaults to all-9s
  * @param {number} [entry.value = 0] - Value to transfer in _HLX_
- * @param {string[]} [entry.signatureMessageFragments] - Array of signature message fragments hbytes, defaults to all-0s
+ * @param {string[]} [entry.signatureMessageFragments] - Array of signature message fragments transactionStrings, defaults to all-0s
  * @param {number} [entry.timestamp] - Transaction timestamp, defaults to `Math.floor(Date.now() / 1000)`
  * @param {string} [entry.tag] - Optional Tag, defaults to null tag (all-0s)
  *
@@ -126,7 +126,7 @@ export const addEntry = (
 };
 
 /**
- * Adds a list of hbytes in the bundle starting at offset
+ * Adds a list of transactionStrings in the bundle starting at offset
  *
  * @method addHBytes
  *

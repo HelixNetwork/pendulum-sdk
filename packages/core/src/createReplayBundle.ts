@@ -90,7 +90,7 @@ export const createReplayBundle = (
     )
       .then(() => getBundle(tail))
       .then(bundle => asFinalTransactionHBytes(bundle))
-      .then(hbytes => sendHBytes(hbytes, depth, minWeightMagnitude, reference))
+      .then(txs => sendHBytes(txs, depth, minWeightMagnitude, reference))
       .asCallback(typeof arguments[3] === "function" ? arguments[3] : callback);
   };
 };

@@ -74,7 +74,7 @@ export const createSendTransactionStrings = (
    * - Fetch error, if connected to network
    */
   return function sendHBytes(
-    hbytes: ReadonlyArray<HBytes>,
+    txs: ReadonlyArray<HBytes>,
     depth: number,
     minWeightMagnitude: number,
     reference?: Hash,
@@ -87,7 +87,7 @@ export const createSendTransactionStrings = (
 
     return Promise.resolve(
       validate(
-        arrayValidator(transactionHBytesValidator)(hbytes),
+        arrayValidator(transactionHBytesValidator)(txs),
         depthValidator(depth),
         minWeightMagnitudeValidator(minWeightMagnitude)
       )
@@ -98,7 +98,7 @@ export const createSendTransactionStrings = (
           trunkTransaction,
           branchTransaction,
           minWeightMagnitude,
-          hbytes
+          txs
         )
       )
       .tap(attachedHBytes => storeAndBroadcast(attachedHBytes))

@@ -62,13 +62,13 @@ export function asTransactionHBytes(
   transactions: ReadonlyArray<Transaction>
 ): ReadonlyArray<HBytes>;
 /**
- * Converts a transaction object or a list of those into transaction hbytes.
+ * Converts a transaction object or a list of those into transaction transactionStrings.
  *
  * @method asTransactionHBytes
  *
  * @param {Transaction | Transaction[]} transactions - Transaction object(s)
  *
- * @return {HBytes | HBytes[]} Transaction hbytes
+ * @return {HBytes | HBytes[]} Transaction transactionStrings
  */
 export function asTransactionHBytes(
   transactions: Transaction | ReadonlyArray<Transaction>
@@ -116,11 +116,11 @@ export function asTransactionHBytes(
 }
 
 /**
- * Converts transaction hbytes of 2673 hbytes into a transaction object.
+ * Converts transaction transactionStrings of 2673 transactionStrings into a transaction object.
  *
  * @method asTransactionObject
  *
- * @param {HBytes} hbytes - Transaction hbytes
+ * @param {HBytes} hbytes - Transaction transactionStrings
  *
  * @return {Transaction} Transaction object
  */
@@ -217,7 +217,7 @@ export const asTransactionObject = (
 };
 
 /**
- * Converts a list of transaction hbytes into list of transaction objects.
+ * Converts a list of transaction transactionStrings into list of transaction objects.
  * Accepts a list of hashes and returns a mapper. In cases hashes are given,
  * the mapper function map them to converted objects.
  *
@@ -235,7 +235,7 @@ export const asTransactionObjects = (hashes?: ReadonlyArray<Hash>) => {
    *
    * @method transactionObjectsMapper
    *
-   * @param {HBytes[]} hbytes - List of transaction hbytes to convert
+   * @param {HBytes[]} transactionStrings - List of transaction transactionStrings to convert
    *
    * @return {Transaction[]} List of transaction objects with hashes
    */

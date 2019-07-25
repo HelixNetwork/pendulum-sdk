@@ -56,9 +56,9 @@ export const createSendTransfer = (
       )
     )
       .then(() => prepareTransfers(seed, transfers, options))
-      .then(hbytes =>
+      .then(txs =>
         sendHBytes(
-          hbytes,
+          txs,
           depth,
           minWeightMagnitude,
           options ? options.reference : undefined

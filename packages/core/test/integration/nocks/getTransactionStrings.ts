@@ -18,10 +18,7 @@ export const getTransactionStringsCommand: GetTransactionStringsCommand = {
 };
 
 export const getTransactionStringsResponse: GetTransactionStringsResponse = {
-  hbytes: [
-    "0".repeat(TRANSACTION_HBYTE_SIZE),
-    "0".repeat(TRANSACTION_HBYTE_SIZE)
-  ]
+  txs: ["0".repeat(TRANSACTION_HBYTE_SIZE), "0".repeat(TRANSACTION_HBYTE_SIZE)]
 };
 
 export const getBalancesNock = nock("http://localhost:14265", headers)
@@ -36,7 +33,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundleWithZeroValue[0].hash]
   })
   .reply(200, {
-    hbytes: bundleWithZeroValueHBytes
+    txs: bundleWithZeroValueHBytes
   });
 
 nock("http://localhost:14265", headers)
@@ -46,7 +43,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[0].hash]
   })
   .reply(200, {
-    hbytes: [bundleHBytes[0]]
+    txs: [bundleHBytes[0]]
   });
 
 nock("http://localhost:14265", headers)
@@ -56,7 +53,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[1].hash]
   })
   .reply(200, {
-    hbytes: [bundleHBytes[1]]
+    txs: [bundleHBytes[1]]
   });
 
 nock("http://localhost:14265", headers)
@@ -66,7 +63,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[2].hash]
   })
   .reply(200, {
-    hbytes: [bundleHBytes[2]]
+    txs: [bundleHBytes[2]]
   });
 
 nock("http://localhost:14265", headers)
@@ -76,7 +73,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[3].hash]
   })
   .reply(200, {
-    hbytes: [bundleHBytes[3]]
+    txs: [bundleHBytes[3]]
   });
 
 nock("http://localhost:14265", headers)
@@ -86,7 +83,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[4].hash]
   })
   .reply(200, {
-    hbytes: [bundleHBytes[4]]
+    txs: [bundleHBytes[4]]
   });
 
 nock("http://localhost:14265", headers)
@@ -96,5 +93,5 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[5].hash]
   })
   .reply(200, {
-    hbytes: [bundleHBytes[5]]
+    txs: [bundleHBytes[5]]
   });
