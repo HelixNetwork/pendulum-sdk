@@ -42,7 +42,7 @@ export default class HHash {
   }
 
   /**
-   * Absorbs toHBytes given an offset and length
+   * Absorbs toTxBytes given an offset and length
    *
    * @method update
    *
@@ -65,7 +65,7 @@ export default class HHash {
   }
 
   /**
-   * final toHBytes given an offset and length
+   * final toTxBytes given an offset and length
    *
    * @method final
    *
@@ -84,7 +84,7 @@ export default class HHash {
   }
 
   /**
-   * final toHBytes given an offset and length
+   * final toTxBytes given an offset and length
    *
    * @method final
    *

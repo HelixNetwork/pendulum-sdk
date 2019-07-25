@@ -1,6 +1,6 @@
 import test from "ava";
 import Schnorr from "../src/schnorr";
-import { hex, toHBytes } from "@helixnetwork/converter";
+import { hex, toTxBytes } from "@helixnetwork/converter";
 
 /** @todo fix schnorr unit tests, the placeholders may then be removed. */
 test("Schnorr-Multi: placeholder()", t => {
@@ -23,10 +23,10 @@ test("schnorr test schnorr signature with HByte conversion!", t => {
   let publicKeyBytes = hex(sch.publicKey);
 
   // convert back to list of bytes
-  const privateKeyFromBytes: Uint8Array = toHBytes(privateKeyBytes);
-  const publicKeyFromBytes: Uint8Array = toHBytes(publicKeyBytes);
-  const sigFromBytesS: Uint8Array = toHBytes(signatureSBytes);
-  const sigFromBytesR: Uint8Array = toHBytes(signatureRBytes);
+  const privateKeyFromBytes: Uint8Array = toTxBytes(privateKeyBytes);
+  const publicKeyFromBytes: Uint8Array = toTxBytes(publicKeyBytes);
+  const sigFromBytesS: Uint8Array = toTxBytes(signatureSBytes);
+  const sigFromBytesR: Uint8Array = toTxBytes(signatureRBytes);
 
   t.is(
     Schnorr.verify(msg, signature, publicKeyFromBytes),

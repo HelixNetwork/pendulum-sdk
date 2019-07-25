@@ -1,6 +1,6 @@
 import { validateBundleSignatures } from "@helixnetwork/bundle-validator";
 import { addChecksum } from "@helixnetwork/checksum";
-import { hex, toHBytes } from "@helixnetwork/converter";
+import { hex, toTxBytes } from "@helixnetwork/converter";
 import { createHttpClient } from "@helixnetwork/http-client";
 import { addresses, seed } from "@helixnetwork/samples";
 import { asTransactionObjects } from "@helixnetwork/transaction-converter";
@@ -48,7 +48,7 @@ test("checkBundleSignature() prepares the correct array of hbytes offline.", asy
     }
   );
 
-  const keyHBytes = key(subseed(toHBytes(seed), 0), 2);
+  const keyHBytes = key(subseed(toTxBytes(seed), 0), 2);
   const digestsHBytes = digests(keyHBytes);
   const addressHBytes = hex(address(digestsHBytes));
 

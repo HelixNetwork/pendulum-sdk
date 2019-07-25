@@ -1,7 +1,7 @@
 import * as errors from "./errors";
 
 /**
- * Converts the given toHBytes to word array
+ * Converts the given toTxBytes to word array
  *
  * @method bytesToWord
  *
@@ -29,13 +29,13 @@ export function bytesToWords(bytes: Uint8Array | Int8Array): Uint32Array {
 }
 
 /**
- * Converts the given byte array to toHBytes
+ * Converts the given byte array to toTxBytes
  *
  * @method wordsToBytes
  *
  * @param {Uint32Array} words
  *
- * @return {Uint8Array} toHBytes
+ * @return {Uint8Array} toTxBytes
  */
 export function wordsToBytes(words: Uint32Array): Uint8Array {
   const size = words.length;

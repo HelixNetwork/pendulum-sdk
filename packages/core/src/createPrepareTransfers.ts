@@ -2,7 +2,7 @@ import * as Promise from "bluebird";
 
 import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
 import { isValidChecksum, removeChecksum } from "@helixnetwork/checksum";
-import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
+import { hbits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
 import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
 import {
   key,
@@ -415,10 +415,10 @@ export const addSignatures = (
       inputs.reduce((acc: ReadonlyArray<HBytes>, { keyIndex, security }) => {
         const allSignatureFragments = hex(
           signatureFragments(
-            toHBytes(seed),
+            toTxBytes(seed),
             keyIndex,
             security || SECURITY_LEVEL,
-            toHBytes(transactions[0].bundle)
+            toTxBytes(transactions[0].bundle)
           )
         );
 

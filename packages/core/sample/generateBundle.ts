@@ -1,5 +1,5 @@
 import { addChecksum } from "@helixnetwork/checksum";
-import { toHBytes } from "@helixnetwork/converter";
+import { toTxBytes } from "@helixnetwork/converter";
 import { createHttpClient } from "@helixnetwork/http-client";
 import {
   addresses,
@@ -186,7 +186,7 @@ async function attachIntoTangle(
     const resultHbytes = asTransactionHBytes(resultBundle);
     console.log(resultHbytes);
     for (var i = 0; i < resultHbytes.length; i++) {
-      let computedTransactionHash = transactionHash(toHBytes(resultHbytes[i]));
+      let computedTransactionHash = transactionHash(toTxBytes(resultHbytes[i]));
 
       console.log(
         "New computed hash (in helix.lib): " + computedTransactionHash

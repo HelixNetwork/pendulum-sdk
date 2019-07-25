@@ -1,6 +1,6 @@
 /** @module checksum */
 
-import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
+import { hbits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
   ADDRESS_BYTE_SIZE,
@@ -89,7 +89,7 @@ export function addChecksum(
       const checksumHBytes = new Int8Array(hHash.getHashLength());
       hHash.initialize();
 
-      const inputHBYtes = toHBytes(paddedInputHBytes);
+      const inputHBYtes = toTxBytes(paddedInputHBytes);
       hHash.absorb(inputHBYtes, 0, inputHBYtes.length);
       hHash.squeeze(checksumHBytes, 0, hHash.getHashLength());
       return inputHBytes.concat(

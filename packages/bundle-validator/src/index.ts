@@ -1,6 +1,6 @@
 /** @module bundle-validator */
 
-import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
+import { hbits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { padHBytes } from "@helixnetwork/pad";
 import { isTransaction } from "@helixnetwork/transaction";
@@ -102,7 +102,7 @@ export default function isBundle(bundle: Bundle) {
 
     // Get the transaction hbytes
     const thisTxHBytes = asTransactionHBytes(bundleTx);
-    const thisTxBytes = toHBytes(
+    const thisTxBytes = toTxBytes(
       padHBytes(BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING)(
         thisTxHBytes.slice(
           SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,

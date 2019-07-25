@@ -1,6 +1,6 @@
 /** @module bundle */
 
-import { hbits, hbytes, hex, toHBytes, value } from "@helixnetwork/converter";
+import { hbits, hbytes, hex, toTxBytes, value } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
   padHBits,
@@ -185,7 +185,7 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
     hHash.initialize();
 
     for (let i = 0; i < transactions.length; i++) {
-      const essence = toHBytes(
+      const essence = toTxBytes(
         padHBytes(BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING)(
           transactions[i].address +
             hbytes(valueHBits[i]) +

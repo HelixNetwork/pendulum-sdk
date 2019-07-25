@@ -1,6 +1,6 @@
 import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
 import { removeChecksum } from "@helixnetwork/checksum";
-import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
+import { hbits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
 import { Balances, createGetBalances } from "@helixnetwork/core";
 import HHash from "@helixnetwork/hash-module";
 import {
@@ -237,7 +237,7 @@ export default class Multisig {
    * @return {string} digest hbytes
    */
   public getKey(seed: string, index: number, security: number) {
-    return hex(key(subseed(toHBytes(seed), index), security));
+    return hex(key(subseed(toTxBytes(seed), index), security));
   }
 
   /**
@@ -254,7 +254,7 @@ export default class Multisig {
    * @return {string} digest hbytes
    **/
   public getDigest(seed: string, index: number, security: number) {
-    const keyBytes = key(subseed(toHBytes(seed), index), security);
+    const keyBytes = key(subseed(toTxBytes(seed), index), security);
 
     return hex(digests(keyBytes));
   }
@@ -374,7 +374,7 @@ export default class Multisig {
     const security = keyHBytes.length / SIGNATURE_SECRETE_KEY_BYTE_SIZE;
 
     // convert private key hbytes into hbits
-    const keyBytes = toHBytes(keyHBytes);
+    const keyBytes = toTxBytes(keyHBytes);
 
     // First get the total number of already signed transactions
     // use that for the bundle hash calculation as well as knowing
@@ -394,7 +394,7 @@ export default class Multisig {
           const firstFragment = keyBytes.slice(0, SIGNATURE_TOTAL_BYTE_SIZE);
 
           //  Get the normalized bundle hash
-          const normalizedBundle = normalizedBundleHash(toHBytes(bundleHash)); // normalizedBundleHash(bundleHash as string);
+          const normalizedBundle = normalizedBundleHash(toTxBytes(bundleHash)); // normalizedBundleHash(bundleHash as string);
           const normalizedBundleFragments = [];
 
           // Split hash into 3 fragments

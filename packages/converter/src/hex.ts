@@ -34,9 +34,12 @@ export function hex(uint8arr: Uint8Array | Int8Array): string {
  * @return {Uint8Array} bytes
  */
 
-export function toHBytes(value: number | string, padding?: number): Uint8Array {
+export function toTxBytes(
+  value: number | string,
+  padding?: number
+): Uint8Array {
   if (typeof value === "string") {
-    return toBytesFromString(value, padding);
+    return toTxBytesFromTxHex(value, padding);
   }
   const bitsInByte = 8;
   const size = value
@@ -60,7 +63,7 @@ export function toHBytes(value: number | string, padding?: number): Uint8Array {
  * @return {Uint8Array} byte array
  */
 
-function toBytesFromString(input: string, padding?: number): Uint8Array {
+function toTxBytesFromTxHex(input: string, padding?: number): Uint8Array {
   if (input.length % 2 !== 0) {
     throw new Error(errors.INVALID_STRING_LENGTH + input.length);
   }

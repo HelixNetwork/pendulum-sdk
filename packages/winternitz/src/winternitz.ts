@@ -1,5 +1,5 @@
 // by: Frauke Sophie Abben <fsa@hlx.ai> (https://hlx.ai)
-import { hex, toHBytes } from "@helixnetwork/converter";
+import { hex, toTxBytes } from "@helixnetwork/converter";
 import { padByteArray } from "@helixnetwork/pad";
 import Sha3 from "@helixnetwork/sha3";
 import { HASH_BITS_SIZE, SECURITY_LEVELS } from "../../constants";
@@ -40,7 +40,7 @@ export function add(seed: Uint8Array, index: number): Uint8Array {
 /**
  * @method subseed
  *
- * @param {Uint8Array} seed - Seed toHBytes
+ * @param {Uint8Array} seed - Seed toTxBytes
  * @param {number} index - Private key index
  *
  * @return {Uint8Array} subseed
@@ -335,7 +335,7 @@ export function validateSignatures(
   const normalizedBundleFragments = Array<Uint8Array>(
     NUMBER_OF_SECURITY_LEVELS
   );
-  const normalizedBundle = normalizedBundleHash(toHBytes(bundleHash));
+  const normalizedBundle = normalizedBundleHash(toTxBytes(bundleHash));
   // Split hash into fragments for each security level
   for (let i = 0; i < NUMBER_OF_SECURITY_LEVELS; i++) {
     normalizedBundleFragments[i] = normalizedBundle.slice(
@@ -350,7 +350,7 @@ export function validateSignatures(
   for (let i = 0; i < signFragments.length; i++) {
     const digestBuffer = digest(
       normalizedBundleFragments[i],
-      toHBytes(signFragments[i])
+      toTxBytes(signFragments[i])
     );
 
     for (let j = 0; j < HASH_LENGTH_BYTES; j++) {

@@ -1,4 +1,4 @@
-import { hex, toHBytes } from "./";
+import { hex, toTxBytes } from "./";
 import * as errors from "./errors";
 
 /**
@@ -68,7 +68,7 @@ export const txHexToAscii = (hbytes: string): string => {
 
   let ascii = "";
 
-  const bytes = toHBytes(hbytes);
+  const bytes = toTxBytes(hbytes);
   for (let i = 0; i < bytes.length; i++) {
     ascii += String.fromCharCode(bytes[i]);
   }

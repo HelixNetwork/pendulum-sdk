@@ -6,7 +6,7 @@ import {
   hbytes,
   hbytesToHBits,
   hex,
-  toHBytes,
+  toTxBytes,
   value,
   hBitsToHBytes
 } from "@helixnetwork/converter";
@@ -293,7 +293,7 @@ export function validateSignatures(
   }
   const normalizedBundle: string = hex(normalizedBundleHash(bundleHash));
 
-  const publicKey = toHBytes(expectedAddress);
+  const publicKey = toTxBytes(expectedAddress);
 
   // validate schnorr signature:
   if (signatureFragments.length == 0) {
@@ -303,7 +303,7 @@ export function validateSignatures(
   let isValid: boolean = true;
   signatureFragments.forEach(value => {
     const signature: HSign = HSign.generateSignatureFromArray(
-      toHBytes(value.slice(0, SIGNATURE_TOTAL_BYTE_SIZE * 2))
+      toTxBytes(value.slice(0, SIGNATURE_TOTAL_BYTE_SIZE * 2))
     );
     isValid = isValid && Schnorr.verify(normalizedBundle, signature, publicKey);
   });

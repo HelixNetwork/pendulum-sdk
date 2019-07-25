@@ -5,7 +5,7 @@ import {
   hbytesToHBits,
   hbits,
   value,
-  toHBytes
+  toTxBytes
 } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { padHBits, padHBytes, padSignedHBits } from "@helixnetwork/pad";
@@ -138,7 +138,7 @@ export const asTransactionObject = (
   const noOfBitsInValue = 4 * usefulBytesFromValue;
 
   return {
-    hash: hash || transactionHash(toHBytes(hbytes)),
+    hash: hash || transactionHash(toTxBytes(hbytes)),
     signatureMessageFragment: hbytes.slice(
       START_INDEX_SIGNATURE_MESSAGE,
       START_INDEX_SIGNATURE_MESSAGE + SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
