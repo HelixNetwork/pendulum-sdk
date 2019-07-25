@@ -87,7 +87,7 @@ export enum ProtocolCommand {
   REMOVE_NEIGHBORS = "removeNeighbors",
   GET_TIPS = "getTips",
   FIND_TRANSACTIONS = "findTransactions",
-  GET_HBYTES = "getHBytes",
+  GET_TRANSACTION_STRINGS = "getTransactionStrings",
   GET_INCLUSION_STATES = "getInclusionStates",
   GET_BALANCES = "getBalances",
   GET_TRANSACTIONS_TO_APPROVE = "getTransactionsToApprove",
@@ -247,12 +247,12 @@ export interface GetTransactionsToApproveCommand extends BaseCommand {
   readonly reference?: Hash;
 }
 
-export interface GetHBytesCommand extends BaseCommand {
-  command: ProtocolCommand.GET_HBYTES;
+export interface GetTransactionStringsCommand extends BaseCommand {
+  command: ProtocolCommand.GET_TRANSACTION_STRINGS;
   readonly hashes: ReadonlyArray<Hash>;
 }
 
-export interface GetHBytesResponse {
+export interface GetTransactionStringsResponse {
   readonly hbytes: ReadonlyArray<HBytes>;
 }
 
