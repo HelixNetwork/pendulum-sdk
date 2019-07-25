@@ -1,10 +1,10 @@
 import test from "ava";
 import * as errors from "../src/errors";
-import { hbytesToAscii } from "../src";
+import { txHexToAscii } from "../src";
 
 const { INVALID_ODD_LENGTH, INVALID_HBYTES } = errors;
 
-test("hbytesToAscii()", t => {
+test("txHexToAscii()", t => {
   const hbytes = "494f5441";
   const expected = "IOTA";
 
@@ -12,13 +12,13 @@ test("hbytesToAscii()", t => {
   const hbytesOfOddLength = "aaa";
 
   t.is(
-    hbytesToAscii(hbytes),
+    txHexToAscii(hbytes),
     expected,
     "fromHBytes() should convert hbytes to ascii."
   );
 
   const invalidHBytesError = t.throws(
-    () => hbytesToAscii(nonHBytes),
+    () => txHexToAscii(nonHBytes),
     Error,
     "fromHBytes() should throw error for non-hbytes."
   );
@@ -26,7 +26,7 @@ test("hbytesToAscii()", t => {
   t.is(invalidHBytesError.message, INVALID_HBYTES, "incorrect error message");
 
   const oddLengthError = t.throws(
-    () => hbytesToAscii(hbytesOfOddLength),
+    () => txHexToAscii(hbytesOfOddLength),
     Error,
     "fromHBytes() should throw error for hbytes of odd length."
   );

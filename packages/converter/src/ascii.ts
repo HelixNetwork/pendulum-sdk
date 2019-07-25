@@ -22,7 +22,7 @@ import * as errors from "./errors";
  *
  * Therefore ascii character `Z` is represented as `IC` in 5a.
  *
- * @method asciiToHBytes
+ * @method asciiToTxHex
  *
  * @memberof module:converter
  *
@@ -30,7 +30,7 @@ import * as errors from "./errors";
  *
  * @return {string} string of hbytes
  */
-export const asciiToHBytes = (input: string): string => {
+export const asciiToTxHex = (input: string): string => {
   // If input is not an ascii string, throw error
   if (!/^[\x00-\x7f]*$/.test(input)) {
     throw new Error(errors.INVALID_ASCII_CHARS);
@@ -46,7 +46,7 @@ export const asciiToHBytes = (input: string): string => {
 /**
  * Converts hbytes of _even_ length to an ascii string
  *
- * @method hbytesToAscii
+ * @method txHexToAscii
  *
  * @memberof module:converter
  *
@@ -54,7 +54,7 @@ export const asciiToHBytes = (input: string): string => {
  *
  * @return {string} string in ascii
  */
-export const hbytesToAscii = (hbytes: string): string => {
+export const txHexToAscii = (hbytes: string): string => {
   if (
     typeof hbytes !== "string" ||
     !new RegExp(`^[0-9abcdef]{1,}$`).test(hbytes)

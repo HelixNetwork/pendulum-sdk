@@ -1,6 +1,6 @@
 /** @module  extract-json */
 
-import { hbytesToAscii } from "@helixnetwork/converter";
+import { txHexToAscii } from "@helixnetwork/converter";
 import { Bundle, Transaction } from "../../types";
 
 export const errors = {
@@ -84,7 +84,7 @@ export const extractJson = (bundle: Bundle): string | number | null => {
       /^([0-9a-f][0-9a-f])*?(0{2})/
     );
     if (num) {
-      return parseFloat(hbytesToAscii(num[0]));
+      return parseFloat(txHexToAscii(num[0]));
     }
     throw new Error(errors.INVALID_JSON);
   } else {
@@ -128,7 +128,7 @@ export const extractJson = (bundle: Bundle): string | number | null => {
           break;
         }
 
-        finalJson += hbytesToAscii(hbytePair);
+        finalJson += txHexToAscii(hbytePair);
 
         // If hbyte pair equals closing bracket char, we set a preliminary stop
         // the preliminaryStop is useful when we have a nested JSON object
