@@ -3,7 +3,7 @@ import { asTransactionObject } from "@helixnetwork/transaction-converter";
 import * as Promise from "bluebird";
 import { depthValidator, hashValidator, validate } from "../../guards";
 import { Callback, Hash, Provider } from "../../types";
-import { createCheckConsistency, createGetHBytes } from "./";
+import { createCheckConsistency, createGetTransactionStrings } from "./";
 
 const MILESTONE_INTERVAL = 2 * 60 * 1000;
 const ONE_WAY_DELAY = 1 * 60 * 1000;
@@ -27,7 +27,7 @@ export const isAboveMaxDepth = (attachmentTimestamp: number, depth = DEPTH) =>
  */
 export const createIsPromotable = (provider: Provider, depth = DEPTH) => {
   const checkConsistency = createCheckConsistency(provider);
-  const getHBytes = createGetHBytes(provider);
+  const getTransactionStrings = createGetTransactionStrings(provider);
 
   /**
    * Checks if a transaction is _promotable_, by calling [`checkConsistency`]{@link #module_core.checkConsistency} and
@@ -88,7 +88,7 @@ export const createIsPromotable = (provider: Provider, depth = DEPTH) => {
       .then(() =>
         Promise.all([
           checkConsistency(tail),
-          getHBytes([tail]).then(
+          getTransactionStrings([tail]).then(
             ([hbytes]) => asTransactionObject(hbytes, tail).attachmentTimestamp
           )
         ])

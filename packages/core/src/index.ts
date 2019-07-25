@@ -40,8 +40,8 @@ export {
   GetTransactionsToApproveCommand,
   GetTransactionsToApproveResponse,
   TransactionsToApprove,
-  GetHBytesCommand,
-  GetHBytesResponse,
+  GetTransactionStringsCommand,
+  GetTransactionStringsResponse,
   InterruptAttachingToTangleCommand,
   InterruptAttachingToTangleResponse,
   RemoveNeighborsCommand,
@@ -77,7 +77,7 @@ export {
   createGetTransactionsToApprove
 } from "./createGetTransactionsToApprove";
 
-export { createGetHBytes } from "./createGetHBytes";
+export { createGetTransactionStrings } from "./createGetTransactionStrings";
 
 export {
   createInterruptAttachingToTangle

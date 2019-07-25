@@ -3,8 +3,8 @@ import * as Promise from "bluebird";
 import { arrayValidator, validate } from "../../guards";
 import {
   Callback,
-  GetHBytesCommand,
-  GetHBytesResponse,
+  GetTransactionStringsCommand,
+  GetTransactionStringsResponse,
   Hash,
   HBytes,
   ProtocolCommand,
@@ -12,7 +12,7 @@ import {
 } from "../../types";
 
 /**
- * @method createGetHBytes
+ * @method createGetTransactionStrings
  *
  * @memberof module:core
  *
@@ -20,10 +20,10 @@ import {
  *
  * @return {function} {@link #module_core.getBytes `getBytes`}
  */
-export const createGetHBytes = ({ send }: Provider) =>
+export const createGetTransactionStrings = ({ send }: Provider) =>
   /**
    * Fetches the transaction hbytes given a list of transaction hashes, by calling
-   * [`getBytes`](https://docs.hlx.ai/hlx/api#endpoints/getHBytes) command.
+   * [`getBytes`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionStrings) command.
    *
    * @example
    * ```js
@@ -51,7 +51,7 @@ export const createGetHBytes = ({ send }: Provider) =>
    * - `INVALID_TRANSACTION_HASH`: Invalid hash
    * - Fetch error
    */
-  function getHBytes(
+  function getTransactionStrings(
     hashes: ReadonlyArray<Hash>,
     callback?: Callback<ReadonlyArray<HBytes>>
   ): Promise<ReadonlyArray<HBytes>> {
@@ -59,8 +59,8 @@ export const createGetHBytes = ({ send }: Provider) =>
       validate(arrayValidator(transactionHashValidator)(hashes))
     )
       .then(() =>
-        send<GetHBytesCommand, GetHBytesResponse>({
-          command: ProtocolCommand.GET_HBYTES,
+        send<GetTransactionStringsCommand, GetTransactionStringsResponse>({
+          command: ProtocolCommand.GET_TRANSACTION_STRINGS,
           hashes
         })
       )

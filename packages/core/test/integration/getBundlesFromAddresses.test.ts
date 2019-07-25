@@ -9,7 +9,7 @@ import {
 } from "../../src/createGetBundlesFromAddresses";
 import "./nocks/findTransactions";
 import { getBalancesCommand } from "./nocks/getBalances";
-import "./nocks/getHBytes";
+import "./nocks/getTransactionStrings";
 import "./nocks/getInclusionStates";
 import "./nocks/getNodeInfo";
 
