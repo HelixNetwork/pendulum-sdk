@@ -14,7 +14,7 @@ import {
   Provider,
   Transaction
 } from "../../types";
-import { createGetBundle, createSendHBytes } from "./";
+import { createGetBundle, createSendTransactionStrings } from "./";
 
 /**
  * @method createReplayBundle
@@ -30,7 +30,7 @@ export const createReplayBundle = (
   attachFn?: AttachToTangle
 ) => {
   const getBundle = createGetBundle(provider);
-  const sendHBytes = createSendHBytes(provider, attachFn);
+  const sendHBytes = createSendTransactionStrings(provider, attachFn);
 
   /**
    * Reattaches a transfer to tangle by selecting tips & performing the Proof-of-Work again.

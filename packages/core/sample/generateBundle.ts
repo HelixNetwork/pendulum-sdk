@@ -171,7 +171,7 @@ async function attachIntoTangle(
   hbytes: ReadonlyArray<string>
 ) {
   try {
-    const resultBundle = await helix.sendHBytes(
+    const resultBundle = await helix.sendTransactionStrings(
       hbytes,
       5 /*depth*/,
       2 /*minimum weight magnitude*/

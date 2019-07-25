@@ -18,16 +18,16 @@ import {
  *
  * @param {Provider} provider - Network provider
  *
- * @return {function} {@link #module_core.getBytes `getBytes`}
+ * @return {function} {@link #module_core.getTransactionStrings `getTransactionStrings`}
  */
 export const createGetTransactionStrings = ({ send }: Provider) =>
   /**
    * Fetches the transaction hbytes given a list of transaction hashes, by calling
-   * [`getBytes`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionStrings) command.
+   * [`getTransactionStrings`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionStrings) command.
    *
    * @example
    * ```js
-   * getBytes(hashes)
+   * getTransactionStrings(hashes)
    *   // Parsing as transaction objects
    *   .then(hbytes => asTransactionObjects(hashes)(hbytes))
    *   .then(transactions => {
@@ -38,7 +38,7 @@ export const createGetTransactionStrings = ({ send }: Provider) =>
    *   })
    * ```
    *
-   * @method getBytes
+   * @method getTransactionStrings
    *
    * @memberof module:core
    *

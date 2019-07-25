@@ -23,15 +23,15 @@ import {
 } from "./";
 
 /**
- * @method createSendHBytes
+ * @method createSendTransactionStrings
  *
  * @memberof module:core
  *
  * @param {Provider} provider - Network provider
  *
- * @return {Function} {@link #module_core.sendHBytes `sendHBytes`}
+ * @return {Function} {@link #module_core.sendTransactionStrings `sendTransactionStrings`}
  */
-export const createSendHBytes = (
+export const createSendTransactionStrings = (
   provider: Provider,
   attachFn?: AttachToTangle
 ) => {
@@ -46,7 +46,7 @@ export const createSendHBytes = (
    * @example
    * ```js
    * prepareTransfers(seed, transfers)
-   *   .then(txs => sendHBytes(txs, depth, minWeightMagnitude))
+   *   .then(txs => sendTransactionStrings(txs, depth, minWeightMagnitude))
    *   .then(transactions => {
    *     // ...
    *   })
@@ -55,7 +55,7 @@ export const createSendHBytes = (
    *   })
    * ```
    *
-   * @method sendHBytes
+   * @method sendTransactionStrings
    *
    * @memberof module:core
    *
