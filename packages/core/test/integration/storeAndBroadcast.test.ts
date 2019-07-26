@@ -1,7 +1,7 @@
 import { createHttpClient } from "@helixnetwork/http-client";
-import { attachedHBytesOfInvalidLength } from "@helixnetwork/samples";
+import { attachedTxHexOfInvalidLength } from "@helixnetwork/samples";
 import test from "ava";
-import { INVALID_ATTACHED_HBYTES } from "../../../errors";
+import { INVALID_ATTACHED_TX_HEX } from "../../../errors";
 import { createStoreAndBroadcast } from "../../src";
 import "./nocks/broadcastTransactions";
 import { storeTransactionsCommand } from "./nocks/storeTransactions";
@@ -29,22 +29,22 @@ test("storeAndBroadcast() does not mutate original txs.", async t => {
 });
 
 test("storeAndBroadcast() rejects with correct error for invalid attached txs.", t => {
-  const invalidHBytes = ["asdasDSFDAFD"];
+  const invalidTxHex = ["asdasDSFDAFD"];
 
   t.is(
-    t.throws(() => storeAndBroadcast(invalidHBytes), Error).message,
-    `${INVALID_ATTACHED_HBYTES}: ${invalidHBytes[0]}`,
+    t.throws(() => storeAndBroadcast(invalidTxHex), Error).message,
+    `${INVALID_ATTACHED_TX_HEX}: ${invalidTxHex[0]}`,
     "storeAndBroadcast() should throw error for invalid attached txs."
   );
 });
 
 test("storeAndBroadcast() rejects with correct errors for attached txs of invalid length.", t => {
-  const invalidHBytes = ["asdasDSFDAFD"];
+  const invalidTxHex = ["asdasDSFDAFD"];
 
   t.is(
-    t.throws(() => storeAndBroadcast(attachedHBytesOfInvalidLength), Error)
+    t.throws(() => storeAndBroadcast(attachedTxHexOfInvalidLength), Error)
       .message,
-    `${INVALID_ATTACHED_HBYTES}: ${attachedHBytesOfInvalidLength[0]}`,
+    `${INVALID_ATTACHED_TX_HEX}: ${attachedTxHexOfInvalidLength[0]}`,
     "storeAndBroadcast() should throw error for attached txs of invalid length."
   );
 });

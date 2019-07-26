@@ -61,7 +61,9 @@ helix
       ).reverse()
     );
     storedHBytes = hbytes;
-    console.log("-------------------- call sendHBytes ------------------");
+    console.log(
+      "-------------------- call sendTransactionStrings ------------------"
+    );
     // Finalize and broadcast the bundle to the node
     return helix.sendHBytes(
       storedHBytes,

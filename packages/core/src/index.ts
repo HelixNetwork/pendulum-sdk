@@ -152,7 +152,7 @@ export {
 
 export { createReplayBundle } from "./createReplayBundle";
 
-export { createSendHBytes } from "./createSendHBytes";
+export { createSendTransactionStrings } from "./createSendTransactionStrings";
 
 export {
   createPrepareTransfers,

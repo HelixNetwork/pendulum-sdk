@@ -11,7 +11,7 @@ import {
   asArray,
   Callback,
   getOptionsWithDefaults,
-  HBytes,
+  TxHex,
   Provider
 } from "../../types";
 import { createFindTransactions, generateAddress } from "./";
@@ -27,13 +27,13 @@ export interface GetNewAddressOptions {
   readonly returnAll: boolean;
 }
 
-export type GetNewAddressResult = HBytes | ReadonlyArray<HBytes>;
+export type GetNewAddressResult = TxHex | ReadonlyArray<TxHex>;
 
 export const createIsAddressUsed = (provider: Provider) => {
   const wereAddressesSpentFrom = createWereAddressesSpentFrom(provider, "lib");
   const findTransactions = createFindTransactions(provider);
 
-  return (address: HBytes) =>
+  return (address: TxHex) =>
     wereAddressesSpentFrom(asArray(address)).then(
       ([spent]) =>
         spent ||
@@ -66,15 +66,15 @@ export const createIsAddressUsed = (provider: Provider) => {
  * - Fetch error
  */
 export const getUntilFirstUnusedAddress = (
-  isAddressUsed: (address: HBytes) => Promise<boolean>,
-  seed: HBytes,
+  isAddressUsed: (address: TxHex) => Promise<boolean>,
+  seed: TxHex,
   index: number,
   security: number,
   returnAll: boolean
 ) => {
-  const addressList: HBytes[] = [];
+  const addressList: TxHex[] = [];
 
-  const iterate = (): Promise<ReadonlyArray<HBytes>> => {
+  const iterate = (): Promise<ReadonlyArray<TxHex>> => {
     const nextAddress = generateAddress(seed, index++, security);
 
     if (returnAll) {
@@ -99,7 +99,7 @@ export const getUntilFirstUnusedAddress = (
 };
 
 export const generateAddresses = (
-  seed: HBytes,
+  seed: TxHex,
   index: number,
   security: number,
   total: number = 1
@@ -109,7 +109,7 @@ export const generateAddresses = (
     .map(() => generateAddress(seed, index++, security));
 
 export const applyChecksumOption = (checksum: boolean) => (
-  addresses: HBytes | ReadonlyArray<HBytes>
+  addresses: TxHex | ReadonlyArray<TxHex>
 ) =>
   checksum
     ? Array.isArray(addresses)
@@ -118,7 +118,7 @@ export const applyChecksumOption = (checksum: boolean) => (
     : addresses;
 
 export const applyReturnAllOption = (returnAll: boolean, total?: number) => (
-  addresses: ReadonlyArray<HBytes>
+  addresses: ReadonlyArray<TxHex>
 ) => (returnAll || total ? addresses : addresses[addresses.length - 1]);
 
 export const getNewAddressOptions = getOptionsWithDefaults<
@@ -162,11 +162,11 @@ export const createGetNewAddress = (provider: Provider, caller?: string) => {
    *
    * @memberof module:core
    *
-   * @param {string} seed - At least 81 hbytes long seed
+   * @param {string} seed - At least 81 transactionStrings long seed
    * @param {object} [options]
    * @param {number} [options.index=0] - Key index to start search at
    * @param {number} [options.security=1] - Security level
-   * @param {boolean} [options.checksum=false] - `Deprecated` Flag to include 9-hbytes checksum or not
+   * @param {boolean} [options.checksum=false] - `Deprecated` Flag to include 9-transactionStrings checksum or not
    * @param {number} [options.total] - `Deprecated` Number of addresses to generate.
    * @param {boolean} [options.returnAll=false] - `Deprecated` Flag to return all addresses, from start up to new address.
    * @param {Callback} [callback] - Optional callback
@@ -180,10 +180,10 @@ export const createGetNewAddress = (provider: Provider, caller?: string) => {
    * - Fetch error
    */
   return function getNewAddress(
-    seed: HBytes,
+    seed: TxHex,
     options: Partial<GetNewAddressOptions> = {},
-    callback?: Callback<HBytes | ReadonlyArray<HBytes>>
-  ): Promise<HBytes | ReadonlyArray<HBytes>> {
+    callback?: Callback<TxHex | ReadonlyArray<TxHex>>
+  ): Promise<TxHex | ReadonlyArray<TxHex>> {
     if (caller !== "lib") {
       const deprecated = [];
       if (options.total !== undefined) {

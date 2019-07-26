@@ -1,11 +1,14 @@
 import {
   bundle,
-  bundleHBytes,
+  bundleTxHex,
   bundleWithZeroValue,
-  bundleWithZeroValueHBytes
+  bundleWithZeroValueTxHex
 } from "@helixnetwork/samples";
 import * as nock from "nock";
-import { HASH_HBYTE_SIZE, TRANSACTION_HBYTE_SIZE } from "../../../../constants";
+import {
+  HASH_TX_HEX_SIZE,
+  TRANSACTION_TX_HEX_SIZE
+} from "../../../../constants";
 import {
   GetTransactionStringsCommand,
   GetTransactionStringsResponse,
@@ -14,13 +17,13 @@ import {
 import headers from "./headers";
 export const getTransactionStringsCommand: GetTransactionStringsCommand = {
   command: ProtocolCommand.GET_TRANSACTION_STRINGS,
-  hashes: ["a".repeat(HASH_HBYTE_SIZE), "b".repeat(HASH_HBYTE_SIZE)]
+  hashes: ["a".repeat(HASH_TX_HEX_SIZE), "b".repeat(HASH_TX_HEX_SIZE)]
 };
 
 export const getTransactionStringsResponse: GetTransactionStringsResponse = {
-  hbytes: [
-    "0".repeat(TRANSACTION_HBYTE_SIZE),
-    "0".repeat(TRANSACTION_HBYTE_SIZE)
+  txs: [
+    "0".repeat(TRANSACTION_TX_HEX_SIZE),
+    "0".repeat(TRANSACTION_TX_HEX_SIZE)
   ]
 };
 
@@ -36,7 +39,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundleWithZeroValue[0].hash]
   })
   .reply(200, {
-    hbytes: bundleWithZeroValueHBytes
+    txs: bundleWithZeroValueTxHex
   });
 
 nock("http://localhost:14265", headers)
@@ -46,7 +49,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[0].hash]
   })
   .reply(200, {
-    hbytes: [bundleHBytes[0]]
+    txs: [bundleTxHex[0]]
   });
 
 nock("http://localhost:14265", headers)
@@ -56,7 +59,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[1].hash]
   })
   .reply(200, {
-    hbytes: [bundleHBytes[1]]
+    txs: [bundleTxHex[1]]
   });
 
 nock("http://localhost:14265", headers)
@@ -66,7 +69,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[2].hash]
   })
   .reply(200, {
-    hbytes: [bundleHBytes[2]]
+    txs: [bundleTxHex[2]]
   });
 
 nock("http://localhost:14265", headers)
@@ -76,7 +79,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[3].hash]
   })
   .reply(200, {
-    hbytes: [bundleHBytes[3]]
+    txs: [bundleTxHex[3]]
   });
 
 nock("http://localhost:14265", headers)
@@ -86,7 +89,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[4].hash]
   })
   .reply(200, {
-    hbytes: [bundleHBytes[4]]
+    txs: [bundleTxHex[4]]
   });
 
 nock("http://localhost:14265", headers)
@@ -96,5 +99,5 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[5].hash]
   })
   .reply(200, {
-    hbytes: [bundleHBytes[5]]
+    txs: [bundleTxHex[5]]
   });

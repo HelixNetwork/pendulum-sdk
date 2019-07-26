@@ -1,5 +1,5 @@
 import { addChecksum } from "@helixnetwork/checksum";
-import { toHBytes } from "@helixnetwork/converter";
+import { toTxBytes } from "@helixnetwork/converter";
 import { createHttpClient } from "@helixnetwork/http-client";
 import {
   addresses,
@@ -8,12 +8,12 @@ import {
 } from "@helixnetwork/samples";
 import { transactionHash } from "@helixnetwork/transaction";
 import { ADDRESS_BYTE_SIZE } from "../../constants";
-import { HBytes, Transaction, Transfer } from "../../types";
+import { TxHex, Transaction, Transfer } from "../../types";
 import { composeAPI, createPrepareTransfers } from "../src";
 
 import isBundle from "@helixnetwork/bundle-validator";
 import {
-  asTransactionHBytes,
+  asTransactionStrings,
   asTransactionObjects
 } from "@helixnetwork/transaction-converter";
 import { createGetNewAddress } from "../src/createGetNewAddress";
@@ -28,7 +28,7 @@ const helix = composeAPI({
 async function generateBundle() {
   await createAndPrintBundle(
     "export const bundle: Transaction[] = ",
-    "export const bundleHBytes: HBytes[] = ",
+    "export const bundleTxHex: TxHex[] = ",
     seed,
     [
       {
@@ -57,7 +57,7 @@ async function generateBundle() {
 
   await createAndPrintBundle(
     "export const bundleWithValidSignature = ",
-    "export const bundleWithValidSignatureHBytes = ",
+    "export const bundleWithValidSignatureTxHex = ",
     seed,
     [
       {
@@ -79,7 +79,7 @@ async function generateBundle() {
 
   await createAndPrintBundle(
     "export const bytesTransaction = ",
-    "export const hbytes = ",
+    "export const transactionStrings = ",
     seed,
     [
       {
@@ -112,7 +112,7 @@ async function generateBundle() {
 
   await createAndPrintBundle(
     "export const bundleWithZeroValue = ",
-    "export const bundleWithZeroValueHBytes = ",
+    "export const bundleWithZeroValueTxHex = ",
     seed,
     [
       {
@@ -126,7 +126,7 @@ async function generateBundle() {
 
   await createAndPrintBundle(
     "prepare transfer: export const bundleWithZeroValue = ",
-    "expectedZeroValueHBytes = ",
+    "expectedZeroValueTxHex = ",
     seed,
     [
       {
@@ -168,11 +168,11 @@ async function createAndPrintBundle(
 async function attachIntoTangle(
   msgBundle: string,
   msgHbytes: string,
-  hbytes: ReadonlyArray<string>
+  txs: ReadonlyArray<string>
 ) {
   try {
-    const resultBundle = await helix.sendHBytes(
-      hbytes,
+    const resultBundle = await helix.sendTransactionStrings(
+      txs,
       5 /*depth*/,
       2 /*minimum weight magnitude*/
     );
@@ -183,10 +183,10 @@ async function attachIntoTangle(
     console.log(resultBundle);
 
     console.log(msgHbytes);
-    const resultHbytes = asTransactionHBytes(resultBundle);
+    const resultHbytes = asTransactionStrings(resultBundle);
     console.log(resultHbytes);
     for (var i = 0; i < resultHbytes.length; i++) {
-      let computedTransactionHash = transactionHash(toHBytes(resultHbytes[i]));
+      let computedTransactionHash = transactionHash(toTxBytes(resultHbytes[i]));
 
       console.log(
         "New computed hash (in helix.lib): " + computedTransactionHash

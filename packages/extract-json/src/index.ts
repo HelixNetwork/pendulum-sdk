@@ -1,6 +1,6 @@
 /** @module  extract-json */
 
-import { hbytesToAscii } from "@helixnetwork/converter";
+import { txHexToAscii } from "@helixnetwork/converter";
 import { Bundle, Transaction } from "../../types";
 
 export const errors = {
@@ -10,7 +10,7 @@ export const errors = {
 
 export { Bundle, Transaction };
 
-const numericHBytesRegex = /^(2d|2b)?(30|31|32|33|34|35|36|37|38|39)+((2e)(30|31|32|33|34|35|36|37|38|39)+)?((65|45)(2d|2b)?(30|31|32|33|34|35|36|37|38|39)+)?00/;
+const numericTxHexRegex = /^(2d|2b)?(30|31|32|33|34|35|36|37|38|39)+((2e)(30|31|32|33|34|35|36|37|38|39)+)?((65|45)(2d|2b)?(30|31|32|33|34|35|36|37|38|39)+)?00/;
 /**
  * Takes a bundle as input and from the signatureMessageFragments extracts the correct JSON
  * data which was encoded and sent with the transaction.
@@ -57,34 +57,34 @@ export const extractJson = (bundle: Bundle): string | number | null => {
     throw new Error(errors.INVALID_BUNDLE);
   }
   // Sanity check: if the first byte pair is not opening bracket, it's not a message
-  const firstHBytePair =
+  const firstTxHexPair =
     bundle[0].signatureMessageFragment[0] +
     bundle[0].signatureMessageFragment[1];
 
-  let lastHBytePair = "";
+  let lastTxHexPair = "";
 
-  if (firstHBytePair === "7b") {
+  if (firstTxHexPair === "7b") {
     // encoding for {
-    lastHBytePair = "7d"; // encoding for }
-  } else if (firstHBytePair === "22") {
+    lastTxHexPair = "7d"; // encoding for }
+  } else if (firstTxHexPair === "22") {
     // encoding for "
-    lastHBytePair = "22"; // encoding for "
-  } else if (firstHBytePair === "5b") {
+    lastTxHexPair = "22"; // encoding for "
+  } else if (firstTxHexPair === "5b") {
     // enconding for [
-    lastHBytePair = "5d"; // encoding for ]
+    lastTxHexPair = "5d"; // encoding for ]
   } else if (bundle[0].signatureMessageFragment.slice(0, 10) === "66616c7365") {
     return "false";
   } else if (bundle[0].signatureMessageFragment.slice(0, 8) === "74727565") {
     return "true";
   } else if (bundle[0].signatureMessageFragment.slice(0, 8) === "6e756c6c") {
     return "null";
-  } else if (numericHBytesRegex.test(bundle[0].signatureMessageFragment)) {
+  } else if (numericTxHexRegex.test(bundle[0].signatureMessageFragment)) {
     // Parse numbers, source: https://github.com/iotaledger/iota.lib.js/issues/231#issuecomment-402383449
     const num = bundle[0].signatureMessageFragment.match(
       /^([0-9a-f][0-9a-f])*?(0{2})/
     );
     if (num) {
-      return parseFloat(hbytesToAscii(num[0]));
+      return parseFloat(txHexToAscii(num[0]));
     }
     throw new Error(errors.INVALID_JSON);
   } else {
@@ -93,46 +93,46 @@ export const extractJson = (bundle: Bundle): string | number | null => {
 
   let index = 0;
   let notEnded = true;
-  let hbytesChunk = "";
-  let hbytesChecked = 0;
+  let txHexChunk = "";
+  let txHexChecked = 0;
   let preliminaryStop = false;
   let finalJson = "";
 
   while (index < bundle.length && notEnded) {
     const messageChunk = bundle[index].signatureMessageFragment;
-    // We iterate over the message chunk, reading 9 hbytes at a time
+    // We iterate over the message chunk, reading 9 txHex at a time
     for (let i = 0; i < messageChunk.length; i += 8) {
-      // get 9 hbytes
-      const hbytes = messageChunk.slice(i, i + 8);
-      hbytesChunk += hbytes;
+      // get 9 txHex
+      const txHex = messageChunk.slice(i, i + 8);
+      txHexChunk += txHex;
 
       // Get the upper limit of the tytes that need to be checked
-      // because we only check 2 hbytes at a time, there is sometimes a leftover
-      const upperLimit = hbytesChunk.length - hbytesChunk.length % 2;
+      // because we only check 2 txHex at a time, there is sometimes a leftover
+      const upperLimit = txHexChunk.length - txHexChunk.length % 2;
 
-      const hbytesToCheck = hbytesChunk.slice(hbytesChecked, upperLimit);
+      const txHexToCheck = txHexChunk.slice(txHexChecked, upperLimit);
 
-      // We read 2 hbytes at a time and check if it equals the closing bracket character
-      for (let j = 0; j < hbytesToCheck.length; j += 2) {
-        const hbytePair = hbytesToCheck[j] + hbytesToCheck[j + 1];
+      // We read 2 txHex at a time and check if it equals the closing bracket character
+      for (let j = 0; j < txHexToCheck.length; j += 2) {
+        const txHexPair = txHexToCheck[j] + txHexToCheck[j + 1];
 
-        // If closing bracket char was found, and there are only trailing 9's
-        // we quit and remove the 9's from the hbytesChunk.
-        if (preliminaryStop && hbytePair === "00") {
+        // If closing bracket char was found, and there are only trailing 0's
+        // we quit and remove the 0's from the txHexChunk.
+        if (preliminaryStop && txHexPair === "00") {
           notEnded = false;
-          // TODO: Remove the trailing 9's from hbytesChunk
-          // var closingBracket = hbytesToCheck.indexOf('QD') + 1;
+          // TODO: Remove the trailing 9's from txHexChunk
+          // var closingBracket = txHexToCheck.indexOf('QD') + 1;
 
-          // hbytesChunk = hbytesChunk.slice( 0, ( hbytesChunk.length - hbytesToCheck.length ) + ( closingBracket % 2 === 0 ? closingBracket : closingBracket + 1 ) );
+          // txHexChunk = txHexChunk.slice( 0, ( txHexChunk.length - txHexToCheck.length ) + ( closingBracket % 2 === 0 ? closingBracket : closingBracket + 1 ) );
 
           break;
         }
 
-        finalJson += hbytesToAscii(hbytePair);
+        finalJson += txHexToAscii(txHexPair);
 
-        // If hbyte pair equals closing bracket char, we set a preliminary stop
+        // If txHex pair equals closing bracket char, we set a preliminary stop
         // the preliminaryStop is useful when we have a nested JSON object
-        if (hbytePair === lastHBytePair) {
+        if (txHexPair === lastTxHexPair) {
           preliminaryStop = true;
         }
       }
@@ -140,7 +140,7 @@ export const extractJson = (bundle: Bundle): string | number | null => {
       if (!notEnded) {
         break;
       }
-      hbytesChecked += hbytesToCheck.length;
+      txHexChecked += txHexToCheck.length;
     }
 
     // If we have not reached the end of the message yet, we continue with the next

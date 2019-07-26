@@ -86,7 +86,7 @@ export const send = <C extends BaseCommand, R = any>(
 };
 /**
  * Sends a batched http request to a specified host
- * supports findTransactions, getBalances & getHBytes commands
+ * supports findTransactions, getBalances & getTxHex commands
  *
  * @method batchedSend
  *

@@ -67,7 +67,7 @@ test("isTransfer() returns false for transfer with invalid value.", t => {
   );
 });
 
-test("isTransfer() returns false for message of invalid hBytes.", t => {
+test("isTransfer() returns false for message of invalid txHex.", t => {
   const transfer = {
     address: "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1f",
     value: 1234,
@@ -78,7 +78,7 @@ test("isTransfer() returns false for message of invalid hBytes.", t => {
   t.is(
     isTransfer(transfer),
     false,
-    "isTransfer() should return false for message of invalid hBytes."
+    "isTransfer() should return false for message of invalid txHex."
   );
 });
 
@@ -97,7 +97,7 @@ test("isTransfer() returns false for tag of invalid length.", t => {
   );
 });
 
-test("isTransfer() returns false for tag of invalid hBytes.", t => {
+test("isTransfer() returns false for tag of invalid txHex.", t => {
   const transfer = {
     address: "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1f",
     value: 1234,
@@ -108,6 +108,6 @@ test("isTransfer() returns false for tag of invalid hBytes.", t => {
   t.is(
     isTransfer(transfer),
     false,
-    "isTransfer() should return false for tag of invalid hBytes."
+    "isTransfer() should return false for tag of invalid txHex."
   );
 });

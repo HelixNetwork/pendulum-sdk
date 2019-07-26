@@ -1,15 +1,15 @@
-import { hbits, hbytes } from "@helixnetwork/converter";
+import { txBits, txHex } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
-  HASH_HBYTE_SIZE,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+  HASH_TX_HEX_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
 } from "../../constants";
 import { Bundle } from "../../types";
 
 const HMAC_ROUNDS = 27;
 
 export default function addHMAC(transactions: Bundle, key: Int8Array): Bundle {
-  const bundleHashHBits = hbits(transactions[0].bundle);
+  const bundleHashHBits = txBits(transactions[0].bundle);
 
   const hHash = new HHash(HHash.HASH_ALGORITHM_2, HMAC_ROUNDS);
   const hmac = new Int8Array(hHash.getHashLength());
@@ -19,17 +19,17 @@ export default function addHMAC(transactions: Bundle, key: Int8Array): Bundle {
   hHash.absorb(bundleHashHBits, 0, hHash.getHashLength());
   hHash.squeeze(hmac, 0, hHash.getHashLength());
 
-  const hmacHBytes = hbytes(hmac);
+  const hmacTxHex = txHex(hmac);
 
   return transactions.map(
     transaction =>
       transaction.value > 0
         ? {
             ...transaction,
-            signatureMessageFragment: hmacHBytes.concat(
+            signatureMessageFragment: hmacTxHex.concat(
               transaction.signatureMessageFragment.substr(
-                HASH_HBYTE_SIZE,
-                SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+                HASH_TX_HEX_SIZE,
+                SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
               ) // 81 - 2187
             )
           }

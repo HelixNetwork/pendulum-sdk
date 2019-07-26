@@ -1,5 +1,5 @@
 import test from "ava";
-import { padHBits, padHBytes } from "../src";
+import { padHBits, padTxHex } from "../src";
 
 test("padHBits() adds padding to hbit array.", t => {
   const hBits = new Int8Array([1, 0, 1]);
