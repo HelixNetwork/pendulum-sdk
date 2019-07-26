@@ -1,5 +1,5 @@
 import { createHttpClient } from "@helixnetwork/http-client";
-import { attachedHBytesOfInvalidLength } from "@helixnetwork/samples";
+import { attachedTxHexOfInvalidLength } from "@helixnetwork/samples";
 import test from "ava";
 import { INVALID_ATTACHED_HBYTES } from "../../../errors";
 import { createStoreAndBroadcast } from "../../src";
@@ -42,9 +42,9 @@ test("storeAndBroadcast() rejects with correct errors for attached txs of invali
   const invalidHBytes = ["asdasDSFDAFD"];
 
   t.is(
-    t.throws(() => storeAndBroadcast(attachedHBytesOfInvalidLength), Error)
+    t.throws(() => storeAndBroadcast(attachedTxHexOfInvalidLength), Error)
       .message,
-    `${INVALID_ATTACHED_HBYTES}: ${attachedHBytesOfInvalidLength[0]}`,
+    `${INVALID_ATTACHED_HBYTES}: ${attachedTxHexOfInvalidLength[0]}`,
     "storeAndBroadcast() should throw error for attached txs of invalid length."
   );
 });

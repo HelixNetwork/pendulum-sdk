@@ -1,7 +1,7 @@
 import {
-  attachedHBytes,
-  attachedHBytesOfInvalidChars,
-  attachedHBytesOfInvalidLength,
+  attachedTxHex,
+  attachedTxHexOfInvalidChars,
+  attachedTxHexOfInvalidLength,
   attachedTransactionObjects,
   transactionObject
 } from "@helixnetwork/samples";
@@ -10,19 +10,19 @@ import { isAttachedHBytesArray } from "../src";
 
 test("isAttachedHBytesArray()", t => {
   t.is(
-    isAttachedHBytesArray(attachedHBytes),
+    isAttachedHBytesArray(attachedTxHex),
     true,
     "isAttachedHBytesArray() returns true for valid attached hbytes"
   );
 
   t.is(
-    isAttachedHBytesArray(attachedHBytesOfInvalidChars),
+    isAttachedHBytesArray(attachedTxHexOfInvalidChars),
     false,
     "isAttachedHBytesArray() returns false for invalid hbytes"
   );
 
   t.is(
-    isAttachedHBytesArray(attachedHBytesOfInvalidLength),
+    isAttachedHBytesArray(attachedTxHexOfInvalidLength),
     false,
     "isAttachedHBytesArray() return false for hbytes of invalid length"
   );

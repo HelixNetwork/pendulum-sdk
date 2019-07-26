@@ -68,7 +68,7 @@ import {
   isTransactionHBytes,
   tailTransactionValidator,
   transactionHashValidator,
-  transactionHBytesValidator,
+  transactionTxHexValidator,
   transactionValidator,
   validateAttachedHBytes,
   validateTailTransaction,
@@ -111,6 +111,6 @@ export {
   transactionHashValidator,
   transactionValidator,
   tailTransactionValidator,
-  transactionHBytesValidator,
-  attachedHBytesValidator
+  transactionTxHexValidator,
+  attachedTxHexValidator
 } from "@helixnetwork/transaction";

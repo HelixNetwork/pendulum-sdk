@@ -4,14 +4,14 @@ import {
   bundleHBytes,
   bundleWithZeroValue,
   bundleWithZeroValueHBytes,
-  transactionHBytes as hbytes,
+  transactionTxHex as hbytes,
   transactionObject
 } from "@helixnetwork/samples";
 import test from "ava";
 import {
   asFinalTransactionHBytes,
   asTransactionHBytes,
-  transactionHBytes
+  transactionTxHex
 } from "../src";
 
 test("asTransactionHBytes() converts transaction object to transaction hbytes.", t => {
@@ -30,11 +30,11 @@ test("asTransactionHBytes() converts transaction object array to transaction hby
   );
 });
 
-test("transactionHBytes() converts transaction object to transaction hbytes.", t => {
+test("transactionTxHex() converts transaction object to transaction hbytes.", t => {
   t.deepEqual(
-    transactionHBytes(transactionObject),
+    transactionTxHex(transactionObject),
     hbytes,
-    "transactionHBytes() should convert transaction object to transaction hbytes."
+    "transactionTxHex() should convert transaction object to transaction hbytes."
   );
 });
 

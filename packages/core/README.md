@@ -250,7 +250,7 @@ getTransactionsToApprove(depth)
   .then(({ trunkTransaction, branchTransaction }) =>
     attachToTangle(trunkTransaction, branchTransaction, minWightMagnitude, hbytes)
   )
-  .then(attachedHBytes => {
+  .then(attachedTxHex => {
     // ...
   })
   .catch(err => {

@@ -1,6 +1,6 @@
 import {
   transactionHashValidator,
-  transactionHBytesValidator
+  transactionTxHexValidator
 } from "@helixnetwork/transaction";
 import * as Promise from "bluebird";
 import {
@@ -53,7 +53,7 @@ export const createAttachToTangle = ({ send }: Provider): AttachToTangle => {
    *   .then(({ trunkTransaction, branchTransaction }) =>
    *     attachToTangle(trunkTransaction, branchTransaction, minWightMagnitude, txs)
    *   )
-   *   .then(attachedHBytes => {
+   *   .then(attachedTxHex => {
    *     // ...
    *   })
    *   .catch(err => {
@@ -93,7 +93,7 @@ export const createAttachToTangle = ({ send }: Provider): AttachToTangle => {
     return Promise.resolve(
       validate(
         integerValidator(minWeightMagnitude),
-        arrayValidator<TransactionTxHex>(transactionHBytesValidator)(txs),
+        arrayValidator<TransactionTxHex>(transactionTxHexValidator)(txs),
         transactionHashValidator(trunkTransaction, INVALID_TRUNK_TRANSACTION),
         transactionHashValidator(branchTransaction, INVALID_BRANCH_TRANSACTION)
       )

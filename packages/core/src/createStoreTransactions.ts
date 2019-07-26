@@ -1,4 +1,4 @@
-import { attachedHBytesValidator } from "@helixnetwork/transaction";
+import { attachedTxHexValidator } from "@helixnetwork/transaction";
 import * as Promise from "bluebird";
 import { arrayValidator, validate } from "../../guards";
 import {
@@ -50,7 +50,7 @@ export const createStoreTransactions = ({ send }: Provider) =>
     txs: ReadonlyArray<HBytes>,
     callback?: Callback<ReadonlyArray<HBytes>>
   ): Promise<ReadonlyArray<HBytes>> =>
-    Promise.resolve(validate(arrayValidator(attachedHBytesValidator)(txs)))
+    Promise.resolve(validate(arrayValidator(attachedTxHexValidator)(txs)))
       .then(() =>
         send<StoreTransactionsCommand, StoreTransactionsResponse>({
           command: ProtocolCommand.STORE_TRANSACTIONS,

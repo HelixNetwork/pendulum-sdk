@@ -236,13 +236,13 @@ export const transactionHashValidator: Validator<Hash> = (
   msg?: string
 ) => [hash, isTransactionHash, msg || errors.INVALID_TRANSACTION_HASH];
 
-export const transactionHBytesValidator: Validator<HBytes> = (hbytes: any) => [
+export const transactionTxHexValidator: Validator<HBytes> = (hbytes: any) => [
   hbytes,
   isTransactionHBytes,
   errors.INVALID_TRANSACTION_HBYTES
 ];
 
-export const attachedHBytesValidator: Validator<HBytes> = (hbytes: any) => [
+export const attachedTxHexValidator: Validator<HBytes> = (hbytes: any) => [
   hbytes,
   isAttachedHBytes,
   errors.INVALID_ATTACHED_HBYTES
@@ -255,6 +255,6 @@ export const validateTailTransaction = (transaction: any) =>
 export const validateTransactionHash = (hash: any, msg?: string) =>
   validate(transactionHashValidator(hash, msg));
 export const validateTransactionHBytes = (hbytes: any) =>
-  validate(transactionHBytesValidator(hbytes));
+  validate(transactionTxHexValidator(hbytes));
 export const validateAttachedHBytes = (hbytes: any) =>
-  validate(attachedHBytesValidator(hbytes));
+  validate(attachedTxHexValidator(hbytes));

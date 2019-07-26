@@ -257,9 +257,9 @@ export const transactionObject = (hBytes: HBytes): Transaction => {
   return asTransactionObject(hBytes);
 };
 
-export const transactionHBytes = (transaction: Transaction): HBytes => {
+export const transactionTxHex = (transaction: Transaction): HBytes => {
   /* tslint:disable-next-line:no-console */
-  console.warn("`transactionHBytes` has been renamed to `asTransactionHBytes`");
+  console.warn("`transactionTxHex` has been renamed to `asTransactionHBytes`");
 
   return asTransactionHBytes(transaction);
 };

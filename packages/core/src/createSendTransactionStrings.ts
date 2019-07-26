@@ -1,4 +1,4 @@
-import { transactionHBytesValidator } from "@helixnetwork/transaction";
+import { transactionTxHexValidator } from "@helixnetwork/transaction";
 import { asTransactionObject } from "@helixnetwork/transaction-converter";
 import * as Promise from "bluebird";
 import {
@@ -87,7 +87,7 @@ export const createSendTransactionStrings = (
 
     return Promise.resolve(
       validate(
-        arrayValidator(transactionHBytesValidator)(txs),
+        arrayValidator(transactionTxHexValidator)(txs),
         depthValidator(depth),
         minWeightMagnitudeValidator(minWeightMagnitude)
       )
@@ -101,8 +101,8 @@ export const createSendTransactionStrings = (
           txs
         )
       )
-      .tap(attachedHBytes => storeAndBroadcast(attachedHBytes))
-      .then(attachedHBytes => attachedHBytes.map(t => asTransactionObject(t)))
+      .tap(attachedTxHex => storeAndBroadcast(attachedTxHex))
+      .then(attachedTxHex => attachedTxHex.map(t => asTransactionObject(t)))
       .asCallback(typeof arguments[3] === "function" ? arguments[3] : callback);
   };
 };
