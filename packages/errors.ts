@@ -1,7 +1,7 @@
 export const ILLEGAL_LENGTH = "Illegal txBits length";
 export const ILLEGAL_HBIT_CONVERSION_INPUT =
   "Illegal conversion input. Expected txBits as Int8Array.";
-export const ILLEGAL_HBYTE_CONVERSION_INPUT =
+export const ILLEGAL_TX_HEX_CONVERSION_INPUT =
   "Illegal conversion input. Expected transactionStrings string or integer.";
 export const INCONSISTENT_SUBTANGLE = "Inconsistent subtangle";
 export const INSUFFICIENT_BALANCE = "Insufficient balance";

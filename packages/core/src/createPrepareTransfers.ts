@@ -15,7 +15,7 @@ import {
   NULL_HASH_HBYTES,
   SECURITY_LEVELS,
   SEED_BYTE_SIZE,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE
 } from "../../constants";
 import * as errors from "../../errors";
@@ -44,9 +44,9 @@ import { createGetInputs, createGetNewAddress } from "./";
 import HMAC from "./hmac";
 
 const HASH_LENGTH = HASH_BYTE_SIZE;
-const SIGNATURE_MESSAGE_FRAGMENT_LENGTH = SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+const SIGNATURE_MESSAGE_FRAGMENT_LENGTH = SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
 const SIGNATURE_MESSAGE_FRAGMENT_LENGTH_BYTE = SIGNATURE_TOTAL_BYTE_SIZE;
-// const KEY_FRAGMENT_LENGTH = 2 * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+// const KEY_FRAGMENT_LENGTH = 2 * SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
 const SECURITY_LEVEL = 1;
 
 export interface PrepareTransfersOptions {
@@ -427,8 +427,8 @@ export const addSignatures = (
             .fill(null)
             .map((_, i) =>
               allSignatureFragments.slice(
-                i * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
-                (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+                i * SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
+                (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
               )
             )
         );

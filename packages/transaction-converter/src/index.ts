@@ -31,15 +31,15 @@ import {
 } from "@helixnetwork/transaction/";
 import {
   ADDRESS_BYTE_SIZE,
-  HASH_HBYTE_SIZE,
+  HASH_TX_HEX_SIZE,
   NONCE_BYTE_SIZE,
   OBSOLETE_TAG_BYTE_SIZE,
   PAD_BYTE_SIZE,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
   TAG_BYTE_SIZE,
   TRANSACTION_CURRENT_INDEX_BITS_SIZE,
   TRANSACTION_CURRENT_INDEX_BYTE_SIZE,
-  TRANSACTION_HBYTE_SIZE,
+  TRANSACTION_TX_HEX_SIZE,
   TRANSACTION_LAST_INDEX_BITS_SIZE,
   TRANSACTION_LAST_INDEX_BYTE_SIZE,
   TRANSACTION_OBSOLETE_TAG_BITS_SIZE,
@@ -128,7 +128,7 @@ export const asTransactionObject = (
   txHex: HBytes,
   hash?: Hash
 ): Transaction => {
-  if (!isHBytesOfExactLength(txHex, TRANSACTION_HBYTE_SIZE)) {
+  if (!isHBytesOfExactLength(txHex, TRANSACTION_TX_HEX_SIZE)) {
     throw new Error(errors.INVALID_TX_HEX);
   }
   const txBits = txHexToTxBits(txHex);
@@ -141,7 +141,7 @@ export const asTransactionObject = (
     hash: hash || transactionHash(toTxBytes(txHex)),
     signatureMessageFragment: txHex.slice(
       START_INDEX_SIGNATURE_MESSAGE,
-      START_INDEX_SIGNATURE_MESSAGE + SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+      START_INDEX_SIGNATURE_MESSAGE + SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
     ),
     address: txHex.slice(
       START_INDEX_ADDRESS,
@@ -180,15 +180,15 @@ export const asTransactionObject = (
     ),
     bundle: txHex.slice(
       START_INDEX_BUNDLE,
-      START_INDEX_BUNDLE + HASH_HBYTE_SIZE
+      START_INDEX_BUNDLE + HASH_TX_HEX_SIZE
     ),
     trunkTransaction: txHex.slice(
       START_TRUNK_TRANS,
-      START_TRUNK_TRANS + HASH_HBYTE_SIZE
+      START_TRUNK_TRANS + HASH_TX_HEX_SIZE
     ),
     branchTransaction: txHex.slice(
       START_BRANCH_TRANS,
-      START_BRANCH_TRANS + HASH_HBYTE_SIZE
+      START_BRANCH_TRANS + HASH_TX_HEX_SIZE
     ),
     tag: txHex.slice(START_INDEX_TAG, START_INDEX_TAG + TAG_BYTE_SIZE),
     attachmentTimestamp: value(

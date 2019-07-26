@@ -1,10 +1,10 @@
 import test from "ava";
 import {
   ADDRESS_BYTE_SIZE,
-  HASH_HBYTE_SIZE,
+  HASH_TX_HEX_SIZE,
   NULL_HASH_HBYTES,
   NULL_NONCE_HBYTES,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
 } from "../../constants";
 import {
   addEntry,
@@ -31,7 +31,9 @@ const bundle = [
     currentIndex: 0,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
+    signatureMessageFragment: "0".repeat(
+      SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+    ),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -49,7 +51,9 @@ const bundle = [
     currentIndex: 1,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
+    signatureMessageFragment: "0".repeat(
+      SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+    ),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -67,7 +71,9 @@ const bundle = [
     currentIndex: 2,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
+    signatureMessageFragment: "0".repeat(
+      SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+    ),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -122,7 +128,7 @@ test("addHBytes() adds transactionStrings and returns correct transactions.", t 
     bundle.map(transaction => ({
       ...transaction,
       signatureMessageFragment:
-        "abcdef" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 6)
+        "abcdef" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE - 6)
     })),
     "addEntry should add transactionStrings and return correct transactions."
   );

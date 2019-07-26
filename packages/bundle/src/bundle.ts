@@ -17,7 +17,7 @@ import {
   NULL_NONCE_HBYTES,
   NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES,
   NULL_TAG_HBYTES,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
   TRANSACTION_CURRENT_INDEX_BITS_SIZE,
   TRANSACTION_LAST_INDEX_BITS_SIZE,
   TRANSACTION_OBSOLETE_TAG_BITS_SIZE,
@@ -47,7 +47,7 @@ export const getEntryWithDefaults = (
   timestamp: entry.timestamp || Math.floor(Date.now() / 1000),
   signatureMessageFragments: entry.signatureMessageFragments
     ? entry.signatureMessageFragments.map(
-        padHBytes(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE)
+        padHBytes(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE)
       )
     : Array(entry.length || 1).fill(NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES)
 });
@@ -149,7 +149,7 @@ export const addHBytes = (
         ? {
             ...transaction,
             signatureMessageFragment: padHBytes(
-              SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+              SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
             )(fragments[i - offset] || "")
           }
         : transaction

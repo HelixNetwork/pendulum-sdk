@@ -5,7 +5,7 @@ import { securityLevelValidator, seedValidator, validate } from "../../guards";
 import {
   ADDRESS_BYTE_SIZE,
   ADDRESS_CHECKSUM_BYTE_SIZE,
-  HASH_HBYTE_SIZE
+  HASH_TX_HEX_SIZE
 } from "../../constants";
 import { Hash } from "../../types";
 

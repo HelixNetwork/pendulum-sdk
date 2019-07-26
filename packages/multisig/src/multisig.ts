@@ -28,7 +28,7 @@ import {
   ADDRESS_BYTE_SIZE,
   NULL_TAG_HBYTES,
   SECURITY_LEVELS,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
   SIGNATURE_SECRETE_KEY_BYTE_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE,
   TAG_BYTE_SIZE
@@ -88,28 +88,28 @@ export const createBundle = (
     // If message longer than 2187 txHex, increase signatureMessageLength (add multiple transactions)
     if (
       (transfers[i].message || "").length >
-      SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+      SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
     ) {
       // Get total length, message / maxLength (2187 txHex)
       signatureMessageLength += Math.floor(
         (transfers[i].message || "").length /
-          SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
       );
 
       let msgCopy = transfers[i].message;
 
       // While there is still a message, copy it
       while (msgCopy) {
-        let fragment = msgCopy.slice(0, SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE);
+        let fragment = msgCopy.slice(0, SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE);
         msgCopy = msgCopy.slice(
-          SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
           msgCopy.length
         );
 
         // Pad remainder of fragment
         for (
           let j = 0;
-          fragment.length < SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+          fragment.length < SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
           j++
         ) {
           fragment += "0";
@@ -124,13 +124,13 @@ export const createBundle = (
       if (transfers[i].message) {
         fragment = (transfers[i].message || "").slice(
           0,
-          SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
         );
       }
 
       for (
         let j = 0;
-        fragment.length < SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+        fragment.length < SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
         j++
       ) {
         fragment += "0";

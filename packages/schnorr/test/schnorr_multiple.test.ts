@@ -4,7 +4,7 @@ import { hex, toTxBytes, txBits } from "@helixnetwork/converter";
 import HSign from "../src/hsign";
 import { subseed, key } from "../src";
 import {
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
   SIGNATURE_SECRETE_KEY_BYTE_SIZE
 } from "../../constants";
 

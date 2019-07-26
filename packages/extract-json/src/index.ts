@@ -114,11 +114,11 @@ export const extractJson = (bundle: Bundle): string | number | null => {
 
       // We read 2 txHex at a time and check if it equals the closing bracket character
       for (let j = 0; j < txHexToCheck.length; j += 2) {
-        const hbytePair = txHexToCheck[j] + txHexToCheck[j + 1];
+        const txHexPair = txHexToCheck[j] + txHexToCheck[j + 1];
 
         // If closing bracket char was found, and there are only trailing 9's
         // we quit and remove the 9's from the txHexChunk.
-        if (preliminaryStop && hbytePair === "00") {
+        if (preliminaryStop && txHexPair === "00") {
           notEnded = false;
           // TODO: Remove the trailing 9's from txHexChunk
           // var closingBracket = txHexToCheck.indexOf('QD') + 1;
@@ -128,11 +128,11 @@ export const extractJson = (bundle: Bundle): string | number | null => {
           break;
         }
 
-        finalJson += txHexToAscii(hbytePair);
+        finalJson += txHexToAscii(txHexPair);
 
-        // If hbyte pair equals closing bracket char, we set a preliminary stop
+        // If txHex pair equals closing bracket char, we set a preliminary stop
         // the preliminaryStop is useful when we have a nested JSON object
-        if (hbytePair === lastHBytePair) {
+        if (txHexPair === lastHBytePair) {
           preliminaryStop = true;
         }
       }

@@ -2,7 +2,7 @@ import { ADDRCONFIG } from "dns";
 import {
   ADDRESS_BYTE_SIZE,
   ADDRESS_CHECKSUM_BYTE_SIZE,
-  HASH_HBYTE_SIZE,
+  HASH_TX_HEX_SIZE,
   MAX_INDEX_DIFF,
   TAG_BYTE_SIZE
 } from "./constants";
@@ -90,8 +90,8 @@ export const isNinesHBytes = isEmpty;
  * @return {boolean}
  */
 export const isHash = (hash: any): hash is Hash =>
-  isHBytesOfExactLength(hash, HASH_HBYTE_SIZE) ||
-  isHBytesOfExactLength(hash, HASH_HBYTE_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE);
+  isHBytesOfExactLength(hash, HASH_TX_HEX_SIZE) ||
+  isHBytesOfExactLength(hash, HASH_TX_HEX_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE);
 /**
  * Checks if input is correct address or address with checksum (90 txs)
  *

@@ -5,7 +5,10 @@ import {
   bundleWithZeroValueTxHex
 } from "@helixnetwork/samples";
 import * as nock from "nock";
-import { HASH_HBYTE_SIZE, TRANSACTION_HBYTE_SIZE } from "../../../../constants";
+import {
+  HASH_TX_HEX_SIZE,
+  TRANSACTION_TX_HEX_SIZE
+} from "../../../../constants";
 import {
   GetTransactionStringsCommand,
   GetTransactionStringsResponse,
@@ -14,11 +17,14 @@ import {
 import headers from "./headers";
 export const getTransactionStringsCommand: GetTransactionStringsCommand = {
   command: ProtocolCommand.GET_TRANSACTION_STRINGS,
-  hashes: ["a".repeat(HASH_HBYTE_SIZE), "b".repeat(HASH_HBYTE_SIZE)]
+  hashes: ["a".repeat(HASH_TX_HEX_SIZE), "b".repeat(HASH_TX_HEX_SIZE)]
 };
 
 export const getTransactionStringsResponse: GetTransactionStringsResponse = {
-  txs: ["0".repeat(TRANSACTION_HBYTE_SIZE), "0".repeat(TRANSACTION_HBYTE_SIZE)]
+  txs: [
+    "0".repeat(TRANSACTION_TX_HEX_SIZE),
+    "0".repeat(TRANSACTION_TX_HEX_SIZE)
+  ]
 };
 
 export const getBalancesNock = nock("http://localhost:14265", headers)

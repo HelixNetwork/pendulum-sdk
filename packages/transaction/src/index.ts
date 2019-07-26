@@ -7,13 +7,13 @@ import HHash from "@helixnetwork/hash-module";
 import {
   ADDRESS_BYTE_SIZE,
   HASH_BITS_SIZE,
-  HASH_HBYTE_SIZE,
+  HASH_TX_HEX_SIZE,
   NONCE_BYTE_SIZE,
   OBSOLETE_TAG_BYTE_SIZE,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
   TAG_BYTE_SIZE,
   TRANSACTION_CURRENT_INDEX_BYTE_SIZE,
-  TRANSACTION_HBYTE_SIZE,
+  TRANSACTION_TX_HEX_SIZE,
   TRANSACTION_LAST_INDEX_BYTE_SIZE,
   TRANSACTION_TIMESTAMP_BYTE_SIZE,
   TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE,
@@ -36,7 +36,7 @@ export { Transaction };
 export const START_INDEX_SIGNATURE_MESSAGE = 0;
 
 export const START_INDEX_ADDRESS =
-  START_INDEX_SIGNATURE_MESSAGE + SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+  START_INDEX_SIGNATURE_MESSAGE + SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
 export const START_INDEX_VALUE = START_INDEX_ADDRESS + ADDRESS_BYTE_SIZE;
 export const START_INDEX_OBSOLETE_TAG =
   START_INDEX_VALUE + TRANSACTION_VALUE_BYTE_SIZE;
@@ -48,9 +48,9 @@ export const START_INDEX_LAST_INDEX_BYTES =
   START_INDEX_CURRENT_INDEX + TRANSACTION_CURRENT_INDEX_BYTE_SIZE;
 export const START_INDEX_BUNDLE =
   START_INDEX_LAST_INDEX_BYTES + TRANSACTION_LAST_INDEX_BYTE_SIZE;
-export const START_TRUNK_TRANS = START_INDEX_BUNDLE + HASH_HBYTE_SIZE;
-export const START_BRANCH_TRANS = START_TRUNK_TRANS + HASH_HBYTE_SIZE;
-export const START_INDEX_TAG = START_BRANCH_TRANS + HASH_HBYTE_SIZE;
+export const START_TRUNK_TRANS = START_INDEX_BUNDLE + HASH_TX_HEX_SIZE;
+export const START_BRANCH_TRANS = START_TRUNK_TRANS + HASH_TX_HEX_SIZE;
+export const START_INDEX_TAG = START_BRANCH_TRANS + HASH_TX_HEX_SIZE;
 export const START_INDEX_ATTACHED_TIMESTAMP = START_INDEX_TAG + TAG_BYTE_SIZE;
 export const START_INDEX_TIMESTAMP_LOW =
   START_INDEX_ATTACHED_TIMESTAMP + TRANSACTION_TIMESTAMP_BYTE_SIZE;
@@ -95,7 +95,7 @@ export const isTransaction = (tx: any): tx is Transaction => {
     isHash(tx.hash) &&
     isHBytesOfExactLength(
       tx.signatureMessageFragment,
-      SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+      SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
     ) &&
     isAddress(tx.address) &&
     Number.isInteger(tx.value) &&
@@ -145,7 +145,7 @@ export const isTransactionHash = (
   hash: any,
   minWeightMagnitude?: number
 ): hash is Hash => {
-  const hasCorrectHashLength = isHBytesOfExactLength(hash, HASH_HBYTE_SIZE);
+  const hasCorrectHashLength = isHBytesOfExactLength(hash, HASH_TX_HEX_SIZE);
 
   if (minWeightMagnitude) {
     console.log(
@@ -182,7 +182,7 @@ export const isTransactionHBytes = (
 ): txHex is HBytes => {
   const hasCorrectHBytesLength = isHBytesOfExactLength(
     txHex,
-    TRANSACTION_HBYTE_SIZE
+    TRANSACTION_TX_HEX_SIZE
   );
 
   if (minWeightMagnitude) {
@@ -209,7 +209,7 @@ export const isTransactionHBytes = (
  * @return {boolean}
  */
 export const isAttachedHBytes = (txHex: any): txHex is HBytes =>
-  isHBytesOfExactLength(txHex, TRANSACTION_HBYTE_SIZE) &&
+  isHBytesOfExactLength(txHex, TRANSACTION_TX_HEX_SIZE) &&
   txHex
     .slice(
       START_INDEX_ATTACHED_TIMESTAMP,
