@@ -29,6 +29,6 @@ test("isTransactionHash() returns false for invalid transaction hashes.", t => {
   t.is(
     isTransactionHashArray(invalidHBytes),
     false,
-    "isTransactionHashArray() should return fasle for invalid hbytes."
+    "isTransactionHashArray() should return fasle for invalid txHex."
   );
 });

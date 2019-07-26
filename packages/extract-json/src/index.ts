@@ -93,37 +93,37 @@ export const extractJson = (bundle: Bundle): string | number | null => {
 
   let index = 0;
   let notEnded = true;
-  let hbytesChunk = "";
-  let hbytesChecked = 0;
+  let txHexChunk = "";
+  let txHexChecked = 0;
   let preliminaryStop = false;
   let finalJson = "";
 
   while (index < bundle.length && notEnded) {
     const messageChunk = bundle[index].signatureMessageFragment;
-    // We iterate over the message chunk, reading 9 hbytes at a time
+    // We iterate over the message chunk, reading 9 txHex at a time
     for (let i = 0; i < messageChunk.length; i += 8) {
-      // get 9 hbytes
-      const hbytes = messageChunk.slice(i, i + 8);
-      hbytesChunk += hbytes;
+      // get 9 txHex
+      const txHex = messageChunk.slice(i, i + 8);
+      txHexChunk += txHex;
 
       // Get the upper limit of the tytes that need to be checked
-      // because we only check 2 hbytes at a time, there is sometimes a leftover
-      const upperLimit = hbytesChunk.length - hbytesChunk.length % 2;
+      // because we only check 2 txHex at a time, there is sometimes a leftover
+      const upperLimit = txHexChunk.length - txHexChunk.length % 2;
 
-      const hbytesToCheck = hbytesChunk.slice(hbytesChecked, upperLimit);
+      const txHexToCheck = txHexChunk.slice(txHexChecked, upperLimit);
 
-      // We read 2 hbytes at a time and check if it equals the closing bracket character
-      for (let j = 0; j < hbytesToCheck.length; j += 2) {
-        const hbytePair = hbytesToCheck[j] + hbytesToCheck[j + 1];
+      // We read 2 txHex at a time and check if it equals the closing bracket character
+      for (let j = 0; j < txHexToCheck.length; j += 2) {
+        const hbytePair = txHexToCheck[j] + txHexToCheck[j + 1];
 
         // If closing bracket char was found, and there are only trailing 9's
-        // we quit and remove the 9's from the hbytesChunk.
+        // we quit and remove the 9's from the txHexChunk.
         if (preliminaryStop && hbytePair === "00") {
           notEnded = false;
-          // TODO: Remove the trailing 9's from hbytesChunk
-          // var closingBracket = hbytesToCheck.indexOf('QD') + 1;
+          // TODO: Remove the trailing 9's from txHexChunk
+          // var closingBracket = txHexToCheck.indexOf('QD') + 1;
 
-          // hbytesChunk = hbytesChunk.slice( 0, ( hbytesChunk.length - hbytesToCheck.length ) + ( closingBracket % 2 === 0 ? closingBracket : closingBracket + 1 ) );
+          // txHexChunk = txHexChunk.slice( 0, ( txHexChunk.length - txHexToCheck.length ) + ( closingBracket % 2 === 0 ? closingBracket : closingBracket + 1 ) );
 
           break;
         }
@@ -140,7 +140,7 @@ export const extractJson = (bundle: Bundle): string | number | null => {
       if (!notEnded) {
         break;
       }
-      hbytesChecked += hbytesToCheck.length;
+      txHexChecked += txHexToCheck.length;
     }
 
     // If we have not reached the end of the message yet, we continue with the next

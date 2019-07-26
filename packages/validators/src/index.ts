@@ -13,7 +13,7 @@ import { isValidChecksum } from "@helixnetwork/checksum";
  *
  * @method isAddress
  *
- * @param {string} address - Address hbytes, with checksum
+ * @param {string} address - Address txHex, with checksum
  *
  * @return {boolean}
  */
@@ -53,7 +53,7 @@ export {
   seedValidator,
   tagValidator,
   transferValidator,
-  hbytesValidator,
+  txHexValidator,
   uriValidator,
   validate,
   Validatable,

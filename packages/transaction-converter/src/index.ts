@@ -1,7 +1,7 @@
 /** @module transaction-converter */
 
 import {
-  hBitsToHBytes,
+  txBitsToTxHex,
   txHexToTxBits,
   txBits,
   value,
@@ -74,11 +74,11 @@ export function asTransactionHBytes(
   transactions: Transaction | ReadonlyArray<Transaction>
 ): HBytes | ReadonlyArray<HBytes> {
   asArray(transactions).forEach(transaction => {
-    const val = hBitsToHBytes(txBits(transaction.value));
+    const val = txBitsToTxHex(txBits(transaction.value));
     const obsoleteTag = padHBytes(OBSOLETE_TAG_BYTE_SIZE)(
       transaction.obsoleteTag
     );
-    const attachedTimestamp = hBitsToHBytes(
+    const attachedTimestamp = txBitsToTxHex(
       txBits(transaction.attachmentTimestamp)
     );
   });
@@ -88,12 +88,12 @@ export function asTransactionHBytes(
       transaction.signatureMessageFragment,
       transaction.address,
       padHBytes(TRANSACTION_VALUE_BYTE_SIZE)(
-        hBitsToHBytes(txBits(transaction.value))
+        txBitsToTxHex(txBits(transaction.value))
       ),
       padHBytes(OBSOLETE_TAG_BYTE_SIZE)(transaction.obsoleteTag),
-      hBitsToHBytes(txBits(transaction.timestamp)),
-      hBitsToHBytes(txBits(transaction.currentIndex)),
-      hBitsToHBytes(txBits(transaction.lastIndex)),
+      txBitsToTxHex(txBits(transaction.timestamp)),
+      txBitsToTxHex(txBits(transaction.currentIndex)),
+      txBitsToTxHex(txBits(transaction.lastIndex)),
       transaction.bundle,
       transaction.trunkTransaction,
       transaction.branchTransaction,
@@ -104,9 +104,9 @@ export function asTransactionHBytes(
             : transaction.obsoleteTag
           : ""
       ),
-      hBitsToHBytes(txBits(transaction.attachmentTimestamp)),
-      hBitsToHBytes(txBits(transaction.attachmentTimestampLowerBound)),
-      hBitsToHBytes(txBits(transaction.attachmentTimestampUpperBound)),
+      txBitsToTxHex(txBits(transaction.attachmentTimestamp)),
+      txBitsToTxHex(txBits(transaction.attachmentTimestampLowerBound)),
+      txBitsToTxHex(txBits(transaction.attachmentTimestampUpperBound)),
       transaction.nonce,
       "0".repeat(PAD_BYTE_SIZE)
     ].join("")
@@ -120,30 +120,30 @@ export function asTransactionHBytes(
  *
  * @method asTransactionObject
  *
- * @param {HBytes} hbytes - Transaction transactionStrings
+ * @param {HBytes} txHex - Transaction transactionStrings
  *
  * @return {Transaction} Transaction object
  */
 export const asTransactionObject = (
-  hbytes: HBytes,
+  txHex: HBytes,
   hash?: Hash
 ): Transaction => {
-  if (!isHBytesOfExactLength(hbytes, TRANSACTION_HBYTE_SIZE)) {
+  if (!isHBytesOfExactLength(txHex, TRANSACTION_HBYTE_SIZE)) {
     throw new Error(errors.INVALID_HBYTES);
   }
-  const txBits = txHexToTxBits(hbytes);
+  const txBits = txHexToTxBits(txHex);
 
   const noOfBitsInBytes = 4;
   const usefulBytesFromValue = TRANSACTION_VALUE_BYTE_SIZE;
   const noOfBitsInValue = 4 * usefulBytesFromValue;
 
   return {
-    hash: hash || transactionHash(toTxBytes(hbytes)),
-    signatureMessageFragment: hbytes.slice(
+    hash: hash || transactionHash(toTxBytes(txHex)),
+    signatureMessageFragment: txHex.slice(
       START_INDEX_SIGNATURE_MESSAGE,
       START_INDEX_SIGNATURE_MESSAGE + SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
     ),
-    address: hbytes.slice(
+    address: txHex.slice(
       START_INDEX_ADDRESS,
       START_INDEX_ADDRESS + ADDRESS_BYTE_SIZE
     ),
@@ -153,7 +153,7 @@ export const asTransactionObject = (
         START_INDEX_VALUE * noOfBitsInBytes + noOfBitsInValue
       )
     ),
-    obsoleteTag: hbytes.slice(
+    obsoleteTag: txHex.slice(
       START_INDEX_OBSOLETE_TAG,
       START_INDEX_OBSOLETE_TAG + OBSOLETE_TAG_BYTE_SIZE
     ),
@@ -178,19 +178,19 @@ export const asTransactionObject = (
           (START_INDEX_LAST_INDEX_BYTES + TRANSACTION_LAST_INDEX_BYTE_SIZE)
       )
     ),
-    bundle: hbytes.slice(
+    bundle: txHex.slice(
       START_INDEX_BUNDLE,
       START_INDEX_BUNDLE + HASH_HBYTE_SIZE
     ),
-    trunkTransaction: hbytes.slice(
+    trunkTransaction: txHex.slice(
       START_TRUNK_TRANS,
       START_TRUNK_TRANS + HASH_HBYTE_SIZE
     ),
-    branchTransaction: hbytes.slice(
+    branchTransaction: txHex.slice(
       START_BRANCH_TRANS,
       START_BRANCH_TRANS + HASH_HBYTE_SIZE
     ),
-    tag: hbytes.slice(START_INDEX_TAG, START_INDEX_TAG + TAG_BYTE_SIZE),
+    tag: txHex.slice(START_INDEX_TAG, START_INDEX_TAG + TAG_BYTE_SIZE),
     attachmentTimestamp: value(
       txBits.slice(
         noOfBitsInBytes * START_INDEX_ATTACHED_TIMESTAMP,
@@ -212,7 +212,7 @@ export const asTransactionObject = (
           (START_INDEX_TIMESTAMP_UP + TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE)
       )
     ),
-    nonce: hbytes.slice(START_INDEX_NONCE, START_INDEX_NONCE + NONCE_BYTE_SIZE)
+    nonce: txHex.slice(START_INDEX_NONCE, START_INDEX_NONCE + NONCE_BYTE_SIZE)
   };
 };
 
@@ -239,8 +239,8 @@ export const asTransactionObjects = (hashes?: ReadonlyArray<Hash>) => {
    *
    * @return {Transaction[]} List of transaction objects with hashes
    */
-  return function transactionObjectsMapper(hbytes: ReadonlyArray<HBytes>) {
-    return hbytes.map((hByteString, i) =>
+  return function transactionObjectsMapper(txHex: ReadonlyArray<HBytes>) {
+    return txHex.map((hByteString, i) =>
       asTransactionObject(hByteString, hashes![i])
     );
   };

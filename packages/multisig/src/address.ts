@@ -25,7 +25,7 @@ export default class Address {
    *
    * @memberof Address
    *
-   * @param {string|array} digest digest hbytes
+   * @param {string|array} digest digest txHex
    *
    * @return {object} address instance
    */
@@ -45,15 +45,15 @@ export default class Address {
     return this;
   }
   /**
-   * Finalizes and returns the multisig address in hbytes
+   * Finalizes and returns the multisig address in txHex
    *
    * @member finalize
    *
    * @memberof Address
    *
-   * @param {string} digest digest hbytes, optional
+   * @param {string} digest digest txHex, optional
    *
-   * @return {string} address hbytes
+   * @return {string} address txHex
    */
   public finalize(digest?: string) {
     // Absorb last digest if provided
@@ -65,7 +65,7 @@ export default class Address {
     const addressHBytes: Int8Array = new Int8Array(this.hHash.getHashLength());
     this.hHash.squeeze(addressHBytes, 0, this.hHash.getHashLength());
 
-    // Convert txBits into hbytes and return the address
+    // Convert txBits into txHex and return the address
     return hex(addressHBytes);
   }
 }

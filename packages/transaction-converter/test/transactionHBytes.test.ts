@@ -4,7 +4,7 @@ import {
   bundleHBytes,
   bundleWithZeroValue,
   bundleWithZeroValueHBytes,
-  transactionTxHex as hbytes,
+  transactionTxHex as txHex,
   transactionObject
 } from "@helixnetwork/samples";
 import test from "ava";
@@ -14,34 +14,34 @@ import {
   transactionTxHex
 } from "../src";
 
-test("asTransactionHBytes() converts transaction object to transaction hbytes.", t => {
+test("asTransactionHBytes() converts transaction object to transaction txHex.", t => {
   t.deepEqual(
     asTransactionHBytes(transactionObject),
-    hbytes,
-    "asTransactionHBytes() should convert transaction object to transaction hbytes."
+    txHex,
+    "asTransactionHBytes() should convert transaction object to transaction txHex."
   );
 });
 
-test("asTransactionHBytes() converts transaction object array to transaction hbytes array.", t => {
+test("asTransactionHBytes() converts transaction object array to transaction txHex array.", t => {
   t.deepEqual(
     asTransactionHBytes([transactionObject]),
-    [hbytes],
-    "asTransactionHBytes() should convert transaction object array to transaction hbytes array."
+    [txHex],
+    "asTransactionHBytes() should convert transaction object array to transaction txHex array."
   );
 });
 
-test("transactionTxHex() converts transaction object to transaction hbytes.", t => {
+test("transactionTxHex() converts transaction object to transaction txHex.", t => {
   t.deepEqual(
     transactionTxHex(transactionObject),
-    hbytes,
-    "transactionTxHex() should convert transaction object to transaction hbytes."
+    txHex,
+    "transactionTxHex() should convert transaction object to transaction txHex."
   );
 });
 
-test("asFinalTransactionHBytes() converts transaction objects to reversed hbytes.", t => {
+test("asFinalTransactionHBytes() converts transaction objects to reversed txHex.", t => {
   t.deepEqual(
     asFinalTransactionHBytes([...bundle]),
     [...bundleHBytes].reverse(),
-    "asFinalTransactionHBytes() should convert transaction objects to reversed hbytes."
+    "asFinalTransactionHBytes() should convert transaction objects to reversed txHex."
   );
 });

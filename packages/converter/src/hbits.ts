@@ -44,9 +44,9 @@ export const txHexToTxBits = txBits;
  *
  * @param {Int8Array} hBits
  *
- * @return {String} hbytes
+ * @return {String} txHex
  */
-export function hbytes(hBits: Int8Array | Uint8Array): string {
+export function txHex(hBits: Int8Array | Uint8Array): string {
   if (hBits.length % 4 !== 0) {
     throw new Error(errors.INVALID_HBITS_LENGTH);
   }
@@ -65,15 +65,15 @@ export function hbytes(hBits: Int8Array | Uint8Array): string {
 }
 
 /**
- * @method hBitsToHBytes
+ * @method txBitsToTxHex
  *
  * @memberof module:converter
  *
  * @ignore
  *
- * @alias hbytes
+ * @alias txHex
  */
-export const hBitsToHBytes = hbytes;
+export const txBitsToTxHex = txHex;
 
 /**
  * Converts txBits into an integer value
@@ -82,22 +82,22 @@ export const hBitsToHBytes = hbytes;
  *
  * @memberof module:converter
  *
- * @param {Int8Array} hBits
+ * @param {Int8Array} txBits
  *
  * @return {Number}
  */
 // tslint:disable-next-line no-shadowed-variable
-export function value(hBits: Int8Array): number {
-  const isNegative = hBits[0] === 1;
+export function value(txBits: Int8Array): number {
+  const isNegative = txBits[0] === 1;
   let strBits = "";
-  for (let i = 0; i < hBits.length; i++) {
-    strBits += isNegative ? ~hBits[i] & 0x01 : hBits[i] & 0x01;
+  for (let i = 0; i < txBits.length; i++) {
+    strBits += isNegative ? ~txBits[i] & 0x01 : txBits[i] & 0x01;
   }
   return isNegative ? -1 * (parseInt(strBits, 2) + 1) : parseInt(strBits, 2);
 }
 
 /**
- * @method hBitsToValue
+ * @method txBitsToValue
  *
  * @memberof module:converter
  *
@@ -105,7 +105,7 @@ export function value(hBits: Int8Array): number {
  *
  * @alias value
  */
-export const hBitsToValue = value;
+export const txBitsToValue = value;
 
 /**
  * Converts an integer value to txBits
@@ -132,7 +132,7 @@ export function fromValue(value: number): Int8Array {
 }
 
 /**
- * @method valueToHBits
+ * @method valueToTxBits
  *
  * @memberof module:converter
  *
@@ -140,4 +140,4 @@ export function fromValue(value: number): Int8Array {
  *
  * @alias fromValue
  */
-export const valueToHBits = fromValue;
+export const valueToTxBits = fromValue;

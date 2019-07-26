@@ -6,34 +6,34 @@ import {
   transactionObject
 } from "../src";
 
-test("asTransactionObject() converts transaction hbytes to transaction object.", t => {
+test("asTransactionObject() converts transaction txHex to transaction object.", t => {
   t.deepEqual(
     asTransactionObject(bundleHBytes[0]),
     bundle[0],
-    "asTransactionObject() should convert transaction hbytes to transaction object."
+    "asTransactionObject() should convert transaction txHex to transaction object."
   );
 });
 
-test("asTransactionObject() with hash option, converts transaction hbytes to transaction object.", t => {
+test("asTransactionObject() with hash option, converts transaction txHex to transaction object.", t => {
   t.deepEqual(
     asTransactionObject(bundleHBytes[0], bundle[0].hash),
     bundle[0],
-    "asTransactionObject() with hash option, should convert transaction hbytes to transaction object."
+    "asTransactionObject() with hash option, should convert transaction txHex to transaction object."
   );
 });
 
-test("transactionObject() converts transaction hbytes to transaction object.", t => {
+test("transactionObject() converts transaction txHex to transaction object.", t => {
   t.deepEqual(
     transactionObject(bundleHBytes[0]),
     bundle[0],
-    "transactionObject() should convert transaction hbytes to transaction object."
+    "transactionObject() should convert transaction txHex to transaction object."
   );
 });
 
-test("asTransactionObjects() converts array of transaction hbytes to array of transaction objects.", t => {
+test("asTransactionObjects() converts array of transaction txHex to array of transaction objects.", t => {
   t.deepEqual(
     asTransactionObjects(bundle.map(tx => tx.hash))(bundleHBytes),
     bundle,
-    "transactionObject() should convert array of transaction hbytes to transaction objects."
+    "transactionObject() should convert array of transaction txHex to transaction objects."
   );
 });

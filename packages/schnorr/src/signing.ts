@@ -3,12 +3,12 @@
 import {
   fromValue,
   txBits,
-  hbytes,
+  txHex,
   txHexToTxBits,
   hex,
   toTxBytes,
   value,
-  hBitsToHBytes
+  txBitsToTxHex
 } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { padHBits } from "@helixnetwork/pad";
@@ -277,9 +277,9 @@ export function signatureFragment(
 /**
  * @method validateSignatures
  *
- * @param {string} expectedAddress - Expected address hbytes
- * @param {array} signatureFragments - Array of signatureFragments hbytes
- * @param {string} bundleHash - Bundle hash hbytes
+ * @param {string} expectedAddress - Expected address txHex
+ * @param {array} signatureFragments - Array of signatureFragments txHex
+ * @param {string} bundleHash - Bundle hash txHex
  *
  * @return {boolean}
  */
@@ -307,7 +307,7 @@ export function validateSignatures(
     );
     isValid = isValid && Schnorr.verify(normalizedBundle, signature, publicKey);
   });
-  return isValid; // expectedAddress === hbytes(address(digests));
+  return isValid; // expectedAddress === txHex(address(digests));
 }
 
 /**
@@ -315,7 +315,7 @@ export function validateSignatures(
  *
  * @method normalizedBundleHash
  *
- * @param {Hash} bundlehash - Bundle hash hbytes
+ * @param {Hash} bundlehash - Bundle hash txHex
  *
  * @return {Int8Array} Normalized bundle hash
  */

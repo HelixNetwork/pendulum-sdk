@@ -2,7 +2,7 @@ import test from "ava";
 import {
   fromValue,
   txBits,
-  hBitsToHBytes,
+  txBitsToTxHex,
   txHexToTxBits,
   hex,
   value
@@ -19,12 +19,12 @@ test("Converter: Test number to bits and back to number conversion) ", t => {
     0x01,
     0x00
   ]);
-  let bytes = hBitsToHBytes(input);
+  let bytes = txBitsToTxHex(input);
   let bit = txHexToTxBits(bytes);
   t.deepEqual(
     bit,
     input,
-    "Function hBitsToHBytes and txHexToTxBits() return the same value"
+    "Function txBitsToTxHex and txHexToTxBits() return the same value"
   );
 });
 
@@ -38,7 +38,7 @@ test("Converter = Test number to bits and back to number conversion) ", t => {
     txBits.length < 64
       ? new Int8Array(64).map((n, i) => txBits[i] || 0)
       : txBits;
-  let bytes = hBitsToHBytes(paddedBits);
+  let bytes = txBitsToTxHex(paddedBits);
 
   let againToBits = txHexToTxBits(bytes);
   console.log("bytes - " + bytes);
@@ -59,7 +59,7 @@ test("Converter: Test number to bits and back to number conversion for negative 
           return i < txBits.length ? txBits[i] || 0 : txBits[txBits.length - 1];
         })
       : txBits;
-  let bytes = hBitsToHBytes(paddedBits);
+  let bytes = txBitsToTxHex(paddedBits);
 
   let againToBits = txHexToTxBits(bytes);
   const result = value(againToBits);
@@ -245,7 +245,7 @@ test("Converter:Test value) ", t => {
   t.is(placeholder("placeholder"), input, "Inputs should be equal.");
 });
 
-test("Converter: Test hBitsToHBytes) ", t => {
+test("Converter: Test txBitsToTxHex) ", t => {
   const input: Int8Array = new Int8Array([
     0x00,
     0x01,
@@ -262,9 +262,9 @@ test("Converter: Test hBitsToHBytes) ", t => {
   ]);
   const expected: string = "79e"; // 79e
   t.deepEqual(
-    hBitsToHBytes(input),
+    txBitsToTxHex(input),
     expected,
-    "Function hBitsToHBytes() should return correct value"
+    "Function txBitsToTxHex() should return correct value"
   );
 });
 

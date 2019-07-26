@@ -1,10 +1,10 @@
 import { OBSOLETE_TAG_BYTE_SIZE, TAG_BYTE_SIZE } from "../../constants";
 import { HBytes, Tag } from "../../types";
 
-export const padHBytes = (length: number) => (hbytes: HBytes) =>
-  hbytes.length < length
-    ? hbytes.concat("0".repeat(length - hbytes.length))
-    : hbytes;
+export const padHBytes = (length: number) => (txHex: HBytes) =>
+  txHex.length < length
+    ? txHex.concat("0".repeat(length - txHex.length))
+    : txHex;
 
 export const padHBits = (length: number) => (txBits: Int8Array) =>
   txBits.length < length
