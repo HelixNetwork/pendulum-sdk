@@ -5,7 +5,7 @@ import {
   addressValidator,
   arrayValidator,
   hashValidator,
-  hbytesValidator,
+  txHexValidator,
   validate
 } from "../../guards";
 import {
@@ -67,7 +67,7 @@ export const createIsReattachable = (provider: Provider) => {
       Promise.try(() => {
         // 1. Remove checksum and validate addresses
         validate(
-          arrayValidator(hbytesValidator)(inputAddressArray, INVALID_ADDRESS)
+          arrayValidator(txHexValidator)(inputAddressArray, INVALID_ADDRESS)
         );
 
         addresses = inputAddressArray.map(addr => removeChecksum(addr));

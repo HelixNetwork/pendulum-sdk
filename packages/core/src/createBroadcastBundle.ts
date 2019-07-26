@@ -1,6 +1,6 @@
 import { transactionHashValidator } from "@helixnetwork/transaction";
 import {
-  asFinalTransactionHBytes,
+  asFinalTransactionStrings,
   asTransactionObjects
 } from "@helixnetwork/transaction-converter";
 import * as Promise from "bluebird";
@@ -60,7 +60,7 @@ export const createBroadcastBundle = (provider: Provider) => {
       validate(transactionHashValidator(tailTransactionHash))
     )
       .then(() => getBundle(tailTransactionHash))
-      .then(asFinalTransactionHBytes)
+      .then(asFinalTransactionStrings)
       .then(broadcastTransactions)
       .asCallback(callback);
   };

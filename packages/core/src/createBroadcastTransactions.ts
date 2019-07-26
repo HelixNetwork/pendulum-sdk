@@ -21,7 +21,7 @@ import {
  */
 export const createBroadcastTransactions = ({ send }: Provider) =>
   /**
-   * Broadcasts an list of _attached_ transaction hbytes to the network by calling
+   * Broadcasts an list of _attached_ transaction txHex to the network by calling
    * [`boradcastTransactions`](https://docs.hlx.ai/hlx/api#endpoints/broadcastTransactions) command.
    * Tip selection and Proof-of-Work must be done first, by calling
    * [`getTransactionsToApprove`]{@link #module_core.getTransactionsToApprove} and
@@ -30,14 +30,14 @@ export const createBroadcastTransactions = ({ send }: Provider) =>
    *
    * You may use this method to increase odds of effective transaction propagation.
    *
-   * Persist the transaction hbytes in local storage **before** calling this command for first time, to ensure
+   * Persist the transaction txHex in local storage **before** calling this command for first time, to ensure
    * that reattachment is possible, until your bundle has been included.
    *
    * @example
    *
    * ```js
-   * broadcastTransactions(hbytes)
-   *   .then(hbytes => {
+   * broadcastTransactions(txHex)
+   *   .then(txHex => {
    *      // ...
    *   })
    *   .catch(err => {
@@ -49,13 +49,13 @@ export const createBroadcastTransactions = ({ send }: Provider) =>
    *
    * @memberof module:core
    *
-   * @param {TransactionTxHex[]} hbytes - Attached Transaction hbytes
+   * @param {TransactionTxHex[]} txHex - Attached Transaction txHex
    * @param {Callback} [callback] - Optional callback
    *
    * @return {Promise}
-   * @fulfil {HBytes[]} Attached transaction hbytes
+   * @fulfil {HBytes[]} Attached transaction txHex
    * @reject {Error}
-   * - `INVALID_ATTACHED_HBYTES`: Invalid array of attached hbytes
+   * - `INVALID_ATTACHED_HBYTES`: Invalid array of attached txHex
    * - Fetch error
    */
   (

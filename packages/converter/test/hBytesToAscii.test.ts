@@ -5,14 +5,14 @@ import { txHexToAscii } from "../src";
 const { INVALID_ODD_LENGTH, INVALID_TX_HEX } = errors;
 
 test("txHexToAscii()", t => {
-  const hbytes = "494f5441";
+  const txHex = "494f5441";
   const expected = "IOTA";
 
   const nonHBytes = "AAAfasds";
-  const hbytesOfOddLength = "aaa";
+  const txHexOfOddLength = "aaa";
 
   t.is(
-    txHexToAscii(hbytes),
+    txHexToAscii(txHex),
     expected,
     "fromHBytes() should convert transactionStrings to ascii."
   );
@@ -26,7 +26,7 @@ test("txHexToAscii()", t => {
   t.is(invalidHBytesError.message, INVALID_TX_HEX, "incorrect error message");
 
   const oddLengthError = t.throws(
-    () => txHexToAscii(hbytesOfOddLength),
+    () => txHexToAscii(txHexOfOddLength),
     Error,
     "fromHBytes() should throw error for transactionStrings of odd length."
   );

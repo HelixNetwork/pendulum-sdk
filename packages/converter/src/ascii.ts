@@ -2,7 +2,7 @@ import { hex, toTxBytes } from "./";
 import * as errors from "./errors";
 
 /**
- * Converts an ascii encoded string to hbytes.
+ * Converts an ascii encoded string to txHex.
  *
  * ### How conversion works:
  *

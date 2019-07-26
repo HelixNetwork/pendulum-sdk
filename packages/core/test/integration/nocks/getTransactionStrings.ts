@@ -2,7 +2,7 @@ import {
   bundle,
   bundleHBytes,
   bundleWithZeroValue,
-  bundleWithZeroValueHBytes
+  bundleWithZeroValueTxHex
 } from "@helixnetwork/samples";
 import * as nock from "nock";
 import { HASH_HBYTE_SIZE, TRANSACTION_HBYTE_SIZE } from "../../../../constants";
@@ -33,7 +33,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundleWithZeroValue[0].hash]
   })
   .reply(200, {
-    txs: bundleWithZeroValueHBytes
+    txs: bundleWithZeroValueTxHex
   });
 
 nock("http://localhost:14265", headers)

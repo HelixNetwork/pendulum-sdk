@@ -1,5 +1,5 @@
 import { transactionHashValidator } from "@helixnetwork/transaction";
-import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
+import { asFinalTransactionStrings } from "@helixnetwork/transaction-converter";
 import * as Promise from "bluebird";
 import {
   depthValidator,
@@ -89,7 +89,7 @@ export const createReplayBundle = (
       )
     )
       .then(() => getBundle(tail))
-      .then(bundle => asFinalTransactionHBytes(bundle))
+      .then(bundle => asFinalTransactionStrings(bundle))
       .then(txs => sendHBytes(txs, depth, minWeightMagnitude, reference))
       .asCallback(typeof arguments[3] === "function" ? arguments[3] : callback);
   };

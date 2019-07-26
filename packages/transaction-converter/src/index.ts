@@ -57,20 +57,20 @@ import { asArray, Hash, HBytes, Transaction } from "../../types";
 
 export { Transaction };
 
-export function asTransactionHBytes(transactions: Transaction): HBytes;
-export function asTransactionHBytes(
+export function asTransactionStrings(transactions: Transaction): HBytes;
+export function asTransactionStrings(
   transactions: ReadonlyArray<Transaction>
 ): ReadonlyArray<HBytes>;
 /**
  * Converts a transaction object or a list of those into transaction transactionStrings.
  *
- * @method asTransactionHBytes
+ * @method asTransactionStrings
  *
  * @param {Transaction | Transaction[]} transactions - Transaction object(s)
  *
  * @return {HBytes | HBytes[]} Transaction transactionStrings
  */
-export function asTransactionHBytes(
+export function asTransactionStrings(
   transactions: Transaction | ReadonlyArray<Transaction>
 ): HBytes | ReadonlyArray<HBytes> {
   asArray(transactions).forEach(transaction => {
@@ -129,7 +129,7 @@ export const asTransactionObject = (
   hash?: Hash
 ): Transaction => {
   if (!isHBytesOfExactLength(txHex, TRANSACTION_HBYTE_SIZE)) {
-    throw new Error(errors.INVALID_HBYTES);
+    throw new Error(errors.INVALID_TX_HEX);
   }
   const txBits = txHexToTxBits(txHex);
 
@@ -246,9 +246,9 @@ export const asTransactionObjects = (hashes?: ReadonlyArray<Hash>) => {
   };
 };
 
-export const asFinalTransactionHBytes = (
+export const asFinalTransactionStrings = (
   transactions: ReadonlyArray<Transaction>
-) => [...asTransactionHBytes(transactions)].reverse();
+) => [...asTransactionStrings(transactions)].reverse();
 
 export const transactionObject = (hBytes: HBytes): Transaction => {
   /* tslint:disable-next-line:no-console */
@@ -259,7 +259,7 @@ export const transactionObject = (hBytes: HBytes): Transaction => {
 
 export const transactionTxHex = (transaction: Transaction): HBytes => {
   /* tslint:disable-next-line:no-console */
-  console.warn("`transactionTxHex` has been renamed to `asTransactionHBytes`");
+  console.warn("`transactionTxHex` has been renamed to `asTransactionStrings`");
 
-  return asTransactionHBytes(transaction);
+  return asTransactionStrings(transaction);
 };

@@ -3,30 +3,30 @@ import {
   bundle,
   bundleHBytes,
   bundleWithZeroValue,
-  bundleWithZeroValueHBytes,
+  bundleWithZeroValueTxHex,
   transactionTxHex as txHex,
   transactionObject
 } from "@helixnetwork/samples";
 import test from "ava";
 import {
-  asFinalTransactionHBytes,
-  asTransactionHBytes,
+  asFinalTransactionStrings,
+  asTransactionStrings,
   transactionTxHex
 } from "../src";
 
-test("asTransactionHBytes() converts transaction object to transaction txHex.", t => {
+test("asTransactionStrings() converts transaction object to transaction txHex.", t => {
   t.deepEqual(
-    asTransactionHBytes(transactionObject),
+    asTransactionStrings(transactionObject),
     txHex,
-    "asTransactionHBytes() should convert transaction object to transaction txHex."
+    "asTransactionStrings() should convert transaction object to transaction txHex."
   );
 });
 
-test("asTransactionHBytes() converts transaction object array to transaction txHex array.", t => {
+test("asTransactionStrings() converts transaction object array to transaction txHex array.", t => {
   t.deepEqual(
-    asTransactionHBytes([transactionObject]),
+    asTransactionStrings([transactionObject]),
     [txHex],
-    "asTransactionHBytes() should convert transaction object array to transaction txHex array."
+    "asTransactionStrings() should convert transaction object array to transaction txHex array."
   );
 });
 
@@ -38,10 +38,10 @@ test("transactionTxHex() converts transaction object to transaction txHex.", t =
   );
 });
 
-test("asFinalTransactionHBytes() converts transaction objects to reversed txHex.", t => {
+test("asFinalTransactionStrings() converts transaction objects to reversed txHex.", t => {
   t.deepEqual(
-    asFinalTransactionHBytes([...bundle]),
+    asFinalTransactionStrings([...bundle]),
     [...bundleHBytes].reverse(),
-    "asFinalTransactionHBytes() should convert transaction objects to reversed txHex."
+    "asFinalTransactionStrings() should convert transaction objects to reversed txHex."
   );
 });

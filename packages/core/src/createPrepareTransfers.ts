@@ -2,8 +2,8 @@ import * as Promise from "bluebird";
 
 import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
 import { isValidChecksum, removeChecksum } from "@helixnetwork/checksum";
-import { txBits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
-import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
+import { txBits, txHex, hex, toTxBytes } from "@helixnetwork/converter";
+import { asFinalTransactionStrings } from "@helixnetwork/transaction-converter";
 import {
   key,
   normalizedBundleHash,
@@ -189,7 +189,7 @@ export const createPrepareTransfers = (
       finalize,
       addSignatures,
       addHMAC,
-      asTransactionHBytes
+      asTransactionStrings
     )(props)
       .then(({ txs }: PrepareTransfersProps) => txs)
       .asCallback(callback);
@@ -448,9 +448,9 @@ export const addHMAC = (
     : props;
 };
 
-export const asTransactionHBytes = (
+export const asTransactionStrings = (
   props: PrepareTransfersProps
 ): PrepareTransfersProps => ({
   ...props,
-  txs: asFinalTransactionHBytes(props.transactions)
+  txs: asFinalTransactionStrings(props.transactions)
 });

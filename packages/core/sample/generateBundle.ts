@@ -13,7 +13,7 @@ import { composeAPI, createPrepareTransfers } from "../src";
 
 import isBundle from "@helixnetwork/bundle-validator";
 import {
-  asTransactionHBytes,
+  asTransactionStrings,
   asTransactionObjects
 } from "@helixnetwork/transaction-converter";
 import { createGetNewAddress } from "../src/createGetNewAddress";
@@ -112,7 +112,7 @@ async function generateBundle() {
 
   await createAndPrintBundle(
     "export const bundleWithZeroValue = ",
-    "export const bundleWithZeroValueHBytes = ",
+    "export const bundleWithZeroValueTxHex = ",
     seed,
     [
       {
@@ -183,7 +183,7 @@ async function attachIntoTangle(
     console.log(resultBundle);
 
     console.log(msgHbytes);
-    const resultHbytes = asTransactionHBytes(resultBundle);
+    const resultHbytes = asTransactionStrings(resultBundle);
     console.log(resultHbytes);
     for (var i = 0; i < resultHbytes.length; i++) {
       let computedTransactionHash = transactionHash(toTxBytes(resultHbytes[i]));

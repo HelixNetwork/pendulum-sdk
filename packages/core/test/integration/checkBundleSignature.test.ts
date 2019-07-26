@@ -38,24 +38,20 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
   "lib"
 );
 
-test("checkBundleSignature() prepares the correct array of hbytes offline.", async t => {
-  const hbytes: ReadonlyArray<HBytes> = await prepareTransfers(
-    seed,
-    transfers,
-    {
-      inputs,
-      remainderAddress
-    }
-  );
+test("checkBundleSignature() prepares the correct array of txHex offline.", async t => {
+  const txHex: ReadonlyArray<HBytes> = await prepareTransfers(seed, transfers, {
+    inputs,
+    remainderAddress
+  });
 
   const keyHBytes = key(subseed(toTxBytes(seed), 0), 2);
   const digestsHBytes = digests(keyHBytes);
   const addressHBytes = hex(address(digestsHBytes));
 
-  const transaction: Transaction[] = new Array<Transaction>(hbytes.length);
+  const transaction: Transaction[] = new Array<Transaction>(txHex.length);
   const bundle: Transaction[] = asTransactionObjects(
     transaction.map(tx => tx.hash)
-  )(hbytes);
+  )(txHex);
 
   t.is(
     validateBundleSignatures(bundle),
