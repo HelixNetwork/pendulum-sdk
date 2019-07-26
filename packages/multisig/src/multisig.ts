@@ -1,4 +1,4 @@
-import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
+import { addEntry, addTxHex, finalizeBundle } from "@helixnetwork/bundle";
 import { removeChecksum } from "@helixnetwork/checksum";
 import { txBits, txHex, hex, toTxBytes } from "@helixnetwork/converter";
 import { Balances, createGetBalances } from "@helixnetwork/core";
@@ -15,7 +15,7 @@ import * as errors from "../../errors";
 import {
   arrayValidator,
   isAddress,
-  isNinesHBytes,
+  isNinesTxHex,
   isSecurityLevel,
   remainderAddressValidator,
   transferValidator,
@@ -203,7 +203,7 @@ export const createBundle = (
     bundle = _bundle.slice();
   }
 
-  return addHBytes(
+  return addTxHex(
     finalizeBundle(bundle),
     signatureFragments,
     bundle.findIndex(tx => tx.value < 0)
@@ -355,7 +355,7 @@ export default class Multisig {
    *
    * @param {array} bundleToSign
    * @param {string} inputAddress
-   * @param keyHBytes
+   * @param keyTxHex
    * @param {function} callback
    *
    * @return {array} txHex Returns bundle txHex
@@ -363,7 +363,7 @@ export default class Multisig {
   public addSignature(
     bundleToSign: Bundle,
     inputAddress: string,
-    keyHBytes: string,
+    keyTxHex: string,
     callback: Callback
   ) {
     const bundle = bundleToSign;
@@ -371,10 +371,10 @@ export default class Multisig {
 
     // Get the security used for the private key
     // 1 security level = 2187 txHex
-    const security = keyHBytes.length / SIGNATURE_SECRETE_KEY_BYTE_SIZE;
+    const security = keyTxHex.length / SIGNATURE_SECRETE_KEY_BYTE_SIZE;
 
     // convert private key txHex into txBits
-    const keyBytes = toTxBytes(keyHBytes);
+    const keyBytes = toTxBytes(keyTxHex);
 
     // First get the total number of already signed transactions
     // use that for the bundle hash calculation as well as knowing
@@ -384,7 +384,7 @@ export default class Multisig {
     for (let i = 0; i < bundle.length; i++) {
       if (bundle[i].address === inputAddress) {
         // If transaction is already signed, increase counter
-        if (!isNinesHBytes(bundle[i].signatureMessageFragment as string)) {
+        if (!isNinesTxHex(bundle[i].signatureMessageFragment as string)) {
           numSignedTxs++;
         } else {
           // Else sign the transaction

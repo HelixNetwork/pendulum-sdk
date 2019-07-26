@@ -6,7 +6,7 @@ import {
   GetTransactionStringsCommand,
   GetTransactionStringsResponse,
   Hash,
-  HBytes,
+  TxHex,
   ProtocolCommand,
   Provider
 } from "../../types";
@@ -46,15 +46,15 @@ export const createGetTransactionStrings = ({ send }: Provider) =>
    * @param {Callback} [callback] - Optional callback
    *
    * @return {Promise}
-   * @fulfil {HBytes[]} - Transaction transactionStrings
+   * @fulfil {TxHex[]} - Transaction transactionStrings
    * @reject Error{}
    * - `INVALID_TRANSACTION_HASH`: Invalid hash
    * - Fetch error
    */
   function getTransactionStrings(
     hashes: ReadonlyArray<Hash>,
-    callback?: Callback<ReadonlyArray<HBytes>>
-  ): Promise<ReadonlyArray<HBytes>> {
+    callback?: Callback<ReadonlyArray<TxHex>>
+  ): Promise<ReadonlyArray<TxHex>> {
     return Promise.resolve(
       validate(arrayValidator(transactionHashValidator)(hashes))
     )

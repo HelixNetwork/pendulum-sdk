@@ -8,7 +8,7 @@ import {
 } from "@helixnetwork/samples";
 import { transactionHash } from "@helixnetwork/transaction";
 import { ADDRESS_BYTE_SIZE } from "../../constants";
-import { HBytes, Transaction, Transfer } from "../../types";
+import { TxHex, Transaction, Transfer } from "../../types";
 import { composeAPI, createPrepareTransfers } from "../src";
 
 import isBundle from "@helixnetwork/bundle-validator";
@@ -28,7 +28,7 @@ const helix = composeAPI({
 async function generateBundle() {
   await createAndPrintBundle(
     "export const bundle: Transaction[] = ",
-    "export const bundleHBytes: HBytes[] = ",
+    "export const bundleTxHex: TxHex[] = ",
     seed,
     [
       {
@@ -57,7 +57,7 @@ async function generateBundle() {
 
   await createAndPrintBundle(
     "export const bundleWithValidSignature = ",
-    "export const bundleWithValidSignatureHBytes = ",
+    "export const bundleWithValidSignatureTxHex = ",
     seed,
     [
       {
@@ -126,7 +126,7 @@ async function generateBundle() {
 
   await createAndPrintBundle(
     "prepare transfer: export const bundleWithZeroValue = ",
-    "expectedZeroValueHBytes = ",
+    "expectedZeroValueTxHex = ",
     seed,
     [
       {

@@ -6,24 +6,24 @@ import {
   transactionObject
 } from "@helixnetwork/samples";
 import test from "ava";
-import { isAttachedHBytesArray } from "../src";
+import { isAttachedTxHexArray } from "../src";
 
-test("isAttachedHBytesArray()", t => {
+test("isAttachedTxHexArray()", t => {
   t.is(
-    isAttachedHBytesArray(attachedTxHex),
+    isAttachedTxHexArray(attachedTxHex),
     true,
-    "isAttachedHBytesArray() returns true for valid attached txHex"
+    "isAttachedTxHexArray() returns true for valid attached txHex"
   );
 
   t.is(
-    isAttachedHBytesArray(attachedTxHexOfInvalidChars),
+    isAttachedTxHexArray(attachedTxHexOfInvalidChars),
     false,
-    "isAttachedHBytesArray() returns false for invalid txHex"
+    "isAttachedTxHexArray() returns false for invalid txHex"
   );
 
   t.is(
-    isAttachedHBytesArray(attachedTxHexOfInvalidLength),
+    isAttachedTxHexArray(attachedTxHexOfInvalidLength),
     false,
-    "isAttachedHBytesArray() return false for txHex of invalid length"
+    "isAttachedTxHexArray() return false for txHex of invalid length"
   );
 });

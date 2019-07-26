@@ -1,6 +1,6 @@
 import {
   bundle,
-  bundleHBytes,
+  bundleTxHex,
   bundleWithZeroValue,
   bundleWithZeroValueTxHex
 } from "@helixnetwork/samples";
@@ -49,7 +49,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[0].hash]
   })
   .reply(200, {
-    txs: [bundleHBytes[0]]
+    txs: [bundleTxHex[0]]
   });
 
 nock("http://localhost:14265", headers)
@@ -59,7 +59,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[1].hash]
   })
   .reply(200, {
-    txs: [bundleHBytes[1]]
+    txs: [bundleTxHex[1]]
   });
 
 nock("http://localhost:14265", headers)
@@ -69,7 +69,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[2].hash]
   })
   .reply(200, {
-    txs: [bundleHBytes[2]]
+    txs: [bundleTxHex[2]]
   });
 
 nock("http://localhost:14265", headers)
@@ -79,7 +79,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[3].hash]
   })
   .reply(200, {
-    txs: [bundleHBytes[3]]
+    txs: [bundleTxHex[3]]
   });
 
 nock("http://localhost:14265", headers)
@@ -89,7 +89,7 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[4].hash]
   })
   .reply(200, {
-    txs: [bundleHBytes[4]]
+    txs: [bundleTxHex[4]]
   });
 
 nock("http://localhost:14265", headers)
@@ -99,5 +99,5 @@ nock("http://localhost:14265", headers)
     hashes: [bundle[5].hash]
   })
   .reply(200, {
-    txs: [bundleHBytes[5]]
+    txs: [bundleTxHex[5]]
   });

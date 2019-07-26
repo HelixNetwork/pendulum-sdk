@@ -31,9 +31,9 @@ export const generateAddress = (
 ): Hash => {
   validate(seedValidator(seed), securityLevelValidator(security));
 
-  const keyHBytes = key(subseed(toTxBytes(seed), index), security);
-  const digestsHBytes = digests(keyHBytes);
-  const addressHBytes = hex(address(digestsHBytes));
+  const keyTxHex = key(subseed(toTxBytes(seed), index), security);
+  const digestsTxHex = digests(keyTxHex);
+  const addressTxHex = hex(address(digestsTxHex));
 
-  return checksum ? addChecksum(addressHBytes) : addressHBytes;
+  return checksum ? addChecksum(addressTxHex) : addressTxHex;
 };

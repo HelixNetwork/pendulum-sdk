@@ -4,7 +4,7 @@ import { txBits, txHex, hex, toTxBytes, value } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
   padHBits,
-  padHBytes,
+  padTxHex,
   padObsoleteTag,
   padSignedHBits,
   padTag
@@ -24,7 +24,7 @@ import {
   TRANSACTION_TIMESTAMP_BITS_SIZE,
   TRANSACTION_VALUE_BITS_SIZE
 } from "../../constants";
-import { Bundle, Hash, HBytes, Transaction } from "../../types";
+import { Bundle, Hash, TxHex, Transaction } from "../../types";
 
 export interface BundleEntry {
   readonly length: number;
@@ -32,7 +32,7 @@ export interface BundleEntry {
   readonly value: number;
   readonly tag: string;
   readonly timestamp: number;
-  readonly signatureMessageFragments: ReadonlyArray<HBytes>;
+  readonly signatureMessageFragments: ReadonlyArray<TxHex>;
 }
 
 export { Transaction, Bundle };
@@ -47,7 +47,7 @@ export const getEntryWithDefaults = (
   timestamp: entry.timestamp || Math.floor(Date.now() / 1000),
   signatureMessageFragments: entry.signatureMessageFragments
     ? entry.signatureMessageFragments.map(
-        padHBytes(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE)
+        padTxHex(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE)
       )
     : Array(entry.length || 1).fill(NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES)
 });
@@ -128,19 +128,19 @@ export const addEntry = (
 /**
  * Adds a list of transactionStrings in the bundle starting at offset
  *
- * @method addHBytes
+ * @method addTxHex
  *
  * @param {Transaction[]} transactions - Transactions in the bundle
  *
- * @param {HBytes[]} fragments - Message signature fragments to add
+ * @param {TxHex[]} fragments - Message signature fragments to add
  *
  * @param {number} [offset=0] - Optional offset to start appending signature message fragments
  *
  * @return {Transaction[]} Transactions of finalized bundle
  */
-export const addHBytes = (
+export const addTxHex = (
   transactions: Bundle,
-  fragments: ReadonlyArray<HBytes>,
+  fragments: ReadonlyArray<TxHex>,
   offset = 0
 ): Bundle =>
   transactions.map(
@@ -148,7 +148,7 @@ export const addHBytes = (
       i >= offset && i < offset + fragments.length
         ? {
             ...transaction,
-            signatureMessageFragment: padHBytes(
+            signatureMessageFragment: padTxHex(
               SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
             )(fragments[i - offset] || "")
           }
@@ -186,7 +186,7 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
 
     for (let i = 0; i < transactions.length; i++) {
       const essence = toTxBytes(
-        padHBytes(BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING)(
+        padTxHex(BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING)(
           transactions[i].address +
             txHex(valueHBits[i]) +
             txHex(obsoleteTagHBits[i]) +
@@ -198,11 +198,11 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
       hHash.absorb(essence, 0, essence.length);
     }
 
-    const bundleHashHBytes = new Int8Array(hHash.getHashLength());
-    hHash.squeeze(bundleHashHBytes, 0, hHash.getHashLength());
-    bundleHash = hex(bundleHashHBytes);
+    const bundleHashTxHex = new Int8Array(hHash.getHashLength());
+    hHash.squeeze(bundleHashTxHex, 0, hHash.getHashLength());
+    bundleHash = hex(bundleHashTxHex);
     if (
-      normalizedBundleHash(Uint8Array.from(bundleHashHBytes)).indexOf(15) !== -1
+      normalizedBundleHash(Uint8Array.from(bundleHashTxHex)).indexOf(15) !== -1
     ) {
       // Insecure bundle, increment obsoleteTag and recompute bundle hash
       obsoleteTagHBits[0] = padHBits(TRANSACTION_OBSOLETE_TAG_BITS_SIZE)(

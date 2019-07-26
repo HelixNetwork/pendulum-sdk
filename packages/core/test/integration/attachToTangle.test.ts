@@ -44,20 +44,20 @@ test("attachToTangle() does not mutate original txs", async t => {
 });
 
 test("attachToTangle() rejects with correct errors for invalid input", t => {
-  const invalidHBytes = ["asdasDSFDAFD"];
+  const invalidTxHex = ["asdasDSFDAFD"];
 
   t.is(
     t.throws(
       () =>
         attachToTangle(
-          invalidHBytes[0],
+          invalidTxHex[0],
           attachToTangleCommand.branchTransaction,
           attachToTangleCommand.minWeightMagnitude,
           attachToTangleCommand.txs
         ),
       Error
     ).message,
-    `${INVALID_TRUNK_TRANSACTION}: ${invalidHBytes[0]}`,
+    `${INVALID_TRUNK_TRANSACTION}: ${invalidTxHex[0]}`,
     "attachToTangle() should throw error for invalid trunk transaction"
   );
 
@@ -66,13 +66,13 @@ test("attachToTangle() rejects with correct errors for invalid input", t => {
       () =>
         attachToTangle(
           attachToTangleCommand.trunkTransaction,
-          invalidHBytes[0],
+          invalidTxHex[0],
           attachToTangleCommand.minWeightMagnitude,
           attachToTangleCommand.txs
         ),
       Error
     ).message,
-    `${INVALID_BRANCH_TRANSACTION}: ${invalidHBytes[0]}`,
+    `${INVALID_BRANCH_TRANSACTION}: ${invalidTxHex[0]}`,
     "attachToTangle() should throw error for invalid branch transaction"
   );
 
@@ -83,11 +83,11 @@ test("attachToTangle() rejects with correct errors for invalid input", t => {
           attachToTangleCommand.trunkTransaction,
           attachToTangleCommand.branchTransaction,
           attachToTangleCommand.minWeightMagnitude,
-          invalidHBytes
+          invalidTxHex
         ),
       Error
     ).message,
-    `${INVALID_TRANSACTION_HBYTES}: ${invalidHBytes[0]}`,
+    `${INVALID_TRANSACTION_HBYTES}: ${invalidTxHex[0]}`,
     "attachToTangle() should throw error for invalid txs"
   );
 });

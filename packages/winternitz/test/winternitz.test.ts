@@ -58,9 +58,9 @@ test("Winternitz signatures - security level 4!", t => {
 });
 
 function testWinternitz(securityLevel: number) {
-  const keyHBytes = key(subseed(toTxBytes(seed), keyIndex), securityLevel);
-  const digestsHBytes = digests(keyHBytes);
-  const addressHBytes = hex(address(digestsHBytes));
+  const keyTxHex = key(subseed(toTxBytes(seed), keyIndex), securityLevel);
+  const digestsTxHex = digests(keyTxHex);
+  const addressTxHex = hex(address(digestsTxHex));
   const sig = hex(
     signatureFragments(toTxBytes(seed), keyIndex, securityLevel, toTxBytes(msg))
   );
@@ -74,6 +74,6 @@ function testWinternitz(securityLevel: number) {
       )
     );
 
-  const isValid = validateSignatures(addressHBytes, signature, msg);
+  const isValid = validateSignatures(addressTxHex, signature, msg);
   return isValid;
 }

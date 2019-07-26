@@ -14,7 +14,7 @@ import {
   Callback,
   getOptionsWithDefaults,
   Hash,
-  HBytes,
+  TxHex,
   Inputs,
   makeAddress,
   Provider
@@ -96,7 +96,7 @@ export const createGetInputs = (provider: Provider) => {
    * - Fetch error
    */
   return (
-    seed: HBytes,
+    seed: TxHex,
     options: Partial<GetInputsOptions> = {},
     callback?: Callback<Inputs>
   ): Promise<Inputs> => {
@@ -123,7 +123,7 @@ export const createGetInputs = (provider: Provider) => {
 export const getInputsOptions = getOptionsWithDefaults(defaults);
 
 export const validateGetInputsOptions = (
-  seed: HBytes,
+  seed: TxHex,
   options: GetInputsOptions
 ) => {
   const { security, start, end, threshold } = options;

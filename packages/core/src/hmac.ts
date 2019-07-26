@@ -19,14 +19,14 @@ export default function addHMAC(transactions: Bundle, key: Int8Array): Bundle {
   hHash.absorb(bundleHashHBits, 0, hHash.getHashLength());
   hHash.squeeze(hmac, 0, hHash.getHashLength());
 
-  const hmacHBytes = txHex(hmac);
+  const hmacTxHex = txHex(hmac);
 
   return transactions.map(
     transaction =>
       transaction.value > 0
         ? {
             ...transaction,
-            signatureMessageFragment: hmacHBytes.concat(
+            signatureMessageFragment: hmacTxHex.concat(
               transaction.signatureMessageFragment.substr(
                 HASH_TX_HEX_SIZE,
                 SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE

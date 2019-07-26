@@ -1,22 +1,22 @@
 import test from "ava";
 import { transactionStrings } from "@helixnetwork/samples";
-import { isHBytesArray } from "../src";
+import { isTxHexArray } from "../src";
 
-test("isHBytesArray()", t => {
-  const invalidHBytes = [
+test("isTxHexArray()", t => {
+  const invalidTxHex = [
     "QWwee12h505a524546494757484d4d3959475342535a425542544b56554d4e474f573953535439595648574b4a4d57535639455a465356504849564e5a51504c5a45",
     "AB5512505a524546494757484d4d3959475342535a425542544b56554d4e474f573953535439595648574b4a4d57535639455a465356504849564e5a51504c5a45"
   ];
 
   t.deepEqual(
-    isHBytesArray(transactionStrings),
+    isTxHexArray(transactionStrings),
     true,
-    "isHBytesArray() returns true for valid bytes"
+    "isTxHexArray() returns true for valid bytes"
   );
 
   t.deepEqual(
-    isHBytesArray(invalidHBytes),
+    isTxHexArray(invalidTxHex),
     false,
-    "isHBytesArray() return false for invalid bytes"
+    "isTxHexArray() return false for invalid bytes"
   );
 });

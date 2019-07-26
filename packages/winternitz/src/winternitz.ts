@@ -282,9 +282,9 @@ export function signatureFragments(
   const keyFragments = key(subseed(seed, index), numberOfFragments);
   const signature = new Uint8Array(numberOfFragments * FRAGMENT_LENGTH_BYTES);
 
-  const digestsHBytes = digests(keyFragments);
-  const addressHBytes = hex(address(digestsHBytes));
-  // console.log('signatureFragment addressHBytes' + addressHBytes);
+  const digestsTxHex = digests(keyFragments);
+  const addressTxHex = hex(address(digestsTxHex));
+  // console.log('signatureFragment addressTxHex' + addressTxHex);
   // console.log('signatureFragments  index ' + index);
   // console.log('signatureFragments  seed ' + hex(seed));
   // console.log('signatureFragments  bundle ' + hex(bundle));

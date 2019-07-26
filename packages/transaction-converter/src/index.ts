@@ -8,7 +8,7 @@ import {
   toTxBytes
 } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
-import { padHBits, padHBytes, padSignedHBits } from "@helixnetwork/pad";
+import { padHBits, padTxHex, padSignedHBits } from "@helixnetwork/pad";
 import {
   START_INDEX_SIGNATURE_MESSAGE,
   transactionHash
@@ -52,15 +52,15 @@ import {
   TRANSACTION_VALUE_BYTE_SIZE
 } from "../../constants";
 import * as errors from "../../errors";
-import { isHBytesOfExactLength } from "../../guards";
-import { asArray, Hash, HBytes, Transaction } from "../../types";
+import { isTxHexOfExactLength } from "../../guards";
+import { asArray, Hash, TxHex, Transaction } from "../../types";
 
 export { Transaction };
 
-export function asTransactionStrings(transactions: Transaction): HBytes;
+export function asTransactionStrings(transactions: Transaction): TxHex;
 export function asTransactionStrings(
   transactions: ReadonlyArray<Transaction>
-): ReadonlyArray<HBytes>;
+): ReadonlyArray<TxHex>;
 /**
  * Converts a transaction object or a list of those into transaction transactionStrings.
  *
@@ -68,14 +68,14 @@ export function asTransactionStrings(
  *
  * @param {Transaction | Transaction[]} transactions - Transaction object(s)
  *
- * @return {HBytes | HBytes[]} Transaction transactionStrings
+ * @return {TxHex | TxHex[]} Transaction transactionStrings
  */
 export function asTransactionStrings(
   transactions: Transaction | ReadonlyArray<Transaction>
-): HBytes | ReadonlyArray<HBytes> {
+): TxHex | ReadonlyArray<TxHex> {
   asArray(transactions).forEach(transaction => {
     const val = txBitsToTxHex(txBits(transaction.value));
-    const obsoleteTag = padHBytes(OBSOLETE_TAG_BYTE_SIZE)(
+    const obsoleteTag = padTxHex(OBSOLETE_TAG_BYTE_SIZE)(
       transaction.obsoleteTag
     );
     const attachedTimestamp = txBitsToTxHex(
@@ -83,21 +83,21 @@ export function asTransactionStrings(
     );
   });
 
-  const txHBytes = asArray(transactions).map(transaction =>
+  const txTxHex = asArray(transactions).map(transaction =>
     [
       transaction.signatureMessageFragment,
       transaction.address,
-      padHBytes(TRANSACTION_VALUE_BYTE_SIZE)(
+      padTxHex(TRANSACTION_VALUE_BYTE_SIZE)(
         txBitsToTxHex(txBits(transaction.value))
       ),
-      padHBytes(OBSOLETE_TAG_BYTE_SIZE)(transaction.obsoleteTag),
+      padTxHex(OBSOLETE_TAG_BYTE_SIZE)(transaction.obsoleteTag),
       txBitsToTxHex(txBits(transaction.timestamp)),
       txBitsToTxHex(txBits(transaction.currentIndex)),
       txBitsToTxHex(txBits(transaction.lastIndex)),
       transaction.bundle,
       transaction.trunkTransaction,
       transaction.branchTransaction,
-      padHBytes(TAG_BYTE_SIZE)(
+      padTxHex(TAG_BYTE_SIZE)(
         transaction.tag || transaction.obsoleteTag
           ? transaction.obsoleteTag.length > TAG_BYTE_SIZE
             ? transaction.obsoleteTag.slice(0, TAG_BYTE_SIZE)
@@ -112,7 +112,7 @@ export function asTransactionStrings(
     ].join("")
   );
 
-  return Array.isArray(transactions) ? txHBytes : txHBytes[0];
+  return Array.isArray(transactions) ? txTxHex : txTxHex[0];
 }
 
 /**
@@ -120,15 +120,12 @@ export function asTransactionStrings(
  *
  * @method asTransactionObject
  *
- * @param {HBytes} txHex - Transaction transactionStrings
+ * @param {TxHex} txHex - Transaction transactionStrings
  *
  * @return {Transaction} Transaction object
  */
-export const asTransactionObject = (
-  txHex: HBytes,
-  hash?: Hash
-): Transaction => {
-  if (!isHBytesOfExactLength(txHex, TRANSACTION_TX_HEX_SIZE)) {
+export const asTransactionObject = (txHex: TxHex, hash?: Hash): Transaction => {
+  if (!isTxHexOfExactLength(txHex, TRANSACTION_TX_HEX_SIZE)) {
     throw new Error(errors.INVALID_TX_HEX);
   }
   const txBits = txHexToTxBits(txHex);
@@ -235,11 +232,11 @@ export const asTransactionObjects = (hashes?: ReadonlyArray<Hash>) => {
    *
    * @method transactionObjectsMapper
    *
-   * @param {HBytes[]} transactionStrings - List of transaction transactionStrings to convert
+   * @param {TxHex[]} transactionStrings - List of transaction transactionStrings to convert
    *
    * @return {Transaction[]} List of transaction objects with hashes
    */
-  return function transactionObjectsMapper(txHex: ReadonlyArray<HBytes>) {
+  return function transactionObjectsMapper(txHex: ReadonlyArray<TxHex>) {
     return txHex.map((hByteString, i) =>
       asTransactionObject(hByteString, hashes![i])
     );
@@ -250,14 +247,14 @@ export const asFinalTransactionStrings = (
   transactions: ReadonlyArray<Transaction>
 ) => [...asTransactionStrings(transactions)].reverse();
 
-export const transactionObject = (hBytes: HBytes): Transaction => {
+export const transactionObject = (hBytes: TxHex): Transaction => {
   /* tslint:disable-next-line:no-console */
   console.warn("`transactionObject` has been renamed to `asTransactionObject`");
 
   return asTransactionObject(hBytes);
 };
 
-export const transactionTxHex = (transaction: Transaction): HBytes => {
+export const transactionTxHex = (transaction: Transaction): TxHex => {
   /* tslint:disable-next-line:no-console */
   console.warn("`transactionTxHex` has been renamed to `asTransactionStrings`");
 

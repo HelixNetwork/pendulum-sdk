@@ -12,7 +12,7 @@ import {
   asArray,
   Callback,
   Hash,
-  HBytes,
+  TxHex,
   Provider,
   Transaction
 } from "../../types";
@@ -51,7 +51,7 @@ const hasConfirmedTxs = (
 export const createIsReattachable = (provider: Provider) => {
   const findTransactionObjects = createFindTransactionObjects(provider);
   return function isReattachable(
-    inputAddresses: HBytes | ReadonlyArray<HBytes>,
+    inputAddresses: TxHex | ReadonlyArray<TxHex>,
     callback?: Callback<boolean | ReadonlyArray<boolean>>
   ): Promise<boolean | ReadonlyArray<boolean>> {
     const useArray = Array.isArray(inputAddresses);

@@ -1,7 +1,7 @@
 import * as errors from "./errors";
 
 /**
- * Convert an array of bytes into a hexadecimal string representation of bytes HBytes
+ * Convert an array of bytes into a hexadecimal string representation of bytes TxHex
  * @param uint8arr
  */
 export function hex(uint8arr: Uint8Array | Int8Array): string {

@@ -31,7 +31,7 @@ export const createSendTransfer = (
   attachFn?: AttachToTangle
 ) => {
   const prepareTransfers = createPrepareTransfers(provider);
-  const sendHBytes = createSendTransactionStrings(provider, attachFn);
+  const sendTxHex = createSendTransactionStrings(provider, attachFn);
 
   return function sendTransfer(
     seed: string,
@@ -57,7 +57,7 @@ export const createSendTransfer = (
     )
       .then(() => prepareTransfers(seed, transfers, options))
       .then(txs =>
-        sendHBytes(
+        sendTxHex(
           txs,
           depth,
           minWeightMagnitude,

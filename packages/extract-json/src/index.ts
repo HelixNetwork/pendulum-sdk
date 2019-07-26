@@ -10,7 +10,7 @@ export const errors = {
 
 export { Bundle, Transaction };
 
-const numericHBytesRegex = /^(2d|2b)?(30|31|32|33|34|35|36|37|38|39)+((2e)(30|31|32|33|34|35|36|37|38|39)+)?((65|45)(2d|2b)?(30|31|32|33|34|35|36|37|38|39)+)?00/;
+const numericTxHexRegex = /^(2d|2b)?(30|31|32|33|34|35|36|37|38|39)+((2e)(30|31|32|33|34|35|36|37|38|39)+)?((65|45)(2d|2b)?(30|31|32|33|34|35|36|37|38|39)+)?00/;
 /**
  * Takes a bundle as input and from the signatureMessageFragments extracts the correct JSON
  * data which was encoded and sent with the transaction.
@@ -78,7 +78,7 @@ export const extractJson = (bundle: Bundle): string | number | null => {
     return "true";
   } else if (bundle[0].signatureMessageFragment.slice(0, 8) === "6e756c6c") {
     return "null";
-  } else if (numericHBytesRegex.test(bundle[0].signatureMessageFragment)) {
+  } else if (numericTxHexRegex.test(bundle[0].signatureMessageFragment)) {
     // Parse numbers, source: https://github.com/iotaledger/iota.lib.js/issues/231#issuecomment-402383449
     const num = bundle[0].signatureMessageFragment.match(
       /^([0-9a-f][0-9a-f])*?(0{2})/

@@ -8,27 +8,27 @@ test("txHexToAscii()", t => {
   const txHex = "494f5441";
   const expected = "IOTA";
 
-  const nonHBytes = "AAAfasds";
+  const nonTxHex = "AAAfasds";
   const txHexOfOddLength = "aaa";
 
   t.is(
     txHexToAscii(txHex),
     expected,
-    "fromHBytes() should convert transactionStrings to ascii."
+    "fromTxHex() should convert transactionStrings to ascii."
   );
 
-  const invalidHBytesError = t.throws(
-    () => txHexToAscii(nonHBytes),
+  const invalidTxHexError = t.throws(
+    () => txHexToAscii(nonTxHex),
     Error,
-    "fromHBytes() should throw error for non-transactionStrings."
+    "fromTxHex() should throw error for non-transactionStrings."
   );
 
-  t.is(invalidHBytesError.message, INVALID_TX_HEX, "incorrect error message");
+  t.is(invalidTxHexError.message, INVALID_TX_HEX, "incorrect error message");
 
   const oddLengthError = t.throws(
     () => txHexToAscii(txHexOfOddLength),
     Error,
-    "fromHBytes() should throw error for transactionStrings of odd length."
+    "fromTxHex() should throw error for transactionStrings of odd length."
   );
 
   t.is(oddLengthError.message, INVALID_ODD_LENGTH, "incorrect error message");

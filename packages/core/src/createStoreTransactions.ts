@@ -3,7 +3,7 @@ import * as Promise from "bluebird";
 import { arrayValidator, validate } from "../../guards";
 import {
   Callback,
-  HBytes,
+  TxHex,
   ProtocolCommand,
   Provider,
   StoreTransactionsCommand,
@@ -37,19 +37,19 @@ export const createStoreTransactions = ({ send }: Provider) =>
    *
    * @memberof module:core
    *
-   * @param {HBytes[]} txs - Attached transaction txHex
+   * @param {TxHex[]} txs - Attached transaction txHex
    * @param {Callback} [callback] - Optional callback
    *
    * @return {Promise}
-   * @fullfil {HBytes[]} Attached transaction txHex
+   * @fullfil {TxHex[]} Attached transaction txHex
    * @reject {Error}
    * - `INVALID_ATTACHED_HBYTES`: Invalid attached txHex
    * - Fetch error
    */
   (
-    txs: ReadonlyArray<HBytes>,
-    callback?: Callback<ReadonlyArray<HBytes>>
-  ): Promise<ReadonlyArray<HBytes>> =>
+    txs: ReadonlyArray<TxHex>,
+    callback?: Callback<ReadonlyArray<TxHex>>
+  ): Promise<ReadonlyArray<TxHex>> =>
     Promise.resolve(validate(arrayValidator(attachedTxHexValidator)(txs)))
       .then(() =>
         send<StoreTransactionsCommand, StoreTransactionsResponse>({

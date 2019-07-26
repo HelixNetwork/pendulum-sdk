@@ -11,7 +11,7 @@ test("isAddressArray()", t => {
   const addressesOfInvalidLength = [
     "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1fcaa0211912"
   ];
-  const addressesOfInvalidHBytes = [
+  const addressesOfInvalidTxHex = [
     "0ce6dc815205498cde28c04y104a366227c39362c06ccff93c29aa8ee1268c1f"
   ];
   const addressesOfInvalidSecurity = [
@@ -39,7 +39,7 @@ test("isAddressArray()", t => {
   );
 
   t.is(
-    isAddressArray(addressesOfInvalidHBytes),
+    isAddressArray(addressesOfInvalidTxHex),
     false,
     "isAddressArray() should return false for addresses of invalid hBytes."
   );

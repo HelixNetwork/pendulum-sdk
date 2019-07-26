@@ -62,10 +62,10 @@ export default class Address {
     }
 
     // Squeeze the address txBits
-    const addressHBytes: Int8Array = new Int8Array(this.hHash.getHashLength());
-    this.hHash.squeeze(addressHBytes, 0, this.hHash.getHashLength());
+    const addressTxHex: Int8Array = new Int8Array(this.hHash.getHashLength());
+    this.hHash.squeeze(addressTxHex, 0, this.hHash.getHashLength());
 
     // Convert txBits into txHex and return the address
-    return hex(addressHBytes);
+    return hex(addressTxHex);
   }
 }

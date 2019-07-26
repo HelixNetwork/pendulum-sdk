@@ -8,7 +8,7 @@ import {
 } from "../../constants";
 import {
   addEntry,
-  addHBytes,
+  addTxHex,
   createBundle,
   finalizeBundle
 } from "../src/bundle";
@@ -122,9 +122,9 @@ test("addEntry() adds new entry and returns correct transactions.", t => {
   );
 });
 
-test("addHBytes() adds transactionStrings and returns correct transactions.", t => {
+test("addTxHex() adds transactionStrings and returns correct transactions.", t => {
   t.deepEqual(
-    addHBytes(bundle, ["abcdef", "abcdef", "abcdef"]),
+    addTxHex(bundle, ["abcdef", "abcdef", "abcdef"]),
     bundle.map(transaction => ({
       ...transaction,
       signatureMessageFragment:

@@ -29,17 +29,17 @@ test("storeAndBroadcast() does not mutate original txs.", async t => {
 });
 
 test("storeAndBroadcast() rejects with correct error for invalid attached txs.", t => {
-  const invalidHBytes = ["asdasDSFDAFD"];
+  const invalidTxHex = ["asdasDSFDAFD"];
 
   t.is(
-    t.throws(() => storeAndBroadcast(invalidHBytes), Error).message,
-    `${INVALID_ATTACHED_HBYTES}: ${invalidHBytes[0]}`,
+    t.throws(() => storeAndBroadcast(invalidTxHex), Error).message,
+    `${INVALID_ATTACHED_HBYTES}: ${invalidTxHex[0]}`,
     "storeAndBroadcast() should throw error for invalid attached txs."
   );
 });
 
 test("storeAndBroadcast() rejects with correct errors for attached txs of invalid length.", t => {
-  const invalidHBytes = ["asdasDSFDAFD"];
+  const invalidTxHex = ["asdasDSFDAFD"];
 
   t.is(
     t.throws(() => storeAndBroadcast(attachedTxHexOfInvalidLength), Error)

@@ -5,7 +5,7 @@ import {
 } from "@helixnetwork/transaction-converter";
 import * as Promise from "bluebird";
 import { validate } from "../../guards";
-import { Callback, Hash, HBytes, Provider } from "../../types";
+import { Callback, Hash, TxHex, Provider } from "../../types";
 import { createBroadcastTransactions, createGetBundle } from "./";
 
 /**
@@ -54,8 +54,8 @@ export const createBroadcastBundle = (provider: Provider) => {
    */
   return function broadcastBundle(
     tailTransactionHash: Hash,
-    callback?: Callback<ReadonlyArray<HBytes>>
-  ): Promise<ReadonlyArray<HBytes>> {
+    callback?: Callback<ReadonlyArray<TxHex>>
+  ): Promise<ReadonlyArray<TxHex>> {
     return Promise.resolve(
       validate(transactionHashValidator(tailTransactionHash))
     )

@@ -25,11 +25,11 @@ import {
   isAddress,
   isArray,
   isHash,
-  isHBytesOfExactLength,
+  isTxHexOfExactLength,
   validate,
   Validator
 } from "../../guards";
-import { Hash, HBytes, Transaction } from "../../types";
+import { Hash, TxHex, Transaction } from "../../types";
 
 export { Transaction };
 
@@ -93,13 +93,13 @@ export const transactionHash = (txBytes: Uint8Array): Hash => {
 export const isTransaction = (tx: any): tx is Transaction => {
   return (
     isHash(tx.hash) &&
-    isHBytesOfExactLength(
+    isTxHexOfExactLength(
       tx.signatureMessageFragment,
       SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
     ) &&
     isAddress(tx.address) &&
     Number.isInteger(tx.value) &&
-    isHBytesOfExactLength(tx.obsoleteTag, OBSOLETE_TAG_BYTE_SIZE) &&
+    isTxHexOfExactLength(tx.obsoleteTag, OBSOLETE_TAG_BYTE_SIZE) &&
     Number.isInteger(tx.timestamp) &&
     (Number.isInteger(tx.currentIndex) &&
       tx.currentIndex >= 0 &&
@@ -108,11 +108,11 @@ export const isTransaction = (tx: any): tx is Transaction => {
     isHash(tx.bundle) &&
     isHash(tx.trunkTransaction) &&
     isHash(tx.branchTransaction) &&
-    isHBytesOfExactLength(tx.tag, TAG_BYTE_SIZE) &&
+    isTxHexOfExactLength(tx.tag, TAG_BYTE_SIZE) &&
     Number.isInteger(tx.attachmentTimestamp) &&
     Number.isInteger(tx.attachmentTimestampLowerBound) &&
     Number.isInteger(tx.attachmentTimestampUpperBound) &&
-    isHBytesOfExactLength(tx.nonce, NONCE_BYTE_SIZE)
+    isTxHexOfExactLength(tx.nonce, NONCE_BYTE_SIZE)
   );
 };
 
@@ -145,7 +145,7 @@ export const isTransactionHash = (
   hash: any,
   minWeightMagnitude?: number
 ): hash is Hash => {
-  const hasCorrectHashLength = isHBytesOfExactLength(hash, HASH_TX_HEX_SIZE);
+  const hasCorrectHashLength = isTxHexOfExactLength(hash, HASH_TX_HEX_SIZE);
 
   if (minWeightMagnitude) {
     console.log(
@@ -169,25 +169,25 @@ export const isTransactionHash = (
 /**
  * Checks if input is correct transaction txHex (2673 txHex)
  *
- * @method isTransactionHBytes
+ * @method isTransactionTxHex
  *
  * @param {string} txHex
  * @param {number} minWeightMagnitude
  *
  * @return {boolean}
  */
-export const isTransactionHBytes = (
+export const isTransactionTxHex = (
   txHex: any,
   minWeightMagnitude?: number
-): txHex is HBytes => {
-  const hasCorrectHBytesLength = isHBytesOfExactLength(
+): txHex is TxHex => {
+  const hasCorrectTxHexLength = isTxHexOfExactLength(
     txHex,
     TRANSACTION_TX_HEX_SIZE
   );
 
   if (minWeightMagnitude) {
     return (
-      hasCorrectHBytesLength &&
+      hasCorrectTxHexLength &&
       isTransactionHash(
         transactionHash(txHex), //txHexToTxBits(txHex)
         minWeightMagnitude
@@ -195,21 +195,21 @@ export const isTransactionHBytes = (
     );
   }
 
-  return hasCorrectHBytesLength;
+  return hasCorrectTxHexLength;
 };
 
 /**
  * Checks if input is valid attached transaction txHex.
  * For attached transactions last 64 txHex are non-zero. // 241
  *
- * @method isAttachedHBytes
+ * @method isAttachedTxHex
  *
  * @param {string} txHex
  *
  * @return {boolean}
  */
-export const isAttachedHBytes = (txHex: any): txHex is HBytes =>
-  isHBytesOfExactLength(txHex, TRANSACTION_TX_HEX_SIZE) &&
+export const isAttachedTxHex = (txHex: any): txHex is TxHex =>
+  isTxHexOfExactLength(txHex, TRANSACTION_TX_HEX_SIZE) &&
   txHex
     .slice(
       START_INDEX_ATTACHED_TIMESTAMP,
@@ -217,7 +217,7 @@ export const isAttachedHBytes = (txHex: any): txHex is HBytes =>
     )
     .search("0") !== -1;
 
-export const isAttachedHBytesArray = isArray(isAttachedHBytes);
+export const isAttachedTxHexArray = isArray(isAttachedTxHex);
 export const isTransactionArray = isArray(isTransaction);
 export const isTransactionHashArray = isArray(isTransactionHash);
 
@@ -236,15 +236,15 @@ export const transactionHashValidator: Validator<Hash> = (
   msg?: string
 ) => [hash, isTransactionHash, msg || errors.INVALID_TRANSACTION_HASH];
 
-export const transactionTxHexValidator: Validator<HBytes> = (txHex: any) => [
+export const transactionTxHexValidator: Validator<TxHex> = (txHex: any) => [
   txHex,
-  isTransactionHBytes,
+  isTransactionTxHex,
   errors.INVALID_TRANSACTION_HBYTES
 ];
 
-export const attachedTxHexValidator: Validator<HBytes> = (txHex: any) => [
+export const attachedTxHexValidator: Validator<TxHex> = (txHex: any) => [
   txHex,
-  isAttachedHBytes,
+  isAttachedTxHex,
   errors.INVALID_ATTACHED_HBYTES
 ];
 
@@ -254,7 +254,7 @@ export const validateTailTransaction = (transaction: any) =>
   validate(tailTransactionValidator(transaction));
 export const validateTransactionHash = (hash: any, msg?: string) =>
   validate(transactionHashValidator(hash, msg));
-export const validateTransactionHBytes = (txHex: any) =>
+export const validateTransactionTxHex = (txHex: any) =>
   validate(transactionTxHexValidator(txHex));
-export const validateAttachedHBytes = (txHex: any) =>
+export const validateAttachedTxHex = (txHex: any) =>
   validate(attachedTxHexValidator(txHex));

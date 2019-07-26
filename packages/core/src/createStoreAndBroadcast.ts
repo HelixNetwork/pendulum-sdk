@@ -1,5 +1,5 @@
 import * as Promise from "bluebird";
-import { Callback, HBytes, Provider } from "../../types";
+import { Callback, TxHex, Provider } from "../../types";
 import { createBroadcastTransactions, createStoreTransactions } from "./";
 
 /**
@@ -29,19 +29,19 @@ export const createStoreAndBroadcast = (provider: Provider) => {
    *
    * @memberof module:core
    *
-   * @param {Array<HBytes>} txs - Attached transaction txs
+   * @param {Array<TxHex>} txs - Attached transaction txs
    * @param {Callback} [callback] - Optional callback
    *
-   * @return {Promise<HBytes[]>}
-   * @fulfil {HBytes[]} Attached transaction txs
+   * @return {Promise<TxHex[]>}
+   * @fulfil {TxHex[]} Attached transaction txs
    * @reject {Error}
    * - `INVALID_ATTACHED_HBYTES`: Invalid attached txs
    * - Fetch error
    */
   return (
-    txs: ReadonlyArray<HBytes>,
-    callback?: Callback<ReadonlyArray<HBytes>>
-  ): Promise<ReadonlyArray<HBytes>> =>
+    txs: ReadonlyArray<TxHex>,
+    callback?: Callback<ReadonlyArray<TxHex>>
+  ): Promise<ReadonlyArray<TxHex>> =>
     storeTransactions(txs)
       .then(broadcastTransactions)
       .asCallback(callback);

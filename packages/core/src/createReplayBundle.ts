@@ -30,7 +30,7 @@ export const createReplayBundle = (
   attachFn?: AttachToTangle
 ) => {
   const getBundle = createGetBundle(provider);
-  const sendHBytes = createSendTransactionStrings(provider, attachFn);
+  const sendTxHex = createSendTransactionStrings(provider, attachFn);
 
   /**
    * Reattaches a transfer to tangle by selecting tips & performing the Proof-of-Work again.
@@ -90,7 +90,7 @@ export const createReplayBundle = (
     )
       .then(() => getBundle(tail))
       .then(bundle => asFinalTransactionStrings(bundle))
-      .then(txs => sendHBytes(txs, depth, minWeightMagnitude, reference))
+      .then(txs => sendTxHex(txs, depth, minWeightMagnitude, reference))
       .asCallback(typeof arguments[3] === "function" ? arguments[3] : callback);
   };
 };

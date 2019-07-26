@@ -11,11 +11,11 @@ import "./nocks/storeTransactions";
 const { minWeightMagnitude, txs } = attachToTangleCommand;
 const { depth } = getTransactionsToApproveCommand;
 
-const sendHBytes = createSendTransactionStrings(createHttpClient());
+const sendTxHex = createSendTransactionStrings(createHttpClient());
 
 test("sendTransactionStrings() attaches to tangle, broadcasts, stores and resolves to transaction objects.", async t => {
   t.deepEqual(
-    await sendHBytes(txs, depth, minWeightMagnitude),
+    await sendTxHex(txs, depth, minWeightMagnitude),
     bundle,
     "sendTransactionStrings() should attach to tangle, broadcast, store and resolve to transaction objects."
   );
@@ -24,7 +24,7 @@ test("sendTransactionStrings() attaches to tangle, broadcasts, stores and resolv
 test("sendTransactionStrings() does not mutate original txs.", async t => {
   const txHexCopy = [...txs];
 
-  await sendHBytes(txHexCopy, depth, minWeightMagnitude);
+  await sendTxHex(txHexCopy, depth, minWeightMagnitude);
   t.deepEqual(
     txHexCopy,
     txs,
@@ -33,22 +33,22 @@ test("sendTransactionStrings() does not mutate original txs.", async t => {
 });
 
 test("sendTransactionStrings() rejects with correct errors for invalid input.", t => {
-  const invalidHBytes = ["asdasDSFDAFD"];
+  const invalidTxHex = ["asdasDSFDAFD"];
 
   t.is(
-    t.throws(() => sendHBytes(invalidHBytes, depth, minWeightMagnitude), Error)
+    t.throws(() => sendTxHex(invalidTxHex, depth, minWeightMagnitude), Error)
       .message,
-    `${INVALID_TRANSACTION_HBYTES}: ${invalidHBytes[0]}`,
+    `${INVALID_TRANSACTION_HBYTES}: ${invalidTxHex[0]}`,
     "sendTransactionStrings() should throw correct error for invalid txs."
   );
 });
 
 test.cb("sendTransactionStrings() invokes callback", t => {
-  sendHBytes(txs, depth, minWeightMagnitude, undefined, t.end);
+  sendTxHex(txs, depth, minWeightMagnitude, undefined, t.end);
 });
 
 test.cb("sendTransactionStrings() passes correct arguments to callback", t => {
-  sendHBytes(txs, depth, minWeightMagnitude, undefined, (err, res) => {
+  sendTxHex(txs, depth, minWeightMagnitude, undefined, (err, res) => {
     t.is(
       err,
       null,

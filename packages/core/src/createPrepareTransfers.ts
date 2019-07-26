@@ -1,6 +1,6 @@
 import * as Promise from "bluebird";
 
-import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
+import { addEntry, addTxHex, finalizeBundle } from "@helixnetwork/bundle";
 import { isValidChecksum, removeChecksum } from "@helixnetwork/checksum";
 import { txBits, txHex, hex, toTxBytes } from "@helixnetwork/converter";
 import { asFinalTransactionStrings } from "@helixnetwork/transaction-converter";
@@ -22,7 +22,7 @@ import * as errors from "../../errors";
 import {
   arrayValidator,
   inputValidator,
-  isHBytes,
+  isTxHex,
   remainderAddressValidator,
   securityLevelValidator,
   seedValidator,
@@ -34,7 +34,7 @@ import {
   asArray,
   Callback,
   getOptionsWithDefaults,
-  HBytes,
+  TxHex,
   Provider,
   Transaction,
   Transfer
@@ -51,10 +51,10 @@ const SECURITY_LEVEL = 1;
 
 export interface PrepareTransfersOptions {
   readonly inputs: ReadonlyArray<Address>;
-  readonly address?: HBytes; // Deprecate
-  readonly remainderAddress?: HBytes;
+  readonly address?: TxHex; // Deprecate
+  readonly remainderAddress?: TxHex;
   readonly security: number;
-  readonly hmacKey?: HBytes;
+  readonly hmacKey?: TxHex;
 }
 
 const defaults: PrepareTransfersOptions = {
@@ -74,15 +74,15 @@ export const getPrepareTransfersOptions = (
 
 export interface PrepareTransfersProps {
   readonly transactions: ReadonlyArray<Transaction>;
-  readonly txs: ReadonlyArray<HBytes>;
+  readonly txs: ReadonlyArray<TxHex>;
   readonly transfers: ReadonlyArray<Transfer>;
-  readonly seed: HBytes;
+  readonly seed: TxHex;
   readonly security: number;
   readonly inputs: ReadonlyArray<Address>;
   readonly timestamp: number;
-  readonly remainderAddress?: HBytes;
-  readonly address?: HBytes;
-  readonly hmacKey?: HBytes;
+  readonly remainderAddress?: TxHex;
+  readonly address?: TxHex;
+  readonly hmacKey?: TxHex;
 }
 
 /**
@@ -146,11 +146,11 @@ export const createPrepareTransfers = (
    * - Fetch error, if connected to network
    */
   return function prepareTransfers(
-    seed: HBytes,
+    seed: TxHex,
     transfers: ReadonlyArray<Transfer>,
     options: Partial<PrepareTransfersOptions> = {},
-    callback?: Callback<ReadonlyArray<HBytes>>
-  ): Promise<ReadonlyArray<HBytes>> {
+    callback?: Callback<ReadonlyArray<TxHex>>
+  ): Promise<ReadonlyArray<TxHex>> {
     if (caller !== "lib") {
       if (options.address) {
         /* tslint:disable-next-line:no-console */
@@ -159,7 +159,7 @@ export const createPrepareTransfers = (
         );
       }
 
-      if (isHBytes(seed) && seed.length < SEED_BYTE_SIZE) {
+      if (isTxHex(seed) && seed.length < SEED_BYTE_SIZE) {
         /* tslint:disable-next-line:no-console */
         console.warn(
           "WARNING: Seeds with less length than 81 transactionStrings are not secure! Use a random, 81-transactionStrings long seed!"
@@ -410,9 +410,9 @@ export const addSignatures = (
   const { transactions, inputs, seed } = props;
   return {
     ...props,
-    transactions: addHBytes(
+    transactions: addTxHex(
       transactions,
-      inputs.reduce((acc: ReadonlyArray<HBytes>, { keyIndex, security }) => {
+      inputs.reduce((acc: ReadonlyArray<TxHex>, { keyIndex, security }) => {
         const allSignatureFragments = hex(
           signatureFragments(
             toTxBytes(seed),

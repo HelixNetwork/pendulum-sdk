@@ -12,7 +12,7 @@ import {
   Bundle,
   Callback,
   Hash,
-  HBytes,
+  TxHex,
   Provider,
   Transaction
 } from "../../types";
@@ -59,7 +59,7 @@ export const createSendTransactionStrings = (
    *
    * @memberof module:core
    *
-   * @param {HBytes[]} txs - List of txs to attach, store & broadcast
+   * @param {TxHex[]} txs - List of txs to attach, store & broadcast
    * @param {number} depth - Depth
    * @param {number} minWeightMagnitude - Min weight magnitude
    * @param {string} [reference] - Optional reference hash
@@ -73,8 +73,8 @@ export const createSendTransactionStrings = (
    * - `INVALID_MIN_WEIGHT_MAGNITUDE`
    * - Fetch error, if connected to network
    */
-  return function sendHBytes(
-    txs: ReadonlyArray<HBytes>,
+  return function sendTxHex(
+    txs: ReadonlyArray<TxHex>,
     depth: number,
     minWeightMagnitude: number,
     reference?: Hash,

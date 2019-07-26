@@ -1,4 +1,4 @@
-import { bundle, bundleHBytes } from "@helixnetwork/samples";
+import { bundle, bundleTxHex } from "@helixnetwork/samples";
 import test from "ava";
 import {
   asTransactionObject,
@@ -8,7 +8,7 @@ import {
 
 test("asTransactionObject() converts transaction txHex to transaction object.", t => {
   t.deepEqual(
-    asTransactionObject(bundleHBytes[0]),
+    asTransactionObject(bundleTxHex[0]),
     bundle[0],
     "asTransactionObject() should convert transaction txHex to transaction object."
   );
@@ -16,7 +16,7 @@ test("asTransactionObject() converts transaction txHex to transaction object.", 
 
 test("asTransactionObject() with hash option, converts transaction txHex to transaction object.", t => {
   t.deepEqual(
-    asTransactionObject(bundleHBytes[0], bundle[0].hash),
+    asTransactionObject(bundleTxHex[0], bundle[0].hash),
     bundle[0],
     "asTransactionObject() with hash option, should convert transaction txHex to transaction object."
   );
@@ -24,7 +24,7 @@ test("asTransactionObject() with hash option, converts transaction txHex to tran
 
 test("transactionObject() converts transaction txHex to transaction object.", t => {
   t.deepEqual(
-    transactionObject(bundleHBytes[0]),
+    transactionObject(bundleTxHex[0]),
     bundle[0],
     "transactionObject() should convert transaction txHex to transaction object."
   );
@@ -32,7 +32,7 @@ test("transactionObject() converts transaction txHex to transaction object.", t 
 
 test("asTransactionObjects() converts array of transaction txHex to array of transaction objects.", t => {
   t.deepEqual(
-    asTransactionObjects(bundle.map(tx => tx.hash))(bundleHBytes),
+    asTransactionObjects(bundle.map(tx => tx.hash))(bundleTxHex),
     bundle,
     "transactionObject() should convert array of transaction txHex to transaction objects."
   );

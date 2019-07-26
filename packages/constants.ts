@@ -1,6 +1,6 @@
 /**
  * Tryte has been converted into HByte
- * 1 HBytes is represented as a string with length 2, in hexadecimal representation,
+ * 1 TxHex is represented as a string with length 2, in hexadecimal representation,
  * because of this all values are multiplied with 2
  */
 

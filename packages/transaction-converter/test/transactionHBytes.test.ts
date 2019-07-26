@@ -1,7 +1,7 @@
 import {
   attachedTransactionObjects,
   bundle,
-  bundleHBytes,
+  bundleTxHex,
   bundleWithZeroValue,
   bundleWithZeroValueTxHex,
   transactionTxHex as txHex,
@@ -41,7 +41,7 @@ test("transactionTxHex() converts transaction object to transaction txHex.", t =
 test("asFinalTransactionStrings() converts transaction objects to reversed txHex.", t => {
   t.deepEqual(
     asFinalTransactionStrings([...bundle]),
-    [...bundleHBytes].reverse(),
+    [...bundleTxHex].reverse(),
     "asFinalTransactionStrings() should convert transaction objects to reversed txHex."
   );
 });

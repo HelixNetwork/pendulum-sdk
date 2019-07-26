@@ -1,33 +1,33 @@
 import test from "ava";
-import { isHBytesOfExactLength } from "../src";
+import { isTxHexOfExactLength } from "../src";
 
-test("isHBytes() returns true for valid bytes of exact length.", t => {
-  const validHBytes =
+test("isTxHex() returns true for valid bytes of exact length.", t => {
+  const validTxHex =
     "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee";
 
   t.is(
-    isHBytesOfExactLength(validHBytes, 64),
+    isTxHexOfExactLength(validTxHex, 64),
     true,
-    "isHBytes() should return true for valid bytes of exact length."
+    "isTxHex() should return true for valid bytes of exact length."
   );
 });
 
-test("isHBytes() returns false for bytes of invalid length.", t => {
+test("isTxHex() returns false for bytes of invalid length.", t => {
   const bytes = "abcde123123";
 
   t.is(
-    isHBytesOfExactLength(bytes, 12),
+    isTxHexOfExactLength(bytes, 12),
     false,
-    "isHBytes() should return false for bytes of invalid length."
+    "isTxHex() should return false for bytes of invalid length."
   );
 });
 
-test("isHBytes() returns false for invalid bytes.", t => {
-  const invalidHBytes = "aBcd111111";
+test("isTxHex() returns false for invalid bytes.", t => {
+  const invalidTxHex = "aBcd111111";
 
   t.is(
-    isHBytesOfExactLength(invalidHBytes, 10),
+    isTxHexOfExactLength(invalidTxHex, 10),
     false,
-    "isHBytes() should return false for invalid bytes."
+    "isTxHex() should return false for invalid bytes."
   );
 });

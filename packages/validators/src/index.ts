@@ -38,15 +38,15 @@ export {
   inputValidator,
   isHash,
   isInput,
-  isNinesHBytes,
+  isNinesTxHex,
   isEmpty,
   isSecurityLevel,
   isStartEndOptions,
   isTag,
   isTransfer,
-  isHBytes,
-  isHBytesOfExactLength,
-  isHBytesOfMaxLength,
+  isTxHex,
+  isTxHexOfExactLength,
+  isTxHexOfMaxLength,
   isUri,
   minWeightMagnitudeValidator,
   securityLevelValidator,
@@ -61,20 +61,20 @@ export {
 } from "../../guards";
 
 import {
-  isAttachedHBytes,
+  isAttachedTxHex,
   isTailTransaction,
   isTransaction,
   isTransactionHash,
-  isTransactionHBytes,
+  isTransactionTxHex,
   tailTransactionValidator,
   transactionHashValidator,
   transactionTxHexValidator,
   transactionValidator,
-  validateAttachedHBytes,
+  validateAttachedTxHex,
   validateTailTransaction,
   validateTransaction,
   validateTransactionHash,
-  validateTransactionHBytes
+  validateTransactionTxHex
 } from "@helixnetwork/transaction";
 
 import {
@@ -84,7 +84,7 @@ import {
   isInput,
   isTag,
   isTransfer,
-  isHBytes,
+  isTxHex,
   isUri
 } from "../../guards";
 
@@ -94,18 +94,18 @@ export const isInputArray = isArray(isInput);
 export const isTagArray = isArray(isTag);
 export const isTransferArray = isArray(isTransfer);
 export const isTransfersArray = isTransferArray;
-export const isHBytesArray = isArray((x: any) => isHBytes(x));
+export const isTxHexArray = isArray((x: any) => isTxHex(x));
 export const isUriArray = isArray(isUri);
 
 /* Transaction guards & validators */
 
 export {
-  isAttachedHBytes,
-  isAttachedHBytesArray,
+  isAttachedTxHex,
+  isAttachedTxHexArray,
   isTailTransaction,
   isTransaction,
   isTransactionArray,
-  isTransactionHBytes,
+  isTransactionTxHex,
   isTransactionHash,
   isTransactionHashArray,
   transactionHashValidator,

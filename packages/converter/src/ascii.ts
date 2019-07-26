@@ -6,7 +6,7 @@ import * as errors from "./errors";
  *
  * ### How conversion works:
  *
- * An ascii value of `1 Byte` can be represented in `2 HBytes`:
+ * An ascii value of `1 Byte` can be represented in `2 TxHex`:
  *
  * 1. We get the decimal unicode value of an individual ASCII character this code can be represented in a Byte
  *

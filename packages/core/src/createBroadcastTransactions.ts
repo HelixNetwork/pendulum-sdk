@@ -5,7 +5,7 @@ import {
   BroadcastTransactionsCommand,
   BroadcastTransactionsResponse,
   Callback,
-  HBytes,
+  TxHex,
   ProtocolCommand,
   Provider
 } from "../../types";
@@ -53,17 +53,17 @@ export const createBroadcastTransactions = ({ send }: Provider) =>
    * @param {Callback} [callback] - Optional callback
    *
    * @return {Promise}
-   * @fulfil {HBytes[]} Attached transaction txHex
+   * @fulfil {TxHex[]} Attached transaction txHex
    * @reject {Error}
    * - `INVALID_ATTACHED_HBYTES`: Invalid array of attached txHex
    * - Fetch error
    */
   (
-    txs: ReadonlyArray<HBytes>,
-    callback?: Callback<ReadonlyArray<HBytes>>
-  ): Promise<ReadonlyArray<HBytes>> =>
+    txs: ReadonlyArray<TxHex>,
+    callback?: Callback<ReadonlyArray<TxHex>>
+  ): Promise<ReadonlyArray<TxHex>> =>
     Promise.resolve(
-      validate(arrayValidator<HBytes>(attachedTxHexValidator)(txs))
+      validate(arrayValidator<TxHex>(attachedTxHexValidator)(txs))
     )
       .then(() =>
         send<BroadcastTransactionsCommand, BroadcastTransactionsResponse>({

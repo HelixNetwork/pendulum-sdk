@@ -18,7 +18,7 @@ test("schnorr test schnorr signature with HByte conversion!", t => {
 
   let signatureSBytes = hex(signature.s);
   let signatureRBytes = hex(signature.r);
-  // convert to HBytes:
+  // convert to TxHex:
   let privateKeyBytes = hex(sch.secreteKey);
   let publicKeyBytes = hex(sch.publicKey);
 
