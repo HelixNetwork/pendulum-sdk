@@ -1,6 +1,10 @@
 import * as Promise from "bluebird";
 export type Maybe<T> = T | void;
 
+export type TxHex = string;
+export type TxBits = Int8Array;
+export type TxBytes = Uint8Array;
+
 export type Hash = string;
 export type Tag = string;
 export type HBytes = string;

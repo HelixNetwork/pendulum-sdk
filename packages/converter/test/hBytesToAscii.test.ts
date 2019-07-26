@@ -2,7 +2,7 @@ import test from "ava";
 import * as errors from "../src/errors";
 import { txHexToAscii } from "../src";
 
-const { INVALID_ODD_LENGTH, INVALID_HBYTES } = errors;
+const { INVALID_ODD_LENGTH, INVALID_TX_HEX } = errors;
 
 test("txHexToAscii()", t => {
   const hbytes = "494f5441";
@@ -23,7 +23,7 @@ test("txHexToAscii()", t => {
     "fromHBytes() should throw error for non-transactionStrings."
   );
 
-  t.is(invalidHBytesError.message, INVALID_HBYTES, "incorrect error message");
+  t.is(invalidHBytesError.message, INVALID_TX_HEX, "incorrect error message");
 
   const oddLengthError = t.throws(
     () => txHexToAscii(hbytesOfOddLength),

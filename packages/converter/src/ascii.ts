@@ -28,7 +28,7 @@ import * as errors from "./errors";
  *
  * @param {string} input - ascii input
  *
- * @return {string} string of hbytes
+ * @return {string} string of TxHex
  */
 export const asciiToTxHex = (input: string): string => {
   // If input is not an ascii string, throw error
@@ -36,41 +36,41 @@ export const asciiToTxHex = (input: string): string => {
     throw new Error(errors.INVALID_ASCII_CHARS);
   }
 
-  const hbytes = new Uint8Array(input.length);
+  const txBytes = new Uint8Array(input.length);
   for (let i = 0; i < input.length; i++) {
-    hbytes[i] = input[i].charCodeAt(0);
+    txBytes[i] = input[i].charCodeAt(0);
   }
-  return hex(hbytes);
+  return hex(txBytes);
 };
 
 /**
- * Converts hbytes of _even_ length to an ascii string
+ * Converts TxHex to ascii string
  *
  * @method txHexToAscii
  *
  * @memberof module:converter
  *
- * @param {string} hbytes - hbytes
+ * @param {string} txHex - txHex
  *
  * @return {string} string in ascii
  */
-export const txHexToAscii = (hbytes: string): string => {
+export const txHexToAscii = (txHex: string): string => {
   if (
-    typeof hbytes !== "string" ||
-    !new RegExp(`^[0-9abcdef]{1,}$`).test(hbytes)
+    typeof txHex !== "string" ||
+    !new RegExp(`^[0-9abcdef]{1,}$`).test(txHex)
   ) {
-    throw new Error(errors.INVALID_HBYTES);
+    throw new Error(errors.INVALID_TX_HEX);
   }
 
-  if (hbytes.length % 2) {
+  if (txHex.length % 2) {
     throw new Error(errors.INVALID_ODD_LENGTH);
   }
 
   let ascii = "";
 
-  const bytes = toTxBytes(hbytes);
-  for (let i = 0; i < bytes.length; i++) {
-    ascii += String.fromCharCode(bytes[i]);
+  const txBytes = toTxBytes(txHex);
+  for (let i = 0; i < txBytes.length; i++) {
+    ascii += String.fromCharCode(txBytes[i]);
   }
 
   return ascii;

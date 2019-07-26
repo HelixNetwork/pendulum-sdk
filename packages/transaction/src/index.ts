@@ -60,21 +60,21 @@ export const START_INDEX_NONCE =
   START_INDEX_TIMESTAMP_UP + TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE;
 
 /**
- * Calculates the transaction hash out of 8019 transaction hbits.
+ * Calculates the transaction hash out of 8019 transaction txBytes.
  *
  * @method transactionHash
  *
- * @param {Int8Array} hBits - Int8Array of 8019 transaction hbits
+ * @param {Uint8Array} txBytes - Int8Array of 8019 transaction txBytes
  *
  * @return {Hash} Transaction hash
  */
-export const transactionHash = (hbits: Uint8Array): Hash => {
+export const transactionHash = (txBytes: Uint8Array): Hash => {
   const hHash = new HHash(HHash.HASH_ALGORITHM_2);
   const hash: Uint8Array = new Uint8Array(hHash.getHashLength());
 
   // generate the transaction hash
   hHash.initialize();
-  hHash.absorb(hbits, 0, hbits.length);
+  hHash.absorb(txBytes, 0, txBytes.length);
   hHash.squeeze(hash, 0, hHash.getHashLength());
   return hex(hash);
 };
