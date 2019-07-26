@@ -79,7 +79,7 @@ export const createAttachToTangle = ({ send }: Provider): AttachToTangle => {
    * - `INVALID_TRUNK_TRANSACTION`: Invalid `trunkTransaction`
    * - `INVALID_BRANCH_TRANSACTION`: Invalid `branchTransaction`
    * - `INVALID_MIN_WEIGHT_MAGNITUDE`: Invalid `minWeightMagnitude` argument
-   * - `INVALID_TRANSACTION_HBYTES`: Invalid transaction txs
+   * - `INVALID_TRANSACTION_TX_HEX`: Invalid transaction txs
    * - `INVALID_TRANSACTIONS_TO_APPROVE`: Invalid transactions to approve
    * - Fetch error
    */

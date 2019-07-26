@@ -26,7 +26,7 @@ import { Bundle, Callback, Provider, Transaction, Transfer } from "../../types";
 import Address from "./address";
 import {
   ADDRESS_BYTE_SIZE,
-  NULL_TAG_HBYTES,
+  NULL_TAG_TX_HEX,
   SECURITY_LEVELS,
   SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
   SIGNATURE_SECRETE_KEY_BYTE_SIZE,
@@ -78,7 +78,7 @@ export const createBundle = (
   const signatureFragments: string[] = [];
   const totalBalance: number = input.balance;
   let totalValue = 0;
-  let tag: string = NULL_TAG_HBYTES;
+  let tag: string = NULL_TAG_TX_HEX;
 
   //  Iterate over all transfers, get totalValue
   //  and prepare the signatureFragments, message and tag
@@ -140,7 +140,7 @@ export const createBundle = (
     }
 
     // If no tag defined, get 27 tryte tag.
-    tag = transfers[i].tag || NULL_TAG_HBYTES;
+    tag = transfers[i].tag || NULL_TAG_TX_HEX;
 
     // Pad for required 27 tryte length
     for (let j = 0; tag.length < TAG_BYTE_SIZE; j++) {

@@ -2,8 +2,8 @@ import test from "ava";
 import {
   ADDRESS_BYTE_SIZE,
   HASH_TX_HEX_SIZE,
-  NULL_HASH_HBYTES,
-  NULL_NONCE_HBYTES,
+  NULL_HASH_TX_HEX,
+  NULL_NONCE_TX_HEX,
   SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
 } from "../../constants";
 import {
@@ -13,8 +13,8 @@ import {
   finalizeBundle
 } from "../src/bundle";
 
-const NULL_HASH = NULL_HASH_HBYTES;
-const NULL_NONCE = NULL_NONCE_HBYTES;
+const NULL_HASH = NULL_HASH_TX_HEX;
+const NULL_NONCE = NULL_NONCE_TX_HEX;
 const addresses = [
   "a".repeat(ADDRESS_BYTE_SIZE),
   "b".repeat(ADDRESS_BYTE_SIZE)

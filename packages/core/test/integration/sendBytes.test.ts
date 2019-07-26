@@ -1,7 +1,7 @@
 import { createHttpClient } from "@helixnetwork/http-client";
 import { bundle } from "@helixnetwork/samples";
 import test from "ava";
-import { INVALID_TRANSACTION_HBYTES } from "../../../errors";
+import { INVALID_TRANSACTION_TX_HEX } from "../../../errors";
 import { createSendTransactionStrings } from "../../src";
 import { attachToTangleCommand } from "./nocks/attachToTangle";
 import "./nocks/broadcastTransactions";
@@ -38,7 +38,7 @@ test("sendTransactionStrings() rejects with correct errors for invalid input.", 
   t.is(
     t.throws(() => sendTxHex(invalidTxHex, depth, minWeightMagnitude), Error)
       .message,
-    `${INVALID_TRANSACTION_HBYTES}: ${invalidTxHex[0]}`,
+    `${INVALID_TRANSACTION_TX_HEX}: ${invalidTxHex[0]}`,
     "sendTransactionStrings() should throw correct error for invalid txs."
   );
 });

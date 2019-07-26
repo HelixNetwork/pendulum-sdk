@@ -1,7 +1,7 @@
 import { createHttpClient } from "@helixnetwork/http-client";
 import { attachedTxHexOfInvalidLength } from "@helixnetwork/samples";
 import test from "ava";
-import { INVALID_ATTACHED_HBYTES } from "../../../errors";
+import { INVALID_ATTACHED_TX_HEX } from "../../../errors";
 import { createStoreAndBroadcast } from "../../src";
 import "./nocks/broadcastTransactions";
 import { storeTransactionsCommand } from "./nocks/storeTransactions";
@@ -33,7 +33,7 @@ test("storeAndBroadcast() rejects with correct error for invalid attached txs.",
 
   t.is(
     t.throws(() => storeAndBroadcast(invalidTxHex), Error).message,
-    `${INVALID_ATTACHED_HBYTES}: ${invalidTxHex[0]}`,
+    `${INVALID_ATTACHED_TX_HEX}: ${invalidTxHex[0]}`,
     "storeAndBroadcast() should throw error for invalid attached txs."
   );
 });
@@ -44,7 +44,7 @@ test("storeAndBroadcast() rejects with correct errors for attached txs of invali
   t.is(
     t.throws(() => storeAndBroadcast(attachedTxHexOfInvalidLength), Error)
       .message,
-    `${INVALID_ATTACHED_HBYTES}: ${attachedTxHexOfInvalidLength[0]}`,
+    `${INVALID_ATTACHED_TX_HEX}: ${attachedTxHexOfInvalidLength[0]}`,
     "storeAndBroadcast() should throw error for attached txs of invalid length."
   );
 });

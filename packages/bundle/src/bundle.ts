@@ -13,10 +13,10 @@ import {
 import { add, normalizedBundleHash } from "@helixnetwork/winternitz";
 import {
   BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING,
-  NULL_HASH_HBYTES,
-  NULL_NONCE_HBYTES,
-  NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES,
-  NULL_TAG_HBYTES,
+  NULL_HASH_TX_HEX,
+  NULL_NONCE_TX_HEX,
+  NULL_SIGNATURE_MESSAGE_FRAGMENT_TX_HEX,
+  NULL_TAG_TX_HEX,
   SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
   TRANSACTION_CURRENT_INDEX_BITS_SIZE,
   TRANSACTION_LAST_INDEX_BITS_SIZE,
@@ -41,15 +41,15 @@ export const getEntryWithDefaults = (
   entry: Partial<BundleEntry>
 ): BundleEntry => ({
   length: entry.length || 1,
-  address: entry.address || NULL_HASH_HBYTES,
+  address: entry.address || NULL_HASH_TX_HEX,
   value: entry.value || 0,
-  tag: entry.tag || NULL_TAG_HBYTES,
+  tag: entry.tag || NULL_TAG_TX_HEX,
   timestamp: entry.timestamp || Math.floor(Date.now() / 1000),
   signatureMessageFragments: entry.signatureMessageFragments
     ? entry.signatureMessageFragments.map(
         padTxHex(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE)
       )
-    : Array(entry.length || 1).fill(NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES)
+    : Array(entry.length || 1).fill(NULL_SIGNATURE_MESSAGE_FRAGMENT_TX_HEX)
 });
 
 /**
@@ -113,14 +113,14 @@ export const addEntry = (
           lastIndex,
           timestamp,
           signatureMessageFragment: signatureMessageFragments[i],
-          trunkTransaction: NULL_HASH_HBYTES,
-          branchTransaction: NULL_HASH_HBYTES,
+          trunkTransaction: NULL_HASH_TX_HEX,
+          branchTransaction: NULL_HASH_TX_HEX,
           attachmentTimestamp: 0,
           attachmentTimestampLowerBound: 0,
           attachmentTimestampUpperBound: 0,
-          bundle: NULL_HASH_HBYTES,
-          nonce: NULL_NONCE_HBYTES,
-          hash: NULL_HASH_HBYTES
+          bundle: NULL_HASH_TX_HEX,
+          nonce: NULL_NONCE_TX_HEX,
+          hash: NULL_HASH_TX_HEX
         }))
     );
 };

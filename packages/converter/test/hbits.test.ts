@@ -86,7 +86,7 @@ test("Function: txBits) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from hBytes to txBits is not correctly!"
+    "Conversion from txHex to txBits is not correctly!"
   );
 });
 
@@ -114,7 +114,7 @@ test("Function2: txBits) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from hBytes to txBits is not correctly!"
+    "Conversion from txHex to txBits is not correctly!"
   );
 });
 
@@ -125,7 +125,7 @@ test("Function3: txBits) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from hBytes to txBits is not correctly!"
+    "Conversion from txHex to txBits is not correctly!"
   );
 });
 
@@ -146,7 +146,7 @@ test("Function: txBits - from number) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from hBytes to txBits is not correctly!"
+    "Conversion from txHex to txBits is not correctly!"
   );*/
   const input = "placeholder";
   const placeholder = (input: string): string => {
@@ -175,7 +175,7 @@ test("Function: txBits - from number more than one byte) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from hBytes to txBits is not correctly expected 10 bits!"
+    "Conversion from txHex to txBits is not correctly expected 10 bits!"
   );*/
   const input = "placeholder";
   const placeholder = (input: string): string => {

@@ -1,5 +1,4 @@
 /**
- * Tryte has been converted into HByte
  * 1 TxHex is represented as a string with length 2, in hexadecimal representation,
  * because of this all values are multiplied with 2
  */
@@ -61,12 +60,12 @@ export const SIGNATURE_FRAGMENT_NO = 16; // 32; // previous 27
 export const MAX_INDEX_DIFF = 1000; // previous 1000
 
 // Empty initialization:
-export const NULL_ADDRESS_HBYTES = "0".repeat(ADDRESS_BYTE_SIZE);
-export const NULL_HASH_HBYTES = "0".repeat(HASH_TX_HEX_SIZE);
-export const NULL_TAG_HBYTES = "0".repeat(TAG_BYTE_SIZE);
-export const NULL_NONCE_HBYTES = "0".repeat(NONCE_BYTE_SIZE);
-export const NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES = "0".repeat(
+export const NULL_ADDRESS_TX_HEX = "0".repeat(ADDRESS_BYTE_SIZE);
+export const NULL_HASH_TX_HEX = "0".repeat(HASH_TX_HEX_SIZE);
+export const NULL_TAG_TX_HEX = "0".repeat(TAG_BYTE_SIZE);
+export const NULL_NONCE_TX_HEX = "0".repeat(NONCE_BYTE_SIZE);
+export const NULL_SIGNATURE_MESSAGE_FRAGMENT_TX_HEX = "0".repeat(
   SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
 );
-export const NULL_TRANSACTION_HBYTES = "0".repeat(TRANSACTION_TX_HEX_SIZE);
+export const NULL_TRANSACTION_TX_HEX = "0".repeat(TRANSACTION_TX_HEX_SIZE);
 export const SECURITY_LEVELS = 4;

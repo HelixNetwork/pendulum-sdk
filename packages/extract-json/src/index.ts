@@ -57,21 +57,21 @@ export const extractJson = (bundle: Bundle): string | number | null => {
     throw new Error(errors.INVALID_BUNDLE);
   }
   // Sanity check: if the first byte pair is not opening bracket, it's not a message
-  const firstHBytePair =
+  const firstTxHexPair =
     bundle[0].signatureMessageFragment[0] +
     bundle[0].signatureMessageFragment[1];
 
-  let lastHBytePair = "";
+  let lastTxHexPair = "";
 
-  if (firstHBytePair === "7b") {
+  if (firstTxHexPair === "7b") {
     // encoding for {
-    lastHBytePair = "7d"; // encoding for }
-  } else if (firstHBytePair === "22") {
+    lastTxHexPair = "7d"; // encoding for }
+  } else if (firstTxHexPair === "22") {
     // encoding for "
-    lastHBytePair = "22"; // encoding for "
-  } else if (firstHBytePair === "5b") {
+    lastTxHexPair = "22"; // encoding for "
+  } else if (firstTxHexPair === "5b") {
     // enconding for [
-    lastHBytePair = "5d"; // encoding for ]
+    lastTxHexPair = "5d"; // encoding for ]
   } else if (bundle[0].signatureMessageFragment.slice(0, 10) === "66616c7365") {
     return "false";
   } else if (bundle[0].signatureMessageFragment.slice(0, 8) === "74727565") {
@@ -132,7 +132,7 @@ export const extractJson = (bundle: Bundle): string | number | null => {
 
         // If txHex pair equals closing bracket char, we set a preliminary stop
         // the preliminaryStop is useful when we have a nested JSON object
-        if (txHexPair === lastHBytePair) {
+        if (txHexPair === lastTxHexPair) {
           preliminaryStop = true;
         }
       }

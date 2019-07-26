@@ -12,7 +12,7 @@ import {
 } from "@helixnetwork/winternitz";
 import {
   HASH_BYTE_SIZE,
-  NULL_HASH_HBYTES,
+  NULL_HASH_TX_HEX,
   SECURITY_LEVELS,
   SEED_BYTE_SIZE,
   SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
@@ -224,7 +224,7 @@ export const addHMACPlaceholder = (
             transfer.value > 0
               ? {
                   ...transfer,
-                  message: NULL_HASH_HBYTES + (transfer.message || "")
+                  message: NULL_HASH_TX_HEX + (transfer.message || "")
                 }
               : transfer
         )

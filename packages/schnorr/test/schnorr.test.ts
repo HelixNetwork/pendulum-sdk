@@ -11,7 +11,7 @@ test("Schnorr-Multi: placeholder()", t => {
   t.is(placeholder("placeholder"), input, "Inputs should be equal.");
 });
 /*
-test("schnorr test schnorr signature with HByte conversion!", t => {
+test("schnorr test schnorr signature with TxHex conversion!", t => {
   let sch = new Schnorr("abcdeadddaaaaaaaaaaaa2322423333333333333333");
   let msg: string = "this is a random text that will be signed";
   let signature = Schnorr.sign(msg, sch.secreteKey);

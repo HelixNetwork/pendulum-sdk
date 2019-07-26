@@ -17,9 +17,9 @@ test("hash-module: Test sha3 input string (update/final), Converter: bytesToWord
     hHash.initialize();
 
     hHash.absorb(toTxBytes(input), 0, hHash.getHashLength());
-    const hashBytes: Int8Array = new Int8Array(hHash.getHashLength());
-    hHash.squeeze(hashBytes, 0, hHash.getHashLength());
-    return hex(hashBytes);
+    const hastxHex: Int8Array = new Int8Array(hHash.getHashLength());
+    hHash.squeeze(hastxHex, 0, hHash.getHashLength());
+    return hex(hastxHex);
   };
 
   t.is(

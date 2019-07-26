@@ -19,14 +19,14 @@ import { asArray, TxHex } from "../../types";
 export const errors = {
   INVALID_ADDRESS,
   INVALID_CHECKSUM,
-  INVALID_HBYTES: INVALID_TX_HEX,
+  INVALID_TX_HEX: INVALID_TX_HEX,
   INVALID_CHECKSUM_LENGTH: "Invalid checksum length"
 };
 
-const ADDRESS_CHECKSUM_HBYTES_LENGTH = ADDRESS_CHECKSUM_BYTE_SIZE;
-const ADDRESS_WITH_CHECKSUM_HBYTES_LENGTH =
-  ADDRESS_BYTE_SIZE + ADDRESS_CHECKSUM_HBYTES_LENGTH;
-const MIN_CHECKSUM_HBYTES_LENGTH = ADDRESS_MIN_CHECKSUM_BYTE_SIZE;
+const ADDRESS_CHECKSUM_TX_HEX_LENGTH = ADDRESS_CHECKSUM_BYTE_SIZE;
+const ADDRESS_WITH_CHECKSUM_TX_HEX_LENGTH =
+  ADDRESS_BYTE_SIZE + ADDRESS_CHECKSUM_TX_HEX_LENGTH;
+const MIN_CHECKSUM_TX_HEX_LENGTH = ADDRESS_MIN_CHECKSUM_BYTE_SIZE;
 
 /**
  * Generates and appends the 8-transactionStrings checksum of the given transactionStrings, usually an address.
@@ -53,16 +53,16 @@ export function addChecksum(
 ): ReadonlyArray<TxHex>;
 export function addChecksum(
   input: TxHex | ReadonlyArray<TxHex>,
-  checksumLength = ADDRESS_CHECKSUM_HBYTES_LENGTH,
+  checksumLength = ADDRESS_CHECKSUM_TX_HEX_LENGTH,
   isAddress = true
 ) {
   const withChecksum: ReadonlyArray<TxHex> = asArray(input).map(inputTxHex => {
     if (!isTxHex(inputTxHex)) {
-      throw new Error(errors.INVALID_HBYTES);
+      throw new Error(errors.INVALID_TX_HEX);
     }
 
     if (isAddress && inputTxHex.length !== ADDRESS_BYTE_SIZE) {
-      if (inputTxHex.length === ADDRESS_WITH_CHECKSUM_HBYTES_LENGTH) {
+      if (inputTxHex.length === ADDRESS_WITH_CHECKSUM_TX_HEX_LENGTH) {
         return inputTxHex;
       }
 
@@ -71,9 +71,9 @@ export function addChecksum(
 
     if (
       !Number.isInteger(checksumLength) ||
-      checksumLength < MIN_CHECKSUM_HBYTES_LENGTH ||
+      checksumLength < MIN_CHECKSUM_TX_HEX_LENGTH ||
       checksumLength % 2 !== 0 ||
-      (isAddress && checksumLength !== ADDRESS_CHECKSUM_HBYTES_LENGTH)
+      (isAddress && checksumLength !== ADDRESS_CHECKSUM_TX_HEX_LENGTH)
     ) {
       throw new Error(errors.INVALID_CHECKSUM_LENGTH);
     }
@@ -117,20 +117,20 @@ export function removeChecksum(
   input: ReadonlyArray<TxHex>
 ): ReadonlyArray<TxHex>;
 export function removeChecksum(input: TxHex | ReadonlyArray<TxHex>) {
-  const hByteArray = asArray(input);
+  const txHexArray = asArray(input);
 
   if (
-    hByteArray.length === 0 ||
-    !hByteArray.every(
+    txHexArray.length === 0 ||
+    !txHexArray.every(
       t =>
         isTxHex(t, ADDRESS_BYTE_SIZE) ||
-        isTxHex(t, ADDRESS_WITH_CHECKSUM_HBYTES_LENGTH)
+        isTxHex(t, ADDRESS_WITH_CHECKSUM_TX_HEX_LENGTH)
     )
   ) {
     throw new Error(errors.INVALID_ADDRESS);
   }
 
-  const noChecksum: ReadonlyArray<TxHex> = hByteArray.map(inputTxHex =>
+  const noChecksum: ReadonlyArray<TxHex> = txHexArray.map(inputTxHex =>
     inputTxHex.slice(0, ADDRESS_BYTE_SIZE)
   );
 

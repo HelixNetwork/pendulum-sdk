@@ -55,7 +55,7 @@ export const createBroadcastTransactions = ({ send }: Provider) =>
    * @return {Promise}
    * @fulfil {TxHex[]} Attached transaction txHex
    * @reject {Error}
-   * - `INVALID_ATTACHED_HBYTES`: Invalid array of attached txHex
+   * - `INVALID_ATTACHED_TX_HEX`: Invalid array of attached txHex
    * - Fetch error
    */
   (

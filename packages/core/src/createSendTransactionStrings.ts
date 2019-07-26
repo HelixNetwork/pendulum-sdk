@@ -68,7 +68,7 @@ export const createSendTransactionStrings = (
    * @return {Promise}
    * @fulfil {Transaction[]}  Returns list of attached transactions
    * @reject {Error}
-   * - `INVALID_TRANSACTION_HBYTES`
+   * - `INVALID_TRANSACTION_TX_HEX`
    * - `INVALID_DEPTH`
    * - `INVALID_MIN_WEIGHT_MAGNITUDE`
    * - Fetch error, if connected to network

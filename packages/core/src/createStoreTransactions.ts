@@ -43,7 +43,7 @@ export const createStoreTransactions = ({ send }: Provider) =>
    * @return {Promise}
    * @fullfil {TxHex[]} Attached transaction txHex
    * @reject {Error}
-   * - `INVALID_ATTACHED_HBYTES`: Invalid attached txHex
+   * - `INVALID_ATTACHED_TX_HEX`: Invalid attached txHex
    * - Fetch error
    */
   (

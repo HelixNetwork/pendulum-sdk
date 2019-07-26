@@ -2,7 +2,7 @@ import { createHttpClient } from "@helixnetwork/http-client";
 import test from "ava";
 import {
   INVALID_BRANCH_TRANSACTION,
-  INVALID_TRANSACTION_HBYTES,
+  INVALID_TRANSACTION_TX_HEX,
   INVALID_TRUNK_TRANSACTION
 } from "../../../errors";
 import { createAttachToTangle } from "../../src";
@@ -87,7 +87,7 @@ test("attachToTangle() rejects with correct errors for invalid input", t => {
         ),
       Error
     ).message,
-    `${INVALID_TRANSACTION_HBYTES}: ${invalidTxHex[0]}`,
+    `${INVALID_TRANSACTION_TX_HEX}: ${invalidTxHex[0]}`,
     "attachToTangle() should throw error for invalid txs"
   );
 });

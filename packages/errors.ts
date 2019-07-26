@@ -27,9 +27,9 @@ export const INVALID_START_END_OPTIONS = "Invalid end option";
 export const INVALID_START_OPTION = "Invalid start option";
 export const INVALID_TAG = "Invalid tag";
 export const INVALID_TRANSACTION = "Invalid transaction";
-export const INVALID_TRANSACTION_HBYTES =
+export const INVALID_TRANSACTION_TX_HEX =
   "Invalid transaction transactionStrings";
-export const INVALID_ATTACHED_HBYTES = "Invalid attached transactionStrings";
+export const INVALID_ATTACHED_TX_HEX = "Invalid attached transactionStrings";
 export const INVALID_TRANSACTION_HASH = "Invalid transaction hash";
 export const INVALID_TAIL_TRANSACTION = "Invalid tail transaction";
 export const INVALID_THRESHOLD = "Invalid threshold option";

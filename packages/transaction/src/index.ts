@@ -239,13 +239,13 @@ export const transactionHashValidator: Validator<Hash> = (
 export const transactionTxHexValidator: Validator<TxHex> = (txHex: any) => [
   txHex,
   isTransactionTxHex,
-  errors.INVALID_TRANSACTION_HBYTES
+  errors.INVALID_TRANSACTION_TX_HEX
 ];
 
 export const attachedTxHexValidator: Validator<TxHex> = (txHex: any) => [
   txHex,
   isAttachedTxHex,
-  errors.INVALID_ATTACHED_HBYTES
+  errors.INVALID_ATTACHED_TX_HEX
 ];
 
 export const validateTransaction = (transaction: any) =>

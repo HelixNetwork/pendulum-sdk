@@ -237,8 +237,8 @@ export const asTransactionObjects = (hashes?: ReadonlyArray<Hash>) => {
    * @return {Transaction[]} List of transaction objects with hashes
    */
   return function transactionObjectsMapper(txHex: ReadonlyArray<TxHex>) {
-    return txHex.map((hByteString, i) =>
-      asTransactionObject(hByteString, hashes![i])
+    return txHex.map((txHexString, i) =>
+      asTransactionObject(txHexString, hashes![i])
     );
   };
 };
@@ -247,11 +247,11 @@ export const asFinalTransactionStrings = (
   transactions: ReadonlyArray<Transaction>
 ) => [...asTransactionStrings(transactions)].reverse();
 
-export const transactionObject = (hBytes: TxHex): Transaction => {
+export const transactionObject = (txHex: TxHex): Transaction => {
   /* tslint:disable-next-line:no-console */
   console.warn("`transactionObject` has been renamed to `asTransactionObject`");
 
-  return asTransactionObject(hBytes);
+  return asTransactionObject(txHex);
 };
 
 export const transactionTxHex = (transaction: Transaction): TxHex => {

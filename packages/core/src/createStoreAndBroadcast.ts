@@ -35,7 +35,7 @@ export const createStoreAndBroadcast = (provider: Provider) => {
    * @return {Promise<TxHex[]>}
    * @fulfil {TxHex[]} Attached transaction txs
    * @reject {Error}
-   * - `INVALID_ATTACHED_HBYTES`: Invalid attached txs
+   * - `INVALID_ATTACHED_TX_HEX`: Invalid attached txs
    * - Fetch error
    */
   return (

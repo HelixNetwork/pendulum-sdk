@@ -1,7 +1,7 @@
 import test from "ava";
 import { isTxHex } from "../src";
 
-test("isHByte() returns true for valid bytes string in hex.", t => {
+test("isTxHex() returns true for valid bytes string in hex.", t => {
   const validTxHex =
     "abc1233445234234232aaaaaccac1233445234234232adedeadea123344523ee";
 
@@ -12,7 +12,7 @@ test("isHByte() returns true for valid bytes string in hex.", t => {
   );
 });
 
-test("isHByte() returns true for valid bytes and length.", t => {
+test("isTxHex() returns true for valid bytes and length.", t => {
   const bytes = "abcdef12";
 
   t.is(
