@@ -1,13 +1,13 @@
-import { createHttpClient } from "@helixnetwork/http-client";
-import { bundle } from "@helixnetwork/samples";
 import test from "ava";
 import { INVALID_TRANSACTION_TX_HEX } from "../../../errors";
+import { createHttpClient } from "@helixnetwork/http-client";
+import { bundle } from "@helixnetwork/samples";
 import { createSendTransactionStrings } from "../../src";
 import { attachToTangleCommand } from "./nocks/attachToTangle";
-import "./nocks/broadcastTransactions";
 import { getTransactionsToApproveCommand } from "./nocks/getTransactionsToApprove";
-import "./nocks/storeTransactions";
 
+import "./nocks/storeTransactions";
+import "./nocks/broadcastTransactions";
 const { minWeightMagnitude, txs } = attachToTangleCommand;
 const { depth } = getTransactionsToApproveCommand;
 

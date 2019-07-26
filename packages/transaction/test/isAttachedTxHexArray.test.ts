@@ -1,9 +1,7 @@
 import {
   attachedTxHex,
   attachedTxHexOfInvalidChars,
-  attachedTxHexOfInvalidLength,
-  attachedTransactionObjects,
-  transactionObject
+  attachedTxHexOfInvalidLength
 } from "@helixnetwork/samples";
 import test from "ava";
 import { isAttachedTxHexArray } from "../src";

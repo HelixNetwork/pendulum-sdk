@@ -116,8 +116,8 @@ export const extractJson = (bundle: Bundle): string | number | null => {
       for (let j = 0; j < txHexToCheck.length; j += 2) {
         const txHexPair = txHexToCheck[j] + txHexToCheck[j + 1];
 
-        // If closing bracket char was found, and there are only trailing 9's
-        // we quit and remove the 9's from the txHexChunk.
+        // If closing bracket char was found, and there are only trailing 0's
+        // we quit and remove the 0's from the txHexChunk.
         if (preliminaryStop && txHexPair === "00") {
           notEnded = false;
           // TODO: Remove the trailing 9's from txHexChunk

@@ -1,4 +1,4 @@
-import { transactionTxHex, transactionObject } from "@helixnetwork/samples";
+import { transactionTxHex } from "@helixnetwork/samples";
 import test from "ava";
 import { isTransactionTxHex } from "../src";
 

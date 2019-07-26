@@ -1,11 +1,8 @@
 import {
-  attachedTransactionObjects,
   bundle,
   bundleTxHex,
-  bundleWithZeroValue,
-  bundleWithZeroValueTxHex,
-  transactionTxHex as txHex,
-  transactionObject
+  transactionObject,
+  transactionTxHex as txHex
 } from "@helixnetwork/samples";
 import test from "ava";
 import {
