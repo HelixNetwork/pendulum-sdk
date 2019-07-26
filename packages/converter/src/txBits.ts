@@ -25,6 +25,8 @@ export function txBits(input: string | number): Int8Array {
 }
 
 /**
+ * Converts txHex to TxBits
+ *
  * @method txHexToTxBits
  *
  * @memberof module:converter
@@ -65,6 +67,8 @@ export function txHex(hBits: Int8Array | Uint8Array): string {
 }
 
 /**
+ * Converts txBits to txHex
+ *
  * @method txBitsToTxHex
  *
  * @memberof module:converter

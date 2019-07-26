@@ -1,7 +1,7 @@
 import * as errors from "./errors";
 
 /**
- * Convert an array of bytes into a hexadecimal string representation of bytes TxHex
+ * Converts TxBytes to a TxHex
  * @param uint8arr
  */
 export function hex(uint8arr: Uint8Array | Int8Array): string {
@@ -21,7 +21,7 @@ export function hex(uint8arr: Uint8Array | Int8Array): string {
 }
 
 /**
- * Converts an integer value to byte array
+ * Converts an integer value to TxBytes
  *
  * @method toBytes
  *
@@ -31,7 +31,7 @@ export function hex(uint8arr: Uint8Array | Int8Array): string {
  *
  * @param {number} padding
  *Ł
- * @return {Uint8Array} bytes
+ * @return {TxBytes} bytes
  */
 
 export function toTxBytes(
@@ -56,11 +56,11 @@ export function toTxBytes(
 }
 
 /**
- * Converts a string (hex representation) into a Uint8Array
+ * Converts TxHex into TxBytes
  *
- * @param {string} txHex hexadecimal string representation
+ * @param {TxHex} txHex hexadecimal string representation
  *
- * @return {Uint8Array} byte array
+ * @return {TxBytes} byte array
  */
 
 function toTxBytesFromTxHex(txHex: string, padding?: number): Uint8Array {

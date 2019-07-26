@@ -1,11 +1,11 @@
 import * as errors from "./errors";
 
 /**
- * Converts the given toTxBytes to word array
+ * Converts TxBytes to word
  *
  * @method bytesToWord
  *
- * @param {Uint8Array} bytes
+ * @param {TxBytes} bytes
  *
  * @return {Uint32Array} words
  */
@@ -29,13 +29,13 @@ export function bytesToWords(bytes: Uint8Array | Int8Array): Uint32Array {
 }
 
 /**
- * Converts the given byte array to toTxBytes
+ * Converts word to a TxBytes
  *
  * @method wordsToBytes
  *
  * @param {Uint32Array} words
  *
- * @return {Uint8Array} toTxBytes
+ * @return {TxBytes} toTxBytes
  */
 export function wordsToBytes(words: Uint32Array): Uint8Array {
   const size = words.length;
