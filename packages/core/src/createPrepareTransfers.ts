@@ -2,7 +2,7 @@ import * as Promise from "bluebird";
 
 import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
 import { isValidChecksum, removeChecksum } from "@helixnetwork/checksum";
-import { hbits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
+import { txBits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
 import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
 import {
   key,
@@ -444,7 +444,7 @@ export const addHMAC = (
   const { hmacKey, transactions } = props;
 
   return hmacKey
-    ? { ...props, transactions: HMAC(transactions, hbits(hmacKey)) }
+    ? { ...props, transactions: HMAC(transactions, txBits(hmacKey)) }
     : props;
 };
 

@@ -1,6 +1,6 @@
 /** @module checksum */
 
-import { hbits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
+import { txBits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
   ADDRESS_BYTE_SIZE,

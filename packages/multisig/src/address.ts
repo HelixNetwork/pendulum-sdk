@@ -1,4 +1,4 @@
-import { hbits, hex } from "@helixnetwork/converter";
+import { txBits, hex } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { asArray } from "../../types";
 
@@ -35,8 +35,8 @@ export default class Address {
 
     // Add digests
     for (let i = 0; i < digestsArray.length; i++) {
-      // Get hbits of digest
-      const digestHBits = hbits(digestsArray[i]);
+      // Get txBits of digest
+      const digestHBits = txBits(digestsArray[i]);
 
       // Absorb digest
       this.hHash.absorb(digestHBits, 0, digestHBits.length);
@@ -61,11 +61,11 @@ export default class Address {
       this.absorb(digest);
     }
 
-    // Squeeze the address hbits
+    // Squeeze the address txBits
     const addressHBytes: Int8Array = new Int8Array(this.hHash.getHashLength());
     this.hHash.squeeze(addressHBytes, 0, this.hHash.getHashLength());
 
-    // Convert hbits into hbytes and return the address
+    // Convert txBits into hbytes and return the address
     return hex(addressHBytes);
   }
 }

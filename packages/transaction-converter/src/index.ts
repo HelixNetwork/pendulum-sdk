@@ -2,8 +2,8 @@
 
 import {
   hBitsToHBytes,
-  hbytesToHBits,
-  hbits,
+  txHexToTxBits,
+  txBits,
   value,
   toTxBytes
 } from "@helixnetwork/converter";
@@ -74,12 +74,12 @@ export function asTransactionHBytes(
   transactions: Transaction | ReadonlyArray<Transaction>
 ): HBytes | ReadonlyArray<HBytes> {
   asArray(transactions).forEach(transaction => {
-    const val = hBitsToHBytes(hbits(transaction.value));
+    const val = hBitsToHBytes(txBits(transaction.value));
     const obsoleteTag = padHBytes(OBSOLETE_TAG_BYTE_SIZE)(
       transaction.obsoleteTag
     );
     const attachedTimestamp = hBitsToHBytes(
-      hbits(transaction.attachmentTimestamp)
+      txBits(transaction.attachmentTimestamp)
     );
   });
 
@@ -88,12 +88,12 @@ export function asTransactionHBytes(
       transaction.signatureMessageFragment,
       transaction.address,
       padHBytes(TRANSACTION_VALUE_BYTE_SIZE)(
-        hBitsToHBytes(hbits(transaction.value))
+        hBitsToHBytes(txBits(transaction.value))
       ),
       padHBytes(OBSOLETE_TAG_BYTE_SIZE)(transaction.obsoleteTag),
-      hBitsToHBytes(hbits(transaction.timestamp)),
-      hBitsToHBytes(hbits(transaction.currentIndex)),
-      hBitsToHBytes(hbits(transaction.lastIndex)),
+      hBitsToHBytes(txBits(transaction.timestamp)),
+      hBitsToHBytes(txBits(transaction.currentIndex)),
+      hBitsToHBytes(txBits(transaction.lastIndex)),
       transaction.bundle,
       transaction.trunkTransaction,
       transaction.branchTransaction,
@@ -104,9 +104,9 @@ export function asTransactionHBytes(
             : transaction.obsoleteTag
           : ""
       ),
-      hBitsToHBytes(hbits(transaction.attachmentTimestamp)),
-      hBitsToHBytes(hbits(transaction.attachmentTimestampLowerBound)),
-      hBitsToHBytes(hbits(transaction.attachmentTimestampUpperBound)),
+      hBitsToHBytes(txBits(transaction.attachmentTimestamp)),
+      hBitsToHBytes(txBits(transaction.attachmentTimestampLowerBound)),
+      hBitsToHBytes(txBits(transaction.attachmentTimestampUpperBound)),
       transaction.nonce,
       "0".repeat(PAD_BYTE_SIZE)
     ].join("")
@@ -131,7 +131,7 @@ export const asTransactionObject = (
   if (!isHBytesOfExactLength(hbytes, TRANSACTION_HBYTE_SIZE)) {
     throw new Error(errors.INVALID_HBYTES);
   }
-  const hbits = hbytesToHBits(hbytes);
+  const txBits = txHexToTxBits(hbytes);
 
   const noOfBitsInBytes = 4;
   const usefulBytesFromValue = TRANSACTION_VALUE_BYTE_SIZE;
@@ -148,7 +148,7 @@ export const asTransactionObject = (
       START_INDEX_ADDRESS + ADDRESS_BYTE_SIZE
     ),
     value: value(
-      hbits.slice(
+      txBits.slice(
         START_INDEX_VALUE * noOfBitsInBytes,
         START_INDEX_VALUE * noOfBitsInBytes + noOfBitsInValue
       )
@@ -158,21 +158,21 @@ export const asTransactionObject = (
       START_INDEX_OBSOLETE_TAG + OBSOLETE_TAG_BYTE_SIZE
     ),
     timestamp: value(
-      hbits.slice(
+      txBits.slice(
         noOfBitsInBytes * START_INDEX_TIMESTAMP,
         noOfBitsInBytes *
           (START_INDEX_TIMESTAMP + TRANSACTION_TIMESTAMP_BYTE_SIZE)
       )
     ),
     currentIndex: value(
-      hbits.slice(
+      txBits.slice(
         noOfBitsInBytes * START_INDEX_CURRENT_INDEX,
         noOfBitsInBytes *
           (START_INDEX_CURRENT_INDEX + TRANSACTION_CURRENT_INDEX_BYTE_SIZE)
       )
     ),
     lastIndex: value(
-      hbits.slice(
+      txBits.slice(
         START_INDEX_LAST_INDEX_BYTES * noOfBitsInBytes,
         noOfBitsInBytes *
           (START_INDEX_LAST_INDEX_BYTES + TRANSACTION_LAST_INDEX_BYTE_SIZE)
@@ -192,21 +192,21 @@ export const asTransactionObject = (
     ),
     tag: hbytes.slice(START_INDEX_TAG, START_INDEX_TAG + TAG_BYTE_SIZE),
     attachmentTimestamp: value(
-      hbits.slice(
+      txBits.slice(
         noOfBitsInBytes * START_INDEX_ATTACHED_TIMESTAMP,
         noOfBitsInBytes *
           (START_INDEX_ATTACHED_TIMESTAMP + TRANSACTION_TIMESTAMP_BYTE_SIZE)
       )
     ),
     attachmentTimestampLowerBound: value(
-      hbits.slice(
+      txBits.slice(
         noOfBitsInBytes * START_INDEX_TIMESTAMP_LOW,
         noOfBitsInBytes *
           (START_INDEX_TIMESTAMP_LOW + TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE)
       )
     ),
     attachmentTimestampUpperBound: value(
-      hbits.slice(
+      txBits.slice(
         noOfBitsInBytes * START_INDEX_TIMESTAMP_UP,
         noOfBitsInBytes *
           (START_INDEX_TIMESTAMP_UP + TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE)

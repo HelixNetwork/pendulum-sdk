@@ -1,6 +1,6 @@
 /** @module bundle */
 
-import { hbits, hbytes, hex, toTxBytes, value } from "@helixnetwork/converter";
+import { txBits, hbytes, hex, toTxBytes, value } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
   padHBits,
@@ -165,16 +165,16 @@ export const addHBytes = (
  * @return {Transaction[]} Transactions of finalized bundle
  */
 export const finalizeBundle = (transactions: Bundle): Bundle => {
-  const valueHBits = transactions.map(tx => hbits(tx.value));
+  const valueHBits = transactions.map(tx => txBits(tx.value));
 
-  const timestampHBits = transactions.map(tx => hbits(tx.timestamp));
+  const timestampHBits = transactions.map(tx => txBits(tx.timestamp));
 
-  const currentIndexHBits = transactions.map(tx => hbits(tx.currentIndex));
+  const currentIndexHBits = transactions.map(tx => txBits(tx.currentIndex));
 
-  const lastIndexHBits = hbits(transactions[0].lastIndex);
+  const lastIndexHBits = txBits(transactions[0].lastIndex);
 
   const obsoleteTagHBits = transactions
-    .map(tx => hbits(tx.obsoleteTag))
+    .map(tx => txBits(tx.obsoleteTag))
     .map(padHBits(TRANSACTION_OBSOLETE_TAG_BITS_SIZE));
 
   let bundleHash: Hash = "";
@@ -206,7 +206,7 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
     ) {
       // Insecure bundle, increment obsoleteTag and recompute bundle hash
       obsoleteTagHBits[0] = padHBits(TRANSACTION_OBSOLETE_TAG_BITS_SIZE)(
-        hbits(value(obsoleteTagHBits[0]) + 1)
+        txBits(value(obsoleteTagHBits[0]) + 1)
       );
     } else {
       validBundle = true;

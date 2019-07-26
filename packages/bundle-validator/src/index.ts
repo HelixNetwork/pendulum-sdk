@@ -1,6 +1,6 @@
 /** @module bundle-validator */
 
-import { hbits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
+import { txBits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { padHBytes } from "@helixnetwork/pad";
 import { isTransaction } from "@helixnetwork/transaction";

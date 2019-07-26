@@ -1,17 +1,17 @@
 import * as errors from "./errors";
 
 /**
- * Converts hbytes or values to hbits
+ * Converts txHex or values to txBits
  *
- * @method hbits
+ * @method txBits
  *
  * @memberof module:converter
  *
- * @param {String|Number} input - HByte string or value to be converted.
+ * @param {TxHex|Number} input - TxHex string or value to be converted.
  *
- * @return {Int8Array} hbits
+ * @return {TxBits} txBits
  */
-export function hbits(input: string | number): Int8Array {
+export function txBits(input: string | number): Int8Array {
   if (typeof input === "string") {
     const hBits = new Int8Array(input.length * 4);
     for (let i = 0; i < hBits.length; i++) {
@@ -25,20 +25,20 @@ export function hbits(input: string | number): Int8Array {
 }
 
 /**
- * @method hbytesToHBits
+ * @method txHexToTxBits
  *
  * @memberof module:converter
  *
  * @ignore
  *
- * @alias hbits
+ * @alias txBits
  */
-export const hbytesToHBits = hbits;
+export const txHexToTxBits = txBits;
 
 /**
- * Converts hbits to hbytes
+ * Converts txBits to txHex
  *
- * @method hbytes
+ * @method txHex
  *
  * @memberof module:converter
  *
@@ -76,7 +76,7 @@ export function hbytes(hBits: Int8Array | Uint8Array): string {
 export const hBitsToHBytes = hbytes;
 
 /**
- * Converts hbits into an integer value
+ * Converts txBits into an integer value
  *
  * @method value
  *
@@ -93,7 +93,7 @@ export function value(hBits: Int8Array): number {
   for (let i = 0; i < hBits.length; i++) {
     strBits += isNegative ? ~hBits[i] & 0x01 : hBits[i] & 0x01;
   }
-  return (isNegative ? -1 * (parseInt(strBits, 2) + 1): parseInt(strBits, 2));
+  return isNegative ? -1 * (parseInt(strBits, 2) + 1) : parseInt(strBits, 2);
 }
 
 /**
@@ -108,7 +108,7 @@ export function value(hBits: Int8Array): number {
 export const hBitsToValue = value;
 
 /**
- * Converts an integer value to hbits
+ * Converts an integer value to txBits
  *
  * @method fromValue
  *
@@ -116,17 +116,17 @@ export const hBitsToValue = value;
  *
  * @param {Number} value
  *
- * @return {Int8Array} hbits
+ * @return {Int8Array} txBits
  */
 // tslint:disable-next-line no-shadowed-variable
 export function fromValue(value: number): Int8Array {
   const isNegative = value < 0;
-  const binary = isNegative? (-value-1).toString(2): value.toString(2);
-  let destination = new Int8Array(64).fill(isNegative? 1: 0);
+  const binary = isNegative ? (-value - 1).toString(2) : value.toString(2);
+  let destination = new Int8Array(64).fill(isNegative ? 1 : 0);
   for (let i = 0; i < binary.length; i++) {
-    destination[i + (64 - binary.length)] = isNegative ?
-    ~parseInt(binary[i], 10) & 0x01
-    : parseInt(binary[i], 10);
+    destination[i + (64 - binary.length)] = isNegative
+      ? ~parseInt(binary[i], 10) & 0x01
+      : parseInt(binary[i], 10);
   }
   return destination;
 }

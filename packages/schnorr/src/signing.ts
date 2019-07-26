@@ -2,9 +2,9 @@
 
 import {
   fromValue,
-  hbits,
+  txBits,
   hbytes,
-  hbytesToHBits,
+  txHexToTxBits,
   hex,
   toTxBytes,
   value,
@@ -34,10 +34,10 @@ const BN = require("bcrypto/lib/bn.js");
  * @method subseed
  * Compute subseed based on the seed with an additional index
  *
- * @param {Int8Array} seed - Seed hbits
+ * @param {Int8Array} seed - Seed txBits
  * @param {number} index - Private key index
  *
- * @return {Int8Array} subseed hbits
+ * @return {Int8Array} subseed txBits
  */
 export function subseed(seed: Uint8Array, index: number): Uint8Array {
   if (index < 0) {
@@ -64,7 +64,7 @@ export function subseed(seed: Uint8Array, index: number): Uint8Array {
  * @method key
  * Split seed in fragments and hashed them then generate from each fragment a schnore private key;
  *
- * @param {Int8Array} subseed - Subseed hbits
+ * @param {Int8Array} subseed - Subseed txBits
  * @param {number} securityLevel - Private key length
  *
  * @return {Int8Array} Private key bytes
@@ -101,7 +101,7 @@ export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
 /**
  * @method digests
  *
- * @param {Uint8Array} key - Private key hbits
+ * @param {Uint8Array} key - Private key txBits
  *
  * @return {Uint8Array}
  *
@@ -326,7 +326,7 @@ export const normalizedBundleHash = (bundleHash: Hash): Int8Array => {
     let sum = 0;
     for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
       sum += normalizedBundle[i * SIGNATURE_FRAGMENT_NO + j] = value(
-        hbits(bundleHash.charAt(i * SIGNATURE_FRAGMENT_NO + j))
+        txBits(bundleHash.charAt(i * SIGNATURE_FRAGMENT_NO + j))
       );
     }
 

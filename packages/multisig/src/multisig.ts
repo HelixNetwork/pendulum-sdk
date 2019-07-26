@@ -1,6 +1,6 @@
 import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
 import { removeChecksum } from "@helixnetwork/checksum";
-import { hbits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
+import { txBits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
 import { Balances, createGetBalances } from "@helixnetwork/core";
 import HHash from "@helixnetwork/hash-module";
 import {
@@ -281,15 +281,15 @@ export default class Multisig {
 
     // Absorb all key digests
     digestsArr.forEach(keyDigest => {
-      const digesHBits = hbits(keyDigest);
-      hHash.absorb(hbits(keyDigest), 0, digesHBits.length);
+      const digesHBits = txBits(keyDigest);
+      hHash.absorb(txBits(keyDigest), 0, digesHBits.length);
     });
 
-    // Squeeze address hbits
+    // Squeeze address txBits
     const addressHBits: Int8Array = new Int8Array(hHash.getHashLength());
     hHash.squeeze(addressHBits, 0, hHash.getHashLength());
 
-    // Convert hbits into hbytes and return the address
+    // Convert txBits into hbytes and return the address
     return hbytes(addressHBits) === multisigAddress;
   }
 
@@ -373,7 +373,7 @@ export default class Multisig {
     // 1 security level = 2187 hbytes
     const security = keyHBytes.length / SIGNATURE_SECRETE_KEY_BYTE_SIZE;
 
-    // convert private key hbytes into hbits
+    // convert private key hbytes into txBits
     const keyBytes = toTxBytes(keyHBytes);
 
     // First get the total number of already signed transactions
@@ -390,7 +390,7 @@ export default class Multisig {
           // Else sign the transaction
           const bundleHash = bundle[i].bundle;
 
-          //  First 6561 hbits for the firstFragment
+          //  First 6561 txBits for the firstFragment
           const firstFragment = keyBytes.slice(0, SIGNATURE_TOTAL_BYTE_SIZE);
 
           //  Get the normalized bundle hash

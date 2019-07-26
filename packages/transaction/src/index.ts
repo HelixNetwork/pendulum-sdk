@@ -2,7 +2,7 @@
  * @module transaction
  */
 
-import { hbytesToHBits, hex } from "@helixnetwork/converter";
+import { txHexToTxBits, hex } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
   ADDRESS_BYTE_SIZE,
@@ -150,14 +150,14 @@ export const isTransactionHash = (
   if (minWeightMagnitude) {
     console.log(
       hasCorrectHashLength &&
-        hbytesToHBits(hash)
+        txHexToTxBits(hash)
           .slice(-Math.abs(minWeightMagnitude))
           .every(hBit => hBit === 0)
     );
 
     return (
       hasCorrectHashLength &&
-      hbytesToHBits(hash)
+      txHexToTxBits(hash)
         .slice(-Math.abs(minWeightMagnitude))
         .every(hBit => hBit === 0)
     );
@@ -189,7 +189,7 @@ export const isTransactionHBytes = (
     return (
       hasCorrectHBytesLength &&
       isTransactionHash(
-        transactionHash(hbytes), //hbytesToHBits(hbytes)
+        transactionHash(hbytes), //txHexToTxBits(hbytes)
         minWeightMagnitude
       )
     );

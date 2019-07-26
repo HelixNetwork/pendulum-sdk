@@ -1,4 +1,4 @@
-import { hbits, hbytes } from "@helixnetwork/converter";
+import { txBits, hbytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
   HASH_HBYTE_SIZE,
@@ -9,7 +9,7 @@ import { Bundle } from "../../types";
 const HMAC_ROUNDS = 27;
 
 export default function addHMAC(transactions: Bundle, key: Int8Array): Bundle {
-  const bundleHashHBits = hbits(transactions[0].bundle);
+  const bundleHashHBits = txBits(transactions[0].bundle);
 
   const hHash = new HHash(HHash.HASH_ALGORITHM_2, HMAC_ROUNDS);
   const hmac = new Int8Array(hHash.getHashLength());

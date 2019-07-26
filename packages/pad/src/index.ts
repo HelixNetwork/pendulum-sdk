@@ -6,20 +6,21 @@ export const padHBytes = (length: number) => (hbytes: HBytes) =>
     ? hbytes.concat("0".repeat(length - hbytes.length))
     : hbytes;
 
-export const padHBits = (length: number) => (hbits: Int8Array) =>
-  hbits.length < length
+export const padHBits = (length: number) => (txBits: Int8Array) =>
+  txBits.length < length
     ? new Int8Array(length).map(
         (n, i) =>
-          i >= length - hbits.length ? hbits[i - (length - hbits.length)] : 0
+          i >= length - txBits.length ? txBits[i - (length - txBits.length)] : 0
       )
-    : hbits;
+    : txBits;
 
-export const padSignedHBits = (length: number) => (hbits: Int8Array) =>
-  hbits.length < length
+export const padSignedHBits = (length: number) => (txBits: Int8Array) =>
+  txBits.length < length
     ? new Int8Array(length).map(
-        (n, i) => (i < hbits.length ? hbits[i] || 0 : hbits[hbits.length - 1])
+        (n, i) =>
+          i < txBits.length ? txBits[i] || 0 : txBits[txBits.length - 1]
       )
-    : hbits;
+    : txBits;
 
 export const padTag = padHBytes(TAG_BYTE_SIZE);
 export const padObsoleteTag = padHBytes(OBSOLETE_TAG_BYTE_SIZE);
