@@ -1,10 +1,10 @@
 /** @module bundle-validator */
 
-import { txBits, hbytes, hex, toTxBytes } from "@helixnetwork/converter";
+import { txBits, txHex, hex, toTxBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { padHBytes } from "@helixnetwork/pad";
 import { isTransaction } from "@helixnetwork/transaction";
-import { asTransactionHBytes } from "@helixnetwork/transaction-converter";
+import { asTransactionStrings } from "@helixnetwork/transaction-converter";
 import { validateSignatures } from "@helixnetwork/winternitz";
 import {
   ADDRESS_BYTE_SIZE,
@@ -101,7 +101,7 @@ export default function isBundle(bundle: Bundle) {
     }
 
     // Get the transaction transactionStrings
-    const thisTxHBytes = asTransactionHBytes(bundleTx);
+    const thisTxHBytes = asTransactionStrings(bundleTx);
     const thisTxBytes = toTxBytes(
       padHBytes(BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING)(
         thisTxHBytes.slice(

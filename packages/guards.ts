@@ -20,40 +20,38 @@ import { Address, Hash, HBytes, Tag, Transfer } from "./types";
  * Checks if input is correct txs consisting of [9A-Z]; optionally validate length
  * @method isHBytes
  *
- * @param {string} hbytes
+ * @param {string} txHex
  * @param {string | number} [length='1,']
  *
  * @return {boolean}
  */
 export const isHBytes = (
-  hbytes: string,
+  txHex: string,
   length: string | number = "1,"
-): hbytes is HBytes =>
-  typeof hbytes === "string" &&
-  new RegExp(`^[0-9a-f]{${length}}$`).test(hbytes);
+): txHex is HBytes =>
+  typeof txHex === "string" && new RegExp(`^[0-9a-f]{${length}}$`).test(txHex);
 /**
  * @method isHBytesOfExactLength
  *
- * @param {string} hbytes
+ * @param {string} txHex
  * @param {number} length
  *
  * @return {boolean}
  */
-export const isHBytesOfExactLength = (hbytes: string, length: number) =>
-  typeof hbytes === "string" &&
-  new RegExp(`^[0-9a-f]{${length}}$`).test(hbytes);
+export const isHBytesOfExactLength = (txHex: string, length: number) =>
+  typeof txHex === "string" && new RegExp(`^[0-9a-f]{${length}}$`).test(txHex);
 
 /**
  * @method isHBytesOfMaxLength
  *
- * @param {string} hbytes
+ * @param {string} txHex
  * @param {number} length
  *
  * @return {boolean}
  */
-export const isHBytesOfMaxLength = (hbytes: string, length: number) =>
-  typeof hbytes === "string" &&
-  new RegExp(`^[0-9a-f]{1,${length}}$`).test(hbytes);
+export const isHBytesOfMaxLength = (txHex: string, length: number) =>
+  typeof txHex === "string" &&
+  new RegExp(`^[0-9a-f]{1,${length}}$`).test(txHex);
 
 /**
  * Checks if input contains `9`s only.
@@ -63,8 +61,8 @@ export const isHBytesOfMaxLength = (hbytes: string, length: number) =>
  *
  * @return {boolean}
  */
-export const isEmpty = (hbytes: any): hbytes is HBytes =>
-  typeof hbytes === "string" && /^[00]+$/.test(hbytes);
+export const isEmpty = (txHex: any): txHex is HBytes =>
+  typeof txHex === "string" && /^[00]+$/.test(txHex);
 
 /**
  * Checks if input contains `9`s only.
@@ -330,10 +328,10 @@ export const hashValidator: Validator<Hash> = hash => [
   errors.INVALID_HASH
 ];
 
-export const hbytesValidator: Validator<HBytes> = (hbytes, msg?: string) => [
-  hbytes,
+export const txHexValidator: Validator<HBytes> = (txHex, msg?: string) => [
+  txHex,
   isHBytes,
-  msg || errors.INVALID_HBYTES
+  msg || errors.INVALID_TX_HEX
 ];
 
 export const uriValidator: Validator<string> = uri => [

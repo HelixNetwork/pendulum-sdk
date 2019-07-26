@@ -1,6 +1,6 @@
 /** @module bundle */
 
-import { txBits, hbytes, hex, toTxBytes, value } from "@helixnetwork/converter";
+import { txBits, txHex, hex, toTxBytes, value } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
   padHBits,
@@ -188,11 +188,11 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
       const essence = toTxBytes(
         padHBytes(BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING)(
           transactions[i].address +
-            hbytes(valueHBits[i]) +
-            hbytes(obsoleteTagHBits[i]) +
-            hbytes(timestampHBits[i]) +
-            hbytes(currentIndexHBits[i]) +
-            hbytes(lastIndexHBits)
+            txHex(valueHBits[i]) +
+            txHex(obsoleteTagHBits[i]) +
+            txHex(timestampHBits[i]) +
+            txHex(currentIndexHBits[i]) +
+            txHex(lastIndexHBits)
         )
       );
       hHash.absorb(essence, 0, essence.length);
@@ -216,8 +216,7 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
   return transactions.map((transaction, i) => ({
     ...transaction,
     // overwrite obsoleteTag in first entry
-    obsoleteTag:
-      i === 0 ? hbytes(obsoleteTagHBits[0]) : transaction.obsoleteTag,
+    obsoleteTag: i === 0 ? txHex(obsoleteTagHBits[0]) : transaction.obsoleteTag,
     bundle: bundleHash
   }));
 };

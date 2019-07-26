@@ -36,7 +36,7 @@ export const INVALID_THRESHOLD = "Invalid threshold option";
 export const INVALID_TRANSFER = "Invalid transfer array";
 export const INVALID_TRUNK_TRANSACTION = "Invalid trunk transaction";
 export const INVALID_REFERENCE_HASH = "Invalid reference hash";
-export const INVALID_HBYTES = "Invalid transactionStrings";
+export const INVALID_TX_HEX = "Invalid transactionStrings";
 export const INVALID_URI = "Invalid uri";
 export const INVALID_ASCII_INPUT =
   "Conversion to transactionStrings requires type of input to be encoded in ascii.";
