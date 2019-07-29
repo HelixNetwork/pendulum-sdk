@@ -1,5 +1,5 @@
 import { transactionHashValidator } from "@helixnetwork/transaction";
-import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
+import { asFinalTransactionStrings } from "@helixnetwork/transaction-converter";
 import * as Promise from "bluebird";
 import {
   depthValidator,
@@ -14,7 +14,7 @@ import {
   Provider,
   Transaction
 } from "../../types";
-import { createGetBundle, createSendHBytes } from "./";
+import { createGetBundle, createSendTransactionStrings } from "./";
 
 /**
  * @method createReplayBundle
@@ -30,7 +30,7 @@ export const createReplayBundle = (
   attachFn?: AttachToTangle
 ) => {
   const getBundle = createGetBundle(provider);
-  const sendHBytes = createSendHBytes(provider, attachFn);
+  const sendTxHex = createSendTransactionStrings(provider, attachFn);
 
   /**
    * Reattaches a transfer to tangle by selecting tips & performing the Proof-of-Work again.
@@ -89,8 +89,8 @@ export const createReplayBundle = (
       )
     )
       .then(() => getBundle(tail))
-      .then(bundle => asFinalTransactionHBytes(bundle))
-      .then(hbytes => sendHBytes(hbytes, depth, minWeightMagnitude, reference))
+      .then(bundle => asFinalTransactionStrings(bundle))
+      .then(txs => sendTxHex(txs, depth, minWeightMagnitude, reference))
       .asCallback(typeof arguments[3] === "function" ? arguments[3] : callback);
   };
 };

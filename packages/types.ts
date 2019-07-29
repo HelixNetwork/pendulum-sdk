@@ -1,11 +1,25 @@
 import * as Promise from "bluebird";
 export type Maybe<T> = T | void;
 
+/**
+ * TxHex represents hexadecimal string, e.g. '2a23455d'
+ */
+export type TxHex = string;
+
+/**
+ * TxBits represents a list of bits stored in a Int8Array
+ */
+export type TxBits = Int8Array;
+
+/**
+ * TxBytes represents a list of bytes stored in a Uint8Array
+ */
+export type TxBytes = Uint8Array;
+
 export type Hash = string;
 export type Tag = string;
-export type HBytes = string;
-export type TransactionHBytes = string;
-export type AttachedTransactionHBytes = string;
+export type TransactionTxHex = string;
+export type AttachedTransactionTxHex = string;
 
 export interface Balance {
   readonly balance: number;
@@ -87,7 +101,7 @@ export enum ProtocolCommand {
   REMOVE_NEIGHBORS = "removeNeighbors",
   GET_TIPS = "getTips",
   FIND_TRANSACTIONS = "findTransactions",
-  GET_HBYTES = "getHBytes",
+  GET_TRANSACTION_STRINGS = "getTransactionStrings",
   GET_INCLUSION_STATES = "getInclusionStates",
   GET_BALANCES = "getBalances",
   GET_TRANSACTIONS_TO_APPROVE = "getTransactionsToApprove",
@@ -119,16 +133,16 @@ export interface AttachToTangleCommand extends BaseCommand {
   readonly trunkTransaction: Hash;
   readonly branchTransaction: Hash;
   readonly minWeightMagnitude: number;
-  readonly txs: ReadonlyArray<TransactionHBytes>;
+  readonly txs: ReadonlyArray<TransactionTxHex>;
 }
 
 export interface AttachToTangleResponse {
-  readonly txs: ReadonlyArray<TransactionHBytes>;
+  readonly txs: ReadonlyArray<TransactionTxHex>;
 }
 
 export interface BroadcastTransactionsCommand extends BaseCommand {
   command: ProtocolCommand.BROADCAST_TRANSACTIONS;
-  readonly txs: ReadonlyArray<HBytes>;
+  readonly txs: ReadonlyArray<TxHex>;
 }
 
 export type BroadcastTransactionsResponse = void;
@@ -247,13 +261,13 @@ export interface GetTransactionsToApproveCommand extends BaseCommand {
   readonly reference?: Hash;
 }
 
-export interface GetHBytesCommand extends BaseCommand {
-  command: ProtocolCommand.GET_HBYTES;
+export interface GetTransactionStringsCommand extends BaseCommand {
+  command: ProtocolCommand.GET_TRANSACTION_STRINGS;
   readonly hashes: ReadonlyArray<Hash>;
 }
 
-export interface GetHBytesResponse {
-  readonly hbytes: ReadonlyArray<HBytes>;
+export interface GetTransactionStringsResponse {
+  readonly txs: ReadonlyArray<TxHex>;
 }
 
 export interface InterruptAttachingToTangleCommand extends BaseCommand {
@@ -274,7 +288,7 @@ export interface RemoveNeighborsResponse {
 
 export interface StoreTransactionsCommand extends BaseCommand {
   command: ProtocolCommand.STORE_TRANSACTIONS;
-  readonly txs: ReadonlyArray<HBytes>;
+  readonly txs: ReadonlyArray<TxHex>;
 }
 
 export type StoreTransactionsResponse = void;
@@ -299,9 +313,9 @@ export type AttachToTangle = (
   trunkTransaction: Hash,
   branchTransaction: Hash,
   minWeightMagnitude: number,
-  hbytes: ReadonlyArray<HBytes>,
-  callback?: Callback<ReadonlyArray<HBytes>>
-) => Promise<ReadonlyArray<HBytes>>;
+  txs: ReadonlyArray<TxHex>,
+  callback?: Callback<ReadonlyArray<TxHex>>
+) => Promise<ReadonlyArray<TxHex>>;
 
 /* Util methods */
 export const asArray = <T>(x: T | ReadonlyArray<T>): ReadonlyArray<T> =>

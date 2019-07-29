@@ -10,7 +10,7 @@ test("isAddress()", t => {
     "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1fcaa02118";
   const addressOfInvalidLength =
     "0ce6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1f89";
-  const addressOfInvalidHBytes =
+  const addressOfInvalidTxHex =
     "0cR6dc815205498cde28c048104a366227c39362c06ccff93c29aa8ee1268c1f";
 
   t.is(
@@ -38,8 +38,8 @@ test("isAddress()", t => {
   );
 
   t.is(
-    isAddress(addressOfInvalidHBytes),
+    isAddress(addressOfInvalidTxHex),
     false,
-    "isAddress() should return false for input of invalid hBytes."
+    "isAddress() should return false for input of invalid txHex."
   );
 });

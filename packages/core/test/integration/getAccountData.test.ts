@@ -6,7 +6,7 @@ import { Hash } from "../../../types";
 import { AccountData, createGetAccountData } from "../../src";
 import "./nocks/findTransactions";
 import { balancesResponse, getBalancesCommand } from "./nocks/getBalances";
-import "./nocks/getHBytes";
+import "./nocks/getTransactionStrings";
 import "./nocks/getInclusionStates";
 import "./nocks/getNodeInfo";
 import "./nocks/wereAddressesSpentFrom";

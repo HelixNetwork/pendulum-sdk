@@ -5,7 +5,7 @@ import {
   BaseCommand,
   FindTransactionsCommand,
   GetBalancesCommand,
-  GetHBytesCommand,
+  GetTransactionStringsCommand,
   GetInclusionStatesCommand,
   ProtocolCommand,
   Provider
@@ -26,7 +26,7 @@ export type BatchableCommand<C> = C &
     | FindTransactionsCommand
     | GetBalancesCommand
     | GetInclusionStatesCommand
-    | GetHBytesCommand);
+    | GetTransactionStringsCommand);
 
 export interface BatchableKeys {
   readonly [key: string]: string[];
@@ -51,7 +51,7 @@ export const batchableKeys: BatchableKeys = {
   ],
   [ProtocolCommand.GET_BALANCES]: ["addresses"],
   [ProtocolCommand.GET_INCLUSION_STATES]: ["tips", "transactions"],
-  [ProtocolCommand.GET_HBYTES]: ["hashes"]
+  [ProtocolCommand.GET_TRANSACTION_STRINGS]: ["hashes"]
 };
 
 export const isBatchableCommand = <C>(
@@ -60,7 +60,7 @@ export const isBatchableCommand = <C>(
   command.command === ProtocolCommand.FIND_TRANSACTIONS ||
   command.command === ProtocolCommand.GET_BALANCES ||
   command.command === ProtocolCommand.GET_INCLUSION_STATES ||
-  command.command === ProtocolCommand.GET_HBYTES;
+  command.command === ProtocolCommand.GET_TRANSACTION_STRINGS;
 
 export const getKeysToBatch = <C>(
   command: BatchableCommand<C>,

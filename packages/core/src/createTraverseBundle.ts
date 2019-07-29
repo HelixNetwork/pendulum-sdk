@@ -6,7 +6,7 @@ import { asTransactionObject } from "@helixnetwork/transaction-converter";
 import * as Promise from "bluebird";
 import { validate } from "../../guards";
 import { Callback, Hash, Provider, Transaction } from "../../types";
-import { createGetHBytes } from "./";
+import { createGetTransactionStrings } from "./";
 
 /**
  * @method createTraverseBundle
@@ -18,7 +18,7 @@ import { createGetHBytes } from "./";
  * @return {function} {@link #module_core.traverseBundle `traverseBundle`}
  */
 export const createTraverseBundle = (provider: Provider) => {
-  const getHBytes = createGetHBytes(provider);
+  const getTransactionStrings = createGetTransactionStrings(provider);
 
   /**
    * Fetches the bundle of a given the _tail_ transaction hash, by traversing through `trunkTransaction`.
@@ -58,8 +58,8 @@ export const createTraverseBundle = (provider: Provider) => {
     callback?: Callback<ReadonlyArray<Transaction>>
   ): Promise<ReadonlyArray<Transaction>> {
     return Promise.resolve(validate(transactionHashValidator(trunkTransaction)))
-      .then(() => getHBytes([trunkTransaction]))
-      .then(([hbytes]) => asTransactionObject(hbytes, trunkTransaction))
+      .then(() => getTransactionStrings([trunkTransaction]))
+      .then(([txs]) => asTransactionObject(txs, trunkTransaction))
       .tap(transaction =>
         validate(bundle.length === 0 && tailTransactionValidator(transaction))
       )

@@ -1,8 +1,11 @@
 import { addChecksum } from "@helixnetwork/checksum";
 import { createHttpClient } from "@helixnetwork/http-client";
-import { addresses, hbytes as expected } from "@helixnetwork/samples";
+import {
+  addresses,
+  transactionStrings as expected
+} from "@helixnetwork/samples";
 import test from "ava";
-import { HBytes, Transfer } from "../../../types";
+import { TxHex, Transfer } from "../../../types";
 import { createPrepareTransfers } from "../../src";
 import "./nocks/prepareTransfers";
 
@@ -54,12 +57,12 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
   "lib"
 );
 test("prepareTransfers() prepares the correct array of txs offline.", async t => {
-  const hbytes = await prepareTransfers("abcd", transfers, {
+  const txHex = await prepareTransfers("abcd", transfers, {
     inputs,
     remainderAddress
   });
   t.deepEqual(
-    hbytes,
+    txHex,
     expected,
     "prepareTransfers() should prepare the correct array of txs."
   );

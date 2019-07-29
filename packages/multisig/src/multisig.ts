@@ -1,6 +1,6 @@
-import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
+import { addEntry, addTxHex, finalizeBundle } from "@helixnetwork/bundle";
 import { removeChecksum } from "@helixnetwork/checksum";
-import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
+import { txBits, txHex, hex, toTxBytes } from "@helixnetwork/converter";
 import { Balances, createGetBalances } from "@helixnetwork/core";
 import HHash from "@helixnetwork/hash-module";
 import {
@@ -15,7 +15,7 @@ import * as errors from "../../errors";
 import {
   arrayValidator,
   isAddress,
-  isNinesHBytes,
+  isNinesTxHex,
   isSecurityLevel,
   remainderAddressValidator,
   transferValidator,
@@ -26,9 +26,9 @@ import { Bundle, Callback, Provider, Transaction, Transfer } from "../../types";
 import Address from "./address";
 import {
   ADDRESS_BYTE_SIZE,
-  NULL_TAG_HBYTES,
+  NULL_TAG_TX_HEX,
   SECURITY_LEVELS,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
   SIGNATURE_SECRETE_KEY_BYTE_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE,
   TAG_BYTE_SIZE
@@ -78,38 +78,38 @@ export const createBundle = (
   const signatureFragments: string[] = [];
   const totalBalance: number = input.balance;
   let totalValue = 0;
-  let tag: string = NULL_TAG_HBYTES;
+  let tag: string = NULL_TAG_TX_HEX;
 
   //  Iterate over all transfers, get totalValue
   //  and prepare the signatureFragments, message and tag
   for (let i = 0; i < transfers.length; i++) {
     let signatureMessageLength = 1;
 
-    // If message longer than 2187 hbytes, increase signatureMessageLength (add multiple transactions)
+    // If message longer than 2187 txHex, increase signatureMessageLength (add multiple transactions)
     if (
       (transfers[i].message || "").length >
-      SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+      SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
     ) {
-      // Get total length, message / maxLength (2187 hbytes)
+      // Get total length, message / maxLength (2187 txHex)
       signatureMessageLength += Math.floor(
         (transfers[i].message || "").length /
-          SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
       );
 
       let msgCopy = transfers[i].message;
 
       // While there is still a message, copy it
       while (msgCopy) {
-        let fragment = msgCopy.slice(0, SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE);
+        let fragment = msgCopy.slice(0, SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE);
         msgCopy = msgCopy.slice(
-          SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
           msgCopy.length
         );
 
         // Pad remainder of fragment
         for (
           let j = 0;
-          fragment.length < SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+          fragment.length < SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
           j++
         ) {
           fragment += "0";
@@ -118,19 +118,19 @@ export const createBundle = (
         signatureFragments.push(fragment);
       }
     } else {
-      // Else, get single fragment with 2187 of 9's hbytes
+      // Else, get single fragment with 2187 of 9's txHex
       let fragment = "";
 
       if (transfers[i].message) {
         fragment = (transfers[i].message || "").slice(
           0,
-          SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
         );
       }
 
       for (
         let j = 0;
-        fragment.length < SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+        fragment.length < SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
         j++
       ) {
         fragment += "0";
@@ -140,7 +140,7 @@ export const createBundle = (
     }
 
     // If no tag defined, get 27 tryte tag.
-    tag = transfers[i].tag || NULL_TAG_HBYTES;
+    tag = transfers[i].tag || NULL_TAG_TX_HEX;
 
     // Pad for required 27 tryte length
     for (let j = 0; tag.length < TAG_BYTE_SIZE; j++) {
@@ -203,7 +203,7 @@ export const createBundle = (
     bundle = _bundle.slice();
   }
 
-  return addHBytes(
+  return addTxHex(
     finalizeBundle(bundle),
     signatureFragments,
     bundle.findIndex(tx => tx.value < 0)
@@ -234,10 +234,10 @@ export default class Multisig {
    * @param {number} index
    * @param {number} security Security level to be used for the private key / address. Can be 1, 2 or 3
    *
-   * @return {string} digest hbytes
+   * @return {string} digest txHex
    */
   public getKey(seed: string, index: number, security: number) {
-    return hex(key(subseed(toHBytes(seed), index), security));
+    return hex(key(subseed(toTxBytes(seed), index), security));
   }
 
   /**
@@ -251,10 +251,10 @@ export default class Multisig {
    * @param {number} index
    * @param {number} security Security level to be used for the private key / address. Can be 1, 2 or 3
    *
-   * @return {string} digest hbytes
+   * @return {string} digest txHex
    **/
   public getDigest(seed: string, index: number, security: number) {
-    const keyBytes = key(subseed(toHBytes(seed), index), security);
+    const keyBytes = key(subseed(toTxBytes(seed), index), security);
 
     return hex(digests(keyBytes));
   }
@@ -281,16 +281,16 @@ export default class Multisig {
 
     // Absorb all key digests
     digestsArr.forEach(keyDigest => {
-      const digesHBits = hbits(keyDigest);
-      hHash.absorb(hbits(keyDigest), 0, digesHBits.length);
+      const digesHBits = txBits(keyDigest);
+      hHash.absorb(txBits(keyDigest), 0, digesHBits.length);
     });
 
-    // Squeeze address hbits
+    // Squeeze address txBits
     const addressHBits: Int8Array = new Int8Array(hHash.getHashLength());
     hHash.squeeze(addressHBits, 0, hHash.getHashLength());
 
-    // Convert hbits into hbytes and return the address
-    return hbytes(addressHBits) === multisigAddress;
+    // Convert txBits into txHex and return the address
+    return txHex(addressHBits) === multisigAddress;
   }
 
   /**
@@ -355,26 +355,26 @@ export default class Multisig {
    *
    * @param {array} bundleToSign
    * @param {string} inputAddress
-   * @param keyHBytes
+   * @param keyTxHex
    * @param {function} callback
    *
-   * @return {array} hbytes Returns bundle hbytes
+   * @return {array} txHex Returns bundle txHex
    */
   public addSignature(
     bundleToSign: Bundle,
     inputAddress: string,
-    keyHBytes: string,
+    keyTxHex: string,
     callback: Callback
   ) {
     const bundle = bundleToSign;
     const _bundle: Array<Partial<Transaction>> = [];
 
     // Get the security used for the private key
-    // 1 security level = 2187 hbytes
-    const security = keyHBytes.length / SIGNATURE_SECRETE_KEY_BYTE_SIZE;
+    // 1 security level = 2187 txHex
+    const security = keyTxHex.length / SIGNATURE_SECRETE_KEY_BYTE_SIZE;
 
-    // convert private key hbytes into hbits
-    const keyBytes = toHBytes(keyHBytes);
+    // convert private key txHex into txBits
+    const keyBytes = toTxBytes(keyTxHex);
 
     // First get the total number of already signed transactions
     // use that for the bundle hash calculation as well as knowing
@@ -384,17 +384,17 @@ export default class Multisig {
     for (let i = 0; i < bundle.length; i++) {
       if (bundle[i].address === inputAddress) {
         // If transaction is already signed, increase counter
-        if (!isNinesHBytes(bundle[i].signatureMessageFragment as string)) {
+        if (!isNinesTxHex(bundle[i].signatureMessageFragment as string)) {
           numSignedTxs++;
         } else {
           // Else sign the transaction
           const bundleHash = bundle[i].bundle;
 
-          //  First 6561 hbits for the firstFragment
+          //  First 6561 txBits for the firstFragment
           const firstFragment = keyBytes.slice(0, SIGNATURE_TOTAL_BYTE_SIZE);
 
           //  Get the normalized bundle hash
-          const normalizedBundle = normalizedBundleHash(toHBytes(bundleHash)); // normalizedBundleHash(bundleHash as string);
+          const normalizedBundle = normalizedBundleHash(toTxBytes(bundleHash)); // normalizedBundleHash(bundleHash as string);
           const normalizedBundleFragments = [];
 
           // Split hash into 3 fragments
@@ -405,7 +405,7 @@ export default class Multisig {
             );
           }
 
-          //  First bundle fragment uses 27 hbytes
+          //  First bundle fragment uses 27 txHex
           const firstBundleFragment =
             normalizedBundleFragments[numSignedTxs % SECURITY_LEVELS];
 
@@ -415,9 +415,9 @@ export default class Multisig {
             firstFragment
           );
 
-          //  Convert signature to hbytes and assign the new signatureFragment
+          //  Convert signature to txHex and assign the new signatureFragment
           _bundle.push({
-            signatureMessageFragment: hbytes(firstSignedFragment)
+            signatureMessageFragment: txHex(firstSignedFragment)
           });
           for (let j = 1; j < security; j++) {
             const nextFragment = keyBytes.slice(
@@ -433,7 +433,7 @@ export default class Multisig {
               nextFragment
             );
 
-            //  Convert signature to hbytes and add new bundle entry at h + j position
+            //  Convert signature to txHex and add new bundle entry at h + j position
             // Assign the signature fragment
             _bundle.push({
               signatureMessageFragment: hex(nextSignedFragment)

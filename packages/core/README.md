@@ -69,7 +69,7 @@ yarn add @helixnetwork/core
 
     * [.getBundle(tailTransactionHash, [callback])](#module_core.getBundle)
 
-    * [.createGetHBytes(provider)](#module_core.createGetHBytes)
+    * [.createGetTransactionStrings(provider)](#module_core.createGetHBytes)
 
     * [.getBytes(hashes, [callback])](#module_core.getBytes)
 
@@ -250,7 +250,7 @@ getTransactionsToApprove(depth)
   .then(({ trunkTransaction, branchTransaction }) =>
     attachToTangle(trunkTransaction, branchTransaction, minWightMagnitude, hbytes)
   )
-  .then(attachedHBytes => {
+  .then(attachedTxHex => {
     // ...
   })
   .catch(err => {
@@ -441,7 +441,7 @@ const isPromotable = ({ hash, attachmentTimestamp }) => (
 | [callback] | <code>Callback</code> | Optional callback |
 
 Wrapper function for [`findTransactions`](#module_core.findTransactions) and
-[`getHBytes`](#module_core.getHBytes).
+[`getTransactionStrings`](#module_core.getTransactionStrings).
 Searches for transactions given a `query` object with `addresses`, `tags` and `approvees` fields.
 Multiple query fields are supported and `findTransactionObjects` returns intersection of results.
 
@@ -621,9 +621,9 @@ getBundle(tail)
        // handle errors
    })
 ```
-<a name="module_core.createGetHBytes"></a>
+<a name="module_core.createGetTransactionStrings"></a>
 
-### *core*.createGetHBytes(provider)
+### *core*.createGetTransactionStrings(provider)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -644,7 +644,7 @@ getBundle(tail)
 | [callback] | <code>Callback</code> | Optional callback |
 
 Fetches the transaction hbytes given a list of transaction hashes, by calling
-[`getBytes`](https://docs.hlx.ai/hlx/api#endpoints/getHBytes) command.
+[`getBytes`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionStrings) command.
 
 **Example**  
 ```js

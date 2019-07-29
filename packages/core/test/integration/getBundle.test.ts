@@ -3,7 +3,7 @@ import { bundle, bundleWithZeroValue } from "@helixnetwork/samples";
 import test from "ava";
 import { INVALID_TRANSACTION_HASH } from "../../../errors";
 import { createGetBundle } from "../../src";
-import "./nocks/getHBytes";
+import "./nocks/getTransactionStrings";
 
 const getBundle = createGetBundle(createHttpClient());
 const tail = bundle[0].hash;

@@ -3,33 +3,33 @@ import * as Promise from "bluebird";
 import { arrayValidator, validate } from "../../guards";
 import {
   Callback,
-  GetHBytesCommand,
-  GetHBytesResponse,
+  GetTransactionStringsCommand,
+  GetTransactionStringsResponse,
   Hash,
-  HBytes,
+  TxHex,
   ProtocolCommand,
   Provider
 } from "../../types";
 
 /**
- * @method createGetHBytes
+ * @method createGetTransactionStrings
  *
  * @memberof module:core
  *
  * @param {Provider} provider - Network provider
  *
- * @return {function} {@link #module_core.getBytes `getBytes`}
+ * @return {function} {@link #module_core.getTransactionStrings `getTransactionStrings`}
  */
-export const createGetHBytes = ({ send }: Provider) =>
+export const createGetTransactionStrings = ({ send }: Provider) =>
   /**
-   * Fetches the transaction hbytes given a list of transaction hashes, by calling
-   * [`getBytes`](https://docs.hlx.ai/hlx/api#endpoints/getHBytes) command.
+   * Fetches the transaction transactionStrings given a list of transaction hashes, by calling
+   * [`getTransactionStrings`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionStrings) command.
    *
    * @example
    * ```js
-   * getBytes(hashes)
+   * getTransactionStrings(hashes)
    *   // Parsing as transaction objects
-   *   .then(hbytes => asTransactionObjects(hashes)(hbytes))
+   *   .then(transactionStrings => asTransactionObjects(hashes)(transactionStrings))
    *   .then(transactions => {
    *     // ...
    *   })
@@ -38,7 +38,7 @@ export const createGetHBytes = ({ send }: Provider) =>
    *   })
    * ```
    *
-   * @method getBytes
+   * @method getTransactionStrings
    *
    * @memberof module:core
    *
@@ -46,24 +46,24 @@ export const createGetHBytes = ({ send }: Provider) =>
    * @param {Callback} [callback] - Optional callback
    *
    * @return {Promise}
-   * @fulfil {HBytes[]} - Transaction hbytes
+   * @fulfil {TxHex[]} - Transaction transactionStrings
    * @reject Error{}
    * - `INVALID_TRANSACTION_HASH`: Invalid hash
    * - Fetch error
    */
-  function getHBytes(
+  function getTransactionStrings(
     hashes: ReadonlyArray<Hash>,
-    callback?: Callback<ReadonlyArray<HBytes>>
-  ): Promise<ReadonlyArray<HBytes>> {
+    callback?: Callback<ReadonlyArray<TxHex>>
+  ): Promise<ReadonlyArray<TxHex>> {
     return Promise.resolve(
       validate(arrayValidator(transactionHashValidator)(hashes))
     )
       .then(() =>
-        send<GetHBytesCommand, GetHBytesResponse>({
-          command: ProtocolCommand.GET_HBYTES,
+        send<GetTransactionStringsCommand, GetTransactionStringsResponse>({
+          command: ProtocolCommand.GET_TRANSACTION_STRINGS,
           hashes
         })
       )
-      .then(({ hbytes }) => hbytes)
+      .then(({ txs }) => txs)
       .asCallback(callback);
   };

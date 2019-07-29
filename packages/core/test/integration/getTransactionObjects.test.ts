@@ -4,7 +4,7 @@ import test from "ava";
 import { INVALID_TRANSACTION_HASH } from "../../../errors";
 import { createGetTransactionObjects } from "../../src";
 
-import "./nocks/getHBytes";
+import "./nocks/getTransactionStrings";
 
 const getTransactionObjects = createGetTransactionObjects(createHttpClient());
 const hashes = [bundle[0].hash];

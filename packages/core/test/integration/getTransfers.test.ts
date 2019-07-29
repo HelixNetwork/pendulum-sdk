@@ -8,7 +8,7 @@ import {
 } from "../../../errors";
 import { createGetTransfers } from "../../src/createGetTransfers";
 import "./nocks/findTransactions";
-import "./nocks/getHBytes";
+import "./nocks/getTransactionStrings";
 import "./nocks/getInclusionStates";
 import "./nocks/getNodeInfo";
 import "./nocks/wereAddressesSpentFrom";

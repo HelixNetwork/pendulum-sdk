@@ -1,9 +1,9 @@
-import { hex, toHBytes } from "@helixnetwork/converter";
+import { hex, toTxBytes } from "@helixnetwork/converter";
 import test from "ava";
 import {
   HASH_BYTE_SIZE,
   SECURITY_LEVELS,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE
 } from "../../constants";
 import {
@@ -58,22 +58,22 @@ test("Winternitz signatures - security level 4!", t => {
 });
 
 function testWinternitz(securityLevel: number) {
-  const keyHBytes = key(subseed(toHBytes(seed), keyIndex), securityLevel);
-  const digestsHBytes = digests(keyHBytes);
-  const addressHBytes = hex(address(digestsHBytes));
+  const keyTxHex = key(subseed(toTxBytes(seed), keyIndex), securityLevel);
+  const digestsTxHex = digests(keyTxHex);
+  const addressTxHex = hex(address(digestsTxHex));
   const sig = hex(
-    signatureFragments(toHBytes(seed), keyIndex, securityLevel, toHBytes(msg))
+    signatureFragments(toTxBytes(seed), keyIndex, securityLevel, toTxBytes(msg))
   );
 
   const signature = Array(securityLevel)
     .fill(null)
     .map((_, i) =>
       sig.slice(
-        i * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
-        (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+        i * SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
+        (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
       )
     );
 
-  const isValid = validateSignatures(addressHBytes, signature, msg);
+  const isValid = validateSignatures(addressTxHex, signature, msg);
   return isValid;
 }

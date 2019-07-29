@@ -1,16 +1,16 @@
 /** @module bundle-validator */
 
-import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
+import { txBits, txHex, hex, toTxBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
-import { padHBytes } from "@helixnetwork/pad";
+import { padTxHex } from "@helixnetwork/pad";
 import { isTransaction } from "@helixnetwork/transaction";
-import { asTransactionHBytes } from "@helixnetwork/transaction-converter";
+import { asTransactionStrings } from "@helixnetwork/transaction-converter";
 import { validateSignatures } from "@helixnetwork/winternitz";
 import {
   ADDRESS_BYTE_SIZE,
   BYTE_SIZE_USED_FOR_VALIDATION,
   BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
   TRANSACTION_CURRENT_INDEX_BYTE_SIZE,
   TRANSACTION_LAST_INDEX_BITS_SIZE,
   TRANSACTION_LAST_INDEX_BYTE_SIZE,
@@ -19,10 +19,10 @@ import {
 } from "../../constants";
 import { INVALID_BUNDLE } from "../../errors";
 import { isArray, Validator } from "../../guards";
-import { Bundle, Hash, HBytes, Transaction } from "../../types";
+import { Bundle, Hash, TxHex, Transaction } from "../../types";
 
 interface SignatureFragments {
-  readonly [key: string]: ReadonlyArray<HBytes>;
+  readonly [key: string]: ReadonlyArray<TxHex>;
 }
 
 export { Transaction, Bundle, INVALID_BUNDLE };
@@ -89,7 +89,7 @@ export default function isBundle(bundle: Bundle) {
   // Prepare for signature validation
   const signaturesToValidate: Array<{
     address: Hash;
-    signatureFragments: HBytes[];
+    signatureFragments: TxHex[];
   }> = [];
   bundle.forEach((bundleTx, index) => {
     totalSum += bundleTx.value;
@@ -100,13 +100,13 @@ export default function isBundle(bundle: Bundle) {
       return false;
     }
 
-    // Get the transaction hbytes
-    const thisTxHBytes = asTransactionHBytes(bundleTx);
-    const thisTxBytes = toHBytes(
-      padHBytes(BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING)(
-        thisTxHBytes.slice(
-          SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
-          SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE + BYTE_SIZE_USED_FOR_VALIDATION
+    // Get the transaction transactionStrings
+    const thisTxTxHex = asTransactionStrings(bundleTx);
+    const thisTxBytes = toTxBytes(
+      padTxHex(BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING)(
+        thisTxTxHex.slice(
+          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
+          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE + BYTE_SIZE_USED_FOR_VALIDATION
         )
       )
     );

@@ -1,19 +1,19 @@
-import { hex, toHBytes } from "@helixnetwork/converter";
+import { hex, toTxBytes } from "@helixnetwork/converter";
 import test from "ava";
 import Sha3 from "../src";
 
-test("Sha3: absorb()/squeeze(), Converter: toHBytes()/hex()", t => {
+test("Sha3: absorb()/squeeze(), Converter: toTxBytes()/hex()", t => {
   const input =
     "964b398ecd55793d8ca93e01274efe1377a70c8dc358fdca17cb4e94a9ed7777";
   const expected =
     "c02c4aa8852301f3eb7b926f320d911bb178ba1ec4159f67d6cc1d75ef9a62f8";
   const absorbSqueeze = (input: string): string => {
-    const inputBytes = toHBytes(input);
+    const inputBytes = toTxBytes(input);
     const sha3: Sha3 = new Sha3();
     sha3.absorb(inputBytes, 0, inputBytes.length);
-    const hashBytes = new Uint8Array(Sha3.HASH_LENGTH);
-    sha3.squeeze(hashBytes, 0, Sha3.HASH_LENGTH);
-    return hex(hashBytes);
+    const hastxHex = new Uint8Array(Sha3.HASH_LENGTH);
+    sha3.squeeze(hastxHex, 0, Sha3.HASH_LENGTH);
+    return hex(hastxHex);
   };
 
   t.is(

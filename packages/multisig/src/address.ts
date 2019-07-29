@@ -1,4 +1,4 @@
-import { hbits, hex } from "@helixnetwork/converter";
+import { txBits, hex } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { asArray } from "../../types";
 
@@ -25,7 +25,7 @@ export default class Address {
    *
    * @memberof Address
    *
-   * @param {string|array} digest digest hbytes
+   * @param {string|array} digest digest txHex
    *
    * @return {object} address instance
    */
@@ -35,8 +35,8 @@ export default class Address {
 
     // Add digests
     for (let i = 0; i < digestsArray.length; i++) {
-      // Get hbits of digest
-      const digestHBits = hbits(digestsArray[i]);
+      // Get txBits of digest
+      const digestHBits = txBits(digestsArray[i]);
 
       // Absorb digest
       this.hHash.absorb(digestHBits, 0, digestHBits.length);
@@ -45,15 +45,15 @@ export default class Address {
     return this;
   }
   /**
-   * Finalizes and returns the multisig address in hbytes
+   * Finalizes and returns the multisig address in txHex
    *
    * @member finalize
    *
    * @memberof Address
    *
-   * @param {string} digest digest hbytes, optional
+   * @param {string} digest digest txHex, optional
    *
-   * @return {string} address hbytes
+   * @return {string} address txHex
    */
   public finalize(digest?: string) {
     // Absorb last digest if provided
@@ -61,11 +61,11 @@ export default class Address {
       this.absorb(digest);
     }
 
-    // Squeeze the address hbits
-    const addressHBytes: Int8Array = new Int8Array(this.hHash.getHashLength());
-    this.hHash.squeeze(addressHBytes, 0, this.hHash.getHashLength());
+    // Squeeze the address txBits
+    const addressTxHex: Int8Array = new Int8Array(this.hHash.getHashLength());
+    this.hHash.squeeze(addressTxHex, 0, this.hHash.getHashLength());
 
-    // Convert hbits into hbytes and return the address
-    return hex(addressHBytes);
+    // Convert txBits into txHex and return the address
+    return hex(addressTxHex);
   }
 }
