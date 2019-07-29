@@ -6,7 +6,6 @@ import * as Bluebird from "bluebird";
 import {
   AttachToTangle,
   BaseCommand,
-  CreateProvider,
   Inputs,
   Neighbor,
   Provider,
@@ -27,7 +26,6 @@ import {
   createGetAccountData,
   createGetBalances,
   createGetBundle,
-  createGetHBytes,
   createGetInclusionStates,
   createGetInputs,
   createGetLatestInclusion,
@@ -37,6 +35,7 @@ import {
   createGetTips,
   createGetTransactionObjects,
   createGetTransactionsToApprove,
+  createGetTransactionStrings,
   createInterruptAttachingToTangle,
   createIsPromotable,
   createIsReattachable,
@@ -45,7 +44,7 @@ import {
   createRemoveNeighbors,
   createReplayBundle,
   // createSendTransfer,
-  createSendHBytes,
+  createSendTransactionStrings,
   createStoreAndBroadcast,
   createStoreTransactions,
   // Types
@@ -65,6 +64,7 @@ import { createGetTransfers, GetTransfersOptions } from "./createGetTransfers";
 // import { createWereAddressesSpentFrom } from "./createWereAddressesSpentFrom";
 
 export interface Settings extends HttpClientSettings {
+  readonly network?: Provider;
   readonly attachToTangle?: AttachToTangle;
 }
 
@@ -81,7 +81,8 @@ export function returnType<T>(func: Func<T>) {
  *
  * @memberof module:core
  *
- * @param {object | Function} [settings={} | provider] - Connection settings or `provider` factory
+ * @param {object} [settings={}] - Connection settings
+ * @param {Provider} [settings.network] - Network provider, defaults to `http-client`.
  * @param {string} [settings.provider=http://localhost:14265] Uri of the node
  * @param {function} [settings.attachToTangle] - Function to override
  * [`attachToTangle`]{@link #module_core.attachToTangle} with
@@ -90,13 +91,8 @@ export function returnType<T>(func: Func<T>) {
  *
  * @return {API}
  */
-export const composeAPI = (input: Partial<Settings> | CreateProvider = {}) => {
-  const isFn = typeof input === "function";
-  const settings: Partial<Settings> = isFn ? {} : (input as Partial<Settings>);
-  const provider: Provider = isFn
-    ? (input as CreateProvider)()
-    : createHttpClient(settings);
-
+export const composeAPI = (settings: Partial<Settings> = {}) => {
+  let provider: Provider = createHttpClient(settings);
   let attachToTangle: AttachToTangle =
     settings.attachToTangle || createAttachToTangle(provider);
 
@@ -109,15 +105,24 @@ export const composeAPI = (input: Partial<Settings> | CreateProvider = {}) => {
    *
    * @param {object} settings - Provider settings object
    * @param {string} [settings.provider] - Http `uri` of the node
-   * @param {function} [settings.attachToTangle] - Function to override
+   * @param {Provider} [settings.network] - Network provider to override with
+   * @param {function} [settings.attachToTangle] - AttachToTangle function to override with
    * [`attachToTangle`]{@link #module_core.attachToTangle} with
    */
   function setSettings(newSettings: Partial<Settings> = {}) {
-    provider.setSettings(newSettings);
-
     if (newSettings.attachToTangle) {
       attachToTangle = newSettings.attachToTangle;
     }
+
+    if (newSettings.network) {
+      provider = newSettings.network;
+    }
+
+    provider.setSettings(newSettings);
+  }
+
+  function overrideNetwork(network: Provider) {
+    provider = network;
   }
 
   /**
@@ -136,7 +141,7 @@ export const composeAPI = (input: Partial<Settings> | CreateProvider = {}) => {
   }
 
   /** @namespace API */
-  const api = {
+  return {
     // helix commands
     addNeighbors: createAddNeighbors(provider),
     attachToTangle,
@@ -149,7 +154,7 @@ export const composeAPI = (input: Partial<Settings> | CreateProvider = {}) => {
     getNodeInfo: createGetNodeInfo(provider),
     getTips: createGetTips(provider),
     getTransactionsToApprove: createGetTransactionsToApprove(provider),
-    getBytes: createGetHBytes(provider),
+    getTransactionStrings: createGetTransactionStrings(provider),
     interruptAttachingToTangle: createInterruptAttachingToTangle(provider),
     removeNeighbors: createRemoveNeighbors(provider),
     storeTransactions: createStoreTransactions(provider),
@@ -173,19 +178,16 @@ export const composeAPI = (input: Partial<Settings> | CreateProvider = {}) => {
     promoteTransaction: createPromoteTransaction(provider, attachToTangle),
     replayBundle: createReplayBundle(provider, attachToTangle),
     // sendTransfer: createSendTransfer(provider, attachToTangle),
-    sendHBytes: createSendHBytes(provider, attachToTangle),
+    sendTransactionStrings: createSendTransactionStrings(
+      provider,
+      attachToTangle
+    ),
     storeAndBroadcast: createStoreAndBroadcast(provider),
     traverseBundle: createTraverseBundle(provider),
     setSettings,
-    overrideAttachToTangle
+    overrideAttachToTangle,
+    overrideNetwork
   };
-
-  return isFn
-    ? (settings: Partial<Settings>) => {
-        setSettings(settings);
-        return api;
-      }
-    : api;
 };
 
 export const apiType = returnType(composeAPI);

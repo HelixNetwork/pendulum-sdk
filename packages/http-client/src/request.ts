@@ -1,16 +1,17 @@
 /* tslint:disable no-console */
 import "isomorphic-fetch";
+
+import * as errors from "../../errors";
+
 import {
   BaseCommand,
   FindTransactionsResponse,
-  GetBalancesResponse,
   ProtocolCommand
 } from "../../types";
 import { BatchableCommand } from "./httpClient";
 import { API_VERSION, DEFAULT_URI, MAX_REQUEST_BATCH_SIZE } from "./settings";
 
-const requestError = (statusText: string) =>
-  Promise.reject(`Request error: ${statusText}`);
+const requestError = (statusText: string) => `Request error: ${statusText}`;
 
 /**
  * Sends an http request to a specified host.
@@ -31,28 +32,61 @@ const requestError = (statusText: string) =>
  */
 export const send = <C extends BaseCommand, R = any>(
   command: C,
-  uri: string = DEFAULT_URI,
-  apiVersion: string | number = API_VERSION
-): Promise<R> =>
-  fetch(uri, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-HELIX-API-Version": apiVersion.toString()
-    },
-    body: JSON.stringify(command)
-  })
-    .then(res => (res.ok ? res.json() : requestError(res.statusText)))
-    .then(
-      json =>
-        json.error || json.exception
-          ? requestError(json.error || json.exception)
-          : json
-    );
+  url: string = DEFAULT_URI,
+  apiVersion: string | number = API_VERSION,
+  timeout?: number
+): Promise<R> => {
+  const headers: HeadersInit = {
+    "Content-Type": "application/json",
+    "X-HELIX-API-Version": apiVersion.toString()
+  };
 
+  // set timeout if provided
+  let abortSignal;
+  let abortTimout: NodeJS.Timer;
+  if (timeout) {
+    const controller = new AbortController();
+    abortSignal = controller.signal;
+
+    abortTimout = setTimeout(() => {
+      controller.abort();
+    }, timeout);
+  }
+
+  return fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(command),
+    signal: abortSignal
+  }).then(res =>
+    res
+      .json()
+      .then(json => {
+        if (abortTimout) {
+          clearTimeout(abortTimout);
+        }
+        return res.ok
+          ? json
+          : Promise.reject(
+              requestError(
+                json.error || json.exception
+                  ? json.error || json.exception
+                  : res.statusText
+              )
+            );
+      })
+      .catch(error => {
+        if (!res.ok && error.type === "invalid-json") {
+          throw requestError(res.statusText);
+        } else {
+          throw error;
+        }
+      })
+  );
+};
 /**
  * Sends a batched http request to a specified host
- * supports findTransactions, getBalances & getHBytes commands
+ * supports findTransactions, getBalances & getTxHex commands
  *
  * @method batchedSend
  *
@@ -101,7 +135,7 @@ export const batchedSend = <C extends BaseCommand, R = any>(
           )
       ).then(res =>
         res.reduce(
-          (acc: ReadonlyArray<R>, batch: Object) => acc.concat(batch as R),
+          (acc: ReadonlyArray<R>, batch: any) => acc.concat(batch as R),
           []
         )
       );
@@ -112,9 +146,9 @@ export const batchedSend = <C extends BaseCommand, R = any>(
         return {
           hashes: (responses[0][0] as any).hashes.filter((hash: string) =>
             responses.every(
-              _response =>
-                _response.findIndex(
-                  (res: Object) =>
+              response =>
+                response.findIndex(
+                  (res: any) =>
                     (res as FindTransactionsResponse).hashes.indexOf(hash) > -1
                 ) > -1
             )
@@ -133,12 +167,12 @@ export const batchedSend = <C extends BaseCommand, R = any>(
         };
       case ProtocolCommand.GET_INCLUSION_STATES:
         return {
-          ...(responses[0][0] as Object),
+          ...(responses[0][0] as any),
           states: responses[0].reduce((acc: any, response: any) =>
             acc.conact(response.states)
           )
         };
       default:
-        requestError("Invalid batched request.");
+        throw requestError("Invalid batched request.");
     }
   });

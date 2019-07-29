@@ -1,10 +1,12 @@
 import { validateBundleSignatures } from "@helixnetwork/bundle-validator";
 import { addChecksum } from "@helixnetwork/checksum";
+import { hex, toTxBytes } from "@helixnetwork/converter";
 import { createHttpClient } from "@helixnetwork/http-client";
 import { addresses, seed } from "@helixnetwork/samples";
 import { asTransactionObjects } from "@helixnetwork/transaction-converter";
+import { address, digests, key, subseed } from "@helixnetwork/winternitz";
 import test from "ava";
-import { HBytes, Transaction, Transfer } from "../../../types";
+import { TxHex, Transaction, Transfer } from "../../../types";
 import { createPrepareTransfers } from "../../src";
 import "./nocks/prepareTransfers";
 
@@ -36,19 +38,21 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
   "lib"
 );
 
-test("checkBundleSignature() prepares the correct array of hbytes offline.", async t => {
-  const hbytes: ReadonlyArray<HBytes> = await prepareTransfers(
-    seed,
-    transfers,
-    {
-      inputs,
-      remainderAddress
-    }
-  );
-  const transaction: Transaction[] = new Array<Transaction>(2);
+test("checkBundleSignature() prepares the correct array of txHex offline.", async t => {
+  const txHex: ReadonlyArray<TxHex> = await prepareTransfers(seed, transfers, {
+    inputs,
+    remainderAddress
+  });
+
+  const keyTxHex = key(subseed(toTxBytes(seed), 0), 2);
+  const digestsTxHex = digests(keyTxHex);
+  const addressTxHex = hex(address(digestsTxHex));
+
+  const transaction: Transaction[] = new Array<Transaction>(txHex.length);
   const bundle: Transaction[] = asTransactionObjects(
     transaction.map(tx => tx.hash)
-  )(hbytes);
+  )(txHex);
+
   t.is(
     validateBundleSignatures(bundle),
     true,

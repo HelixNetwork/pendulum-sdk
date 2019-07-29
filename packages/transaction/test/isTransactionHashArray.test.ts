@@ -16,7 +16,7 @@ test("isTransactionHash() returns false for invalid transaction hashes.", t => {
   const invalidLength = [
     "abcdef123454223423423abcdabcdef123454223423423abcdabcdef1234542278878"
   ];
-  const invalidHBytes = [
+  const invalidTxHex = [
     "abcdef123454223423423abcdabcdef12345422342342bcdabcdef12345422bn"
   ];
 
@@ -27,8 +27,8 @@ test("isTransactionHash() returns false for invalid transaction hashes.", t => {
   );
 
   t.is(
-    isTransactionHashArray(invalidHBytes),
+    isTransactionHashArray(invalidTxHex),
     false,
-    "isTransactionHashArray() should return fasle for invalid hbytes."
+    "isTransactionHashArray() should return fasle for invalid txHex."
   );
 });

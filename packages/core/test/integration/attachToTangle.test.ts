@@ -2,7 +2,7 @@ import { createHttpClient } from "@helixnetwork/http-client";
 import test from "ava";
 import {
   INVALID_BRANCH_TRANSACTION,
-  INVALID_TRANSACTION_HBYTES,
+  INVALID_TRANSACTION_TX_HEX,
   INVALID_TRUNK_TRANSACTION
 } from "../../../errors";
 import { createAttachToTangle } from "../../src";
@@ -19,45 +19,45 @@ test("attachToTangle() resolves to correct balances response", async t => {
       attachToTangleCommand.trunkTransaction,
       attachToTangleCommand.branchTransaction,
       attachToTangleCommand.minWeightMagnitude,
-      [...attachToTangleCommand.hbytes]
+      [...attachToTangleCommand.txs]
     ),
-    attachToTangleResponse.hbytes,
+    attachToTangleResponse.txs,
     "attachToTangle() should resolve to correct balances"
   );
 });
 
-test("attachToTangle() does not mutate original hbytes", async t => {
-  const hbytes = [...attachToTangleCommand.hbytes];
+test("attachToTangle() does not mutate original txs", async t => {
+  const txs = [...attachToTangleCommand.txs];
 
   await attachToTangle(
     attachToTangleCommand.trunkTransaction,
     attachToTangleCommand.branchTransaction,
     attachToTangleCommand.minWeightMagnitude,
-    hbytes
+    txs
   );
 
   t.deepEqual(
-    hbytes,
-    attachToTangleCommand.hbytes,
-    "attachToTangle() should not mutate original hbytes"
+    txs,
+    attachToTangleCommand.txs,
+    "attachToTangle() should not mutate original txs"
   );
 });
 
 test("attachToTangle() rejects with correct errors for invalid input", t => {
-  const invalidHBytes = ["asdasDSFDAFD"];
+  const invalidTxHex = ["asdasDSFDAFD"];
 
   t.is(
     t.throws(
       () =>
         attachToTangle(
-          invalidHBytes[0],
+          invalidTxHex[0],
           attachToTangleCommand.branchTransaction,
           attachToTangleCommand.minWeightMagnitude,
-          attachToTangleCommand.hbytes
+          attachToTangleCommand.txs
         ),
       Error
     ).message,
-    `${INVALID_TRUNK_TRANSACTION}: ${invalidHBytes[0]}`,
+    `${INVALID_TRUNK_TRANSACTION}: ${invalidTxHex[0]}`,
     "attachToTangle() should throw error for invalid trunk transaction"
   );
 
@@ -66,13 +66,13 @@ test("attachToTangle() rejects with correct errors for invalid input", t => {
       () =>
         attachToTangle(
           attachToTangleCommand.trunkTransaction,
-          invalidHBytes[0],
+          invalidTxHex[0],
           attachToTangleCommand.minWeightMagnitude,
-          attachToTangleCommand.hbytes
+          attachToTangleCommand.txs
         ),
       Error
     ).message,
-    `${INVALID_BRANCH_TRANSACTION}: ${invalidHBytes[0]}`,
+    `${INVALID_BRANCH_TRANSACTION}: ${invalidTxHex[0]}`,
     "attachToTangle() should throw error for invalid branch transaction"
   );
 
@@ -83,12 +83,12 @@ test("attachToTangle() rejects with correct errors for invalid input", t => {
           attachToTangleCommand.trunkTransaction,
           attachToTangleCommand.branchTransaction,
           attachToTangleCommand.minWeightMagnitude,
-          invalidHBytes
+          invalidTxHex
         ),
       Error
     ).message,
-    `${INVALID_TRANSACTION_HBYTES}: ${invalidHBytes[0]}`,
-    "attachToTangle() should throw error for invalid hbytes"
+    `${INVALID_TRANSACTION_TX_HEX}: ${invalidTxHex[0]}`,
+    "attachToTangle() should throw error for invalid txs"
   );
 });
 
@@ -97,7 +97,7 @@ test.cb("attachToTangle() invokes callback", t => {
     attachToTangleCommand.trunkTransaction,
     attachToTangleCommand.branchTransaction,
     attachToTangleCommand.minWeightMagnitude,
-    attachToTangleCommand.hbytes,
+    attachToTangleCommand.txs,
     t.end
   );
 });
@@ -107,7 +107,7 @@ test.cb("attachToTangle() passes correct arguments to callback", t => {
     attachToTangleCommand.trunkTransaction,
     attachToTangleCommand.branchTransaction,
     attachToTangleCommand.minWeightMagnitude,
-    attachToTangleCommand.hbytes,
+    attachToTangleCommand.txs,
     (err, res) => {
       t.is(
         err,
@@ -117,7 +117,7 @@ test.cb("attachToTangle() passes correct arguments to callback", t => {
 
       t.deepEqual(
         res,
-        attachToTangleResponse.hbytes,
+        attachToTangleResponse.txs,
         "attachToTangle() should pass the correct response as second argument in callback"
       );
 

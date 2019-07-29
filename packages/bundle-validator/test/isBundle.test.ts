@@ -52,29 +52,17 @@ test("isBundle() returns false for bundle with non-zero value sum.", t => {
 });
 
 test("isBundle() returns true for valid zero-value bundle", t => {
-  /*t.is(
+  t.is(
     isBundle(bundleWithZeroValue),
     true,
     "isBundle() should return true for valid zero-value bundle"
-  );*/
-  const input = "placeholder";
-  const placeholder = (input: string): string => {
-    return input;
-  };
-
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
+  );
 });
 
 test("isBundle() returns true for valid bundle.", t => {
-  /*t.is(
+  t.is(
     isBundle(bundleWithValidSignature),
     true,
     "isBundle() should return true for valid bundle."
-  );*/
-  const input = "placeholder";
-  const placeholder = (input: string): string => {
-    return input;
-  };
-
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
+  );
 });

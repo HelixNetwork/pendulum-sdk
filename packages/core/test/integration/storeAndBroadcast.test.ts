@@ -1,7 +1,7 @@
 import { createHttpClient } from "@helixnetwork/http-client";
-import { attachedHBytesOfInvalidLength } from "@helixnetwork/samples";
+import { attachedTxHexOfInvalidLength } from "@helixnetwork/samples";
 import test from "ava";
-import { INVALID_ATTACHED_HBYTES } from "../../../errors";
+import { INVALID_ATTACHED_TX_HEX } from "../../../errors";
 import { createStoreAndBroadcast } from "../../src";
 import "./nocks/broadcastTransactions";
 import { storeTransactionsCommand } from "./nocks/storeTransactions";
@@ -9,53 +9,53 @@ import { storeTransactionsCommand } from "./nocks/storeTransactions";
 const storeAndBroadcast = createStoreAndBroadcast(createHttpClient());
 
 test("storeAndBroadcast() stores and broadcasts transactions.", async t => {
-  const { hbytes } = storeTransactionsCommand;
+  const { txs } = storeTransactionsCommand;
   t.deepEqual(
-    await storeAndBroadcast([...hbytes]),
-    hbytes,
+    await storeAndBroadcast([...txs]),
+    txs,
     "storeAndBroadcast() should store and bradcast transactions."
   );
 });
 
-test("storeAndBroadcast() does not mutate original hbytes.", async t => {
-  const { hbytes } = storeTransactionsCommand;
+test("storeAndBroadcast() does not mutate original txs.", async t => {
+  const { txs } = storeTransactionsCommand;
 
-  await storeAndBroadcast(hbytes);
+  await storeAndBroadcast(txs);
   t.deepEqual(
-    hbytes,
-    storeTransactionsCommand.hbytes,
-    "storeAndBroadcast() should not mutate original hbytes."
+    txs,
+    storeTransactionsCommand.txs,
+    "storeAndBroadcast() should not mutate original txs."
   );
 });
 
-test("storeAndBroadcast() rejects with correct error for invalid attached hbytes.", t => {
-  const invalidHBytes = ["asdasDSFDAFD"];
+test("storeAndBroadcast() rejects with correct error for invalid attached txs.", t => {
+  const invalidTxHex = ["asdasDSFDAFD"];
 
   t.is(
-    t.throws(() => storeAndBroadcast(invalidHBytes), Error).message,
-    `${INVALID_ATTACHED_HBYTES}: ${invalidHBytes[0]}`,
-    "storeAndBroadcast() should throw error for invalid attached hbytes."
+    t.throws(() => storeAndBroadcast(invalidTxHex), Error).message,
+    `${INVALID_ATTACHED_TX_HEX}: ${invalidTxHex[0]}`,
+    "storeAndBroadcast() should throw error for invalid attached txs."
   );
 });
 
-test("storeAndBroadcast() rejects with correct errors for attached hbytes of invalid length.", t => {
-  const invalidHBytes = ["asdasDSFDAFD"];
+test("storeAndBroadcast() rejects with correct errors for attached txs of invalid length.", t => {
+  const invalidTxHex = ["asdasDSFDAFD"];
 
   t.is(
-    t.throws(() => storeAndBroadcast(attachedHBytesOfInvalidLength), Error)
+    t.throws(() => storeAndBroadcast(attachedTxHexOfInvalidLength), Error)
       .message,
-    `${INVALID_ATTACHED_HBYTES}: ${attachedHBytesOfInvalidLength[0]}`,
-    "storeAndBroadcast() should throw error for attached hbytes of invalid length."
+    `${INVALID_ATTACHED_TX_HEX}: ${attachedTxHexOfInvalidLength[0]}`,
+    "storeAndBroadcast() should throw error for attached txs of invalid length."
   );
 });
 
 test.cb("storeAndBroadcast() invokes callback", t => {
-  storeAndBroadcast([...storeTransactionsCommand.hbytes], t.end);
+  storeAndBroadcast([...storeTransactionsCommand.txs], t.end);
 });
 
 test.cb("storeAndBroadcast() passes correct arguments to callback", t => {
-  const { hbytes } = storeTransactionsCommand;
-  storeAndBroadcast([...hbytes], (err, res) => {
+  const { txs } = storeTransactionsCommand;
+  storeAndBroadcast([...txs], (err, res) => {
     t.is(
       err,
       null,
@@ -64,7 +64,7 @@ test.cb("storeAndBroadcast() passes correct arguments to callback", t => {
 
     t.deepEqual(
       res,
-      hbytes,
+      txs,
       "storeAndBroadcast() should pass the correct response as second argument in callback"
     );
 

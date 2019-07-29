@@ -2,12 +2,12 @@ import { ADDRCONFIG } from "dns";
 import {
   ADDRESS_BYTE_SIZE,
   ADDRESS_CHECKSUM_BYTE_SIZE,
-  HASH_HBYTE_SIZE,
+  HASH_TX_HEX_SIZE,
   MAX_INDEX_DIFF,
   TAG_BYTE_SIZE
 } from "./constants";
 import * as errors from "./errors";
-import { Address, Hash, HBytes, Tag, Transfer } from "./types";
+import { Address, Hash, TxHex, Tag, Transfer } from "./types";
 
 // Required for markdown generation with JSDoc
 /**
@@ -17,43 +17,41 @@ import { Address, Hash, HBytes, Tag, Transfer } from "./types";
 /* Type guards */
 
 /**
- * Checks if input is correct hbytes consisting of [9A-Z]; optionally validate length
- * @method isHBytes
+ * Checks if input is correct txs consisting of [9A-Z]; optionally validate length
+ * @method isTxHex
  *
- * @param {string} hbytes
+ * @param {string} txHex
  * @param {string | number} [length='1,']
  *
  * @return {boolean}
  */
-export const isHBytes = (
-  hbytes: string,
+export const isTxHex = (
+  txHex: string,
   length: string | number = "1,"
-): hbytes is HBytes =>
-  typeof hbytes === "string" &&
-  new RegExp(`^[0-9a-f]{${length}}$`).test(hbytes);
+): txHex is TxHex =>
+  typeof txHex === "string" && new RegExp(`^[0-9a-f]{${length}}$`).test(txHex);
 /**
- * @method isHBytesOfExactLength
+ * @method isTxHexOfExactLength
  *
- * @param {string} hbytes
+ * @param {string} txHex
  * @param {number} length
  *
  * @return {boolean}
  */
-export const isHBytesOfExactLength = (hbytes: string, length: number) =>
-  typeof hbytes === "string" &&
-  new RegExp(`^[0-9a-f]{${length}}$`).test(hbytes);
+export const isTxHexOfExactLength = (txHex: string, length: number) =>
+  typeof txHex === "string" && new RegExp(`^[0-9a-f]{${length}}$`).test(txHex);
 
 /**
- * @method isHBytesOfMaxLength
+ * @method isTxHexOfMaxLength
  *
- * @param {string} hbytes
+ * @param {string} txHex
  * @param {number} length
  *
  * @return {boolean}
  */
-export const isHBytesOfMaxLength = (hbytes: string, length: number) =>
-  typeof hbytes === "string" &&
-  new RegExp(`^[0-9a-f]{1,${length}}$`).test(hbytes);
+export const isTxHexOfMaxLength = (txHex: string, length: number) =>
+  typeof txHex === "string" &&
+  new RegExp(`^[0-9a-f]{1,${length}}$`).test(txHex);
 
 /**
  * Checks if input contains `9`s only.
@@ -63,8 +61,8 @@ export const isHBytesOfMaxLength = (hbytes: string, length: number) =>
  *
  * @return {boolean}
  */
-export const isEmpty = (hbytes: any): hbytes is HBytes =>
-  typeof hbytes === "string" && /^[00]+$/.test(hbytes);
+export const isEmpty = (txHex: any): txHex is TxHex =>
+  typeof txHex === "string" && /^[00]+$/.test(txHex);
 
 /**
  * Checks if input contains `9`s only.
@@ -80,10 +78,10 @@ export const isEmptyBytes = (bytes: Uint8Array) => {
   return isValid;
 };
 
-export const isNinesHBytes = isEmpty;
+export const isNinesTxHex = isEmpty;
 
 /**
- * Checks if input is correct hash (81 hbytes) or address with checksum (90 hbytes)
+ * Checks if input is correct hash (81 txs) or address with checksum (90 txs)
  *
  * @method isHash
  *
@@ -92,10 +90,10 @@ export const isNinesHBytes = isEmpty;
  * @return {boolean}
  */
 export const isHash = (hash: any): hash is Hash =>
-  isHBytesOfExactLength(hash, HASH_HBYTE_SIZE) ||
-  isHBytesOfExactLength(hash, HASH_HBYTE_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE);
+  isTxHexOfExactLength(hash, HASH_TX_HEX_SIZE) ||
+  isTxHexOfExactLength(hash, HASH_TX_HEX_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE);
 /**
- * Checks if input is correct address or address with checksum (90 hbytes)
+ * Checks if input is correct address or address with checksum (90 txs)
  *
  * @method isAddress
  *
@@ -104,12 +102,12 @@ export const isHash = (hash: any): hash is Hash =>
  * @return {boolean}
  */
 export const isAddress = (hash: any): hash is Hash =>
-  isHBytesOfExactLength(hash, ADDRESS_BYTE_SIZE) ||
-  isHBytesOfExactLength(hash, ADDRESS_BYTE_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE); // address w/ checksum is valid hash
+  isTxHexOfExactLength(hash, ADDRESS_BYTE_SIZE) ||
+  isTxHexOfExactLength(hash, ADDRESS_BYTE_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE); // address w/ checksum is valid hash
 
-/* Check if security level is positive integer */
+/* Check if security level is valid positive integer */
 export const isSecurityLevel = (security: any): security is number =>
-  Number.isInteger(security) && security > 0;
+  Number.isInteger(security) && security > 0 && security < 4;
 
 /**
  * Checks if input is valid input object. Address can be passed with or without checksum.
@@ -124,8 +122,7 @@ export const isSecurityLevel = (security: any): security is number =>
 export const isInput = (input: any): input is Address => {
   return (
     isAddress(input.address) &&
-    (typeof input.security === "undefined" ||
-      isSecurityLevel(input.security)) &&
+    isSecurityLevel(input.security) &&
     (typeof input.balance === "undefined" ||
       (Number.isInteger(input.balance) && input.balance > 0)) &&
     Number.isInteger(input.keyIndex) &&
@@ -134,7 +131,7 @@ export const isInput = (input: any): input is Address => {
 };
 
 /**
- * Checks that input is valid tag hbytes.
+ * Checks that input is valid tag txs.
  *
  * @method isTag
  *
@@ -143,7 +140,7 @@ export const isInput = (input: any): input is Address => {
  * @return {boolean}
  */
 export const isTag = (tag: any): tag is Tag =>
-  isHBytesOfMaxLength(tag, TAG_BYTE_SIZE);
+  isTxHexOfMaxLength(tag, TAG_BYTE_SIZE);
 
 /**
  * Checks if input is valid `transfer` object.
@@ -158,7 +155,7 @@ export const isTransfer = (transfer: Transfer): transfer is Transfer =>
   isAddress(transfer.address) &&
   Number.isInteger(transfer.value) &&
   transfer.value >= 0 &&
-  (!transfer.message || isHBytes(transfer.message, "0,")) &&
+  (!transfer.message || isTxHex(transfer.message, "0,")) &&
   (!transfer.tag || isTag(transfer.tag));
 
 /**
@@ -177,7 +174,7 @@ export const isTransfer = (transfer: Transfer): transfer is Transfer =>
  *
  * @return {boolean}
  */
-export const isUri = (uri: any): uri is HBytes => {
+export const isUri = (uri: any): uri is TxHex => {
   if (typeof uri !== "string") {
     return false;
   }
@@ -225,11 +222,11 @@ export type Validator<T> = (x: T, err?: string) => Validatable<T>;
  * try {
  *   validate([
  *     value, // Given value
- *     isHBytes, // Validator function
- *     'Invalid hbytes' // Error message
+ *     isTxHex, // Validator function
+ *     'Invalid txs' // Error message
  *   ])
  * } catch (err) {
- *   console.log(err.message) // 'Invalid hbytes'
+ *   console.log(err.message) // 'Invalid txs'
  * }
  * ```
  *
@@ -264,7 +261,7 @@ export const arrayValidator = <T>(
   return [
     arr,
     (x: ReadonlyArray<any>): x is ReadonlyArray<T> =>
-      x.every(value => isValid(value)),
+      Array.isArray(x) && x.every(value => isValid(value)),
     customMsg || msg
   ];
 };
@@ -285,7 +282,7 @@ export const minWeightMagnitudeValidator: Validator<
 
 export const seedValidator: Validator<string> = seed => [
   seed,
-  isHBytes,
+  isTxHex,
   errors.INVALID_SEED
 ];
 
@@ -331,10 +328,10 @@ export const hashValidator: Validator<Hash> = hash => [
   errors.INVALID_HASH
 ];
 
-export const hbytesValidator: Validator<HBytes> = (hbytes, msg?: string) => [
-  hbytes,
-  isHBytes,
-  msg || errors.INVALID_HBYTES
+export const txHexValidator: Validator<TxHex> = (txHex, msg?: string) => [
+  txHex,
+  isTxHex,
+  msg || errors.INVALID_TX_HEX
 ];
 
 export const uriValidator: Validator<string> = uri => [

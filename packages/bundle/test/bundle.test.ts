@@ -1,20 +1,20 @@
 import test from "ava";
 import {
   ADDRESS_BYTE_SIZE,
-  HASH_HBYTE_SIZE,
-  NULL_HASH_HBYTES,
-  NULL_NONCE_HBYTES,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+  HASH_TX_HEX_SIZE,
+  NULL_HASH_TX_HEX,
+  NULL_NONCE_TX_HEX,
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
 } from "../../constants";
 import {
   addEntry,
-  addHBytes,
+  addTxHex,
   createBundle,
   finalizeBundle
 } from "../src/bundle";
 
-const NULL_HASH = NULL_HASH_HBYTES;
-const NULL_NONCE = NULL_NONCE_HBYTES;
+const NULL_HASH = NULL_HASH_TX_HEX;
+const NULL_NONCE = NULL_NONCE_TX_HEX;
 const addresses = [
   "a".repeat(ADDRESS_BYTE_SIZE),
   "b".repeat(ADDRESS_BYTE_SIZE)
@@ -31,7 +31,9 @@ const bundle = [
     currentIndex: 0,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
+    signatureMessageFragment: "0".repeat(
+      SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+    ),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -49,7 +51,9 @@ const bundle = [
     currentIndex: 1,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
+    signatureMessageFragment: "0".repeat(
+      SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+    ),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -67,7 +71,9 @@ const bundle = [
     currentIndex: 2,
     lastIndex: 2,
     timestamp: 1522219,
-    signatureMessageFragment: "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE),
+    signatureMessageFragment: "0".repeat(
+      SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+    ),
     trunkTransaction: NULL_HASH,
     branchTransaction: NULL_HASH,
     attachmentTimestamp: 0,
@@ -116,23 +122,23 @@ test("addEntry() adds new entry and returns correct transactions.", t => {
   );
 });
 
-test("addHBytes() adds hbytes and returns correct transactions.", t => {
+test("addTxHex() adds transactionStrings and returns correct transactions.", t => {
   t.deepEqual(
-    addHBytes(bundle, ["abcdef", "abcdef", "abcdef"]),
+    addTxHex(bundle, ["abcdef", "abcdef", "abcdef"]),
     bundle.map(transaction => ({
       ...transaction,
       signatureMessageFragment:
-        "abcdef" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 6)
+        "abcdef" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE - 6)
     })),
-    "addEntry should add hbytes and return correct transactions."
+    "addEntry should add transactionStrings and return correct transactions."
   );
 });
 
 test("finalizeBundle() adds correct bundle hash.", t => {
-  /*const bundleHash =
-    "71bcafcb2c130d7eb0f1deb304bd85df7f692fb7abb3d9ad99823cf7c49ef8c7";
+  const bundleHash =
+    "fccc0d39a7211124c94cd2223b78c4ab8852435e4da493020fe7eaeebc826ca1";
   const incrObsoleteTag =
-    "aaaa000000000000000000000000000000000000000000000000000000000001";
+    "000000000000000000000000000000000000000000000000000000000000001e";
   const expected = bundle.map((transaction, i) => ({
     ...transaction,
     obsoleteTag: i === 0 ? incrObsoleteTag : transaction.obsoleteTag,
@@ -142,11 +148,5 @@ test("finalizeBundle() adds correct bundle hash.", t => {
     finalizeBundle(bundle),
     expected,
     "finalizeBundle() should add correct bundle hash."
-  );*/
-  const input = "placeholder";
-  const placeholder = (input: string): string => {
-    return input;
-  };
-
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
+  );
 });

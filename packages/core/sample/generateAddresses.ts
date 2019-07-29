@@ -9,7 +9,7 @@ async function generateAddresses() {
   const addresses: string[] = new Array<string>(3);
   const addressesWithChecksum: string[] = new Array<string>(3);
 
-  let addr = await getNewAddress(seed, { index: 0, total: 3 });
+  let addr = await getNewAddress(seed, { index: 0, total: 3, security: 2 });
 
   for (let i = 0; i < 3; i++) {
     console.log(

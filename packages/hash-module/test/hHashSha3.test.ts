@@ -1,7 +1,7 @@
 import {
   bytesToWords,
   hex,
-  toHBytes,
+  toTxBytes,
   wordsToBytes
 } from "@helixnetwork/converter";
 import test from "ava";
@@ -16,10 +16,10 @@ test("hash-module: Test sha3 input string (update/final), Converter: bytesToWord
     const hHash: HHash = new HHash(HHash.HASH_ALGORITHM_3);
     hHash.initialize();
 
-    hHash.absorb(toHBytes(input), 0, hHash.getHashLength());
-    const hashBytes: Int8Array = new Int8Array(hHash.getHashLength());
-    hHash.squeeze(hashBytes, 0, hHash.getHashLength());
-    return hex(hashBytes);
+    hHash.absorb(toTxBytes(input), 0, hHash.getHashLength());
+    const hastxHex: Int8Array = new Int8Array(hHash.getHashLength());
+    hHash.squeeze(hastxHex, 0, hHash.getHashLength());
+    return hex(hastxHex);
   };
 
   t.is(

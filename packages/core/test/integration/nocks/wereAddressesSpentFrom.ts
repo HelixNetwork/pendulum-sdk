@@ -6,7 +6,7 @@ import {
 } from "../../../src/createWereAddressesSpentFrom";
 import headers from "./headers";
 
-import { addresses } from "@helixnetwork/samples";
+import { addresses, addresseDefaultSecLevel } from "@helixnetwork/samples";
 
 export const wereAddressesSpentFromCommand: WereAddressesSpentFromCommand = {
   command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
@@ -63,4 +63,44 @@ nock("http://localhost:14265", headers)
   })
   .reply(200, {
     states: [false, false]
+  });
+
+nock("http://localhost:14265", headers)
+  .persist()
+  .post("/", {
+    command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
+    addresses: [addresseDefaultSecLevel[1], addresseDefaultSecLevel[2]]
+  })
+  .reply(200, {
+    states: [false, false]
+  });
+
+nock("http://localhost:14265", headers)
+  .persist()
+  .post("/", {
+    command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
+    addresses: [addresseDefaultSecLevel[2]]
+  })
+  .reply(200, {
+    states: [false]
+  });
+
+nock("http://localhost:14265", headers)
+  .persist()
+  .post("/", {
+    command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
+    addresses: [addresseDefaultSecLevel[1]]
+  })
+  .reply(200, {
+    states: [false]
+  });
+
+nock("http://localhost:14265", headers)
+  .persist()
+  .post("/", {
+    command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,
+    addresses: [addresseDefaultSecLevel[0]]
+  })
+  .reply(200, {
+    states: [false]
   });

@@ -1,27 +1,28 @@
 import * as Promise from "bluebird";
 
-import { addEntry, addHBytes, finalizeBundle } from "@helixnetwork/bundle";
+import { addEntry, addTxHex, finalizeBundle } from "@helixnetwork/bundle";
 import { isValidChecksum, removeChecksum } from "@helixnetwork/checksum";
-import { hbits, hbytes, hex, toHBytes } from "@helixnetwork/converter";
-import { asFinalTransactionHBytes } from "@helixnetwork/transaction-converter";
+import { txBits, txHex, hex, toTxBytes } from "@helixnetwork/converter";
+import { asFinalTransactionStrings } from "@helixnetwork/transaction-converter";
 import {
   key,
   normalizedBundleHash,
-  signatureFragment,
+  signatureFragments,
   subseed
 } from "@helixnetwork/winternitz";
 import {
   HASH_BYTE_SIZE,
-  NULL_HASH_HBYTES,
+  NULL_HASH_TX_HEX,
+  SECURITY_LEVELS,
   SEED_BYTE_SIZE,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE
 } from "../../constants";
 import * as errors from "../../errors";
 import {
   arrayValidator,
   inputValidator,
-  isHBytes,
+  isTxHex,
   remainderAddressValidator,
   securityLevelValidator,
   seedValidator,
@@ -33,7 +34,7 @@ import {
   asArray,
   Callback,
   getOptionsWithDefaults,
-  HBytes,
+  TxHex,
   Provider,
   Transaction,
   Transfer
@@ -43,17 +44,17 @@ import { createGetInputs, createGetNewAddress } from "./";
 import HMAC from "./hmac";
 
 const HASH_LENGTH = HASH_BYTE_SIZE;
-const SIGNATURE_MESSAGE_FRAGMENT_LENGTH = SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+const SIGNATURE_MESSAGE_FRAGMENT_LENGTH = SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
 const SIGNATURE_MESSAGE_FRAGMENT_LENGTH_BYTE = SIGNATURE_TOTAL_BYTE_SIZE;
-// const KEY_FRAGMENT_LENGTH = 2 * SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
+// const KEY_FRAGMENT_LENGTH = 2 * SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
 const SECURITY_LEVEL = 1;
 
 export interface PrepareTransfersOptions {
   readonly inputs: ReadonlyArray<Address>;
-  readonly address?: HBytes; // Deprecate
-  readonly remainderAddress?: HBytes;
+  readonly address?: TxHex; // Deprecate
+  readonly remainderAddress?: TxHex;
   readonly security: number;
-  readonly hmacKey?: HBytes;
+  readonly hmacKey?: TxHex;
 }
 
 const defaults: PrepareTransfersOptions = {
@@ -73,15 +74,15 @@ export const getPrepareTransfersOptions = (
 
 export interface PrepareTransfersProps {
   readonly transactions: ReadonlyArray<Transaction>;
-  readonly hbytes: ReadonlyArray<HBytes>;
+  readonly txs: ReadonlyArray<TxHex>;
   readonly transfers: ReadonlyArray<Transfer>;
-  readonly seed: HBytes;
+  readonly seed: TxHex;
   readonly security: number;
   readonly inputs: ReadonlyArray<Address>;
   readonly timestamp: number;
-  readonly remainderAddress?: HBytes;
-  readonly address?: HBytes;
-  readonly hmacKey?: HBytes;
+  readonly remainderAddress?: TxHex;
+  readonly address?: TxHex;
+  readonly hmacKey?: TxHex;
 }
 
 /**
@@ -107,7 +108,7 @@ export const createPrepareTransfers = (
   const addRemainder = createAddRemainder(provider);
 
   /**
-   * Prepares the transaction hbytes by generating a bundle, filling in transfers and inputs,
+   * Prepares the transaction transactionStrings by generating a bundle, filling in transfers and inputs,
    * adding remainder and signing. It can be used to generate and sign bundles either online or offline.
    * For offline usage, please see [`createPrepareTransfers`]{@link #module_core.createPrepareTransfers}
    * which creates a `prepareTransfers` without a network provider.
@@ -122,7 +123,7 @@ export const createPrepareTransfers = (
    *
    * @param {object} [options]
    * @param {Input[]} [options.inputs] Inputs used for signing. Needs to have correct security, keyIndex and address value
-   * @param {Hash} [options.inputs[].address] Input address hbytes
+   * @param {Hash} [options.inputs[].address] Input address transactionStrings
    * @param {number} [options.inputs[].keyIndex] Key index at which address was generated
    * @param {number} [options.inputs[].security = 2] Security level
    * @param {number} [options.inputs[].balance] Balance in iotas
@@ -133,7 +134,7 @@ export const createPrepareTransfers = (
    * @param {function} [callback] Optional callback
    *
    * @return {Promise}
-   * @fulfil {array} hbytes Returns bundle hbytes
+   * @fulfil {array} transactionStrings Returns bundle transactionStrings
    * @reject {Error}
    * - `INVALID_SEED`
    * - `INVALID_TRANSFER_ARRAY`
@@ -145,11 +146,11 @@ export const createPrepareTransfers = (
    * - Fetch error, if connected to network
    */
   return function prepareTransfers(
-    seed: HBytes,
+    seed: TxHex,
     transfers: ReadonlyArray<Transfer>,
     options: Partial<PrepareTransfersOptions> = {},
-    callback?: Callback<ReadonlyArray<HBytes>>
-  ): Promise<ReadonlyArray<HBytes>> {
+    callback?: Callback<ReadonlyArray<TxHex>>
+  ): Promise<ReadonlyArray<TxHex>> {
     if (caller !== "lib") {
       if (options.address) {
         /* tslint:disable-next-line:no-console */
@@ -158,10 +159,10 @@ export const createPrepareTransfers = (
         );
       }
 
-      if (isHBytes(seed) && seed.length < SEED_BYTE_SIZE) {
+      if (isTxHex(seed) && seed.length < SEED_BYTE_SIZE) {
         /* tslint:disable-next-line:no-console */
         console.warn(
-          "WARNING: Seeds with less length than 81 hbytes are not secure! Use a random, 81-hbytes long seed!"
+          "WARNING: Seeds with less length than 81 transactionStrings are not secure! Use a random, 81-transactionStrings long seed!"
         );
       }
     }
@@ -169,13 +170,9 @@ export const createPrepareTransfers = (
     const props = Promise.resolve(
       validatePrepareTransfers({
         transactions: [],
-        hbytes: [],
+        txs: [],
         seed,
-        transfers: transfers.map(transfer => ({
-          ...transfer,
-          message: transfer.message || "",
-          tag: transfer.tag || ""
-        })),
+        transfers,
         timestamp: Math.floor(
           (typeof now === "function" ? now() : Date.now()) / 1000
         ),
@@ -192,9 +189,9 @@ export const createPrepareTransfers = (
       finalize,
       addSignatures,
       addHMAC,
-      asTransactionHBytes
+      asTransactionStrings
     )(props)
-      .then(({ hbytes }: PrepareTransfersProps) => hbytes)
+      .then(({ txs }: PrepareTransfersProps) => txs)
       .asCallback(callback);
   };
 };
@@ -227,7 +224,7 @@ export const addHMACPlaceholder = (
             transfer.value > 0
               ? {
                   ...transfer,
-                  message: NULL_HASH_HBYTES + transfer.message
+                  message: NULL_HASH_TX_HEX + (transfer.message || "")
                 }
               : transfer
         )
@@ -377,7 +374,8 @@ export const createAddRemainder = (provider?: Provider) => {
 
 export const getRemainderAddressStartIndex = (
   inputs: ReadonlyArray<Address>
-): number => [...inputs].sort((a, b) => a.keyIndex - b.keyIndex)[0].keyIndex + 1;
+): number =>
+  [...inputs].sort((a, b) => a.keyIndex - b.keyIndex)[0].keyIndex + 1;
 
 export const verifyNotSendingToInputs = (
   props: PrepareTransfersProps
@@ -410,34 +408,27 @@ export const addSignatures = (
   props: PrepareTransfersProps
 ): PrepareTransfersProps => {
   const { transactions, inputs, seed } = props;
-  const normalizedBundle = normalizedBundleHash(
-    toHBytes(transactions[0].bundle)
-  );
-
   return {
     ...props,
-    transactions: addHBytes(
+    transactions: addTxHex(
       transactions,
-      inputs.reduce((acc: ReadonlyArray<HBytes>, { keyIndex, security }) => {
-        const keyHBytes = key(
-          subseed(toHBytes(seed), keyIndex),
-          security || SECURITY_LEVEL
+      inputs.reduce((acc: ReadonlyArray<TxHex>, { keyIndex, security }) => {
+        const allSignatureFragments = hex(
+          signatureFragments(
+            toTxBytes(seed),
+            keyIndex,
+            security || SECURITY_LEVEL,
+            toTxBytes(transactions[0].bundle)
+          )
         );
+
         return acc.concat(
           Array(security)
             .fill(null)
             .map((_, i) =>
-              hex(
-                signatureFragment(
-                  normalizedBundle.slice(
-                    i * HASH_LENGTH / 2,
-                    (i + 1) * HASH_LENGTH / 2
-                  ),
-                  keyHBytes.slice(
-                    i * SIGNATURE_MESSAGE_FRAGMENT_LENGTH_BYTE,
-                    (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_LENGTH_BYTE
-                  )
-                )
+              allSignatureFragments.slice(
+                i * SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
+                (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
               )
             )
         );
@@ -453,13 +444,13 @@ export const addHMAC = (
   const { hmacKey, transactions } = props;
 
   return hmacKey
-    ? { ...props, transactions: HMAC(transactions, hbits(hmacKey)) }
+    ? { ...props, transactions: HMAC(transactions, txBits(hmacKey)) }
     : props;
 };
 
-export const asTransactionHBytes = (
+export const asTransactionStrings = (
   props: PrepareTransfersProps
 ): PrepareTransfersProps => ({
   ...props,
-  hbytes: asFinalTransactionHBytes(props.transactions)
+  txs: asFinalTransactionStrings(props.transactions)
 });

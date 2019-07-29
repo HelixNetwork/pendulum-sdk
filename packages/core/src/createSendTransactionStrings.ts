@@ -1,4 +1,4 @@
-import { transactionHBytesValidator } from "@helixnetwork/transaction";
+import { transactionTxHexValidator } from "@helixnetwork/transaction";
 import { asTransactionObject } from "@helixnetwork/transaction-converter";
 import * as Promise from "bluebird";
 import {
@@ -12,7 +12,7 @@ import {
   Bundle,
   Callback,
   Hash,
-  HBytes,
+  TxHex,
   Provider,
   Transaction
 } from "../../types";
@@ -23,15 +23,15 @@ import {
 } from "./";
 
 /**
- * @method createSendHBytes
+ * @method createSendTransactionStrings
  *
  * @memberof module:core
  *
  * @param {Provider} provider - Network provider
  *
- * @return {Function} {@link #module_core.sendHBytes `sendHBytes`}
+ * @return {Function} {@link #module_core.sendTransactionStrings `sendTransactionStrings`}
  */
-export const createSendHBytes = (
+export const createSendTransactionStrings = (
   provider: Provider,
   attachFn?: AttachToTangle
 ) => {
@@ -41,12 +41,12 @@ export const createSendHBytes = (
 
   /**
    * [Attaches to tanlge]{@link #module_core.attachToTangle}, [stores]{@link #module_core.storeTransactions}
-   * and [broadcasts]{@link #module_core.broadcastTransactions} a list of transaction hbytes.
+   * and [broadcasts]{@link #module_core.broadcastTransactions} a list of transaction txs.
    *
    * @example
    * ```js
    * prepareTransfers(seed, transfers)
-   *   .then(hbytes => sendHBytes(hbytes, depth, minWeightMagnitude))
+   *   .then(txs => sendTransactionStrings(txs, depth, minWeightMagnitude))
    *   .then(transactions => {
    *     // ...
    *   })
@@ -55,11 +55,11 @@ export const createSendHBytes = (
    *   })
    * ```
    *
-   * @method sendHBytes
+   * @method sendTransactionStrings
    *
    * @memberof module:core
    *
-   * @param {HBytes[]} hbytes - List of hbytes to attach, store & broadcast
+   * @param {TxHex[]} txs - List of txs to attach, store & broadcast
    * @param {number} depth - Depth
    * @param {number} minWeightMagnitude - Min weight magnitude
    * @param {string} [reference] - Optional reference hash
@@ -68,13 +68,13 @@ export const createSendHBytes = (
    * @return {Promise}
    * @fulfil {Transaction[]}  Returns list of attached transactions
    * @reject {Error}
-   * - `INVALID_TRANSACTION_HBYTES`
+   * - `INVALID_TRANSACTION_TX_HEX`
    * - `INVALID_DEPTH`
    * - `INVALID_MIN_WEIGHT_MAGNITUDE`
    * - Fetch error, if connected to network
    */
-  return function sendHBytes(
-    hbytes: ReadonlyArray<HBytes>,
+  return function sendTxHex(
+    txs: ReadonlyArray<TxHex>,
     depth: number,
     minWeightMagnitude: number,
     reference?: Hash,
@@ -87,7 +87,7 @@ export const createSendHBytes = (
 
     return Promise.resolve(
       validate(
-        arrayValidator(transactionHBytesValidator)(hbytes),
+        arrayValidator(transactionTxHexValidator)(txs),
         depthValidator(depth),
         minWeightMagnitudeValidator(minWeightMagnitude)
       )
@@ -98,11 +98,11 @@ export const createSendHBytes = (
           trunkTransaction,
           branchTransaction,
           minWeightMagnitude,
-          hbytes
+          txs
         )
       )
-      .tap(attachedHBytes => storeAndBroadcast(attachedHBytes))
-      .then(attachedHBytes => attachedHBytes.map(t => asTransactionObject(t)))
+      .tap(attachedTxHex => storeAndBroadcast(attachedTxHex))
+      .then(attachedTxHex => attachedTxHex.map(t => asTransactionObject(t)))
       .asCallback(typeof arguments[3] === "function" ? arguments[3] : callback);
   };
 };

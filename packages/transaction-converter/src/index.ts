@@ -1,19 +1,45 @@
 /** @module transaction-converter */
 
-import { hBitsToHBytes, hbytesToHBits, hbits, value, toHBytes } from "@helixnetwork/converter";
+import {
+  txBitsToTxHex,
+  txHexToTxBits,
+  txBits,
+  value,
+  toTxBytes
+} from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
-import { padHBits, padHBytes, padSignedHBits } from "@helixnetwork/pad";
-import { transactionHash } from "@helixnetwork/transaction";
+import { padHBits, padTxHex, padSignedHBits } from "@helixnetwork/pad";
+import {
+  START_INDEX_SIGNATURE_MESSAGE,
+  transactionHash
+} from "@helixnetwork/transaction";
+import {
+  START_BRANCH_TRANS,
+  START_INDEX_ADDRESS,
+  START_INDEX_ATTACHED_TIMESTAMP,
+  START_INDEX_BUNDLE,
+  START_INDEX_CURRENT_INDEX,
+  START_INDEX_LAST_INDEX_BYTES,
+  START_INDEX_NONCE,
+  START_INDEX_OBSOLETE_TAG,
+  START_INDEX_TAG,
+  START_INDEX_TIMESTAMP,
+  START_INDEX_TIMESTAMP_LOW,
+  START_INDEX_TIMESTAMP_UP,
+  START_INDEX_VALUE,
+  START_TRUNK_TRANS
+} from "@helixnetwork/transaction/";
 import {
   ADDRESS_BYTE_SIZE,
-  HASH_HBYTE_SIZE,
+  HASH_TX_HEX_SIZE,
   NONCE_BYTE_SIZE,
   OBSOLETE_TAG_BYTE_SIZE,
-  SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE,
+  PAD_BYTE_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
   TAG_BYTE_SIZE,
   TRANSACTION_CURRENT_INDEX_BITS_SIZE,
   TRANSACTION_CURRENT_INDEX_BYTE_SIZE,
-  TRANSACTION_HBYTE_SIZE,
+  TRANSACTION_TX_HEX_SIZE,
   TRANSACTION_LAST_INDEX_BITS_SIZE,
   TRANSACTION_LAST_INDEX_BYTE_SIZE,
   TRANSACTION_OBSOLETE_TAG_BITS_SIZE,
@@ -26,201 +52,169 @@ import {
   TRANSACTION_VALUE_BYTE_SIZE
 } from "../../constants";
 import * as errors from "../../errors";
-import { isHBytesOfExactLength } from "../../guards";
-import { asArray, Hash, HBytes, Transaction } from "../../types";
+import { isTxHexOfExactLength } from "../../guards";
+import { asArray, Hash, TxHex, Transaction } from "../../types";
 
-export function asTransactionHBytes(transactions: Transaction): HBytes;
-export function asTransactionHBytes(
+export { Transaction };
+
+export function asTransactionStrings(transactions: Transaction): TxHex;
+export function asTransactionStrings(
   transactions: ReadonlyArray<Transaction>
-): ReadonlyArray<HBytes>;
+): ReadonlyArray<TxHex>;
 /**
- * Converts a transaction object or a list of those into transaction hbytes.
+ * Converts a transaction object or a list of those into transaction transactionStrings.
  *
- * @method asTransactionHBytes
+ * @method asTransactionStrings
  *
  * @param {Transaction | Transaction[]} transactions - Transaction object(s)
  *
- * @return {HBytes | HBytes[]} Transaction hbytes
+ * @return {TxHex | TxHex[]} Transaction transactionStrings
  */
-export function asTransactionHBytes(
+export function asTransactionStrings(
   transactions: Transaction | ReadonlyArray<Transaction>
-): HBytes | ReadonlyArray<HBytes> {
-  const txHBytes = asArray(transactions).map(transaction =>
+): TxHex | ReadonlyArray<TxHex> {
+  asArray(transactions).forEach(transaction => {
+    const val = txBitsToTxHex(txBits(transaction.value));
+    const obsoleteTag = padTxHex(OBSOLETE_TAG_BYTE_SIZE)(
+      transaction.obsoleteTag
+    );
+    const attachedTimestamp = txBitsToTxHex(
+      txBits(transaction.attachmentTimestamp)
+    );
+  });
+
+  const txTxHex = asArray(transactions).map(transaction =>
     [
       transaction.signatureMessageFragment,
       transaction.address,
-      hBitsToHBytes(hbits(transaction.value)),
-      padHBytes(OBSOLETE_TAG_BYTE_SIZE)(transaction.obsoleteTag),
-      hBitsToHBytes(hbits(transaction.timestamp)),
-      hBitsToHBytes(hbits(transaction.currentIndex)),
-      hBitsToHBytes(hbits(transaction.lastIndex)),
+      padTxHex(TRANSACTION_VALUE_BYTE_SIZE)(
+        txBitsToTxHex(txBits(transaction.value))
+      ),
+      padTxHex(OBSOLETE_TAG_BYTE_SIZE)(transaction.obsoleteTag),
+      txBitsToTxHex(txBits(transaction.timestamp)),
+      txBitsToTxHex(txBits(transaction.currentIndex)),
+      txBitsToTxHex(txBits(transaction.lastIndex)),
       transaction.bundle,
       transaction.trunkTransaction,
       transaction.branchTransaction,
-      padHBytes(OBSOLETE_TAG_BYTE_SIZE)(
+      padTxHex(TAG_BYTE_SIZE)(
         transaction.tag || transaction.obsoleteTag
+          ? transaction.obsoleteTag.length > TAG_BYTE_SIZE
+            ? transaction.obsoleteTag.slice(0, TAG_BYTE_SIZE)
+            : transaction.obsoleteTag
+          : ""
       ),
-      hBitsToHBytes(hbits(transaction.attachmentTimestamp)),
-      hBitsToHBytes(hbits(transaction.attachmentTimestampLowerBound)),
-      hBitsToHBytes(hbits(transaction.attachmentTimestampUpperBound)),
-      transaction.nonce
+      txBitsToTxHex(txBits(transaction.attachmentTimestamp)),
+      txBitsToTxHex(txBits(transaction.attachmentTimestampLowerBound)),
+      txBitsToTxHex(txBits(transaction.attachmentTimestampUpperBound)),
+      transaction.nonce,
+      "0".repeat(PAD_BYTE_SIZE)
     ].join("")
   );
 
-  return Array.isArray(transactions) ? txHBytes : txHBytes[0];
+  return Array.isArray(transactions) ? txTxHex : txTxHex[0];
 }
 
 /**
- * Converts transaction hbytes of 2673 hbytes into a transaction object.
+ * Converts transaction transactionStrings of 2673 transactionStrings into a transaction object.
  *
  * @method asTransactionObject
  *
- * @param {HBytes} hbytes - Transaction hbytes
+ * @param {TxHex} txHex - Transaction transactionStrings
  *
  * @return {Transaction} Transaction object
  */
-export const asTransactionObject = (
-  hbytes: HBytes,
-  hash?: Hash
-): Transaction => {
-  if (!isHBytesOfExactLength(hbytes, TRANSACTION_HBYTE_SIZE)) {
-    throw new Error(errors.INVALID_HBYTES);
+export const asTransactionObject = (txHex: TxHex, hash?: Hash): Transaction => {
+  if (!isTxHexOfExactLength(txHex, TRANSACTION_TX_HEX_SIZE)) {
+    throw new Error(errors.INVALID_TX_HEX);
   }
-  const hbits = hbytesToHBits(hbytes);
+  const txBits = txHexToTxBits(txHex);
 
   const noOfBitsInBytes = 4;
-  // TODO: check if this limitation is necessary:
-  // previous value has been limitted to 4 bytes
   const usefulBytesFromValue = TRANSACTION_VALUE_BYTE_SIZE;
   const noOfBitsInValue = 4 * usefulBytesFromValue;
 
-  const startIndexSignMsgFragBytes = 0;
-
-  const startIndexAddressBytes =
-    startIndexSignMsgFragBytes + SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE;
-  const startIndexValueBytes = startIndexAddressBytes + ADDRESS_BYTE_SIZE;
-  const startIndexObsoleteTagBytes =
-    startIndexValueBytes + TRANSACTION_VALUE_BYTE_SIZE;
-
-  // for (
-  //   let i = startIndexValueBytes + usefulBytesFromValue;
-  //   i < startIndexObsoleteTagBytes;
-  //   i++
-  // ) {
-  //   if (hbytes.charAt(i) !== "0") {
-  //     throw new Error(errors.INVALID_HBYTES);
-  //   }
-  // }
-
-  const startIndexTimestampBytes =
-    startIndexObsoleteTagBytes + OBSOLETE_TAG_BYTE_SIZE;
-  const startIndexCurrIndexBytes =
-    startIndexTimestampBytes + TRANSACTION_TIMESTAMP_BYTE_SIZE;
-  const startIndexLastIndexBytes =
-    startIndexCurrIndexBytes + TRANSACTION_CURRENT_INDEX_BYTE_SIZE;
-  const startIndexBundleBytes =
-    startIndexLastIndexBytes + TRANSACTION_LAST_INDEX_BYTE_SIZE;
-  const startIndexTrunkTrasnBytes = startIndexBundleBytes + HASH_HBYTE_SIZE;
-  const startIndexBranchTrasnBytes =
-    startIndexTrunkTrasnBytes + HASH_HBYTE_SIZE;
-  const startIndexTagTrasnBytes = startIndexBranchTrasnBytes + HASH_HBYTE_SIZE;
-  const startIndexTimestampTrasnBytes = startIndexTagTrasnBytes + TAG_BYTE_SIZE;
-  const startIndexTimestampLowTrasnBytes =
-    startIndexTimestampTrasnBytes + TRANSACTION_TIMESTAMP_BYTE_SIZE;
-  const startIndexTimestampUpTrasnBytes =
-    startIndexTimestampLowTrasnBytes + TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE;
-  const startIndexNonceBytes =
-    startIndexTimestampUpTrasnBytes + TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE;
-
   return {
-    hash: hash || transactionHash(toHBytes(hbytes)),
-    signatureMessageFragment: hbytes.slice(
-      startIndexSignMsgFragBytes,
-      startIndexSignMsgFragBytes + SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE
+    hash: hash || transactionHash(toTxBytes(txHex)),
+    signatureMessageFragment: txHex.slice(
+      START_INDEX_SIGNATURE_MESSAGE,
+      START_INDEX_SIGNATURE_MESSAGE + SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
     ),
-    address: hbytes.slice(
-      startIndexAddressBytes,
-      startIndexAddressBytes + ADDRESS_BYTE_SIZE
+    address: txHex.slice(
+      START_INDEX_ADDRESS,
+      START_INDEX_ADDRESS + ADDRESS_BYTE_SIZE
     ),
     value: value(
-      hbits.slice(
-        startIndexValueBytes * noOfBitsInBytes,
-        startIndexValueBytes * noOfBitsInBytes + noOfBitsInValue
+      txBits.slice(
+        START_INDEX_VALUE * noOfBitsInBytes,
+        START_INDEX_VALUE * noOfBitsInBytes + noOfBitsInValue
       )
     ),
-    obsoleteTag: hbytes.slice(
-      startIndexObsoleteTagBytes,
-      startIndexObsoleteTagBytes + OBSOLETE_TAG_BYTE_SIZE
+    obsoleteTag: txHex.slice(
+      START_INDEX_OBSOLETE_TAG,
+      START_INDEX_OBSOLETE_TAG + OBSOLETE_TAG_BYTE_SIZE
     ),
     timestamp: value(
-      hbits.slice(
-        noOfBitsInBytes * startIndexTimestampBytes,
+      txBits.slice(
+        noOfBitsInBytes * START_INDEX_TIMESTAMP,
         noOfBitsInBytes *
-          (startIndexTimestampBytes + TRANSACTION_TIMESTAMP_BYTE_SIZE)
+          (START_INDEX_TIMESTAMP + TRANSACTION_TIMESTAMP_BYTE_SIZE)
       )
     ),
     currentIndex: value(
-      hbits.slice(
-        noOfBitsInBytes * startIndexCurrIndexBytes,
+      txBits.slice(
+        noOfBitsInBytes * START_INDEX_CURRENT_INDEX,
         noOfBitsInBytes *
-          (startIndexCurrIndexBytes + TRANSACTION_CURRENT_INDEX_BYTE_SIZE)
+          (START_INDEX_CURRENT_INDEX + TRANSACTION_CURRENT_INDEX_BYTE_SIZE)
       )
     ),
     lastIndex: value(
-      hbits.slice(
-        startIndexLastIndexBytes * noOfBitsInBytes,
+      txBits.slice(
+        START_INDEX_LAST_INDEX_BYTES * noOfBitsInBytes,
         noOfBitsInBytes *
-          (startIndexLastIndexBytes + TRANSACTION_LAST_INDEX_BYTE_SIZE)
+          (START_INDEX_LAST_INDEX_BYTES + TRANSACTION_LAST_INDEX_BYTE_SIZE)
       )
     ),
-    bundle: hbytes.slice(
-      startIndexBundleBytes,
-      startIndexBundleBytes + HASH_HBYTE_SIZE
+    bundle: txHex.slice(
+      START_INDEX_BUNDLE,
+      START_INDEX_BUNDLE + HASH_TX_HEX_SIZE
     ),
-    trunkTransaction: hbytes.slice(
-      startIndexTrunkTrasnBytes,
-      startIndexTrunkTrasnBytes + HASH_HBYTE_SIZE
+    trunkTransaction: txHex.slice(
+      START_TRUNK_TRANS,
+      START_TRUNK_TRANS + HASH_TX_HEX_SIZE
     ),
-    branchTransaction: hbytes.slice(
-      startIndexBranchTrasnBytes,
-      startIndexBranchTrasnBytes + HASH_HBYTE_SIZE
+    branchTransaction: txHex.slice(
+      START_BRANCH_TRANS,
+      START_BRANCH_TRANS + HASH_TX_HEX_SIZE
     ),
-    tag: hbytes.slice(
-      startIndexTagTrasnBytes,
-      startIndexTagTrasnBytes + TAG_BYTE_SIZE
-    ),
+    tag: txHex.slice(START_INDEX_TAG, START_INDEX_TAG + TAG_BYTE_SIZE),
     attachmentTimestamp: value(
-      hbits.slice(
-        noOfBitsInBytes * startIndexTimestampTrasnBytes,
+      txBits.slice(
+        noOfBitsInBytes * START_INDEX_ATTACHED_TIMESTAMP,
         noOfBitsInBytes *
-          (startIndexTimestampTrasnBytes + TRANSACTION_TIMESTAMP_BYTE_SIZE)
+          (START_INDEX_ATTACHED_TIMESTAMP + TRANSACTION_TIMESTAMP_BYTE_SIZE)
       )
     ),
     attachmentTimestampLowerBound: value(
-      hbits.slice(
-        noOfBitsInBytes * startIndexTimestampLowTrasnBytes,
+      txBits.slice(
+        noOfBitsInBytes * START_INDEX_TIMESTAMP_LOW,
         noOfBitsInBytes *
-          (startIndexTimestampLowTrasnBytes +
-            TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE)
+          (START_INDEX_TIMESTAMP_LOW + TRANSACTION_TIMESTAMP_LOWER_BOUND_SIZE)
       )
     ),
     attachmentTimestampUpperBound: value(
-      hbits.slice(
-        noOfBitsInBytes * startIndexTimestampUpTrasnBytes,
+      txBits.slice(
+        noOfBitsInBytes * START_INDEX_TIMESTAMP_UP,
         noOfBitsInBytes *
-          (startIndexTimestampUpTrasnBytes +
-            TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE)
+          (START_INDEX_TIMESTAMP_UP + TRANSACTION_TIMESTAMP_UPPER_BOUND_SIZE)
       )
     ),
-    nonce: hbytes.slice(
-      startIndexNonceBytes,
-      startIndexNonceBytes + NONCE_BYTE_SIZE
-    )
+    nonce: txHex.slice(START_INDEX_NONCE, START_INDEX_NONCE + NONCE_BYTE_SIZE)
   };
 };
 
 /**
- * Converts a list of transaction hbytes into list of transaction objects.
+ * Converts a list of transaction transactionStrings into list of transaction objects.
  * Accepts a list of hashes and returns a mapper. In cases hashes are given,
  * the mapper function map them to converted objects.
  *
@@ -238,31 +232,31 @@ export const asTransactionObjects = (hashes?: ReadonlyArray<Hash>) => {
    *
    * @method transactionObjectsMapper
    *
-   * @param {HBytes[]} hbytes - List of transaction hbytes to convert
+   * @param {TxHex[]} transactionStrings - List of transaction transactionStrings to convert
    *
    * @return {Transaction[]} List of transaction objects with hashes
    */
-  return function transactionObjectsMapper(hbytes: ReadonlyArray<HBytes>) {
-    return hbytes.map((hByteString, i) =>
-      asTransactionObject(hByteString, hashes![i])
+  return function transactionObjectsMapper(txHex: ReadonlyArray<TxHex>) {
+    return txHex.map((txHexString, i) =>
+      asTransactionObject(txHexString, hashes![i])
     );
   };
 };
 
-export const asFinalTransactionHBytes = (
+export const asFinalTransactionStrings = (
   transactions: ReadonlyArray<Transaction>
-) => [...asTransactionHBytes(transactions)].reverse();
+) => [...asTransactionStrings(transactions)].reverse();
 
-export const transactionObject = (hBytes: HBytes): Transaction => {
+export const transactionObject = (txHex: TxHex): Transaction => {
   /* tslint:disable-next-line:no-console */
   console.warn("`transactionObject` has been renamed to `asTransactionObject`");
 
-  return asTransactionObject(hBytes);
+  return asTransactionObject(txHex);
 };
 
-export const transactionHBytes = (transaction: Transaction): HBytes => {
+export const transactionTxHex = (transaction: Transaction): TxHex => {
   /* tslint:disable-next-line:no-console */
-  console.warn("`transactionHBytes` has been renamed to `asTransactionHBytes`");
+  console.warn("`transactionTxHex` has been renamed to `asTransactionStrings`");
 
-  return asTransactionHBytes(transaction);
+  return asTransactionStrings(transaction);
 };

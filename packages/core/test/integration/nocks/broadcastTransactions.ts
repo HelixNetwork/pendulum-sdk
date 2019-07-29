@@ -1,4 +1,4 @@
-import { bundleHBytes } from "@helixnetwork/samples";
+import { bundleTxHex } from "@helixnetwork/samples";
 import * as nock from "nock";
 import {
   BroadcastTransactionsCommand,
@@ -8,7 +8,7 @@ import headers from "./headers";
 
 export const broadcastTransactionsCommand: BroadcastTransactionsCommand = {
   command: ProtocolCommand.BROADCAST_TRANSACTIONS,
-  hbytes: bundleHBytes
+  txs: bundleTxHex
 };
 
 export const broadcastTransactionsNock = nock("http://localhost:14265", headers)

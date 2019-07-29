@@ -1,9 +1,9 @@
-import { attachedHBytesValidator } from "@helixnetwork/transaction";
+import { attachedTxHexValidator } from "@helixnetwork/transaction";
 import * as Promise from "bluebird";
 import { arrayValidator, validate } from "../../guards";
 import {
   Callback,
-  HBytes,
+  TxHex,
   ProtocolCommand,
   Provider,
   StoreTransactionsCommand,
@@ -21,14 +21,14 @@ import {
  */
 export const createStoreTransactions = ({ send }: Provider) =>
   /**
-   * @description Persists a list of _attached_ transaction hbytes in the store of connected node by calling
+   * @description Persists a list of _attached_ transaction txHex in the store of connected node by calling
    * [`storeTransactions`](https://docs.hlx.ai/hlx/api#endpoints/storeTransactions) command.
    * Tip selection and Proof-of-Work must be done first, by calling
    * [`getTransactionsToApprove`]{@link #module_core.getTransactionsToApprove} and
    * [`attachToTangle`]{@link #module_core.attachToTangle} or an equivalent attach method or remote
    * [`PoW-Integrator`](https://powbox.devnet.iota.org/).
    *
-   * Persist the transaction hbytes in local storage **before** calling this command, to ensure
+   * Persist the transaction txHex in local storage **before** calling this command, to ensure
    * reattachment is possible, until your bundle has been included.
    *
    * Any transactions stored with this command will eventaully be erased, as a result of a snapshot.
@@ -37,25 +37,25 @@ export const createStoreTransactions = ({ send }: Provider) =>
    *
    * @memberof module:core
    *
-   * @param {HBytes[]} hbytes - Attached transaction hbytes
+   * @param {TxHex[]} txs - Attached transaction txHex
    * @param {Callback} [callback] - Optional callback
    *
    * @return {Promise}
-   * @fullfil {HBytes[]} Attached transaction hbytes
+   * @fullfil {TxHex[]} Attached transaction txHex
    * @reject {Error}
-   * - `INVALID_ATTACHED_HBYTES`: Invalid attached hbytes
+   * - `INVALID_ATTACHED_TX_HEX`: Invalid attached txHex
    * - Fetch error
    */
   (
-    hbytes: ReadonlyArray<HBytes>,
-    callback?: Callback<ReadonlyArray<HBytes>>
-  ): Promise<ReadonlyArray<HBytes>> =>
-    Promise.resolve(validate(arrayValidator(attachedHBytesValidator)(hbytes)))
+    txs: ReadonlyArray<TxHex>,
+    callback?: Callback<ReadonlyArray<TxHex>>
+  ): Promise<ReadonlyArray<TxHex>> =>
+    Promise.resolve(validate(arrayValidator(attachedTxHexValidator)(txs)))
       .then(() =>
         send<StoreTransactionsCommand, StoreTransactionsResponse>({
           command: ProtocolCommand.STORE_TRANSACTIONS,
-          hbytes
+          txs
         })
       )
-      .then(() => hbytes)
+      .then(() => txs)
       .asCallback(callback);

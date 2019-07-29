@@ -2,8 +2,8 @@ import { transactionHashValidator } from "@helixnetwork/transaction";
 import { asTransactionObjects } from "@helixnetwork/transaction-converter";
 import * as Promise from "bluebird";
 import { arrayValidator, validate } from "../../guards";
-import { Callback, Hash, HBytes, Provider, Transaction } from "../../types";
-import { createGetHBytes } from "./";
+import { Callback, Hash, TxHex, Provider, Transaction } from "../../types";
+import { createGetTransactionStrings } from "./";
 
 /**
  * @method createGetTransactionObjects
@@ -15,7 +15,7 @@ import { createGetHBytes } from "./";
  * @return {Function} {@link #module_core.getTransactionObjects `getTransactionObjects`}
  */
 export const createGetTransactionObjects = (provider: Provider) => {
-  const getHBytes = createGetHBytes(provider);
+  const getTransactionStrings = createGetTransactionStrings(provider);
 
   /**
    * Fetches the transaction objects, given an array of transaction hashes.
@@ -52,7 +52,7 @@ export const createGetTransactionObjects = (provider: Provider) => {
     return Promise.resolve(
       validate(arrayValidator(transactionHashValidator)(hashes))
     )
-      .then(() => getHBytes(hashes))
+      .then(() => getTransactionStrings(hashes))
       .then(asTransactionObjects(hashes))
       .asCallback(callback);
   };

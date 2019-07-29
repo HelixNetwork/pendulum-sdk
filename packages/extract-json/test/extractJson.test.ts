@@ -7,7 +7,7 @@ import {
   parsedJSONOfMultipleMessageFragments
 } from "@helixnetwork/samples";
 import test from "ava";
-import { SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE } from "../../constants";
+import { SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE } from "../../constants";
 import { errors, extractJson } from "../src";
 import { any } from "bluebird";
 
@@ -15,7 +15,7 @@ test("extractJson() parses JSON object.", t => {
   t.is(
     extractJson(bundleWithJSON),
     parsedJSON,
-    "extractJson() should return parsed object for bundle with valid hByte encoded JSON."
+    "extractJson() should return parsed object for bundle with valid txHex encoded JSON."
   );
 });
 
@@ -23,7 +23,7 @@ test("extractJson() parses JSON object over multiple signature message fragments
   t.is(
     extractJson(bundleWithMultipleJSONMessageFragments),
     parsedJSONOfMultipleMessageFragments,
-    "extractJson() should return parsed object for bundle with valid hByte encoded JSON in multiple message fragments."
+    "extractJson() should return parsed object for bundle with valid txHex encoded JSON in multiple message fragments."
   );
 });
 
@@ -31,7 +31,7 @@ test("extractJson() parses empty JSON object.", t => {
   t.is(
     extractJson(bundleWithEmptyJSON),
     "{}",
-    "extractJson() should return empty object for bundle with empty hByte encoded JSON."
+    "extractJson() should return empty object for bundle with empty txHex encoded JSON."
   );
 });
 
@@ -41,7 +41,7 @@ test("extraJson() parses boolean values.", t => {
       bundleWithEmptyJSON.map((tx: any) => ({
         ...tx,
         signatureMessageFragment:
-          "66616c7365" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 10)
+          "66616c7365" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE - 10)
       }))
     ),
     "false",
@@ -53,7 +53,7 @@ test("extraJson() parses boolean values.", t => {
       bundleWithEmptyJSON.map((tx: any) => ({
         ...tx,
         signatureMessageFragment:
-          "74727565" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 8)
+          "74727565" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE - 8)
       }))
     ),
     "true",
@@ -68,7 +68,7 @@ test("extraJson() parses string values.", t => {
         ...tx,
         signatureMessageFragment:
           "2268656c6c6f2122" +
-          "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 16)
+          "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE - 16)
       }))
     ),
     JSON.stringify("hello!"),
@@ -83,7 +83,7 @@ test("extraJson() parses JSON arrays.", t => {
         ...tx,
         signatureMessageFragment:
           "5b312c322c22746872656521225d" +
-          "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 28)
+          "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE - 28)
       }))
     ),
     JSON.stringify([1, 2, "three!"]),
@@ -97,7 +97,7 @@ test("extraJson() parses null.", t => {
       bundleWithEmptyJSON.map((tx: any) => ({
         ...tx,
         signatureMessageFragment:
-          "6e756c6c" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 8)
+          "6e756c6c" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE - 8)
       }))
     ),
     JSON.stringify(null),
@@ -112,7 +112,7 @@ test("extractJson() parses numbers", t => {
         .map((tx: any) => ({
           ...tx,
           signatureMessageFragment:
-            "33" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 2)
+            "33" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE - 2)
         }))
         .slice(0, 1)
     ),
@@ -126,7 +126,7 @@ test("extractJson() parses numbers", t => {
         .map((tx: any) => ({
           ...tx,
           signatureMessageFragment:
-            "2d33" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 2)
+            "2d33" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE - 2)
         }))
         .slice(0, 1)
     ),
@@ -140,7 +140,7 @@ test("extractJson() parses numbers", t => {
         .map((tx: any) => ({
           ...tx,
           signatureMessageFragment:
-            "332e3134" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 8)
+            "332e3134" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE - 8)
         }))
         .slice(0, 1)
     ),
@@ -154,7 +154,7 @@ test("extractJson() parses numbers", t => {
         .map((tx: any) => ({
           ...tx,
           signatureMessageFragment:
-            "332e3134" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 10)
+            "332e3134" + "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE - 10)
         }))
         .slice(0, 1)
     ),
@@ -169,7 +169,7 @@ test("extractJson() parses numbers", t => {
           ...tx,
           signatureMessageFragment:
             "2d332e3134" +
-            "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 10)
+            "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE - 10)
         }))
         .slice(0, 1)
     ),
@@ -183,7 +183,7 @@ test("extractJson() parses numbers", t => {
           ...tx,
           signatureMessageFragment:
             "313233303030" +
-            "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE - 12)
+            "0".repeat(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE - 12)
         }))
         .slice(0, 1)
     ),

@@ -2,6 +2,19 @@
 
 // helix commands
 export {
+  Address,
+  Transfer,
+  Bundle,
+  Transaction,
+  Inputs,
+  Balance,
+  Neighbor,
+  Neighbors,
+  BaseCommand,
+  ProtocolCommand,
+  AttachToTangle,
+  Callback,
+  Provider,
   AddNeighborsCommand,
   AddNeighborsResponse,
   AttachToTangleCommand,
@@ -27,8 +40,8 @@ export {
   GetTransactionsToApproveCommand,
   GetTransactionsToApproveResponse,
   TransactionsToApprove,
-  GetHBytesCommand,
-  GetHBytesResponse,
+  GetTransactionStringsCommand,
+  GetTransactionStringsResponse,
   InterruptAttachingToTangleCommand,
   InterruptAttachingToTangleResponse,
   RemoveNeighborsCommand,
@@ -64,7 +77,7 @@ export {
   createGetTransactionsToApprove
 } from "./createGetTransactionsToApprove";
 
-export { createGetHBytes } from "./createGetHBytes";
+export { createGetTransactionStrings } from "./createGetTransactionStrings";
 
 export {
   createInterruptAttachingToTangle
@@ -139,7 +152,7 @@ export {
 
 export { createReplayBundle } from "./createReplayBundle";
 
-export { createSendHBytes } from "./createSendHBytes";
+export { createSendTransactionStrings } from "./createSendTransactionStrings";
 
 export {
   createPrepareTransfers,
@@ -154,6 +167,7 @@ export { generateAddress } from "./generateAddress";
 
 // Errors
 import * as errors from "../../errors";
+import { ProtocolCommand } from "../../types";
 export { errors };
 
 // export api factory with default provider

@@ -2,6 +2,6 @@ export {
   BundleEntry,
   createBundle,
   addEntry,
-  addHBytes,
+  addTxHex,
   finalizeBundle
 } from "./bundle";
