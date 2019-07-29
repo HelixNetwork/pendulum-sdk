@@ -20,7 +20,7 @@ yarn add @helixnetwork/transaction
     
 * [transaction](#module_transaction)
 
-    * [~transactionHash(hBits)](#module_transaction..transactionHash)
+    * [~transactionHash(txBytes)](#module_transaction..transactionHash)
 
     * [~isTransaction(tx)](#module_transaction..isTransaction)
 
@@ -28,20 +28,20 @@ yarn add @helixnetwork/transaction
 
     * [~isTransactionHash(hash, mwm)](#module_transaction..isTransactionHash)
 
-    * [~isTransactionHBytes(hbytes, minWeightMagnitude)](#module_transaction..isTransactionHBytes)
+    * [~isTransactionTxHex(txHex, minWeightMagnitude)](#module_transaction..isTransactionTxHex)
 
-    * [~isAttachedHBytes(hbytes)](#module_transaction..isAttachedHBytes)
+    * [~isAttachedTxHex(txHex)](#module_transaction..isAttachedTxHex)
 
 
 <a name="module_transaction..transactionHash"></a>
 
-### *transaction*~transactionHash(hBits)
+### *transaction*~transactionHash(txByte)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hBits | <code>Int8Array</code> | Int8Array of 8019 transaction hbits |
+| hBits | <code>TxBytes</code> | TxBytes of 32 transaction bytes |
 
-Calculates the transaction hash out of 8019 transaction hbits.
+Calculates the transaction hash out of 32 transaction bytes.
 
 **Returns**: <code>Hash</code> - Transaction hash  
 <a name="module_transaction..isTransaction"></a>
@@ -74,27 +74,27 @@ A tail transaction is one with `currentIndex=0`.
 | hash | <code>string</code> | 
 | mwm | <code>number</code> | 
 
-Checks if input is correct transaction hash (32 hbytes)
+Checks if input is correct transaction hash (32 txHex)
 
-<a name="module_transaction..isTransactionHBytes"></a>
+<a name="module_transaction..isTransactionTxHex"></a>
 
-### *transaction*~isTransactionHBytes(hbytes, minWeightMagnitude)
+### *transaction*~isTransactionTxHex(txHex, minWeightMagnitude)
 
 | Param | Type |
 | --- | --- |
-| hbytes | <code>string</code> | 
+| txHex | <code>string</code> | 
 | minWeightMagnitude | <code>number</code> | 
 
-Checks if input is correct transaction hbytes (2673 hbytes)
+Checks if input is correct transaction txHex (1536 txHex)
 
-<a name="module_transaction..isAttachedHBytes"></a>
+<a name="module_transaction..isAttachedTxHex"></a>
 
-### *transaction*~isAttachedHBytes(hbytes)
+### *transaction*~isAttachedTxHex(txHex)
 
 | Param | Type |
 | --- | --- |
-| hbytes | <code>string</code> | 
+| txHex | <code>string</code> | 
 
-Checks if input is valid attached transaction hbytes.
-For attached transactions last 64 hbytes are non-zero. // 241
+Checks if input is valid attached transaction txHex.
+For attached transactions attached timestamp should not be zero.
 

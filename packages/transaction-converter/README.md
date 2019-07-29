@@ -1,6 +1,6 @@
 # @helixnetwork/transaction-converter
 
-Methods for calculating transaction hashes and converting transaction objects to transaction hbytes and back.
+Methods for calculating transaction hashes and converting transaction objects to transaction txHex and back.
 
 ## Installation
 
@@ -20,35 +20,35 @@ yarn add @helixnetwork/transaction-converter
     
 * [transaction-converter](#module_transaction-converter)
 
-    * [~asTransactionHBytes(transactions)](#module_transaction-converter..asTransactionHBytes)
+    * [~asTransactionStrings(transactions)](#module_transaction-converter..asTransactionStrings)
 
-    * [~asTransactionObject(hbytes)](#module_transaction-converter..asTransactionObject)
+    * [~asTransactionObject(txHex)](#module_transaction-converter..asTransactionObject)
 
     * [~asTransactionObjects([hashes])](#module_transaction-converter..asTransactionObjects)
 
-    * [~transactionObjectsMapper(hbytes)](#module_transaction-converter..transactionObjectsMapper)
+    * [~transactionObjectsMapper(txHex)](#module_transaction-converter..transactionObjectsMapper)
 
 
-<a name="module_transaction-converter..asTransactionHBytes"></a>
+<a name="module_transaction-converter..asTransactionStrings"></a>
 
-### *transaction-converter*~asTransactionHBytes(transactions)
+### *transaction-converter*~asTransactionStrings(transactions)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| transactions | <code>Transaction</code> \| <code>Array.&lt;Transaction&gt;</code> | Transaction object(s) |
+| transactions | <code>Transaction</code> | <code>Array.&lt;Transaction&gt;</code> | Transaction object(s) |
 
-Converts a transaction object or a list of those into transaction hbytes.
+Converts a transaction object or a list of those into transaction strings (TxHex).
 
-**Returns**: <code>HBytes</code> \| <code>Array.&lt;HBytes&gt;</code> - Transaction hbytes  
+**Returns**: <code>TxHex</code> \| <code>Array.&lt;TxHex&gt;</code> - Transaction strings  
 <a name="module_transaction-converter..asTransactionObject"></a>
 
-### *transaction-converter*~asTransactionObject(hbytes)
+### *transaction-converter*~asTransactionObject(txHex)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hbytes | <code>HBytes</code> | Transaction hbytes |
+| txHex | <code>TxHex</code> | Transaction txHex |
 
-Converts transaction hbytes of 2673 hbytes into a transaction object.
+Converts transaction txHex of 1536 TxHex into a transaction object.
 
 **Returns**: <code>Transaction</code> - Transaction object  
 <a name="module_transaction-converter..asTransactionObjects"></a>
@@ -59,18 +59,18 @@ Converts transaction hbytes of 2673 hbytes into a transaction object.
 | --- | --- | --- |
 | [hashes] | <code>Array.&lt;Hash&gt;</code> | Optional list of known hashes. Known hashes are directly mapped to transaction objects, otherwise all hashes are being recalculated. |
 
-Converts a list of transaction hbytes into list of transaction objects.
+Converts a list of transaction txHex into list of transaction objects.
 Accepts a list of hashes and returns a mapper. In cases hashes are given,
 the mapper function map them to converted objects.
 
 **Returns**: <code>function</code> - [`transactionObjectsMapper`](#module_transaction.transactionObjectsMapper)  
 <a name="module_transaction-converter..transactionObjectsMapper"></a>
 
-### *transaction-converter*~transactionObjectsMapper(hbytes)
+### *transaction-converter*~transactionObjectsMapper(txHex)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hbytes | <code>Array.&lt;HBytes&gt;</code> | List of transaction hbytes to convert |
+| txHex | <code>Array.&lt;TxHex&gt;</code> | List of transaction txHex to convert |
 
 Maps the list of given hashes to a list of converted transaction objects.
 

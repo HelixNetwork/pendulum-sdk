@@ -1,7 +1,7 @@
 {
   "name": "@helixnetwork/transaction-converter",
   "version": "1.0.0-alpha.2",
-  "description": "Converts transaction hbytes to transaction objects and back.",
+  "description": "Converts transaction txHex to transaction objects and back.",
   "main": "./out/transaction-converter/src/index.js",
   "typings": "typings/transaction-converter/src",
   "publishConfig": {
