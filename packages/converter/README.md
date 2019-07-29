@@ -1,6 +1,6 @@
 # @helixnetwork/converter
 
-Methods for converting ascii values to hbytes, hbits and back.
+Methods for converting ascii values to txHex, hbits and back.
 
 ## Installation
 
@@ -20,13 +20,13 @@ yarn add @helixnetwork/converter
     
 * [converter](#module_converter)
 
-    * [.asciiToHBytes(input)](#module_converter.asciiToHBytes)
+    * [.asciiToTxHex(input)](#module_converter.asciiToTxHex)
 
-    * [.hbytesToAscii(hbytes)](#module_converter.hbytesToAscii)
+    * [.txHexToAscii(txHex)](#module_converter.txHexToAscii)
 
     * [.hbits(input)](#module_converter.hbits)
 
-    * [.hbytes(hBits)](#module_converter.hbytes)
+    * [.txHex(hBits)](#module_converter.txHex)
 
     * [.value(hBits)](#module_converter.value)
 
@@ -35,19 +35,19 @@ yarn add @helixnetwork/converter
     * [.toBytes(value, padding)](#module_converter.toBytes)
 
 
-<a name="module_converter.asciiToHBytes"></a>
+<a name="module_converter.asciiToTxHex"></a>
 
-### *converter*.asciiToHBytes(input)
+### *converter*.asciiToTxHex(input)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | input | <code>string</code> | ascii input |
 
-Converts an ascii encoded string to hbytes.
+Converts an ascii encoded string to txHex.
 
 ### How conversion works:
 
-An ascii value of `1 Byte` can be represented in `2 HBytes`:
+An ascii value of `1 Byte` can be represented in `2 TxHex`:
 
 1. We get the decimal unicode value of an individual ASCII character this code can be represented in a Byte
 
@@ -63,16 +63,16 @@ Lets say we want to convert ascii character `Z`.
 
 Therefore ascii character `Z` is represented as `IC` in 5a.
 
-**Returns**: <code>string</code> - string of hbytes  
-<a name="module_converter.hbytesToAscii"></a>
+**Returns**: <code>string</code> - string of txHex  
+<a name="module_converter.txHexToAscii"></a>
 
-### *converter*.hbytesToAscii(hbytes)
+### *converter*.txHexToAscii(txHex)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hbytes | <code>string</code> | hbytes |
+| txHex | <code>string</code> | txHex |
 
-Converts hbytes of _even_ length to an ascii string
+Converts txHex of _even_ length to an ascii string
 
 **Returns**: <code>string</code> - string in ascii  
 <a name="module_converter.hbits"></a>
@@ -83,20 +83,20 @@ Converts hbytes of _even_ length to an ascii string
 | --- | --- | --- |
 | input | <code>String</code> \| <code>Number</code> | HByte string or value to be converted. |
 
-Converts hbytes or values to hbits
+Converts txHex or values to hbits
 
 **Returns**: <code>Int8Array</code> - hbits  
-<a name="module_converter.hbytes"></a>
+<a name="module_converter.txHex"></a>
 
-### *converter*.hbytes(hBits)
+### *converter*.txHex(hBits)
 
 | Param | Type |
 | --- | --- |
 | hBits | <code>Int8Array</code> | 
 
-Converts hbits to hbytes
+Converts hbits to txHex
 
-**Returns**: <code>String</code> - hbytes  
+**Returns**: <code>String</code> - txHex  
 <a name="module_converter.value"></a>
 
 ### *converter*.value(hBits)

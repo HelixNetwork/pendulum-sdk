@@ -1,6 +1,6 @@
 # @helixnetwork/bundle
 
-Utilities for generating and schnorr bundles.
+Utilities for generating and sign bundles.
 A bundle in Helix is an atomic set of transactions.
 
 ## Installation
@@ -25,7 +25,7 @@ yarn add @helixnetwork/bundle
 
     * [~addEntry(transactions, entry)](#module_bundle..addEntry)
 
-    * [~addHBytes(transactions, fragments, [offset])](#module_bundle..addHBytes)
+    * [~addTxHex(transactions, fragments, [offset])](#module_bundle..addTxHex)
 
     * [~finalizeBundle(transactions)](#module_bundle..finalizeBundle)
 
@@ -52,24 +52,24 @@ Creates a bunlde with given transaction entries.
 | [entry.length] | <code>number</code> | <code>1</code> | Entry length, which indicates how many transactions in the bundle will occupy |
 | [entry.address] | <code>string</code> |  | Address, defaults to all-9s |
 | [entry.value] | <code>number</code> | <code>0</code> | Value to transfer in _HLX_ |
-| [entry.signatureMessageFragments] | <code>Array.&lt;string&gt;</code> |  | Array of signature message fragments hbytes, defaults to all-0s |
+| [entry.signatureMessageFragments] | <code>Array.&lt;string&gt;</code> |  | Array of signature message fragments TxHex, defaults to all-0s |
 | [entry.timestamp] | <code>number</code> |  | Transaction timestamp, defaults to `Math.floor(Date.now() / 1000)` |
 | [entry.tag] | <code>string</code> |  | Optional Tag, defaults to null tag (all-0s) |
 
 Creates a bunlde with given transaction entries
 
 **Returns**: <code>Array.&lt;Transaction&gt;</code> - Bundle  
-<a name="module_bundle..addHBytes"></a>
+<a name="module_bundle..addTxHex"></a>
 
-### *bundle*~addHBytes(transactions, fragments, [offset])
+### *bundle*~addTxHex(transactions, fragments, [offset])
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | transactions | <code>Array.&lt;Transaction&gt;</code> |  | Transactions in the bundle |
-| fragments | <code>Array.&lt;HBytes&gt;</code> |  | Message signature fragments to add |
+| fragments | <code>Array.&lt;TxHex&gt;</code> |  | Message signature fragments to add |
 | [offset] | <code>number</code> | <code>0</code> | Optional offset to start appending signature message fragments |
 
-Adds a list of hbytes in the bundle starting at offset
+Adds a list of TxHex in the bundle starting at offset
 
 **Returns**: <code>Array.&lt;Transaction&gt;</code> - Transactions of finalized bundle  
 <a name="module_bundle..finalizeBundle"></a>

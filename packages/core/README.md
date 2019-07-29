@@ -35,7 +35,7 @@ yarn add @helixnetwork/core
 
     * [.createAttachToTangle(provider)](#module_core.createAttachToTangle)
 
-    * [.attachToTangle(trunkTransaction, branchTransaction, minWeightMagnitude, hbytes, [callback])](#module_core.attachToTangle)
+    * [.attachToTangle(trunkTransaction, branchTransaction, minWeightMagnitude, txHex, [callback])](#module_core.attachToTangle)
 
     * [.createBroadcastBundle(provider)](#module_core.createBroadcastBundle)
 
@@ -43,7 +43,7 @@ yarn add @helixnetwork/core
 
     * [.createBroadcastTransactions(provider)](#module_core.createBroadcastTransactions)
 
-    * [.broadcastTransactions(hbytes, [callback])](#module_core.broadcastTransactions)
+    * [.broadcastTransactions(txHex, [callback])](#module_core.broadcastTransactions)
 
     * [.createCheckConsistency(provider)](#module_core.createCheckConsistency)
 
@@ -69,7 +69,7 @@ yarn add @helixnetwork/core
 
     * [.getBundle(tailTransactionHash, [callback])](#module_core.getBundle)
 
-    * [.createGetTransactionStrings(provider)](#module_core.createGetHBytes)
+    * [.createGetTransactionStrings(provider)](#module_core.createGetTxHex)
 
     * [.getBytes(hashes, [callback])](#module_core.getBytes)
 
@@ -129,17 +129,17 @@ yarn add @helixnetwork/core
 
     * [.replayBundle(tail, depth, minWeightMagnitude, [callback])](#module_core.replayBundle)
 
-    * [.createSendHBytes(provider)](#module_core.createSendHBytes)
+    * [.createSendTxHex(provider)](#module_core.createSendTxHex)
 
-    * [.sendHBytes(hbytes, depth, minWeightMagnitude, [reference], [callback])](#module_core.sendHBytes)
+    * [.sendTxHex(txHex, depth, minWeightMagnitude, [reference], [callback])](#module_core.sendTxHex)
 
     * [.createStoreAndBroadcast(provider)](#module_core.createStoreAndBroadcast)
 
-    * [.storeAndBroadcast(hbytes, [callback])](#module_core.storeAndBroadcast)
+    * [.storeAndBroadcast(txHex, [callback])](#module_core.storeAndBroadcast)
 
     * [.createStoreTransactions(provider)](#module_core.createStoreTransactions)
 
-    * [.storeTransactions(hbytes, [callback])](#module_core.storeTransactions)
+    * [.storeTransactions(txHex, [callback])](#module_core.storeTransactions)
 
     * [.createTraverseBundle(provider)](#module_core.createTraverseBundle)
 
@@ -210,13 +210,13 @@ addNeighbors(['udp://148.148.148.148:14265'])
 **Returns**: <code>function</code> - [`attachToTangle`](#module_core.attachToTangle)  
 <a name="module_core.attachToTangle"></a>
 
-### *core*.attachToTangle(trunkTransaction, branchTransaction, minWeightMagnitude, hbytes, [callback])
-**Fulfil**: <code>TransactionHBytes[]</code> Array of transaction hbytes with nonce and attachment timestamps  
+### *core*.attachToTangle(trunkTransaction, branchTransaction, minWeightMagnitude, txHex, [callback])
+**Fulfil**: <code>TransactionTxHex[]</code> Array of transaction txHex with nonce and attachment timestamps  
 **Reject**: <code>Error</code>
 - `INVALID_TRUNK_TRANSACTION`: Invalid `trunkTransaction`
 - `INVALID_BRANCH_TRANSACTION`: Invalid `branchTransaction`
 - `INVALID_MIN_WEIGHT_MAGNITUDE`: Invalid `minWeightMagnitude` argument
-- `INVALID_TRANSACTION_HBYTES`: Invalid transaction hbytes
+- `INVALID_TRANSACTION_HBYTES`: Invalid transaction txHex
 - `INVALID_TRANSACTIONS_TO_APPROVE`: Invalid transactions to approve
 - Fetch error  
 
@@ -225,12 +225,12 @@ addNeighbors(['udp://148.148.148.148:14265'])
 | trunkTransaction | <code>Hash</code> | Trunk transaction as returned by [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) |
 | branchTransaction | <code>Hash</code> | Branch transaction as returned by [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) |
 | minWeightMagnitude | <code>number</code> | Number of minimun trailing zeros in tail transaction hash |
-| hbytes | <code>Array.&lt;TransactionHBytes&gt;</code> | List of transaction hbytes |
+| txHex | <code>Array.&lt;TransactionTxHex&gt;</code> | List of transaction txHex |
 | [callback] | <code>Callback</code> | Optional callback |
 
 Performs the Proof-of-Work required to attach a transaction to the Tangle by
 calling [`attachToTangle`](https://docs.helix.works/hlx/api#endpoints/attachToTangle) command.
-Returns list of transaction hbytes and overwrites the following fields:
+Returns list of transaction txHex and overwrites the following fields:
  - `hash`
  - `nonce`
  - `attachmentTimestamp`
@@ -248,7 +248,7 @@ or remote [`PoW-Integrator`]().
 ```js
 getTransactionsToApprove(depth)
   .then(({ trunkTransaction, branchTransaction }) =>
-    attachToTangle(trunkTransaction, branchTransaction, minWightMagnitude, hbytes)
+    attachToTangle(trunkTransaction, branchTransaction, minWightMagnitude, txHex)
   )
   .then(attachedTxHex => {
     // ...
@@ -305,18 +305,18 @@ broadcastTransactions(tailHash)
 **Returns**: <code>function</code> - [`broadcastTransactions`](#module_core.broadcastTransactions)  
 <a name="module_core.broadcastTransactions"></a>
 
-### *core*.broadcastTransactions(hbytes, [callback])
-**Fulfil**: <code>HBytes[]</code> Attached transaction hbytes  
+### *core*.broadcastTransactions(txHex, [callback])
+**Fulfil**: <code>TxHex[]</code> Attached transaction txHex  
 **Reject**: <code>Error</code>
-- `INVALID_ATTACHED_HBYTES`: Invalid array of attached hbytes
+- `INVALID_ATTACHED_HBYTES`: Invalid array of attached txHex
 - Fetch error  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hbytes | <code>Array.&lt;TransactionHBytes&gt;</code> | Attached Transaction hbytes |
+| txHex | <code>Array.&lt;TransactionTxHex&gt;</code> | Attached Transaction txHex |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Broadcasts an list of _attached_ transaction hbytes to the network by calling
+Broadcasts an list of _attached_ transaction txHex to the network by calling
 [`boradcastTransactions`](https://docs.hlx.ai/hlx/api#endpoints/broadcastTransactions) command.
 Tip selection and Proof-of-Work must be done first, by calling
 [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) and
@@ -325,13 +325,13 @@ Tip selection and Proof-of-Work must be done first, by calling
 
 You may use this method to increase odds of effective transaction propagation.
 
-Persist the transaction hbytes in local storage **before** calling this command for first time, to ensure
+Persist the transaction txHex in local storage **before** calling this command for first time, to ensure
 that reattachment is possible, until your bundle has been included.
 
 **Example**  
 ```js
-broadcastTransactions(hbytes)
-  .then(hbytes => {
+broadcastTransactions(txHex)
+  .then(txHex => {
      // ...
   })
   .catch(err => {
@@ -633,7 +633,7 @@ getBundle(tail)
 <a name="module_core.getBytes"></a>
 
 ### *core*.getBytes(hashes, [callback])
-**Fulfil**: <code>HBytes[]</code> - Transaction hbytes  
+**Fulfil**: <code>TxHex[]</code> - Transaction txHex  
 **Reject**: Error{}
 - `INVALID_TRANSACTION_HASH`: Invalid hash
 - Fetch error  
@@ -643,14 +643,14 @@ getBundle(tail)
 | hashes | <code>Array.&lt;Hash&gt;</code> | List of transaction hashes |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Fetches the transaction hbytes given a list of transaction hashes, by calling
+Fetches the transaction txHex given a list of transaction hashes, by calling
 [`getBytes`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionStrings) command.
 
 **Example**  
 ```js
 getBytes(hashes)
   // Parsing as transaction objects
-  .then(hbytes => asTransactionObjects(hashes)(hbytes))
+  .then(txHex => asTransactionObjects(hashes)(txHex))
   .then(transactions => {
     // ...
   })
@@ -820,11 +820,11 @@ Returns list of connected neighbors.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| seed | <code>string</code> |  | At least 81 hbytes long seed |
+| seed | <code>string</code> |  | At least 81 txHex long seed |
 | [options] | <code>object</code> |  |  |
 | [options.index] | <code>number</code> | <code>0</code> | Key index to start search at |
 | [options.security] | <code>number</code> | <code>1</code> | Security level |
-| [options.checksum] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to include 9-hbytes checksum or not |
+| [options.checksum] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to include 9-txHex checksum or not |
 | [options.total] | <code>number</code> |  | `Deprecated` Number of addresses to generate. |
 | [options.returnAll] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to return all addresses, from start up to new address. |
 | [callback] | <code>Callback</code> |  | Optional callback |
@@ -966,7 +966,7 @@ getTransactionObjects(hashes)
 
 Does the _tip selection_ by calling
 [`getTransactionsToApprove`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionsToApprove) command.
-Returns a pair of approved transactions, which are chosen randomly after validating the transaction hbytes,
+Returns a pair of approved transactions, which are chosen randomly after validating the transaction txHex,
 the signatures and cross-checking for conflicting transactions.
 
 Tip selection is executed by a Random Walk (RW) starting at random point in given `depth`
@@ -984,7 +984,7 @@ const minWeightMagnitude = 14
 
 getTransactionsToApprove(depth)
   .then(transactionsToApprove =>
-     attachToTanle(minWightMagnitude, hbytes, { transactionsToApprove })
+     attachToTanle(minWightMagnitude, txHex, { transactionsToApprove })
   )
   .then(storeAndBroadcast)
   .catch(err => {
@@ -1068,7 +1068,7 @@ It is possible to prepare and sign transactions offline, by omitting the provide
 <a name="module_core.prepareTransfers"></a>
 
 ### *core*.prepareTransfers(seed, transfers, [options], [callback])
-**Fulfil**: <code>array</code> hbytes Returns bundle hbytes  
+**Fulfil**: <code>array</code> txHex Returns bundle txHex  
 **Reject**: <code>Error</code>
 - `INVALID_SEED`
 - `INVALID_TRANSFER_ARRAY`
@@ -1085,7 +1085,7 @@ It is possible to prepare and sign transactions offline, by omitting the provide
 | transfers | <code>object</code> |  |  |
 | [options] | <code>object</code> |  |  |
 | [options.inputs] | <code>Array.&lt;Input&gt;</code> |  | Inputs used for signing. Needs to have correct security, keyIndex and address value |
-| [options.inputs[].address] | <code>Hash</code> |  | Input address hbytes |
+| [options.inputs[].address] | <code>Hash</code> |  | Input address txHex |
 | [options.inputs[].keyIndex] | <code>number</code> |  | Key index at which address was generated |
 | [options.inputs[].security] | <code>number</code> | <code>2</code> | Security level |
 | [options.inputs[].balance] | <code>number</code> |  | Balance in iotas |
@@ -1099,7 +1099,7 @@ It is possible to prepare and sign transactions offline, by omitting the provide
 | --- | --- | --- |
 | [options.hmacKey] | <code>Hash</code> | HMAC key used for attaching an HMAC |
 
-Prepares the transaction hbytes by generating a bundle, filling in transfers and inputs,
+Prepares the transaction txHex by generating a bundle, filling in transfers and inputs,
 adding remainder and signing. It can be used to generate and sign bundles either online or offline.
 For offline usage, please see [`createPrepareTransfers`](#module_core.createPrepareTransfers)
 which creates a `prepareTransfers` without a network provider.
@@ -1207,18 +1207,18 @@ replayBundle(tail)
   })
 })
 ```
-<a name="module_core.createSendHBytes"></a>
+<a name="module_core.createSendTxHex"></a>
 
-### *core*.createSendHBytes(provider)
+### *core*.createSendTxHex(provider)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | provider | <code>Provider</code> | Network provider |
 
-**Returns**: <code>function</code> - [`sendHBytes`](#module_core.sendHBytes)  
-<a name="module_core.sendHBytes"></a>
+**Returns**: <code>function</code> - [`sendTxHex`](#module_core.sendTxHex)  
+<a name="module_core.sendTxHex"></a>
 
-### *core*.sendHBytes(hbytes, depth, minWeightMagnitude, [reference], [callback])
+### *core*.sendTxHex(txHex, depth, minWeightMagnitude, [reference], [callback])
 **Fulfil**: <code>Transaction[]</code>  Returns list of attached transactions  
 **Reject**: <code>Error</code>
 - `INVALID_TRANSACTION_HBYTES`
@@ -1228,19 +1228,19 @@ replayBundle(tail)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hbytes | <code>Array.&lt;HBytes&gt;</code> | List of hbytes to attach, store & broadcast |
+| txHex | <code>Array.&lt;TxHex&gt;</code> | List of txHex to attach, store & broadcast |
 | depth | <code>number</code> | Depth |
 | minWeightMagnitude | <code>number</code> | Min weight magnitude |
 | [reference] | <code>string</code> | Optional reference hash |
 | [callback] | <code>Callback</code> | Optional callback |
 
 [Attaches to tanlge](#module_core.attachToTangle), [stores](#module_core.storeTransactions)
-and [broadcasts](#module_core.broadcastTransactions) a list of transaction hbytes.
+and [broadcasts](#module_core.broadcastTransactions) a list of transaction txHex.
 
 **Example**  
 ```js
 prepareTransfers(seed, transfers)
-  .then(hbytes => sendHBytes(hbytes, depth, minWeightMagnitude))
+  .then(txHex => sendTxHex(txHex, depth, minWeightMagnitude))
   .then(transactions => {
     // ...
   })
@@ -1259,22 +1259,22 @@ prepareTransfers(seed, transfers)
 **Returns**: <code>function</code> - [`storeAndBroadcast`](#module_core.storeAndBroadcast)  
 <a name="module_core.storeAndBroadcast"></a>
 
-### *core*.storeAndBroadcast(hbytes, [callback])
-**Fulfil**: <code>HBytes[]</code> Attached transaction hbytes  
+### *core*.storeAndBroadcast(txHex, [callback])
+**Fulfil**: <code>TxHex[]</code> Attached transaction txHex  
 **Reject**: <code>Error</code>
-- `INVALID_ATTACHED_HBYTES`: Invalid attached hbytes
+- `INVALID_ATTACHED_HBYTES`: Invalid attached txHex
 - Fetch error  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hbytes | <code>Array.&lt;HBytes&gt;</code> | Attached transaction hbytes |
+| txHex | <code>Array.&lt;TxHex&gt;</code> | Attached transaction txHex |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Stores and broadcasts a list of _attached_ transaction hbytes by calling
+Stores and broadcasts a list of _attached_ transaction txHex by calling
 [`storeTransactions`](#module_core.storeTransactions) and
 [`broadcastTransactions`](#module_core.broadcastTransactions).
 
-Note: Persist the transaction hbytes in local storage **before** calling this command, to ensure
+Note: Persist the transaction txHex in local storage **before** calling this command, to ensure
 that reattachment is possible, until your bundle has been included.
 
 Any transactions stored with this command will eventaully be erased, as a result of a snapshot.
@@ -1290,25 +1290,25 @@ Any transactions stored with this command will eventaully be erased, as a result
 **Returns**: <code>function</code> - [`storeTransactions`](#module_core.storeTransactions)  
 <a name="module_core.storeTransactions"></a>
 
-### *core*.storeTransactions(hbytes, [callback])
-**Fullfil**: <code>HBytes[]</code> Attached transaction hbytes  
+### *core*.storeTransactions(txHex, [callback])
+**Fullfil**: <code>TxHex[]</code> Attached transaction txHex  
 **Reject**: <code>Error</code>
-- `INVALID_ATTACHED_HBYTES`: Invalid attached hbytes
+- `INVALID_ATTACHED_HBYTES`: Invalid attached txHex
 - Fetch error  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hbytes | <code>Array.&lt;HBytes&gt;</code> | Attached transaction hbytes |
+| txHex | <code>Array.&lt;TxHex&gt;</code> | Attached transaction txHex |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Persists a list of _attached_ transaction hbytes in the store of connected node by calling
+Persists a list of _attached_ transaction txHex in the store of connected node by calling
 [`storeTransactions`](https://docs.hlx.ai/hlx/api#endpoints/storeTransactions) command.
 Tip selection and Proof-of-Work must be done first, by calling
 [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) and
 [`attachToTangle`](#module_core.attachToTangle) or an equivalent attach method or remote
 [`PoW-Integrator`](https://powbox.devnet.iota.org/).
 
-Persist the transaction hbytes in local storage **before** calling this command, to ensure
+Persist the transaction txHex in local storage **before** calling this command, to ensure
 reattachment is possible, until your bundle has been included.
 
 Any transactions stored with this command will eventaully be erased, as a result of a snapshot.
@@ -1364,8 +1364,8 @@ traverseBundle(tail)
 | seed | <code>string</code> |  |  |
 | index | <code>number</code> |  | Private key index |
 | [security] | <code>number</code> | <code>1</code> | Security level of the private key |
-| [checksum] | <code>boolean</code> | <code>false</code> | Flag to add 0hbytes checksum |
+| [checksum] | <code>boolean</code> | <code>false</code> | Flag to add 0txHex checksum |
 
 Generates an address deterministically, according to the given seed, index and security level.
 
-**Returns**: <code>Hash</code> - Address hbytes  
+**Returns**: <code>Hash</code> - Address txHex  

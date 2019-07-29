@@ -108,9 +108,9 @@ Split seed in fragments and hashed them then generate from each fragment a schno
 
 | Param | Type | Description |
 | --- | --- | --- |
-| expectedAddress | <code>string</code> | Expected address hbytes |
-| signatureFragments | <code>array</code> | Array of signatureFragments hbytes |
-| bundleHash | <code>string</code> | Bundle hash hbytes |
+| expectedAddress | <code>string</code> | Expected address txHex |
+| signatureFragments | <code>array</code> | Array of signatureFragments txHex |
+| bundleHash | <code>string</code> | Bundle hash txHex |
 
 <a name="module_schnorr..normalizedBundleHash"></a>
 
@@ -118,7 +118,7 @@ Split seed in fragments and hashed them then generate from each fragment a schno
 
 | Param | Type | Description |
 | --- | --- | --- |
-| bundlehash | <code>Hash</code> | Bundle hash hbytes |
+| bundlehash | <code>Hash</code> | Bundle hash txHex |
 
 Normalizes the bundle hash, with resulting digits summing to zero.
 

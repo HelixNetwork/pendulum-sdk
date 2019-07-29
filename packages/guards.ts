@@ -54,7 +54,7 @@ export const isTxHexOfMaxLength = (txHex: string, length: number) =>
   new RegExp(`^[0-9a-f]{1,${length}}$`).test(txHex);
 
 /**
- * Checks if input contains `9`s only.
+ * Checks if input contains `0`s only.
  * @method isEmpty
  *
  * @param {string} hash
@@ -65,7 +65,7 @@ export const isEmpty = (txHex: any): txHex is TxHex =>
   typeof txHex === "string" && /^[00]+$/.test(txHex);
 
 /**
- * Checks if input contains `9`s only.
+ * Checks if input contains `0`s only.
  * @method isEmptyBytes
  *
  * @param {Uint8Array} bytes
