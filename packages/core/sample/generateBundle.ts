@@ -141,24 +141,24 @@ async function generateBundle() {
 
 async function createAndPrintBundle(
   msgBundle: string,
-  msgHbytes: string,
+  msgTxs: string,
   currentSeed: string,
   transfers: ReadonlyArray<Transfer>,
   inputs?: ReadonlyArray<any>,
   remainderAddress?: string
 ) {
   try {
-    let resultHbytes: ReadonlyArray<string>;
+    let resultTxs: ReadonlyArray<string>;
 
     if (!inputs && !remainderAddress) {
-      resultHbytes = await helix.prepareTransfers(currentSeed, transfers);
+      resultTxs = await helix.prepareTransfers(currentSeed, transfers);
     } else {
-      resultHbytes = await helix.prepareTransfers(currentSeed, transfers, {
+      resultTxs = await helix.prepareTransfers(currentSeed, transfers, {
         inputs,
         remainderAddress
       });
     }
-    attachIntoTangle(msgBundle, msgHbytes, resultHbytes);
+    attachIntoTangle(msgBundle, msgTxs, resultTxs);
   } catch (e) {
     // tslint:disable-next-line:no-console
     console.error(e);
@@ -167,7 +167,7 @@ async function createAndPrintBundle(
 
 async function attachIntoTangle(
   msgBundle: string,
-  msgHbytes: string,
+  msgTxs: string,
   txs: ReadonlyArray<string>
 ) {
   try {
@@ -182,11 +182,11 @@ async function attachIntoTangle(
     console.log(msgBundle);
     console.log(resultBundle);
 
-    console.log(msgHbytes);
-    const resultHbytes = asTransactionStrings(resultBundle);
-    console.log(resultHbytes);
-    for (var i = 0; i < resultHbytes.length; i++) {
-      let computedTransactionHash = transactionHash(toTxBytes(resultHbytes[i]));
+    console.log(msgTxs);
+    const resultTxs = asTransactionStrings(resultBundle);
+    console.log(resultTxs);
+    for (var i = 0; i < resultTxs.length; i++) {
+      let computedTransactionHash = transactionHash(toTxBytes(resultTxs[i]));
 
       console.log(
         "New computed hash (in helix.lib): " + computedTransactionHash

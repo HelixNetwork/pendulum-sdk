@@ -48,19 +48,19 @@ helix
     inputs,
     remainderAddress
   })
-  .then(hbytes => {
+  .then(txs => {
     console.log(
       "export const bundleHBytes: HBytes[] = " +
-        JSON.stringify([hbytes].reverse()) +
+        JSON.stringify([txs].reverse()) +
         ";"
     );
     console.log("export const bundle: Transaction[] = ");
     console.log(
       TransactionConverter.asTransactionObjects(Array(5).map(tx => tx.hash))(
-        hbytes
+        txs
       ).reverse()
     );
-    storedHBytes = hbytes;
+    storedHBytes = txs;
     console.log(
       "-------------------- call sendTransactionStrings ------------------"
     );
@@ -78,11 +78,11 @@ helix
     console.log(results);
 
     console.log("export const bundleHBytes: HBytes[] = ");
-    const hbytesResult = TransactionConverter.asTransactionHBytes(results);
-    console.log(hbytesResult);
+    const txsResult = TransactionConverter.asTransactionHBytes(results);
+    console.log(txsResult);
 
     const bundleFromTangle = Array.from(results);
-    const transactions = Array.from(hbytesResult);
+    const transactions = Array.from(txsResult);
     for (var i = 0; i < transactions.length; i++) {
       console.log("Transaction " + i);
       console.log(

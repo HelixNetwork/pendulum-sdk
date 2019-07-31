@@ -1,24 +1,24 @@
 import test from "ava";
-import { padHBits, padTxHex } from "../src";
+import { padTxBits, padTxHex } from "../src";
 
-test("padHBits() adds padding to hbit array.", t => {
+test("padTxBits() adds padding to hbit array.", t => {
   const hBits = new Int8Array([1, 0, 1]);
   const expected = new Int8Array([0, 0, 0, 1, 0, 1]);
 
   t.deepEqual(
-    padHBits(6)(hBits),
+    padTxBits(6)(hBits),
     expected,
-    "padHBits() should add padding to hbit array."
+    "padTxBits() should add padding to hbit array."
   );
 });
 
-test("padHBits() returns the hbit array as is, if exceeds given length.", t => {
+test("padTxBits() returns the hbit array as is, if exceeds given length.", t => {
   const hBits = new Int8Array([1, 0, 1]);
   const expected = new Int8Array([1, 0, 1]);
 
   t.deepEqual(
-    padHBits(3)(hBits),
+    padTxBits(3)(hBits),
     expected,
-    "padHBits() should return the hbit array as is, if exceeds given length."
+    "padTxBits() should return the hbit array as is, if exceeds given length."
   );
 });
