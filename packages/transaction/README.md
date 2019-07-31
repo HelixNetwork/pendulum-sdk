@@ -28,9 +28,9 @@ yarn add @helixnetwork/transaction
 
     * [~isTransactionHash(hash, mwm)](#module_transaction..isTransactionHash)
 
-    * [~isTransactionHBytes(hbytes, minWeightMagnitude)](#module_transaction..isTransactionHBytes)
+    * [~isTransactionTxHex(txs, minWeightMagnitude)](#module_transaction..isTransactionTxHex)
 
-    * [~isAttachedHBytes(hbytes)](#module_transaction..isAttachedHBytes)
+    * [~isAttachedHBytes(txs)](#module_transaction..isAttachedHBytes)
 
 
 <a name="module_transaction..transactionHash"></a>
@@ -39,9 +39,9 @@ yarn add @helixnetwork/transaction
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hBits | <code>Int8Array</code> | Int8Array of 8019 transaction hbits |
+| hBits | <code>Int8Array</code> | Int8Array of 8019 transaction txBits |
 
-Calculates the transaction hash out of 8019 transaction hbits.
+Calculates the transaction hash out of 8019 transaction txBits.
 
 **Returns**: <code>Hash</code> - Transaction hash  
 <a name="module_transaction..isTransaction"></a>
@@ -74,27 +74,27 @@ A tail transaction is one with `currentIndex=0`.
 | hash | <code>string</code> | 
 | mwm | <code>number</code> | 
 
-Checks if input is correct transaction hash (32 hbytes)
+Checks if input is correct transaction hash (32 txs)
 
-<a name="module_transaction..isTransactionHBytes"></a>
+<a name="module_transaction..isTransactionTxHex"></a>
 
-### *transaction*~isTransactionHBytes(hbytes, minWeightMagnitude)
+### *transaction*~isTransactionTxHex(txs, minWeightMagnitude)
 
 | Param | Type |
 | --- | --- |
-| hbytes | <code>string</code> | 
+| txs | <code>string</code> | 
 | minWeightMagnitude | <code>number</code> | 
 
-Checks if input is correct transaction hbytes (2673 hbytes)
+Checks if input is correct transaction txs (2673 txs)
 
 <a name="module_transaction..isAttachedHBytes"></a>
 
-### *transaction*~isAttachedHBytes(hbytes)
+### *transaction*~isAttachedHBytes(txs)
 
 | Param | Type |
 | --- | --- |
-| hbytes | <code>string</code> | 
+| txs | <code>string</code> | 
 
-Checks if input is valid attached transaction hbytes.
-For attached transactions last 64 hbytes are non-zero. // 241
+Checks if input is valid attached transaction txs.
+For attached transactions last 64 txs are non-zero. // 241
 

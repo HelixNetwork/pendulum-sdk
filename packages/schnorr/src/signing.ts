@@ -175,9 +175,9 @@ export function computePublicNonces(
 /**
  * @method address
  *
- * @param {Int8Array} digests - Digests hbits
+ * @param {Int8Array} digests - Digests txBits
  *
- * @return {Int8Array} Address hbits
+ * @return {Int8Array} Address txBits
  */
 // tslint:disable-next-line no-shadowed-variable
 export function address(digests: Uint8Array): Uint8Array {
@@ -190,9 +190,9 @@ export function address(digests: Uint8Array): Uint8Array {
  * @method digest
  *
  * @param {array} normalizedBundleFragment - Normalized bundle fragment
- * @param {Int8Array} signatureFragment - Signature fragment hbits
+ * @param {Int8Array} signatureFragment - Signature fragment txBits
  *
- * @return {Int8Array} Digest hbits
+ * @return {Int8Array} Digest txBits
  */
 // tslint:disable-next-line no-shadowed-variable
 function digest(
@@ -216,9 +216,9 @@ function digest(
  * @method signatureFragment
  *
  * @param {array} normalizeBundleFragment - normalized bundle fragment
- * @param {keyFragment} keyFragment - key fragment hbits
+ * @param {keyFragment} keyFragment - key fragment txBits
  *
- * @return {Uint8Array} Signature Fragment hbits
+ * @return {Uint8Array} Signature Fragment txBits
  */
 export function signatureFragment(
   normalizedBundleFragment: Int8Array | Uint8Array,
