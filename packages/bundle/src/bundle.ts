@@ -3,10 +3,10 @@
 import { txBits, txHex, hex, toTxBytes, value } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
-  padHBits,
+  padTxBits,
   padTxHex,
   padObsoleteTag,
-  padSignedHBits,
+  padSignedTxBits,
   padTag
 } from "@helixnetwork/pad";
 // import {add, normalizedBundleHash} from "@helixnetwork/winternitz/out/winternitz/src";
@@ -175,7 +175,7 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
 
   const obsoleteTagHBits = transactions
     .map(tx => txBits(tx.obsoleteTag))
-    .map(padHBits(TRANSACTION_OBSOLETE_TAG_BITS_SIZE));
+    .map(padTxBits(TRANSACTION_OBSOLETE_TAG_BITS_SIZE));
 
   let bundleHash: Hash = "";
   let validBundle: boolean = false;
@@ -205,7 +205,7 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
       normalizedBundleHash(Uint8Array.from(bundleHashTxHex)).indexOf(15) !== -1
     ) {
       // Insecure bundle, increment obsoleteTag and recompute bundle hash
-      obsoleteTagHBits[0] = padHBits(TRANSACTION_OBSOLETE_TAG_BITS_SIZE)(
+      obsoleteTagHBits[0] = padTxBits(TRANSACTION_OBSOLETE_TAG_BITS_SIZE)(
         txBits(value(obsoleteTagHBits[0]) + 1)
       );
     } else {

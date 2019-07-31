@@ -11,7 +11,7 @@ import {
   txBitsToTxHex
 } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
-import { padHBits } from "@helixnetwork/pad";
+import { padTxBits } from "@helixnetwork/pad";
 import { AssertionError } from "assert";
 import { IncomingMessage } from "http";
 import {

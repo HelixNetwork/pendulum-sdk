@@ -17,18 +17,18 @@ yarn add @helixnetwork/converter
 
 ## API Reference
 
-    
+
 * [converter](#module_converter)
 
-    * [.asciiToHBytes(input)](#module_converter.asciiToHBytes)
+    * [.asciiToTxHex(input)](#module_converter.asciiToHBytes)
 
     * [.txsToAscii(txs)](#module_converter.txsToAscii)
 
     * [.txBits(input)](#module_converter.txBits)
 
-    * [.txs(hBits)](#module_converter.txs)
+    * [.txs(txBits)](#module_converter.txs)
 
-    * [.value(hBits)](#module_converter.value)
+    * [.value(txBits)](#module_converter.value)
 
     * [.fromValue(value)](#module_converter.fromValue)
 
@@ -47,7 +47,7 @@ Converts an ascii encoded string to txs.
 
 ### How conversion works:
 
-An ascii value of `1 Byte` can be represented in `2 HBytes`:
+An ascii value of `1 Byte` can be represented in `2` hexadecimal characters:
 
 1. We get the decimal unicode value of an individual ASCII character this code can be represented in a Byte
 
@@ -92,7 +92,7 @@ Converts txs or values to txBits
 
 | Param | Type |
 | --- | --- |
-| hBits | <code>Int8Array</code> | 
+| hBits | <code>Int8Array</code> |
 
 Converts txBits to txs
 
@@ -103,7 +103,7 @@ Converts txBits to txs
 
 | Param | Type |
 | --- | --- |
-| hBits | <code>Int8Array</code> | 
+| hBits | <code>Int8Array</code> |
 
 Converts txBits into an integer value
 
@@ -113,7 +113,7 @@ Converts txBits into an integer value
 
 | Param | Type |
 | --- | --- |
-| value | <code>Number</code> | 
+| value | <code>Number</code> |
 
 Converts an integer value to txBits
 
