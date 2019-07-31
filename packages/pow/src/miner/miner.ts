@@ -1,4 +1,4 @@
-import { hex, longToBytes, toHBytes } from "@helixnetwork/converter";
+import { hex, longToBytes, toTxBytes } from "@helixnetwork/converter";
 import Sha3 from "@helixnetwork/sha3";
 import { START_INDEX_NONCE } from "@helixnetwork/transaction";
 import { compareTo } from "../proofOfWork";
@@ -10,7 +10,7 @@ process.on("message", (minerMessage: MinerMessage) => {
   if (MinerEvents.START === minerMessage.event && minerMessage.message) {
     const minerArgs = minerMessage.message;
 
-    const result = toHBytes(minerArgs.txBytes);
+    const result = toTxBytes(minerArgs.txBytes);
     const startIndex = START_INDEX_NONCE / 2;
 
     result.fill(0, startIndex, startIndex + NONCE_SIZE);
@@ -28,7 +28,7 @@ process.on("message", (minerMessage: MinerMessage) => {
           hash,
           0,
           Sha3.HASH_LENGTH,
-          toHBytes(minerArgs.target),
+          toTxBytes(minerArgs.target),
           0,
           Sha3.HASH_LENGTH
         ) < 0

@@ -17,7 +17,7 @@
   },
   "contributors": [],
   "ava": {
-    "files": "out/pow/test/*.test.js",
+    "files": "out/test/*.test.js",
     "failFast": false,
     "failWithoutAssertions": false,
     "compileEnhancements": false,
