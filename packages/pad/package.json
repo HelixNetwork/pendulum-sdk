@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/pad",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "Padding utility",
   "main": "./out/pad/src/index.js",
   "typings": "typings/pad/src",
