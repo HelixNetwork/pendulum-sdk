@@ -1,6 +1,6 @@
 {
   "name": "helix.api",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.4",
   "description": "Helix API Library forked from IOTA Client (iota.js)",
   "scripts": {
     "init": "npm i && lerna bootstrap",
