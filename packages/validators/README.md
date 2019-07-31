@@ -20,11 +20,11 @@ yarn add @helixnetwork/validators
     
 * [validators](#module_validators)
 
-    * [~isHBytes(hbytes, [length])](#module_validators..isHBytes)
+    * [~isTxHex(TxHex, [length])](#module_validators..isTxHex)
 
-    * [~isHBytesOfExactLength(hbytes, length)](#module_validators..isHBytesOfExactLength)
+    * [~isTxHexOfExactLength(TxHex, length)](#module_validators..isTxHexOfExactLength)
 
-    * [~isHBytesOfMaxLength(hbytes, length)](#module_validators..isHBytesOfMaxLength)
+    * [~isTxHexOfMaxLength(TxHex, length)](#module_validators..isTxHexOfMaxLength)
 
     * [~isEmpty(hash)](#module_validators..isEmpty)
 
@@ -47,33 +47,33 @@ yarn add @helixnetwork/validators
     * [~isAddress(address)](#module_validators..isAddress)
 
 
-<a name="module_validators..isHBytes"></a>
+<a name="module_validators..isTxHex"></a>
 
-### *validators*~isHBytes(hbytes, [length])
+### *validators*~isTxHex(TxHex, [length])
 
 | Param | Type | Default |
 | --- | --- | --- |
-| hbytes | <code>string</code> |  | 
+| TxHex | <code>string</code> |  | 
 | [length] | <code>string</code> \| <code>number</code> | <code>&quot;&#x27;1,&#x27;&quot;</code> | 
 
-Checks if input is correct hbytes consisting of [9A-Z]; optionally validate length
+Checks if input is correct TxHex consisting of [0-9A-F]; optionally validate length
 
-<a name="module_validators..isHBytesOfExactLength"></a>
+<a name="module_validators..isTxHexOfExactLength"></a>
 
-### *validators*~isHBytesOfExactLength(hbytes, length)
+### *validators*~isTxHexOfExactLength(TxHex, length)
 
 | Param | Type |
 | --- | --- |
-| hbytes | <code>string</code> | 
+| TxHex | <code>string</code> | 
 | length | <code>number</code> | 
 
-<a name="module_validators..isHBytesOfMaxLength"></a>
+<a name="module_validators..isTxHexOfMaxLength"></a>
 
-### *validators*~isHBytesOfMaxLength(hbytes, length)
+### *validators*~isTxHexOfMaxLength(TxHex, length)
 
 | Param | Type |
 | --- | --- |
-| hbytes | <code>string</code> | 
+| TxHex | <code>string</code> | 
 | length | <code>number</code> | 
 
 <a name="module_validators..isEmpty"></a>
@@ -84,7 +84,7 @@ Checks if input is correct hbytes consisting of [9A-Z]; optionally validate leng
 | --- | --- |
 | hash | <code>string</code> | 
 
-Checks if input contains `9`s only.
+Checks if input contains `0`s only.
 
 <a name="module_validators..isEmptyBytes"></a>
 
@@ -92,9 +92,9 @@ Checks if input contains `9`s only.
 
 | Param | Type |
 | --- | --- |
-| bytes | <code>Uint8Array</code> | 
+| bytes | <code>TxBytes</code> | 
 
-Checks if input contains `9`s only.
+Checks if input contains `0`s only.
 
 <a name="module_validators..isHash"></a>
 
@@ -102,9 +102,9 @@ Checks if input contains `9`s only.
 
 | Param | Type |
 | --- | --- |
-| hash | <code>string</code> | 
+| hash | <code>TxHex</code> | 
 
-Checks if input is correct hash (81 hbytes) or address with checksum (90 hbytes)
+Checks if input is correct hash (64 TxHex) or address with checksum (72 TxHex)
 
 <a name="module_validators..isAddress"></a>
 
@@ -114,7 +114,7 @@ Checks if input is correct hash (81 hbytes) or address with checksum (90 hbytes)
 | --- | --- |
 | hash | <code>string</code> | 
 
-Checks if input is correct address or address with checksum (90 hbytes)
+Checks if input is correct address or address with checksum (72 TxHex)
 
 <a name="module_validators..isInput"></a>
 
@@ -122,7 +122,7 @@ Checks if input is correct address or address with checksum (90 hbytes)
 
 | Param | Type |
 | --- | --- |
-| address | <code>string</code> | 
+| address | <code>TxHex</code> | 
 
 Checks if input is valid input object. Address can be passed with or without checksum.
 It does not validate the checksum.
@@ -133,9 +133,9 @@ It does not validate the checksum.
 
 | Param | Type |
 | --- | --- |
-| tag | <code>string</code> | 
+| tag | <code>TxHex</code> | 
 
-Checks that input is valid tag hbytes.
+Checks that input is valid tag TxHex.
 
 <a name="module_validators..isTransfer"></a>
 
@@ -181,11 +181,11 @@ taking advantage of built-in promise branching.
 try {
   validate([
     value, // Given value
-    isHBytes, // Validator function
-    'Invalid hbytes' // Error message
+    isTxHex, // Validator function
+    'Invalid TxHex' // Error message
   ])
 } catch (err) {
-  console.log(err.message) // 'Invalid hbytes'
+  console.log(err.message) // 'Invalid TxHex'
 }
 ```
 <a name="module_validators..isAddress"></a>
@@ -194,7 +194,7 @@ try {
 
 | Param | Type | Description |
 | --- | --- | --- |
-| address | <code>string</code> | Address hbytes, with checksum |
+| address | <code>TxHex</code> | Address TxHex, with checksum |
 
 Checks integrity of given address by validating the checksum.
 

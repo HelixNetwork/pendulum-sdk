@@ -89,7 +89,7 @@ export const createIsPromotable = (provider: Provider, depth = DEPTH) => {
         Promise.all([
           checkConsistency(tail),
           getTransactionStrings([tail]).then(
-            ([hbytes]) => asTransactionObject(hbytes, tail).attachmentTimestamp
+            ([txs]) => asTransactionObject(txs, tail).attachmentTimestamp
           )
         ])
       )

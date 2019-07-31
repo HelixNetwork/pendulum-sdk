@@ -39,7 +39,7 @@ test("isTransactionHash() returns false if provided hash is valid and minWeightM
 test("isTransactionHash() returns false for invalid transaction hash.", t => {
   const invalidLength =
     "abcdef123454223423423abcdabcdef123454223423423abcdabcdef123454224545";
-  const invalidHBytes =
+  const invalidTxHex =
     "abcdef123454223423423abcdabcdef123454223423423abcdabcdef1234542n";
 
   t.is(
@@ -49,8 +49,8 @@ test("isTransactionHash() returns false for invalid transaction hash.", t => {
   );
 
   t.is(
-    isTransactionHash(invalidHBytes),
+    isTransactionHash(invalidTxHex),
     false,
-    "isTransactionHash() should return false for invalid hbytes."
+    "isTransactionHash() should return false for invalid txHex."
   );
 });

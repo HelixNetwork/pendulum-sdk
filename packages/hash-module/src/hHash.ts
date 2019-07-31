@@ -1,5 +1,5 @@
 /* tslint:disable variable-name no-conditional-assignment */
-import { hbits, hbytes, hex } from "@helixnetwork/converter";
+import { hex, txBits, txHex } from "@helixnetwork/converter";
 import SHA3 from "@helixnetwork/sha3";
 
 const HASH_SHA3 = "sha3";
@@ -42,7 +42,7 @@ export default class HHash {
   }
 
   /**
-   * Absorbs toHBytes given an offset and length
+   * Absorbs toTxBytes given an offset and length
    *
    * @method update
    *
@@ -61,11 +61,11 @@ export default class HHash {
   }
 
   public absorbBits(data: Int8Array, offset: number, length: number) {
-    this.h.absorb(hbytes(data), offset, length);
+    this.h.absorb(txHex(data), offset, length);
   }
 
   /**
-   * final toHBytes given an offset and length
+   * final toTxBytes given an offset and length
    *
    * @method final
    *
@@ -84,7 +84,7 @@ export default class HHash {
   }
 
   /**
-   * final toHBytes given an offset and length
+   * final toTxBytes given an offset and length
    *
    * @method final
    *
@@ -95,7 +95,7 @@ export default class HHash {
    * @param {number} length
    **/
   public squeezeBits(bits: Int8Array, offset: number, length: number) {
-    hbits(hex(this.h.squeeze(bits, offset, length / 8)));
+    txBits(hex(this.h.squeeze(bits, offset, length / 8)));
     bits.forEach((_element, index, array) => (array[index] &= 0x01));
   }
 

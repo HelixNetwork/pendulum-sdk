@@ -1,8 +1,8 @@
 import * as Bluebird from "bluebird";
 import {
-  NULL_ADDRESS_HBYTES,
-  NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES,
-  NULL_TAG_HBYTES
+  NULL_ADDRESS_TX_HEX,
+  NULL_SIGNATURE_MESSAGE_FRAGMENT_TX_HEX,
+  NULL_TAG_TX_HEX
 } from "../../constants";
 import * as errors from "../../errors";
 import {
@@ -34,10 +34,10 @@ const defaults: PromoteTransactionOptions = {
 };
 
 export const spam = {
-  address: NULL_ADDRESS_HBYTES,
+  address: NULL_ADDRESS_TX_HEX,
   value: 0,
-  tag: NULL_TAG_HBYTES,
-  message: NULL_SIGNATURE_MESSAGE_FRAGMENT_HBYTES
+  tag: NULL_TAG_TX_HEX,
+  message: NULL_SIGNATURE_MESSAGE_FRAGMENT_TX_HEX
 };
 
 export const generateSpam = (n: number = 1): ReadonlyArray<Transfer> =>

@@ -16,7 +16,7 @@ import {
   Transaction,
   Transfer
 } from "../../types";
-import { createPrepareTransfers, createSendHBytes } from "./";
+import { createPrepareTransfers, createSendTransactionStrings } from "./";
 import {
   getPrepareTransfersOptions,
   PrepareTransfersOptions
@@ -31,7 +31,7 @@ export const createSendTransfer = (
   attachFn?: AttachToTangle
 ) => {
   const prepareTransfers = createPrepareTransfers(provider);
-  const sendHBytes = createSendHBytes(provider, attachFn);
+  const sendTxHex = createSendTransactionStrings(provider, attachFn);
 
   return function sendTransfer(
     seed: string,
@@ -56,9 +56,9 @@ export const createSendTransfer = (
       )
     )
       .then(() => prepareTransfers(seed, transfers, options))
-      .then(hbytes =>
-        sendHBytes(
-          hbytes,
+      .then(txs =>
+        sendTxHex(
+          txs,
           depth,
           minWeightMagnitude,
           options ? options.reference : undefined

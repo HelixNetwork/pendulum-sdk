@@ -1,11 +1,11 @@
 import { addChecksum } from "@helixnetwork/checksum";
-import { hex, toHBytes } from "@helixnetwork/converter";
+import { hex, toTxBytes } from "@helixnetwork/converter";
 import { address, digests, key, subseed } from "@helixnetwork/winternitz";
 import { securityLevelValidator, seedValidator, validate } from "../../guards";
 import {
   ADDRESS_BYTE_SIZE,
   ADDRESS_CHECKSUM_BYTE_SIZE,
-  HASH_HBYTE_SIZE
+  HASH_TX_HEX_SIZE
 } from "../../constants";
 import { Hash } from "../../types";
 
@@ -19,9 +19,9 @@ import { Hash } from "../../types";
  * @param {string} seed
  * @param {number} index - Private key index
  * @param {number} [security=1] - Security level of the private key
- * @param {boolean} [checksum=false] - Flag to add 0hbytes checksum
+ * @param {boolean} [checksum=false] - Flag to add 8 txBytes checksum
  *
- * @returns {Hash} Address hbytes
+ * @returns {Hash} Address transactionStrings
  */
 export const generateAddress = (
   seed: string,
@@ -31,9 +31,9 @@ export const generateAddress = (
 ): Hash => {
   validate(seedValidator(seed), securityLevelValidator(security));
 
-  const keyHBytes = key(subseed(toHBytes(seed), index), security);
-  const digestsHBytes = digests(keyHBytes);
-  const addressHBytes = hex(address(digestsHBytes));
+  const keyTxHex = key(subseed(toTxBytes(seed), index), security);
+  const digestsTxHex = digests(keyTxHex);
+  const addressTxHex = hex(address(digestsTxHex));
 
-  return checksum ? addChecksum(addressHBytes) : addressHBytes;
+  return checksum ? addChecksum(addressTxHex) : addressTxHex;
 };

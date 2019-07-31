@@ -2,13 +2,13 @@
 
 import {
   fromValue,
-  hbits,
-  hbytes,
-  hbytesToHBits,
+  txBits,
+  txHex,
+  txHexToTxBits,
   hex,
-  toHBytes,
+  toTxBytes,
   value,
-  hBitsToHBytes
+  txBitsToTxHex
 } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { padHBits } from "@helixnetwork/pad";
@@ -19,7 +19,7 @@ import {
   HASH_BITS_SIZE,
   HASH_BYTE_SIZE,
   SIGNATURE_FRAGMENT_NO,
-  // SIGNATURE_MESSAGE_FRAGMENT_HBYTE_SIZE_BITS,
+  // SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE_BITS,
   SIGNATURE_SECRETE_KEY_BYTE_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE
 } from "../../constants";
@@ -34,10 +34,10 @@ const BN = require("bcrypto/lib/bn.js");
  * @method subseed
  * Compute subseed based on the seed with an additional index
  *
- * @param {Int8Array} seed - Seed hbits
+ * @param {Int8Array} seed - Seed txBits
  * @param {number} index - Private key index
  *
- * @return {Int8Array} subseed hbits
+ * @return {Int8Array} subseed txBits
  */
 export function subseed(seed: Uint8Array, index: number): Uint8Array {
   if (index < 0) {
@@ -64,7 +64,7 @@ export function subseed(seed: Uint8Array, index: number): Uint8Array {
  * @method key
  * Split seed in fragments and hashed them then generate from each fragment a schnore private key;
  *
- * @param {Int8Array} subseed - Subseed hbits
+ * @param {Int8Array} subseed - Subseed txBits
  * @param {number} securityLevel - Private key length
  *
  * @return {Int8Array} Private key bytes
@@ -101,7 +101,7 @@ export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
 /**
  * @method digests
  *
- * @param {Uint8Array} key - Private key hbits
+ * @param {Uint8Array} key - Private key txBits
  *
  * @return {Uint8Array}
  *
@@ -277,9 +277,9 @@ export function signatureFragment(
 /**
  * @method validateSignatures
  *
- * @param {string} expectedAddress - Expected address hbytes
- * @param {array} signatureFragments - Array of signatureFragments hbytes
- * @param {string} bundleHash - Bundle hash hbytes
+ * @param {string} expectedAddress - Expected address txHex
+ * @param {array} signatureFragments - Array of signatureFragments txHex
+ * @param {string} bundleHash - Bundle hash txHex
  *
  * @return {boolean}
  */
@@ -293,7 +293,7 @@ export function validateSignatures(
   }
   const normalizedBundle: string = hex(normalizedBundleHash(bundleHash));
 
-  const publicKey = toHBytes(expectedAddress);
+  const publicKey = toTxBytes(expectedAddress);
 
   // validate schnorr signature:
   if (signatureFragments.length == 0) {
@@ -303,11 +303,11 @@ export function validateSignatures(
   let isValid: boolean = true;
   signatureFragments.forEach(value => {
     const signature: HSign = HSign.generateSignatureFromArray(
-      toHBytes(value.slice(0, SIGNATURE_TOTAL_BYTE_SIZE * 2))
+      toTxBytes(value.slice(0, SIGNATURE_TOTAL_BYTE_SIZE * 2))
     );
     isValid = isValid && Schnorr.verify(normalizedBundle, signature, publicKey);
   });
-  return isValid; // expectedAddress === hbytes(address(digests));
+  return isValid; // expectedAddress === txHex(address(digests));
 }
 
 /**
@@ -315,7 +315,7 @@ export function validateSignatures(
  *
  * @method normalizedBundleHash
  *
- * @param {Hash} bundlehash - Bundle hash hbytes
+ * @param {Hash} bundlehash - Bundle hash txHex
  *
  * @return {Int8Array} Normalized bundle hash
  */
@@ -326,7 +326,7 @@ export const normalizedBundleHash = (bundleHash: Hash): Int8Array => {
     let sum = 0;
     for (let j = 0; j < SIGNATURE_FRAGMENT_NO; j++) {
       sum += normalizedBundle[i * SIGNATURE_FRAGMENT_NO + j] = value(
-        hbits(bundleHash.charAt(i * SIGNATURE_FRAGMENT_NO + j))
+        txBits(bundleHash.charAt(i * SIGNATURE_FRAGMENT_NO + j))
       );
     }
 

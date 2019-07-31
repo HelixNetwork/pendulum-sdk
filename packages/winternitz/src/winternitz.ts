@@ -1,8 +1,9 @@
 // by: Frauke Sophie Abben <fsa@hlx.ai> (https://hlx.ai)
-import { hex, toHBytes } from "@helixnetwork/converter";
+import { hex, toTxBytes } from "@helixnetwork/converter";
 import { padByteArray } from "@helixnetwork/pad";
 import Sha3 from "@helixnetwork/sha3";
 import { HASH_BITS_SIZE, SECURITY_LEVELS } from "../../constants";
+import { TxBytes, TxHex } from "../../types";
 import * as errors from "./errors";
 
 // tslint:disable-next-line:no-var-requires
@@ -31,7 +32,7 @@ const NORMALIZED_FRAGMENT_LENGTH = NUMBER_OF_FRAGMENTS_CHUNKS;
 export const MIN_VALUE = -1 * Math.pow(2, w - 1);
 export const MAX_VALUE = Math.pow(2, w - 1) - 1;
 
-export function add(seed: Uint8Array, index: number): Uint8Array {
+export function add(seed: TxBytes, index: number): TxBytes {
   const subseedBN: any = new BN(seed);
   const indexBN: any = new BN(index);
   return Uint8Array.from(subseedBN.add(indexBN).toArrayLike(Buffer, "be"));
@@ -40,13 +41,13 @@ export function add(seed: Uint8Array, index: number): Uint8Array {
 /**
  * @method subseed
  *
- * @param {Uint8Array} seed - Seed toHBytes
+ * @param {Uint8Array} seed - Seed toTxBytes
  * @param {number} index - Private key index
  *
  * @return {Uint8Array} subseed
  */
 
-export function subseed(seed: Uint8Array, index: number): Uint8Array {
+export function subseed(seed: TxBytes, index: number): TxBytes {
   if (index < 0) {
     throw new Error(errors.ILLEGAL_KEY_INDEX);
   }
@@ -85,7 +86,7 @@ export function subseed(seed: Uint8Array, index: number): Uint8Array {
  *
  * @return {Uint8Array} Private key
  */
-export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
+export function key(subseed: TxBytes, securityLevel: number): TxBytes {
   if (subseed.length % HASH_LENGTH_BYTES !== 0) {
     throw new Error(errors.ILLEGAL_SUBSEED_LENGTH);
   }
@@ -122,7 +123,7 @@ export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
  * @return {Uint8Array} Public key
  */
 // tslint:disable-next-line no-shadowed-variable
-export function digests(key: Uint8Array): Uint8Array {
+export function digests(key: TxBytes): TxBytes {
   const l = Math.floor(key.length / FRAGMENT_LENGTH_BYTES); // security level (1 or 2)
   const result = new Uint8Array(l * HASH_LENGTH_BYTES);
   let buffer = new Uint8Array(Sha3.HASH_LENGTH);
@@ -167,7 +168,7 @@ export function digests(key: Uint8Array): Uint8Array {
  * @return {Uint8Array} Address
  */
 // tslint:disable-next-line no-shadowed-variable
-export function address(digests: Uint8Array): Uint8Array {
+export function address(digests: TxBytes): TxBytes {
   const result = new Uint8Array(Sha3.HASH_LENGTH);
 
   const sha3 = new Sha3();
@@ -186,9 +187,9 @@ export function address(digests: Uint8Array): Uint8Array {
  * @return {Uint8Array} Public key fragment
  */
 export function digest(
-  normalizedBundleFragment: Uint8Array,
-  signFragments: Uint8Array
-): Uint8Array {
+  normalizedBundleFragment: TxBytes,
+  signFragments: TxBytes
+): TxBytes {
   const digestSha3 = new Sha3();
   let buffer = new Uint8Array(Sha3.HASH_LENGTH);
 
@@ -218,14 +219,14 @@ export function digest(
  * @param normalizedBundleFragment
  * @param {keyFragment} keyFragment - key fragment
  *
- * @return {Uint8Array} Signature Fragment
+ * @return {TxBytes} Signature Fragment
  */
 export function signatureFragment(
-  normalizedBundleFragment: Uint8Array,
-  keyFragment: Uint8Array,
+  normalizedBundleFragment: TxBytes,
+  keyFragment: TxBytes,
   normalizedBundleFragmentOffset = 0,
   keyFragmentOffset = 0
-): Uint8Array {
+): TxBytes {
   if (
     normalizedBundleFragment.length - normalizedBundleFragmentOffset <
     NORMALIZED_FRAGMENT_LENGTH
@@ -272,18 +273,18 @@ export function signatureFragment(
 }
 
 export function signatureFragments(
-  seed: Uint8Array,
+  seed: TxBytes,
   index: number,
   numberOfFragments: number, // equals to level numbers
-  bundle: Uint8Array
-): Uint8Array {
+  bundle: TxBytes
+): TxBytes {
   const normalizedBundle = normalizedBundleHash(bundle);
   const keyFragments = key(subseed(seed, index), numberOfFragments);
   const signature = new Uint8Array(numberOfFragments * FRAGMENT_LENGTH_BYTES);
 
-  const digestsHBytes = digests(keyFragments);
-  const addressHBytes = hex(address(digestsHBytes));
-  // console.log('signatureFragment addressHBytes' + addressHBytes);
+  const digestsTxHex = digests(keyFragments);
+  const addressTxHex = hex(address(digestsTxHex));
+  // console.log('signatureFragment addressTxHex' + addressTxHex);
   // console.log('signatureFragments  index ' + index);
   // console.log('signatureFragments  seed ' + hex(seed));
   // console.log('signatureFragments  bundle ' + hex(bundle));
@@ -324,9 +325,9 @@ export function signatureFragments(
  * @return {boolean}
  */
 export function validateSignatures(
-  expectedAddress: string,
-  signFragments: ReadonlyArray<string>,
-  bundleHash: string
+  expectedAddress: TxHex,
+  signFragments: ReadonlyArray<TxHex>,
+  bundleHash: TxHex
 ): boolean {
   if (!bundleHash) {
     throw new Error(errors.INVALID_BUNDLE_HASH);
@@ -335,7 +336,7 @@ export function validateSignatures(
   const normalizedBundleFragments = Array<Uint8Array>(
     NUMBER_OF_SECURITY_LEVELS
   );
-  const normalizedBundle = normalizedBundleHash(toHBytes(bundleHash));
+  const normalizedBundle = normalizedBundleHash(toTxBytes(bundleHash));
   // Split hash into fragments for each security level
   for (let i = 0; i < NUMBER_OF_SECURITY_LEVELS; i++) {
     normalizedBundleFragments[i] = normalizedBundle.slice(
@@ -350,7 +351,7 @@ export function validateSignatures(
   for (let i = 0; i < signFragments.length; i++) {
     const digestBuffer = digest(
       normalizedBundleFragments[i],
-      toHBytes(signFragments[i])
+      toTxBytes(signFragments[i])
     );
 
     for (let j = 0; j < HASH_LENGTH_BYTES; j++) {
@@ -373,7 +374,7 @@ export function validateSignatures(
  * @return {Uint8Array} Normalized bundle hash
  * @param bundleHash
  */
-export const normalizedBundleHash = (bundleHash: Uint8Array): Uint8Array => {
+export const normalizedBundleHash = (bundleHash: TxBytes): TxBytes => {
   const int8Bundle = Int8Array.from(bundleHash);
   let normalizedBundle = int8Bundle;
   const bitsInByte = 8;

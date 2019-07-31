@@ -1,7 +1,7 @@
 import * as errors from "./errors";
 
 /**
- * Convert an array of bytes into a hexadecimal string representation of bytes HBytes
+ * Converts TxBytes to a TxHex
  * @param uint8arr
  */
 export function hex(uint8arr: Uint8Array | Int8Array): string {
@@ -9,7 +9,7 @@ export function hex(uint8arr: Uint8Array | Int8Array): string {
     return "";
   }
   // if (uint8arr.length % 2 !== 0) {
-  //   throw new Error(errors.INVALID_HBYTES);
+  //   throw new Error(errors.INVALID_TX_HEX);
   // }
   let hexStr = "";
   for (let i = 0; i < uint8arr.length; i++) {
@@ -21,7 +21,7 @@ export function hex(uint8arr: Uint8Array | Int8Array): string {
 }
 
 /**
- * Converts an integer value to byte array
+ * Converts an integer value to TxBytes
  *
  * @method toBytes
  *
@@ -31,12 +31,15 @@ export function hex(uint8arr: Uint8Array | Int8Array): string {
  *
  * @param {number} padding
  *Ł
- * @return {Uint8Array} bytes
+ * @return {TxBytes} bytes
  */
 
-export function toHBytes(value: number | string, padding?: number): Uint8Array {
+export function toTxBytes(
+  value: number | string,
+  padding?: number
+): Uint8Array {
   if (typeof value === "string") {
-    return toBytesFromString(value, padding);
+    return toTxBytesFromTxHex(value, padding);
   }
   const bitsInByte = 8;
   const size = value
@@ -53,22 +56,22 @@ export function toHBytes(value: number | string, padding?: number): Uint8Array {
 }
 
 /**
- * Converts a string (hex representation) into a Uint8Array
+ * Converts TxHex into TxBytes
  *
- * @param {string} input hexadecimal string representation
+ * @param {TxHex} txHex hexadecimal string representation
  *
- * @return {Uint8Array} byte array
+ * @return {TxBytes} byte array
  */
 
-function toBytesFromString(input: string, padding?: number): Uint8Array {
-  if (input.length % 2 !== 0) {
-    throw new Error(errors.INVALID_STRING_LENGTH + input.length);
+function toTxBytesFromTxHex(txHex: string, padding?: number): Uint8Array {
+  if (txHex.length % 2 !== 0) {
+    throw new Error(errors.INVALID_STRING_LENGTH + txHex.length);
   }
   const paddingCt = padding ? padding : 1;
-  const result = new Uint8Array(Math.max(paddingCt, input.length / 2));
+  const result = new Uint8Array(Math.max(paddingCt, txHex.length / 2));
   let ct = 0;
-  for (let i = 0; i < input.length; i += 2) {
-    result[ct++] = parseInt(input.substr(i, 2), 16);
+  for (let i = 0; i < txHex.length; i += 2) {
+    result[ct++] = parseInt(txHex.substr(i, 2), 16);
   }
   return result;
 }

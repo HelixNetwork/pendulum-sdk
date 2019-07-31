@@ -3,8 +3,6 @@
 // @TODO investigate possibility of buffer inputs with js-sha3
 // note: cryptojs is using keccak rather than sha3, opposed to their naming, hence we currently use js-sha3. We might consider different sha3 implementations.
 import * as crypto from "js-sha3";
-import * as errors from "./errors";
-import { hex } from "@helixnetwork/converter";
 
 const BIT_HASH_LENGTH = 256;
 const HASH_LENGTH = 32;

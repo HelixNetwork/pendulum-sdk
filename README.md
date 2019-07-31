@@ -87,7 +87,7 @@ const getNodeInfo = createGetNodeInfo(client)
 ### Creating &amp; broadcasting transactions
 
 Publish transfers by calling [`prepareTransfers`](packages/core#module_core.prepareTransfers) and piping the
-prepared hbytes to [`sendHBytes`](packages/core#module_core.sendHBytes) command.
+prepared txHex to [`sendTxHex`](packages/core#module_core.sendTxHex) command.
 
 ```js
 // must be truly random
@@ -109,7 +109,7 @@ const depth = 3
 const minWeightMagnitude = 2
 
 helix.prepareTransfers(seed, transfers)
-    .then(hbytes => helix.sendHBytes(hbytes, depth, minWeightMagnitude))
+    .then(txHex => helix.sendTxHex(txHex, depth, minWeightMagnitude))
     .then(bundle => {
         console.log(`Published transaction with tail hash: ${bundle[0].hash}`)
         console.log(`Bundle: ${bundle}`)
@@ -127,7 +127,7 @@ Documentation of helix protocol and [`Helix.Protocol`](https://hlx.readme.io/hcp
 
 ## Next
 
-- remove `hbits` notation, only `hbytes` are relevant for processing/storing. To avoid confusion we should introduce an additional `hString` variable.
+- remove `hbits` notation, only `txHex` are relevant for processing/storing. To avoid confusion we should introduce an additional `hString` variable.
 - Value Transfers: Change Address / wereAddressesSpentFrom and validity/consistency checks on server side.
 - check traverseBundle.test
 - fix getNewAddress.test
