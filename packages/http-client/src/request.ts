@@ -1,4 +1,5 @@
 /* tslint:disable no-console */
+import AbortController from "abort-controller";
 import "isomorphic-fetch";
 
 import * as errors from "../../errors";
@@ -42,12 +43,11 @@ export const send = <C extends BaseCommand, R = any>(
   };
 
   // set timeout if provided
-  let abortSignal;
+  let signal;
   let abortTimout: NodeJS.Timer;
+  const controller = new AbortController();
   if (timeout) {
-    const controller = new AbortController();
-    abortSignal = controller.signal;
-
+    signal = controller.signal;
     abortTimout = setTimeout(() => {
       controller.abort();
     }, timeout);
@@ -57,7 +57,7 @@ export const send = <C extends BaseCommand, R = any>(
     method: "POST",
     headers,
     body: JSON.stringify(command),
-    signal: abortSignal
+    signal
   }).then(res =>
     res
       .json()
