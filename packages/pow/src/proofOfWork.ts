@@ -42,10 +42,12 @@ export const search = (
           ILLEGAL_TX_BYTES_LENGTH + (txBytes == null ? null : txBytes.length)
         )
       );
+      return;
     }
     minWeightMagnitude *= 8;
     if (minWeightMagnitude < 1 || minWeightMagnitude > 255) {
       reject(new Error(ILLEGAL_DIFFICULTY + minWeightMagnitude));
+      return;
     }
 
     if (numberOfThreads < 1 || numberOfThreads > 16) {
@@ -63,7 +65,7 @@ export const search = (
       miner.on("message", (response: any) => {
         if (response && response.hash && response.nonce) {
           sendAbortSignal(miners);
-          resolve(response.nonce);
+          resolve(response.hash);
         }
       });
       miners.push(miner);

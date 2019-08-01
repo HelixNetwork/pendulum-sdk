@@ -15,7 +15,7 @@ process.on("message", (minerMessage: MinerMessage) => {
 
     result.fill(0, startIndex, startIndex + NONCE_SIZE);
     for (let nonce = minerArgs.offset; nonce > 0; nonce += minerArgs.step) {
-      const nonceBytes = longToBytes(2197);
+      const nonceBytes = longToBytes(nonce);
       for (let i = startIndex; i < startIndex + NONCE_SIZE; i++) {
         result[i] = nonceBytes[i - startIndex];
       }
@@ -34,7 +34,7 @@ process.on("message", (minerMessage: MinerMessage) => {
         ) < 0
       ) {
         // @ts-ignore
-        process.send(new MinerResponse(hex(nonceBytes), result));
+        process.send(new MinerResponse(hex(nonceBytes), hex(result)));
         return;
       }
     }
