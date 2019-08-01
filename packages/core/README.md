@@ -71,7 +71,7 @@ yarn add @helixnetwork/core
 
     * [.createGetTransactionStrings(provider)](#module_core.createGetTxHex)
 
-    * [.getBytes(hashes, [callback])](#module_core.getBytes)
+    * [.getTransactionStrings(hashes, [callback])](#module_core.getTransactionStrings)
 
     * [.createGetInclusionStates(provider)](#module_core.createGetInclusionStates)
 
@@ -331,7 +331,7 @@ that reattachment is possible, until your bundle has been included.
 **Example**  
 ```js
 broadcastTransactions(txHex)
-  .then(txHex => {
+  .then(txs => {
      // ...
   })
   .catch(err => {
@@ -629,10 +629,10 @@ getBundle(tail)
 | --- | --- | --- |
 | provider | <code>Provider</code> | Network provider |
 
-**Returns**: <code>function</code> - [`getBytes`](#module_core.getBytes)  
-<a name="module_core.getBytes"></a>
+**Returns**: <code>function</code> - [`getTransactionStrings`](#module_core.getTransactionStrings)  
+<a name="module_core.getTransactionStrings"></a>
 
-### *core*.getBytes(hashes, [callback])
+### *core*.getTransactionStrings(hashes, [callback])
 **Fulfil**: <code>TxHex[]</code> - Transaction txHex  
 **Reject**: Error{}
 - `INVALID_TRANSACTION_HASH`: Invalid hash
@@ -644,13 +644,13 @@ getBundle(tail)
 | [callback] | <code>Callback</code> | Optional callback |
 
 Fetches the transaction txHex given a list of transaction hashes, by calling
-[`getBytes`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionStrings) command.
+[`getTransactionStrings`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionStrings) command.
 
 **Example**  
 ```js
-getBytes(hashes)
+getTransactionStrings(hashes)
   // Parsing as transaction objects
-  .then(txHex => asTransactionObjects(hashes)(txHex))
+  .then(txs => asTransactionObjects(hashes)(txs))
   .then(transactions => {
     // ...
   })
@@ -1221,7 +1221,7 @@ replayBundle(tail)
 ### *core*.sendTxHex(txHex, depth, minWeightMagnitude, [reference], [callback])
 **Fulfil**: <code>Transaction[]</code>  Returns list of attached transactions  
 **Reject**: <code>Error</code>
-- `INVALID_TRANSACTION_HBYTES`
+- `txs`
 - `INVALID_DEPTH`
 - `INVALID_MIN_WEIGHT_MAGNITUDE`
 - Fetch error, if connected to network  

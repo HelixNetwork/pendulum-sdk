@@ -1,4 +1,5 @@
-# @helixnetwork/validators
+
+.# @helixnetwork/validators
 
 Collection of guards and validators, useful in Helix development.
 

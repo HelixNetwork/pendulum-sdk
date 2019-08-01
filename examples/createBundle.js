@@ -35,38 +35,38 @@ const transfers = [
   {
     address: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     value: 3,
-    tag: Converter.asciiToHBytes("aaaa"),
-    message: Converter.asciiToHBytes("abcd")
+    tag: Converter.asciiToTxBytes("aaaa"),
+    message: Converter.asciiToTxBytes("abcd")
   }
 ];
 
-var storedHBytes;
+var storedTxBytes;
 
-// Create bundle and return the HBytes of the prepared TXs
+// Create bundle and return the TxBytes of the prepared TXs
 helix
   .prepareTransfers(senderSeed, transfers, {
     inputs,
     remainderAddress
   })
-  .then(hbytes => {
+  .then(txs => {
     console.log(
-      "export const bundleHBytes: HBytes[] = " +
-        JSON.stringify([hbytes].reverse()) +
+      "export const bundleTxBytes: TxBytes[] = " +
+        JSON.stringify([txs].reverse()) +
         ";"
     );
     console.log("export const bundle: Transaction[] = ");
     console.log(
       TransactionConverter.asTransactionObjects(Array(5).map(tx => tx.hash))(
-        hbytes
+        txs
       ).reverse()
     );
-    storedHBytes = hbytes;
+    storedTxBytes = txs;
     console.log(
       "-------------------- call sendTransactionStrings ------------------"
     );
     // Finalize and broadcast the bundle to the node
-    return helix.sendHBytes(
-      storedHBytes,
+    return helix.sendTxBytes(
+      storedTxBytes,
       5 /*depth*/,
       2 /*minimum weight magnitude*/
     );
@@ -77,19 +77,19 @@ helix
     console.log("export const bundle: Transaction[] = ");
     console.log(results);
 
-    console.log("export const bundleHBytes: HBytes[] = ");
-    const hbytesResult = TransactionConverter.asTransactionHBytes(results);
-    console.log(hbytesResult);
+    console.log("export const bundleTxBytes: TxBytes[] = ");
+    const txHexsResult = TransactionConverter.asTransactionTxBytes(results);
+    console.log(txHexsResult);
 
     const bundleFromTangle = Array.from(results);
-    const transactions = Array.from(hbytesResult);
+    const transactions = Array.from(txHexsResult);
     for (var i = 0; i < transactions.length; i++) {
       console.log("Transaction " + i);
       console.log(
         "Transaction hash from tangle: " + bundleFromTangle[i]["hash"]
       );
       let computedTransactionHash = Transaction.transactionHash(
-        Converter.toHBytes(transactions[i])
+        Converter.toTxBytes(transactions[i])
       );
       console.log(
         "New computed hash (in helix.lib): " + computedTransactionHash
