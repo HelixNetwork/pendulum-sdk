@@ -1,6 +1,6 @@
 # @helixnetwork/converter
 
-Methods for converting ascii values to txHex, hbits and back.
+Methods for converting ascii values to txHex, txBits and back.
 
 ## Installation
 
@@ -24,15 +24,21 @@ yarn add @helixnetwork/converter
 
     * [.txHexToAscii(txHex)](#module_converter.txHexToAscii)
 
-    * [.hbits(input)](#module_converter.hbits)
+    * [.txBits(input)](#module_converter.txBits)
 
-    * [.txHex(hBits)](#module_converter.txHex)
+    * [.txHex(txBytes)](#module_converter.txHex)
 
-    * [.value(hBits)](#module_converter.value)
+    * [.value(txBits)](#module_converter.value)
 
     * [.fromValue(value)](#module_converter.fromValue)
 
-    * [.toBytes(value, padding)](#module_converter.toBytes)
+    * [.toTxBytes(value, padding)](#module_converter.toBytes)
+
+
+The following data types are used in this packages:
+TxBits - which represents and array of bits, stored in a Int8Array object.
+TxBytes - which represents and array of unsigned bytes, stored in a Uint8Array object
+TxHex - which represents the hexadecima string, because of this should contain only 0-91-f and should have a even length. 
 
 
 <a name="module_converter.asciiToTxHex"></a>
@@ -43,7 +49,7 @@ yarn add @helixnetwork/converter
 | --- | --- | --- |
 | input | <code>string</code> | ascii input |
 
-Converts an ascii encoded string to txHex.
+Converts an ascii encoded string to TxHex.
 
 ### How conversion works:
 
@@ -61,7 +67,7 @@ Lets say we want to convert ascii character `Z`.
 
 2. `90` in hexadecimal is 5a
 
-Therefore ascii character `Z` is represented as `IC` in 5a.
+Therefore ascii character `Z` is represented as `5a` in TxHex.
 
 **Returns**: <code>string</code> - string of txHex  
 <a name="module_converter.txHexToAscii"></a>
@@ -70,42 +76,42 @@ Therefore ascii character `Z` is represented as `IC` in 5a.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| txHex | <code>string</code> | txHex |
+| txHex | <code>TxHex</code> | txHex |
 
 Converts txHex of _even_ length to an ascii string
 
 **Returns**: <code>string</code> - string in ascii  
-<a name="module_converter.hbits"></a>
+<a name="module_converter.txBits"></a>
 
-### *converter*.hbits(input)
+### *converter*.txBits(input)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| input | <code>String</code> \| <code>Number</code> | HByte string or value to be converted. |
+| input | <code>TxHex</code> \ <code>Number</code> | TxHex or value to be converted. |
 
-Converts txHex or values to hbits
+Converts TxHex or values to TxBits
 
-**Returns**: <code>Int8Array</code> - hbits  
+**Returns**: <code>TxBits</code> - txBits  
 <a name="module_converter.txHex"></a>
 
-### *converter*.txHex(hBits)
+### *converter*.txHex(txBits)
 
 | Param | Type |
 | --- | --- |
-| hBits | <code>Int8Array</code> | 
+| txBits | <code>TxBits</code> | 
 
-Converts hbits to txHex
+Converts TxBits to TxHex
 
-**Returns**: <code>String</code> - txHex  
+**Returns**: <code>TxHex</code> - txHex  
 <a name="module_converter.value"></a>
 
-### *converter*.value(hBits)
+### *converter*.value(txBits)
 
 | Param | Type |
 | --- | --- |
-| hBits | <code>Int8Array</code> | 
+| txBits | <code>TxBits</code> | 
 
-Converts hbits into an integer value
+Converts txBits into an integer value
 
 <a name="module_converter.fromValue"></a>
 
@@ -115,18 +121,18 @@ Converts hbits into an integer value
 | --- | --- |
 | value | <code>Number</code> | 
 
-Converts an integer value to hbits
+Converts an integer value to TxBits
 
-**Returns**: <code>Int8Array</code> - hbits  
+**Returns**: <code>TxBits</code> - txBits  
 <a name="module_converter.toBytes"></a>
 
-### *converter*.toBytes(value, padding)
+### *converter*.toTxBytes(value, padding)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| value | <code>number</code> |  |
-| padding | <code>number</code> | Ł |
+| value | <code>number</code> | Value that should be converted |
+| padding | <code>number</code> | Padding for the converted string |
 
 Converts an integer value to byte array
 
-**Returns**: <code>Uint8Array</code> - bytes  
+**Returns**: <code>TxBytes</code> - txBytes  

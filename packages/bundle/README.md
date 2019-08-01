@@ -50,11 +50,11 @@ Creates a bunlde with given transaction entries.
 | transactions | <code>Array.&lt;Transaction&gt;</code> |  | List of transactions currently in the bundle |
 | entry | <code>object</code> |  | Entry of single or multiple transactions with the same address |
 | [entry.length] | <code>number</code> | <code>1</code> | Entry length, which indicates how many transactions in the bundle will occupy |
-| [entry.address] | <code>string</code> |  | Address, defaults to all-9s |
+| [entry.address] | <code>TxHex</code> |  | Address, defaults to all-0s |
 | [entry.value] | <code>number</code> | <code>0</code> | Value to transfer in _HLX_ |
-| [entry.signatureMessageFragments] | <code>Array.&lt;string&gt;</code> |  | Array of signature message fragments TxHex, defaults to all-0s |
+| [entry.signatureMessageFragments] | <code>Array.&lt;TxHex&gt;</code> |  | Array of signature message fragments TxHex, defaults to all-0s |
 | [entry.timestamp] | <code>number</code> |  | Transaction timestamp, defaults to `Math.floor(Date.now() / 1000)` |
-| [entry.tag] | <code>string</code> |  | Optional Tag, defaults to null tag (all-0s) |
+| [entry.tag] | <code>TxHex</code> |  | Optional Tag, defaults to null tag (all-0s) |
 
 Creates a bunlde with given transaction entries
 

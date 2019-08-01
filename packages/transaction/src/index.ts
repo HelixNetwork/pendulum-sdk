@@ -2,7 +2,7 @@
  * @module transaction
  */
 
-import { txHexToTxBits, hex } from "@helixnetwork/converter";
+import { txHexToTxBits, hex, toTxBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
   ADDRESS_BYTE_SIZE,
@@ -189,7 +189,7 @@ export const isTransactionTxHex = (
     return (
       hasCorrectTxHexLength &&
       isTransactionHash(
-        transactionHash(txHex), //txHexToTxBits(txHex)
+        transactionHash(toTxBytes(txHex)), //txHexToTxBits(txHex)
         minWeightMagnitude
       )
     );

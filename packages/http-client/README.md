@@ -75,6 +75,7 @@ Sends an http request to a specified host.
 | --- | --- | --- | --- |
 | [settings] | <code>object</code> | <code>{}</code> |  |
 | [settings.provider] | <code>string</code> | <code>&quot;http://localhost:14265&quot;</code> | Uri of helix node |
+| [settings.timeout] | <code>number</code> | <code></code> | Timeout |
 | [settings.apiVersion] | <code>string</code> \| <code>number</code> | <code>1</code> | Helix Api version to be sent as `X-HELIX-API-Version` header. |
 | [settings.requestBatchSize] | <code>number</code> | <code>1000</code> | Number of search values per request. |
 

@@ -55,6 +55,7 @@
   "dependencies": {
     "@types/bluebird": "^3.5.20",
     "@types/isomorphic-fetch": "^0.0.34",
+    "abort-controller": "^3.0.0",
     "bluebird": "^3.5.1",
     "isomorphic-fetch": "^2.2.1"
   },
