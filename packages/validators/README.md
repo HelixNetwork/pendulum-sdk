@@ -20,11 +20,11 @@ yarn add @helixnetwork/validators
     
 * [validators](#module_validators)
 
-    * [~isHBytes(hbytes, [length])](#module_validators..isHBytes)
+    * [~isHBytes(txs, [length])](#module_validators..isHBytes)
 
-    * [~isHBytesOfExactLength(hbytes, length)](#module_validators..isHBytesOfExactLength)
+    * [~isHBytesOfExactLength(txs, length)](#module_validators..isHBytesOfExactLength)
 
-    * [~isHBytesOfMaxLength(hbytes, length)](#module_validators..isHBytesOfMaxLength)
+    * [~isHBytesOfMaxLength(txs, length)](#module_validators..isHBytesOfMaxLength)
 
     * [~isEmpty(hash)](#module_validators..isEmpty)
 
@@ -49,31 +49,31 @@ yarn add @helixnetwork/validators
 
 <a name="module_validators..isHBytes"></a>
 
-### *validators*~isHBytes(hbytes, [length])
+### *validators*~isHBytes(txs, [length])
 
 | Param | Type | Default |
 | --- | --- | --- |
-| hbytes | <code>string</code> |  | 
+| txs | <code>string</code> |  | 
 | [length] | <code>string</code> \| <code>number</code> | <code>&quot;&#x27;1,&#x27;&quot;</code> | 
 
-Checks if input is correct hbytes consisting of [9A-Z]; optionally validate length
+Checks if input is correct txs consisting of [9A-Z]; optionally validate length
 
 <a name="module_validators..isHBytesOfExactLength"></a>
 
-### *validators*~isHBytesOfExactLength(hbytes, length)
+### *validators*~isHBytesOfExactLength(txs, length)
 
 | Param | Type |
 | --- | --- |
-| hbytes | <code>string</code> | 
+| txs | <code>string</code> | 
 | length | <code>number</code> | 
 
 <a name="module_validators..isHBytesOfMaxLength"></a>
 
-### *validators*~isHBytesOfMaxLength(hbytes, length)
+### *validators*~isHBytesOfMaxLength(txs, length)
 
 | Param | Type |
 | --- | --- |
-| hbytes | <code>string</code> | 
+| txs | <code>string</code> | 
 | length | <code>number</code> | 
 
 <a name="module_validators..isEmpty"></a>
@@ -104,7 +104,7 @@ Checks if input contains `9`s only.
 | --- | --- |
 | hash | <code>string</code> | 
 
-Checks if input is correct hash (81 hbytes) or address with checksum (90 hbytes)
+Checks if input is correct hash (81 txs) or address with checksum (90 txs)
 
 <a name="module_validators..isAddress"></a>
 
@@ -114,7 +114,7 @@ Checks if input is correct hash (81 hbytes) or address with checksum (90 hbytes)
 | --- | --- |
 | hash | <code>string</code> | 
 
-Checks if input is correct address or address with checksum (90 hbytes)
+Checks if input is correct address or address with checksum (90 txs)
 
 <a name="module_validators..isInput"></a>
 
@@ -135,7 +135,7 @@ It does not validate the checksum.
 | --- | --- |
 | tag | <code>string</code> | 
 
-Checks that input is valid tag hbytes.
+Checks that input is valid tag txs.
 
 <a name="module_validators..isTransfer"></a>
 
@@ -182,10 +182,10 @@ try {
   validate([
     value, // Given value
     isHBytes, // Validator function
-    'Invalid hbytes' // Error message
+    'Invalid txs' // Error message
   ])
 } catch (err) {
-  console.log(err.message) // 'Invalid hbytes'
+  console.log(err.message) // 'Invalid txs'
 }
 ```
 <a name="module_validators..isAddress"></a>
@@ -194,7 +194,7 @@ try {
 
 | Param | Type | Description |
 | --- | --- | --- |
-| address | <code>string</code> | Address hbytes, with checksum |
+| address | <code>string</code> | Address txs, with checksum |
 
 Checks integrity of given address by validating the checksum.
 

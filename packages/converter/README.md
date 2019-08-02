@@ -1,6 +1,6 @@
 # @helixnetwork/converter
 
-Methods for converting ascii values to hbytes, hbits and back.
+Methods for converting ascii values to txs, txBits and back.
 
 ## Installation
 
@@ -17,18 +17,18 @@ yarn add @helixnetwork/converter
 
 ## API Reference
 
-    
+
 * [converter](#module_converter)
 
-    * [.asciiToHBytes(input)](#module_converter.asciiToHBytes)
+    * [.asciiToTxHex(input)](#module_converter.asciiToHBytes)
 
-    * [.hbytesToAscii(hbytes)](#module_converter.hbytesToAscii)
+    * [.txsToAscii(txs)](#module_converter.txsToAscii)
 
-    * [.hbits(input)](#module_converter.hbits)
+    * [.txBits(input)](#module_converter.txBits)
 
-    * [.hbytes(hBits)](#module_converter.hbytes)
+    * [.txs(txBits)](#module_converter.txs)
 
-    * [.value(hBits)](#module_converter.value)
+    * [.value(txBits)](#module_converter.value)
 
     * [.fromValue(value)](#module_converter.fromValue)
 
@@ -43,11 +43,11 @@ yarn add @helixnetwork/converter
 | --- | --- | --- |
 | input | <code>string</code> | ascii input |
 
-Converts an ascii encoded string to hbytes.
+Converts an ascii encoded string to txs.
 
 ### How conversion works:
 
-An ascii value of `1 Byte` can be represented in `2 HBytes`:
+An ascii value of `1 Byte` can be represented in `2` hexadecimal characters:
 
 1. We get the decimal unicode value of an individual ASCII character this code can be represented in a Byte
 
@@ -63,49 +63,49 @@ Lets say we want to convert ascii character `Z`.
 
 Therefore ascii character `Z` is represented as `IC` in 5a.
 
-**Returns**: <code>string</code> - string of hbytes  
-<a name="module_converter.hbytesToAscii"></a>
+**Returns**: <code>string</code> - string of txs  
+<a name="module_converter.txsToAscii"></a>
 
-### *converter*.hbytesToAscii(hbytes)
+### *converter*.txsToAscii(txs)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hbytes | <code>string</code> | hbytes |
+| txs | <code>string</code> | txs |
 
-Converts hbytes of _even_ length to an ascii string
+Converts txs of _even_ length to an ascii string
 
 **Returns**: <code>string</code> - string in ascii  
-<a name="module_converter.hbits"></a>
+<a name="module_converter.txBits"></a>
 
-### *converter*.hbits(input)
+### *converter*.txBits(input)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | input | <code>String</code> \| <code>Number</code> | HByte string or value to be converted. |
 
-Converts hbytes or values to hbits
+Converts txs or values to txBits
 
-**Returns**: <code>Int8Array</code> - hbits  
-<a name="module_converter.hbytes"></a>
+**Returns**: <code>Int8Array</code> - txBits  
+<a name="module_converter.txs"></a>
 
-### *converter*.hbytes(hBits)
+### *converter*.txs(hBits)
 
 | Param | Type |
 | --- | --- |
-| hBits | <code>Int8Array</code> | 
+| hBits | <code>Int8Array</code> |
 
-Converts hbits to hbytes
+Converts txBits to txs
 
-**Returns**: <code>String</code> - hbytes  
+**Returns**: <code>String</code> - txs  
 <a name="module_converter.value"></a>
 
 ### *converter*.value(hBits)
 
 | Param | Type |
 | --- | --- |
-| hBits | <code>Int8Array</code> | 
+| hBits | <code>Int8Array</code> |
 
-Converts hbits into an integer value
+Converts txBits into an integer value
 
 <a name="module_converter.fromValue"></a>
 
@@ -113,11 +113,11 @@ Converts hbits into an integer value
 
 | Param | Type |
 | --- | --- |
-| value | <code>Number</code> | 
+| value | <code>Number</code> |
 
-Converts an integer value to hbits
+Converts an integer value to txBits
 
-**Returns**: <code>Int8Array</code> - hbits  
+**Returns**: <code>Int8Array</code> - txBits  
 <a name="module_converter.toBytes"></a>
 
 ### *converter*.toBytes(value, padding)
