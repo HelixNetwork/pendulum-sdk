@@ -69,9 +69,9 @@ yarn add @helixnetwork/core
 
     * [.getBundle(tailTransactionHash, [callback])](#module_core.getBundle)
 
-    * [.createGetTransactionStrings(provider)](#module_core.createGetHBytes)
+    * [.createGetTransactionStrings(provider)](#module_core.createGetTxHex)
 
-    * [.getBytes(hashes, [callback])](#module_core.getBytes)
+    * [.getTransactionStrings(hashes, [callback])](#module_core.getTransactionStrings)
 
     * [.createGetInclusionStates(provider)](#module_core.createGetInclusionStates)
 
@@ -129,17 +129,17 @@ yarn add @helixnetwork/core
 
     * [.replayBundle(tail, depth, minWeightMagnitude, [callback])](#module_core.replayBundle)
 
-    * [.createSendHBytes(provider)](#module_core.createSendHBytes)
+    * [.createSendTxHex(provider)](#module_core.createSendTxHex)
 
-    * [.sendHBytes(txs, depth, minWeightMagnitude, [reference], [callback])](#module_core.sendHBytes)
+    * [.sendTxHex(txs, depth, minWeightMagnitude, [reference], [callback])](#module_core.sendTxHex)
 
     * [.createStoreAndBroadcast(provider)](#module_core.createStoreAndBroadcast)
 
-    * [.storeAndBroadcast(txs, [callback])](#module_core.storeAndBroadcast)
+    * [.storeAndBroadcast(txHex, [callback])](#module_core.storeAndBroadcast)
 
     * [.createStoreTransactions(provider)](#module_core.createStoreTransactions)
 
-    * [.storeTransactions(txs, [callback])](#module_core.storeTransactions)
+    * [.storeTransactions(txHex, [callback])](#module_core.storeTransactions)
 
     * [.createTraverseBundle(provider)](#module_core.createTraverseBundle)
 
@@ -211,7 +211,7 @@ addNeighbors(['udp://148.148.148.148:14265'])
 <a name="module_core.attachToTangle"></a>
 
 ### *core*.attachToTangle(trunkTransaction, branchTransaction, minWeightMagnitude, txs, [callback])
-**Fulfil**: <code>TransactionHBytes[]</code> Array of transaction txs with nonce and attachment timestamps  
+**Fulfil**: <code>TransactionTxHex[]</code> Array of transaction txs with nonce and attachment timestamps
 **Reject**: <code>Error</code>
 - `INVALID_TRUNK_TRANSACTION`: Invalid `trunkTransaction`
 - `INVALID_BRANCH_TRANSACTION`: Invalid `branchTransaction`
@@ -225,7 +225,7 @@ addNeighbors(['udp://148.148.148.148:14265'])
 | trunkTransaction | <code>Hash</code> | Trunk transaction as returned by [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) |
 | branchTransaction | <code>Hash</code> | Branch transaction as returned by [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) |
 | minWeightMagnitude | <code>number</code> | Number of minimun trailing zeros in tail transaction hash |
-| txs | <code>Array.&lt;TransactionHBytes&gt;</code> | List of transaction txs |
+| txHex | <code>Array.&lt;TransactionTxHex&gt;</code> | List of transaction txs |
 | [callback] | <code>Callback</code> | Optional callback |
 
 Performs the Proof-of-Work required to attach a transaction to the Tangle by
@@ -313,7 +313,7 @@ broadcastTransactions(tailHash)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| txs | <code>Array.&lt;TransactionHBytes&gt;</code> | Attached Transaction txs |
+| txHex | <code>Array.&lt;TransactionTxHex&gt;</code> | Attached Transaction txHex |
 | [callback] | <code>Callback</code> | Optional callback |
 
 Broadcasts an list of _attached_ transaction txs to the network by calling
@@ -629,11 +629,11 @@ getBundle(tail)
 | --- | --- | --- |
 | provider | <code>Provider</code> | Network provider |
 
-**Returns**: <code>function</code> - [`getBytes`](#module_core.getBytes)  
-<a name="module_core.getBytes"></a>
+**Returns**: <code>function</code> - [`getTransactionStrings`](#module_core.getTransactionStrings)  
+<a name="module_core.getTransactionStrings"></a>
 
-### *core*.getBytes(hashes, [callback])
-**Fulfil**: <code>HBytes[]</code> - Transaction txs  
+### *core*.getTransactionStrings(hashes, [callback])
+**Fulfil**: <code>TxHex[]</code> - Transaction txs
 **Reject**: Error{}
 - `INVALID_TRANSACTION_HASH`: Invalid hash
 - Fetch error  
@@ -643,12 +643,14 @@ getBundle(tail)
 | hashes | <code>Array.&lt;Hash&gt;</code> | List of transaction hashes |
 | [callback] | <code>Callback</code> | Optional callback |
 
+
 Fetches the transaction txs given a list of transaction hashes, by calling
-[`getBytes`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionStrings) command.
+[`getTransactionStrings`](https://docs.hlx.ai/hlx/api#endpoints/getTransactionStrings) command.
+
 
 **Example**  
 ```js
-getBytes(hashes)
+getTransactionStrings(hashes)
   // Parsing as transaction objects
   .then(txs => asTransactionObjects(hashes)(txs))
   .then(transactions => {
@@ -820,11 +822,11 @@ Returns list of connected neighbors.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| seed | <code>string</code> |  | At least 81 txs long seed |
+| seed | <code>string</code> |  | At least 64 txHex long seed |
 | [options] | <code>object</code> |  |  |
 | [options.index] | <code>number</code> | <code>0</code> | Key index to start search at |
 | [options.security] | <code>number</code> | <code>1</code> | Security level |
-| [options.checksum] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to include 9-txs checksum or not |
+| [options.checksum] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to include 8-txHex checksum or not |
 | [options.total] | <code>number</code> |  | `Deprecated` Number of addresses to generate. |
 | [options.returnAll] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to return all addresses, from start up to new address. |
 | [callback] | <code>Callback</code> |  | Optional callback |
@@ -984,7 +986,7 @@ const minWeightMagnitude = 14
 
 getTransactionsToApprove(depth)
   .then(transactionsToApprove =>
-     attachToTanle(minWightMagnitude, txs, { transactionsToApprove })
+     attachToTangle(minWightMagnitude, txs, { transactionsToApprove })
   )
   .then(storeAndBroadcast)
   .catch(err => {
@@ -1207,21 +1209,21 @@ replayBundle(tail)
   })
 })
 ```
-<a name="module_core.createSendHBytes"></a>
+<a name="module_core.createSendTxHex"></a>
 
-### *core*.createSendHBytes(provider)
+### *core*.createSendTxHex(provider)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | provider | <code>Provider</code> | Network provider |
 
-**Returns**: <code>function</code> - [`sendHBytes`](#module_core.sendHBytes)  
-<a name="module_core.sendHBytes"></a>
+**Returns**: <code>function</code> - [`sendTxHex`](#module_core.sendTxHex)  
+<a name="module_core.sendTxHex"></a>
 
-### *core*.sendHBytes(txs, depth, minWeightMagnitude, [reference], [callback])
+### *core*.sendTxHex(txs, depth, minWeightMagnitude, [reference], [callback])
 **Fulfil**: <code>Transaction[]</code>  Returns list of attached transactions  
 **Reject**: <code>Error</code>
-- `INVALID_TRANSACTION_HBYTES`
+- `txs`
 - `INVALID_DEPTH`
 - `INVALID_MIN_WEIGHT_MAGNITUDE`
 - Fetch error, if connected to network  
@@ -1236,6 +1238,7 @@ replayBundle(tail)
 
 [Attaches to tanlge](#module_core.attachToTangle), [stores](#module_core.storeTransactions)
 and [broadcasts](#module_core.broadcastTransactions) a list of transaction txs.
+
 
 **Example**  
 ```js
@@ -1259,22 +1262,23 @@ prepareTransfers(seed, transfers)
 **Returns**: <code>function</code> - [`storeAndBroadcast`](#module_core.storeAndBroadcast)  
 <a name="module_core.storeAndBroadcast"></a>
 
-### *core*.storeAndBroadcast(txs, [callback])
-**Fulfil**: <code>HBytes[]</code> Attached transaction txs  
+### *core*.storeAndBroadcast(txHex, [callback])
+**Fulfil**: <code>TxHex[]</code> Attached transaction txs  
 **Reject**: <code>Error</code>
 - `INVALID_ATTACHED_HBYTES`: Invalid attached txs
 - Fetch error  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| txs | <code>Array.&lt;HBytes&gt;</code> | Attached transaction txs |
+
+| txHex | <code>Array.&lt;TxHex&gt;</code> | Attached transaction txs |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Stores and broadcasts a list of _attached_ transaction txs by calling
+Stores and broadcasts a list of _attached_ transaction txHex by calling
 [`storeTransactions`](#module_core.storeTransactions) and
 [`broadcastTransactions`](#module_core.broadcastTransactions).
 
-Note: Persist the transaction txs in local storage **before** calling this command, to ensure
+Note: Persist the transaction txHex in local storage **before** calling this command, to ensure
 that reattachment is possible, until your bundle has been included.
 
 Any transactions stored with this command will eventaully be erased, as a result of a snapshot.
@@ -1291,7 +1295,7 @@ Any transactions stored with this command will eventaully be erased, as a result
 <a name="module_core.storeTransactions"></a>
 
 ### *core*.storeTransactions(txs, [callback])
-**Fullfil**: <code>HBytes[]</code> Attached transaction txs  
+**Fullfil**: <code>TxHex[]</code> Attached transaction txHex  
 **Reject**: <code>Error</code>
 - `INVALID_ATTACHED_HBYTES`: Invalid attached txs
 - Fetch error  
@@ -1307,6 +1311,7 @@ Tip selection and Proof-of-Work must be done first, by calling
 [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) and
 [`attachToTangle`](#module_core.attachToTangle) or an equivalent attach method or remote
 [`PoW-Integrator`](https://powbox.devnet.iota.org/).
+
 
 Persist the transaction txs in local storage **before** calling this command, to ensure
 reattachment is possible, until your bundle has been included.
@@ -1369,3 +1374,4 @@ traverseBundle(tail)
 Generates an address deterministically, according to the given seed, index and security level.
 
 **Returns**: <code>Hash</code> - Address txs  
+

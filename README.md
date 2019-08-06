@@ -86,7 +86,8 @@ const getNodeInfo = createGetNodeInfo(client)
 ### Creating &amp; broadcasting transactions
 
 Publish transfers by calling [`prepareTransfers`](packages/core#module_core.prepareTransfers) and piping the
-prepared txs to [`sendHBytes`](packages/core#module_core.sendHBytes) command.
+prepared txs to [`sendTxHex`](packages/core#module_core.sendTxHex) command.
+
 
 ```js
 // must be truly random
@@ -108,7 +109,7 @@ const depth = 3
 const minWeightMagnitude = 2
 
 helix.prepareTransfers(seed, transfers)
-    .then(txs => helix.sendHBytes(txs, depth, minWeightMagnitude))
+    .then(txs => helix.sendTxHex(txHex, depth, minWeightMagnitude))
     .then(bundle => {
         console.log(`Published transaction with tail hash: ${bundle[0].hash}`)
         console.log(`Bundle: ${bundle}`)
@@ -122,4 +123,6 @@ helix.prepareTransfers(seed, transfers)
 
 For details on all available API methods please see the [reference page](api_reference.md).
 
+
 Documentation of [`Helix`](https://hlx.readme.io/hcp) core and the HTTP API can be found in the [Helix Documentation](https://hlx.readme.io).
+

@@ -7,15 +7,15 @@ import { isTransaction } from "@helixnetwork/transaction";
 import { asTransactionStrings } from "@helixnetwork/transaction-converter";
 import { validateSignatures } from "@helixnetwork/winternitz";
 import {
-  ADDRESS_BYTE_SIZE,
-  BYTE_SIZE_USED_FOR_VALIDATION,
-  BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING,
-  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
-  TRANSACTION_CURRENT_INDEX_BYTE_SIZE,
+  ADDRESS_HEX_SIZE,
+  HEX_SIZE_FOR_TXHEX_USED_FOR_VALIDATION,
+  HEX_SIZE_FOR_TXHEX_USED_FOR_VALIDATION_WITH_PADDING,
+  SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
+  TRANSACTION_CURRENT_INDEX_HEX_SIZE,
   TRANSACTION_LAST_INDEX_BITS_SIZE,
-  TRANSACTION_LAST_INDEX_BYTE_SIZE,
-  TRANSACTION_TIMESTAMP_BYTE_SIZE,
-  TRANSACTION_VALUE_BYTE_SIZE
+  TRANSACTION_LAST_INDEX_HEX_SIZE,
+  TRANSACTION_TIMESTAMP_HEX_SIZE,
+  TRANSACTION_VALUE_HEX_SIZE
 } from "../../constants";
 import { INVALID_BUNDLE } from "../../errors";
 import { isArray, Validator } from "../../guards";
@@ -103,10 +103,11 @@ export default function isBundle(bundle: Bundle) {
     // Get the transaction transactionStrings
     const thisTxTxHex = asTransactionStrings(bundleTx);
     const thisTxBytes = toTxBytes(
-      padTxHex(BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING)(
+      padTxHex(HEX_SIZE_FOR_TXHEX_USED_FOR_VALIDATION_WITH_PADDING)(
         thisTxTxHex.slice(
-          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
-          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE + BYTE_SIZE_USED_FOR_VALIDATION
+          SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
+          SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE +
+            HEX_SIZE_FOR_TXHEX_USED_FOR_VALIDATION
         )
       )
     );

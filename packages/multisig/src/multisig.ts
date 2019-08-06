@@ -25,13 +25,13 @@ import {
 import { Bundle, Callback, Provider, Transaction, Transfer } from "../../types";
 import Address from "./address";
 import {
-  ADDRESS_BYTE_SIZE,
+  ADDRESS_HEX_SIZE,
   NULL_TAG_TX_HEX,
   SECURITY_LEVELS,
-  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
   SIGNATURE_SECRETE_KEY_BYTE_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE,
-  TAG_BYTE_SIZE
+  TAG_HEX_SIZE
 } from "../../constants";
 
 export { Bundle, Callback, Provider, Transaction, Transfer };
@@ -87,29 +87,28 @@ export const createBundle = (
 
     // If message longer than 2187 txHex, increase signatureMessageLength (add multiple transactions)
     if (
-      (transfers[i].message || "").length >
-      SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+      (transfers[i].message || "").length > SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
     ) {
       // Get total length, message / maxLength (2187 txHex)
       signatureMessageLength += Math.floor(
         (transfers[i].message || "").length /
-          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+          SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
       );
 
       let msgCopy = transfers[i].message;
 
       // While there is still a message, copy it
       while (msgCopy) {
-        let fragment = msgCopy.slice(0, SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE);
+        let fragment = msgCopy.slice(0, SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE);
         msgCopy = msgCopy.slice(
-          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
+          SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
           msgCopy.length
         );
 
         // Pad remainder of fragment
         for (
           let j = 0;
-          fragment.length < SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
+          fragment.length < SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE;
           j++
         ) {
           fragment += "0";
@@ -124,13 +123,13 @@ export const createBundle = (
       if (transfers[i].message) {
         fragment = (transfers[i].message || "").slice(
           0,
-          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+          SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
         );
       }
 
       for (
         let j = 0;
-        fragment.length < SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
+        fragment.length < SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE;
         j++
       ) {
         fragment += "0";
@@ -143,7 +142,7 @@ export const createBundle = (
     tag = transfers[i].tag || NULL_TAG_TX_HEX;
 
     // Pad for required 27 tryte length
-    for (let j = 0; tag.length < TAG_BYTE_SIZE; j++) {
+    for (let j = 0; tag.length < TAG_HEX_SIZE; j++) {
       tag += "0";
     }
 
@@ -151,7 +150,7 @@ export const createBundle = (
     // Slice the address in case the user provided a checksummed one
     const _bundle = addEntry(bundle, {
       length: signatureMessageLength,
-      address: transfers[i].address.slice(0, ADDRESS_BYTE_SIZE),
+      address: transfers[i].address.slice(0, ADDRESS_HEX_SIZE),
       value: transfers[i].value,
       tag,
       timestamp: Math.floor(Date.now() / 1000)

@@ -1,10 +1,10 @@
 import { ADDRCONFIG } from "dns";
 import {
-  ADDRESS_BYTE_SIZE,
-  ADDRESS_CHECKSUM_BYTE_SIZE,
+  ADDRESS_HEX_SIZE,
+  ADDRESS_CHECKSUM_HEX_SIZE,
   HASH_TX_HEX_SIZE,
   MAX_INDEX_DIFF,
-  TAG_BYTE_SIZE
+  TAG_HEX_SIZE
 } from "./constants";
 import * as errors from "./errors";
 import { Address, Hash, TxHex, Tag, Transfer } from "./types";
@@ -54,7 +54,7 @@ export const isTxHexOfMaxLength = (txHex: string, length: number) =>
   new RegExp(`^[0-9a-f]{1,${length}}$`).test(txHex);
 
 /**
- * Checks if input contains `9`s only.
+ * Checks if input contains `0`s only.
  * @method isEmpty
  *
  * @param {string} hash
@@ -65,7 +65,7 @@ export const isEmpty = (txHex: any): txHex is TxHex =>
   typeof txHex === "string" && /^[00]+$/.test(txHex);
 
 /**
- * Checks if input contains `9`s only.
+ * Checks if input contains `0`s only.
  * @method isEmptyBytes
  *
  * @param {Uint8Array} bytes
@@ -91,7 +91,7 @@ export const isNinesTxHex = isEmpty;
  */
 export const isHash = (hash: any): hash is Hash =>
   isTxHexOfExactLength(hash, HASH_TX_HEX_SIZE) ||
-  isTxHexOfExactLength(hash, HASH_TX_HEX_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE);
+  isTxHexOfExactLength(hash, HASH_TX_HEX_SIZE + ADDRESS_CHECKSUM_HEX_SIZE);
 /**
  * Checks if input is correct address or address with checksum (90 txs)
  *
@@ -102,8 +102,8 @@ export const isHash = (hash: any): hash is Hash =>
  * @return {boolean}
  */
 export const isAddress = (hash: any): hash is Hash =>
-  isTxHexOfExactLength(hash, ADDRESS_BYTE_SIZE) ||
-  isTxHexOfExactLength(hash, ADDRESS_BYTE_SIZE + ADDRESS_CHECKSUM_BYTE_SIZE); // address w/ checksum is valid hash
+  isTxHexOfExactLength(hash, ADDRESS_HEX_SIZE) ||
+  isTxHexOfExactLength(hash, ADDRESS_HEX_SIZE + ADDRESS_CHECKSUM_HEX_SIZE); // address w/ checksum is valid hash
 
 /* Check if security level is valid positive integer */
 export const isSecurityLevel = (security: any): security is number =>
@@ -140,7 +140,7 @@ export const isInput = (input: any): input is Address => {
  * @return {boolean}
  */
 export const isTag = (tag: any): tag is Tag =>
-  isTxHexOfMaxLength(tag, TAG_BYTE_SIZE);
+  isTxHexOfMaxLength(tag, TAG_HEX_SIZE);
 
 /**
  * Checks if input is valid `transfer` object.

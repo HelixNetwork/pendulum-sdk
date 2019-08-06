@@ -1,4 +1,5 @@
-# @helixnetwork/validators
+
+.# @helixnetwork/validators
 
 Collection of guards and validators, useful in Helix development.
 
@@ -20,11 +21,11 @@ yarn add @helixnetwork/validators
     
 * [validators](#module_validators)
 
-    * [~isHBytes(txs, [length])](#module_validators..isHBytes)
+    * [~isTxHex(TxHex, [length])](#module_validators..isTxHex)
 
-    * [~isHBytesOfExactLength(txs, length)](#module_validators..isHBytesOfExactLength)
+    * [~isTxHexOfExactLength(TxHex, length)](#module_validators..isTxHexOfExactLength)
 
-    * [~isHBytesOfMaxLength(txs, length)](#module_validators..isHBytesOfMaxLength)
+    * [~isTxHexOfMaxLength(TxHex, length)](#module_validators..isTxHexOfMaxLength)
 
     * [~isEmpty(hash)](#module_validators..isEmpty)
 
@@ -47,29 +48,30 @@ yarn add @helixnetwork/validators
     * [~isAddress(address)](#module_validators..isAddress)
 
 
-<a name="module_validators..isHBytes"></a>
+<a name="module_validators..isTxHex"></a>
 
-### *validators*~isHBytes(txs, [length])
+
+### *validators*~isTxHex(txs, [length])
 
 | Param | Type | Default |
 | --- | --- | --- |
 | txs | <code>string</code> |  | 
 | [length] | <code>string</code> \| <code>number</code> | <code>&quot;&#x27;1,&#x27;&quot;</code> | 
 
-Checks if input is correct txs consisting of [9A-Z]; optionally validate length
+Checks if input is correct TxHex consisting of [0-9A-F]; optionally validate length
 
-<a name="module_validators..isHBytesOfExactLength"></a>
+<a name="module_validators..isTxHexOfExactLength"></a>
 
-### *validators*~isHBytesOfExactLength(txs, length)
+### *validators*~isTxHexOfExactLength(txs, length)
 
 | Param | Type |
 | --- | --- |
 | txs | <code>string</code> | 
 | length | <code>number</code> | 
 
-<a name="module_validators..isHBytesOfMaxLength"></a>
+<a name="module_validators..isTxHexOfMaxLength"></a>
 
-### *validators*~isHBytesOfMaxLength(txs, length)
+### *validators*~isTxHexOfMaxLength(txs, length)
 
 | Param | Type |
 | --- | --- |
@@ -84,7 +86,7 @@ Checks if input is correct txs consisting of [9A-Z]; optionally validate length
 | --- | --- |
 | hash | <code>string</code> | 
 
-Checks if input contains `9`s only.
+Checks if input contains `0`s only.
 
 <a name="module_validators..isEmptyBytes"></a>
 
@@ -92,9 +94,9 @@ Checks if input contains `9`s only.
 
 | Param | Type |
 | --- | --- |
-| bytes | <code>Uint8Array</code> | 
+| bytes | <code>TxBytes</code> | 
 
-Checks if input contains `9`s only.
+Checks if input contains `0`s only.
 
 <a name="module_validators..isHash"></a>
 
@@ -102,9 +104,9 @@ Checks if input contains `9`s only.
 
 | Param | Type |
 | --- | --- |
-| hash | <code>string</code> | 
+| hash | <code>TxHex</code> | 
 
-Checks if input is correct hash (81 txs) or address with checksum (90 txs)
+Checks if input is correct hash (64 txs) or address with checksum (72 txs)
 
 <a name="module_validators..isAddress"></a>
 
@@ -114,7 +116,7 @@ Checks if input is correct hash (81 txs) or address with checksum (90 txs)
 | --- | --- |
 | hash | <code>string</code> | 
 
-Checks if input is correct address or address with checksum (90 txs)
+Checks if input is correct address or address with checksum (72 txs)
 
 <a name="module_validators..isInput"></a>
 
@@ -122,7 +124,7 @@ Checks if input is correct address or address with checksum (90 txs)
 
 | Param | Type |
 | --- | --- |
-| address | <code>string</code> | 
+| address | <code>TxHex</code> | 
 
 Checks if input is valid input object. Address can be passed with or without checksum.
 It does not validate the checksum.
@@ -133,7 +135,7 @@ It does not validate the checksum.
 
 | Param | Type |
 | --- | --- |
-| tag | <code>string</code> | 
+| tag | <code>TxHex</code> | 
 
 Checks that input is valid tag txs.
 
@@ -181,11 +183,11 @@ taking advantage of built-in promise branching.
 try {
   validate([
     value, // Given value
-    isHBytes, // Validator function
-    'Invalid txs' // Error message
+    isTxHex, // Validator function
+    'Invalid TxHex' // Error message
   ])
 } catch (err) {
-  console.log(err.message) // 'Invalid txs'
+  console.log(err.message) // 'Invalid TxHex'
 }
 ```
 <a name="module_validators..isAddress"></a>

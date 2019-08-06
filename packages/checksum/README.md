@@ -25,5 +25,5 @@ yarn add @helixnetwork/checksum
 | --- | --- |
 | addressWithChecksum | <code>string</code> | 
 
-Validates the checksum of the given address txs.
 
+Validates the checksum of the given address txs.

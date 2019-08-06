@@ -10,7 +10,8 @@ import {
   Neighbor,
   Provider,
   Transaction,
-  Transfer
+  Transfer,
+  TxHex
 } from "../../types";
 import {
   AccountData,
@@ -39,6 +40,7 @@ import {
   createInterruptAttachingToTangle,
   createIsPromotable,
   createIsReattachable,
+  createLocalAttachToTangle,
   createPrepareTransfers,
   createPromoteTransaction,
   createRemoveNeighbors,
@@ -133,7 +135,6 @@ export const composeAPI = (settings: Partial<Settings> = {}) => {
    *
    * @memberof API
    *
-   * @param {function} attachToTangle - Function to override
    * [`attachToTangle`]{@link #module_core.attachToTangle} with
    */
   function overrideAttachToTangle(attachFn: AttachToTangle) {
@@ -183,6 +184,7 @@ export const composeAPI = (settings: Partial<Settings> = {}) => {
       attachToTangle
     ),
     storeAndBroadcast: createStoreAndBroadcast(provider),
+    localAttachToTangle: createLocalAttachToTangle(provider),
     traverseBundle: createTraverseBundle(provider),
     setSettings,
     overrideAttachToTangle,

@@ -6,14 +6,15 @@ import { transactionHash } from "@helixnetwork/transaction";
 import { asTransactionStrings } from "@helixnetwork/transaction-converter";
 import { ADDRESS_HEX_SIZE } from "../../constants";
 import { Transfer } from "../../types";
-import { composeAPI } from "../src";
+import { composeAPI, createLocalAttachToTangle } from "../src";
 import { createGetNewAddress } from "../src/createGetNewAddress";
 import "../test/integration/nocks/prepareTransfers";
 
 const client = createHttpClient();
 const getNewAddress = createGetNewAddress(client, "lib");
 const helix = composeAPI({
-  provider: "https://hlxtest.net:8087"
+  provider: "https://hlxtest.net:8087",
+  attachToTangle: createLocalAttachToTangle(client)
 });
 
 async function generateBundle() {
@@ -47,75 +48,6 @@ async function generateBundle() {
   );
 
   await createAndPrintBundle(
-    "export const bundleWithValidSignature = ",
-    "export const bundleWithValidSignatureTxHex = ",
-    seed,
-    [
-      {
-        address: addChecksum("a".repeat(ADDRESS_HEX_SIZE)),
-        value: 3,
-        tag: "aaaa",
-        message: "abcd"
-      }
-    ],
-    [
-      {
-        address: addresses[0],
-        keyIndex: 0,
-        security: 2,
-        balance: 3
-      }
-    ]
-  );
-
-  await createAndPrintBundle(
-    "export const bytesTransaction = ",
-    "export const transactionStrings = ",
-    seed,
-    [
-      {
-        address: addChecksum("a".repeat(2 * 32)),
-        value: 3,
-        tag: "aaaa",
-        message: "0"
-      },
-      {
-        address: addChecksum("b".repeat(2 * 32)),
-        value: 3,
-        tag: "aaaa"
-      }
-    ],
-    [
-      {
-        address: addresses[0],
-        keyIndex: 0,
-        security: 2,
-        balance: 3
-      },
-      {
-        address: addresses[1],
-        keyIndex: 1,
-        security: 2,
-        balance: 4
-      }
-    ]
-  );
-
-  await createAndPrintBundle(
-    "export const bundleWithZeroValue = ",
-    "export const bundleWithZeroValueTxHex = ",
-    seed,
-    [
-      {
-        address: addChecksum("a".repeat(ADDRESS_HEX_SIZE)),
-        value: 0,
-        tag: "aaaa",
-        message: "abcd"
-      }
-    ]
-  );
-
-  await createAndPrintBundle(
     "prepare transfer: export const bundleWithZeroValue = ",
     "expectedZeroValueTxHex = ",
     seed,
@@ -132,24 +64,25 @@ async function generateBundle() {
 
 async function createAndPrintBundle(
   msgBundle: string,
-  msgTxs: string,
+  msgHbytes: string,
   currentSeed: string,
   transfers: ReadonlyArray<Transfer>,
   inputs?: ReadonlyArray<any>,
   remainderAddress?: string
 ) {
   try {
-    let resultTxs: ReadonlyArray<string>;
+    let resultHbytes: ReadonlyArray<string>;
 
     if (!inputs && !remainderAddress) {
-      resultTxs = await helix.prepareTransfers(currentSeed, transfers);
+      resultHbytes = await helix.prepareTransfers(currentSeed, transfers);
     } else {
-      resultTxs = await helix.prepareTransfers(currentSeed, transfers, {
+      resultHbytes = await helix.prepareTransfers(currentSeed, transfers, {
         inputs,
         remainderAddress
       });
     }
-    attachIntoTangle(msgBundle, msgTxs, resultTxs);
+
+    attachIntoTangle(msgBundle, msgHbytes, resultHbytes);
   } catch (e) {
     // tslint:disable-next-line:no-console
     console.error(e);
@@ -158,7 +91,7 @@ async function createAndPrintBundle(
 
 async function attachIntoTangle(
   msgBundle: string,
-  msgTxs: string,
+  msgHbytes: string,
   txs: ReadonlyArray<string>
 ) {
   try {
@@ -173,11 +106,11 @@ async function attachIntoTangle(
     console.log(msgBundle);
     console.log(resultBundle);
 
-    console.log(msgTxs);
-    const resultTxs = asTransactionStrings(resultBundle);
-    console.log(resultTxs);
-    for (var i = 0; i < resultTxs.length; i++) {
-      let computedTransactionHash = transactionHash(toTxBytes(resultTxs[i]));
+    console.log(msgHbytes);
+    const resultHbytes = asTransactionStrings(resultBundle);
+    console.log(resultHbytes);
+    for (var i = 0; i < resultHbytes.length; i++) {
+      let computedTransactionHash = transactionHash(toTxBytes(resultHbytes[i]));
 
       console.log(
         "New computed hash (in helix.lib): " + computedTransactionHash

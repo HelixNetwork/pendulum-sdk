@@ -2,7 +2,7 @@ import { txBits, txHex } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
   HASH_TX_HEX_SIZE,
-  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+  SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
 } from "../../constants";
 import { Bundle } from "../../types";
 
@@ -29,7 +29,7 @@ export default function addHMAC(transactions: Bundle, key: Int8Array): Bundle {
             signatureMessageFragment: hmacTxHex.concat(
               transaction.signatureMessageFragment.substr(
                 HASH_TX_HEX_SIZE,
-                SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+                SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
               ) // 81 - 2187
             )
           }
