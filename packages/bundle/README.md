@@ -52,7 +52,7 @@ Creates a bunlde with given transaction entries.
 | [entry.length] | <code>number</code> | <code>1</code> | Entry length, which indicates how many transactions in the bundle will occupy |
 | [entry.address] | <code>TxHex</code> |  | Address, defaults to all-0s |
 | [entry.value] | <code>number</code> | <code>0</code> | Value to transfer in _HLX_ |
-| [entry.signatureMessageFragments] | <code>Array.&lt;TxHex&gt;</code> |  | Array of signature message fragments TxHex, defaults to all-0s |
+| [entry.signatureMessageFragments] | <code>Array.&lt;string&gt;</code> |  | Array of signature message fragments txs, defaults to all-0s |
 | [entry.timestamp] | <code>number</code> |  | Transaction timestamp, defaults to `Math.floor(Date.now() / 1000)` |
 | [entry.tag] | <code>TxHex</code> |  | Optional Tag, defaults to null tag (all-0s) |
 
@@ -69,7 +69,8 @@ Creates a bunlde with given transaction entries
 | fragments | <code>Array.&lt;TxHex&gt;</code> |  | Message signature fragments to add |
 | [offset] | <code>number</code> | <code>0</code> | Optional offset to start appending signature message fragments |
 
-Adds a list of TxHex in the bundle starting at offset
+
+Adds a list of txs in the bundle starting at offset
 
 **Returns**: <code>Array.&lt;Transaction&gt;</code> - Transactions of finalized bundle  
 <a name="module_bundle..finalizeBundle"></a>

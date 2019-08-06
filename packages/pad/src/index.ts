@@ -6,7 +6,7 @@ export const padTxHex = (length: number) => (txHex: TxHex) =>
     ? txHex.concat("0".repeat(length - txHex.length))
     : txHex;
 
-export const padHBits = (length: number) => (txBits: Int8Array) =>
+export const padTxBits = (length: number) => (txBits: Int8Array) =>
   txBits.length < length
     ? new Int8Array(length).map(
         (n, i) =>
@@ -14,7 +14,7 @@ export const padHBits = (length: number) => (txBits: Int8Array) =>
       )
     : txBits;
 
-export const padSignedHBits = (length: number) => (txBits: Int8Array) =>
+export const padSignedTxBits = (length: number) => (txBits: Int8Array) =>
   txBits.length < length
     ? new Int8Array(length).map(
         (n, i) =>

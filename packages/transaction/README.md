@@ -28,10 +28,9 @@ yarn add @helixnetwork/transaction
 
     * [~isTransactionHash(hash, mwm)](#module_transaction..isTransactionHash)
 
-    * [~isTransactionTxHex(txHex, minWeightMagnitude)](#module_transaction..isTransactionTxHex)
+    * [~isTransactionTxHex(txs, minWeightMagnitude)](#module_transaction..isTransactionTxHex)
 
-    * [~isAttachedTxHex(txHex)](#module_transaction..isAttachedTxHex)
-
+    * [~isAttachedTxHex(txs)](#module_transaction..isAttachedTxHex)
 
 <a name="module_transaction..transactionHash"></a>
 
@@ -39,9 +38,9 @@ yarn add @helixnetwork/transaction
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hBits | <code>TxBytes</code> | TxBytes of 32 transaction bytes |
+| txBytes | <code>TxBytes</code> | TxBytes of 32 transaction bytes |
 
-Calculates the transaction hash out of 32 transaction bytes.
+Calculates the transaction hash out of 768 transaction bytes.
 
 **Returns**: <code>Hash</code> - Transaction hash  
 <a name="module_transaction..isTransaction"></a>
@@ -74,18 +73,20 @@ A tail transaction is one with `currentIndex=0`.
 | hash | <code>string</code> | 
 | mwm | <code>number</code> | 
 
-Checks if input is correct transaction hash (32 txHex)
+
+Checks if input is correct transaction hash (32 txs)
 
 <a name="module_transaction..isTransactionTxHex"></a>
 
-### *transaction*~isTransactionTxHex(txHex, minWeightMagnitude)
+### *transaction*~isTransactionTxHex(txs, minWeightMagnitude)
 
 | Param | Type |
 | --- | --- |
-| txHex | <code>string</code> | 
+| txs | <code>string</code> | 
 | minWeightMagnitude | <code>number</code> | 
 
-Checks if input is correct transaction txHex (1536 txHex)
+Checks if input is correct transaction txs (1536 txHex)
+
 
 <a name="module_transaction..isAttachedTxHex"></a>
 
@@ -93,8 +94,8 @@ Checks if input is correct transaction txHex (1536 txHex)
 
 | Param | Type |
 | --- | --- |
-| txHex | <code>string</code> | 
+| txs | <code>string</code> | 
 
-Checks if input is valid attached transaction txHex.
+Checks if input is valid attached transaction txs.
 For attached transactions attached timestamp should not be zero.
 

@@ -50,31 +50,32 @@ yarn add @helixnetwork/validators
 
 <a name="module_validators..isTxHex"></a>
 
-### *validators*~isTxHex(TxHex, [length])
+
+### *validators*~isTxHex(txs, [length])
 
 | Param | Type | Default |
 | --- | --- | --- |
-| TxHex | <code>string</code> |  | 
+| txs | <code>string</code> |  | 
 | [length] | <code>string</code> \| <code>number</code> | <code>&quot;&#x27;1,&#x27;&quot;</code> | 
 
 Checks if input is correct TxHex consisting of [0-9A-F]; optionally validate length
 
 <a name="module_validators..isTxHexOfExactLength"></a>
 
-### *validators*~isTxHexOfExactLength(TxHex, length)
+### *validators*~isTxHexOfExactLength(txs, length)
 
 | Param | Type |
 | --- | --- |
-| TxHex | <code>string</code> | 
+| txs | <code>string</code> | 
 | length | <code>number</code> | 
 
 <a name="module_validators..isTxHexOfMaxLength"></a>
 
-### *validators*~isTxHexOfMaxLength(TxHex, length)
+### *validators*~isTxHexOfMaxLength(txs, length)
 
 | Param | Type |
 | --- | --- |
-| TxHex | <code>string</code> | 
+| txs | <code>string</code> | 
 | length | <code>number</code> | 
 
 <a name="module_validators..isEmpty"></a>
@@ -105,7 +106,7 @@ Checks if input contains `0`s only.
 | --- | --- |
 | hash | <code>TxHex</code> | 
 
-Checks if input is correct hash (64 TxHex) or address with checksum (72 TxHex)
+Checks if input is correct hash (64 txs) or address with checksum (72 txs)
 
 <a name="module_validators..isAddress"></a>
 
@@ -115,7 +116,7 @@ Checks if input is correct hash (64 TxHex) or address with checksum (72 TxHex)
 | --- | --- |
 | hash | <code>string</code> | 
 
-Checks if input is correct address or address with checksum (72 TxHex)
+Checks if input is correct address or address with checksum (72 txs)
 
 <a name="module_validators..isInput"></a>
 
@@ -136,7 +137,7 @@ It does not validate the checksum.
 | --- | --- |
 | tag | <code>TxHex</code> | 
 
-Checks that input is valid tag TxHex.
+Checks that input is valid tag txs.
 
 <a name="module_validators..isTransfer"></a>
 
@@ -195,7 +196,7 @@ try {
 
 | Param | Type | Description |
 | --- | --- | --- |
-| address | <code>TxHex</code> | Address TxHex, with checksum |
+| address | <code>string</code> | Address txs, with checksum |
 
 Checks integrity of given address by validating the checksum.
 

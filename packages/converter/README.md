@@ -17,16 +17,16 @@ yarn add @helixnetwork/converter
 
 ## API Reference
 
-    
+
 * [converter](#module_converter)
 
     * [.asciiToTxHex(input)](#module_converter.asciiToTxHex)
 
-    * [.txHexToAscii(txHex)](#module_converter.txHexToAscii)
+    * [.txsToAscii(txs)](#module_converter.txHexToAscii)
 
     * [.txBits(input)](#module_converter.txBits)
 
-    * [.txHex(txBytes)](#module_converter.txHex)
+    * [.txs(txBytes)](#module_converter.txHex)
 
     * [.value(txBits)](#module_converter.value)
 
@@ -49,11 +49,13 @@ TxHex - which represents the hexadecima string, because of this should contain o
 | --- | --- | --- |
 | input | <code>string</code> | ascii input |
 
-Converts an ascii encoded string to TxHex.
+
+Converts an ascii encoded string to txs.
 
 ### How conversion works:
 
-An ascii value of `1 Byte` can be represented in `2 TxHex`:
+An ascii value of `1 Byte` can be represented in `2` hexadecimal characters:
+
 
 1. We get the decimal unicode value of an individual ASCII character this code can be represented in a Byte
 
@@ -69,16 +71,17 @@ Lets say we want to convert ascii character `Z`.
 
 Therefore ascii character `Z` is represented as `5a` in TxHex.
 
-**Returns**: <code>string</code> - string of txHex  
-<a name="module_converter.txHexToAscii"></a>
+**Returns**: <code>string</code> - string of txs  
+<a name="module_converter.txsToAscii"></a>
 
-### *converter*.txHexToAscii(txHex)
+### *converter*.txsToAscii(txs)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| txHex | <code>TxHex</code> | txHex |
+| txs | <code>string</code> | txs |
 
-Converts txHex of _even_ length to an ascii string
+Converts txs of _even_ length to an ascii string
+
 
 **Returns**: <code>string</code> - string in ascii  
 <a name="module_converter.txBits"></a>
@@ -89,27 +92,30 @@ Converts txHex of _even_ length to an ascii string
 | --- | --- | --- |
 | input | <code>TxHex</code> \ <code>Number</code> | TxHex or value to be converted. |
 
-Converts TxHex or values to TxBits
 
-**Returns**: <code>TxBits</code> - txBits  
-<a name="module_converter.txHex"></a>
+Converts txs or values to txBits
 
-### *converter*.txHex(txBits)
+**Returns**: <code>Int8Array</code> - txBits  
+<a name="module_converter.txs"></a>
+
+### *converter*.txs(hBits)
 
 | Param | Type |
 | --- | --- |
-| txBits | <code>TxBits</code> | 
+| hBits | <code>Int8Array</code> |
 
-Converts TxBits to TxHex
+Converts txBits to txs
 
-**Returns**: <code>TxHex</code> - txHex  
+**Returns**: <code>String</code> - txs  
+
 <a name="module_converter.value"></a>
 
 ### *converter*.value(txBits)
 
 | Param | Type |
 | --- | --- |
-| txBits | <code>TxBits</code> | 
+| txBits | <code>Int8Array</code> |
+
 
 Converts txBits into an integer value
 
@@ -119,11 +125,13 @@ Converts txBits into an integer value
 
 | Param | Type |
 | --- | --- |
-| value | <code>Number</code> | 
+| value | <code>Number</code> |
 
-Converts an integer value to TxBits
 
-**Returns**: <code>TxBits</code> - txBits  
+Converts an integer value to txBits
+
+**Returns**: <code>Int8Array</code> - txBits  
+
 <a name="module_converter.toBytes"></a>
 
 ### *converter*.toTxBytes(value, padding)

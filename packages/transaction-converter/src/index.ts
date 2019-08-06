@@ -8,7 +8,7 @@ import {
   toTxBytes
 } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
-import { padHBits, padTxHex, padSignedHBits } from "@helixnetwork/pad";
+import { padTxBits, padTxHex, padSignedTxBits } from "@helixnetwork/pad";
 import { transactionHash } from "@helixnetwork/transaction";
 import {
   ADDRESS_HEX_SIZE,

@@ -49,10 +49,10 @@ Compute subseed based on the seed with an additional index(seed, index)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| seed | <code>Int8Array</code> | Seed hbits |
+| seed | <code>Int8Array</code> | Seed txBits |
 | index | <code>number</code> | Private key index |
 
-**Returns**: <code>Int8Array</code> - subseed hbits  
+**Returns**: <code>Int8Array</code> - subseed txBits  
 <a name="module_schnorr..key
 Split seed in fragments and hashed them then generate from each fragment a schnore private key;"></a>
 
@@ -61,7 +61,7 @@ Split seed in fragments and hashed them then generate from each fragment a schno
 
 | Param | Type | Description |
 | --- | --- | --- |
-| subseed | <code>Int8Array</code> | Subseed hbits |
+| subseed | <code>Int8Array</code> | Subseed txBits |
 | securityLevel | <code>number</code> | Private key length |
 
 **Returns**: <code>Int8Array</code> - Private key bytes  
@@ -71,7 +71,7 @@ Split seed in fragments and hashed them then generate from each fragment a schno
 
 | Param | Type | Description |
 | --- | --- | --- |
-| key | <code>Uint8Array</code> | Private key hbits |
+| key | <code>Uint8Array</code> | Private key txBits |
 
 <a name="module_schnorr..address"></a>
 
@@ -79,9 +79,9 @@ Split seed in fragments and hashed them then generate from each fragment a schno
 
 | Param | Type | Description |
 | --- | --- | --- |
-| digests | <code>Int8Array</code> | Digests hbits |
+| digests | <code>Int8Array</code> | Digests txBits |
 
-**Returns**: <code>Int8Array</code> - Address hbits  
+**Returns**: <code>Int8Array</code> - Address txBits  
 <a name="module_schnorr..digest"></a>
 
 ### *schnorr*~digest(normalizedBundleFragment, signatureFragment)
@@ -89,9 +89,9 @@ Split seed in fragments and hashed them then generate from each fragment a schno
 | Param | Type | Description |
 | --- | --- | --- |
 | normalizedBundleFragment | <code>array</code> | Normalized bundle fragment |
-| signatureFragment | <code>Int8Array</code> | Signature fragment hbits |
+| signatureFragment | <code>Int8Array</code> | Signature fragment txBits |
 
-**Returns**: <code>Int8Array</code> - Digest hbits  
+**Returns**: <code>Int8Array</code> - Digest txBits  
 <a name="module_schnorr..signatureFragment"></a>
 
 ### *schnorr*~signatureFragment(normalizeBundleFragment, keyFragment)
@@ -99,18 +99,19 @@ Split seed in fragments and hashed them then generate from each fragment a schno
 | Param | Type | Description |
 | --- | --- | --- |
 | normalizeBundleFragment | <code>array</code> | normalized bundle fragment |
-| keyFragment | <code>keyFragment</code> | key fragment hbits |
+| keyFragment | <code>keyFragment</code> | key fragment txBits |
 
-**Returns**: <code>Uint8Array</code> - Signature Fragment hbits  
+**Returns**: <code>Uint8Array</code> - Signature Fragment txBits  
 <a name="module_schnorr..validateSignatures"></a>
 
 ### *schnorr*~validateSignatures(expectedAddress, signatureFragments, bundleHash)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| expectedAddress | <code>string</code> | Expected address txHex |
-| signatureFragments | <code>array</code> | Array of signatureFragments txHex |
-| bundleHash | <code>string</code> | Bundle hash txHex |
+| expectedAddress | <code>string</code> | Expected address txs |
+| signatureFragments | <code>array</code> | Array of signatureFragments txs |
+| bundleHash | <code>string</code> | Bundle hash txs |
+
 
 <a name="module_schnorr..normalizedBundleHash"></a>
 
@@ -118,7 +119,7 @@ Split seed in fragments and hashed them then generate from each fragment a schno
 
 | Param | Type | Description |
 | --- | --- | --- |
-| bundlehash | <code>Hash</code> | Bundle hash txHex |
+| bundlehash | <code>Hash</code> | Bundle hash txs |
 
 Normalizes the bundle hash, with resulting digits summing to zero.
 
