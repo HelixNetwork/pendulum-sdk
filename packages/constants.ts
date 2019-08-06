@@ -152,6 +152,7 @@ export const START_INDEX_ATTACHED_TIMESTAMP_HEX =
   2 * START_INDEX_ATTACHED_TIMESTAMP_BYTE;
 export const START_INDEX_TIMESTAMP_LOW_HEX = 2 * START_INDEX_TIMESTAMP_LOW_BYTE;
 export const START_INDEX_TIMESTAMP_UP_HEX = 2 * START_INDEX_TIMESTAMP_UP_BYTE;
+export const START_INDEX_NONCE_HEX = 2 * START_INDEX_NONCE_BYTE;
 
 /********************************************************************************
  *

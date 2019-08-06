@@ -63,9 +63,9 @@ export const search = (
     for (let i = 0; i < numberOfThreads; i++) {
       const miner = childProcess.fork(__dirname + "/miner/miner");
       miner.on("message", (response: any) => {
-        if (response && response.hash && response.nonce) {
+        if (response && response.txHex && response.nonce) {
           sendAbortSignal(miners);
-          resolve(response.hash);
+          resolve(response.txHex);
         }
       });
       miners.push(miner);

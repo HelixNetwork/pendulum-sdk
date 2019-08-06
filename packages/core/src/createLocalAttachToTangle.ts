@@ -1,39 +1,48 @@
 import { hex, toTxBytes, txBits, txHex } from "@helixnetwork/converter";
 import { powTx } from "@helixnetwork/pow";
 import {
-  START_BRANCH_TRANS_HEX,
-  START_INDEX_ATTACHED_TIMESTAMP_HEX,
-  START_INDEX_CURRENT_INDEX_HEX,
-  START_INDEX_LAST_INDEX_HEX,
-  START_INDEX_NONCE_HEX,
-  START_INDEX_TIMESTAMP_LOW_HEX,
-  START_INDEX_TIMESTAMP_UP_HEX,
-  START_TRUNK_TRANS_HEX,
-  transactionHash
+  transactionHash,
+  transactionHashValidator,
+  transactionTxHexValidator
 } from "@helixnetwork/transaction";
-import { transactionObject } from "@helixnetwork/transaction-converter";
 import * as bPromise from "bluebird";
 import {
+  START_BRANCH_TRANS_BYTE,
+  START_INDEX_ATTACHED_TIMESTAMP_BYTE,
+  START_INDEX_CURRENT_INDEX_BYTE,
+  START_INDEX_CURRENT_INDEX_HEX,
+  START_INDEX_LAST_INDEX_BYTE,
+  START_INDEX_LAST_INDEX_HEX,
+  START_INDEX_TIMESTAMP_LOW_BYTE,
+  START_INDEX_TIMESTAMP_UP_BYTE,
+  START_TRUNK_TRANS_BYTE,
+  TRANSACTION_CURRENT_INDEX_BYTE_SIZE,
   TRANSACTION_CURRENT_INDEX_HEX_SIZE,
+  TRANSACTION_LAST_INDEX_BYTE_SIZE,
   TRANSACTION_LAST_INDEX_HEX_SIZE
 } from "../../constants";
+import {
+  INVALID_BRANCH_TRANSACTION,
+  INVALID_BUNDLE_INDEX,
+  INVALID_TRUNK_TRANSACTION
+} from "../../errors";
+import { arrayValidator, integerValidator, validate } from "../../guards";
 import {
   AttachToTangle,
   Callback,
   Hash,
   Provider,
-  TransactionTxHex,
-  TxBytes
+  TransactionTxHex
 } from "../../types";
 
 /**
- * @method createAttachToTangle
+ * @method createLocalAttachToTangle
  *
  * @memberof module:core
  *
  * @param {Provider} provider - Network provider
  *
- * @return {Function} {@link #module_core.attachToTangle `attachToTangle`}
+ * @return {Function} {@link #module_core.localAttachToTangle `localAttachToTangle`}
  */
 
 export const createLocalAttachToTangle = ({
@@ -56,9 +65,7 @@ export const createLocalAttachToTangle = ({
      *  - `attachmentTimsetampLowerBound`
      *  - `attachmentTimestampUpperBound`
      *
-     * This method can be replaced with a local equivelant such as
-     * < in development >
-     * or remote [`PoW-Integrator`]().
+     * This method perform a local pow, should be used as explained bellow
      *
      * `trunkTransaction` and `branchTransaction` hashes are given by
      * {@link #module_core.getTransactionsToApprove `getTransactionToApprove`}.
@@ -66,16 +73,11 @@ export const createLocalAttachToTangle = ({
      * @example
      *
      * ```js
-     * getTransactionsToApprove(depth)
-     *   .then(({ trunkTransaction, branchTransaction }) =>
-     *     attachToTangle(trunkTransaction, branchTransaction, minWightMagnitude, txs)
-     *   )
-     *   .then(attachedTxHex => {
-     *     // ...
-     *   })
-     *   .catch(err => {
-     *     // ...
-     *   })
+     *
+     * const helix = composeAPI({
+     *   provider: "https://test.net:8087",
+     *   attachToTangle: createLocalAttachToTangle(client)
+     * });
      * ```
      *
      * @method attachToTangle
@@ -93,6 +95,7 @@ export const createLocalAttachToTangle = ({
      * @return {Promise}
      * @fulfil {TransactionTxHex[]} Array of transaction txs with nonce and attachment timestamps
      * @reject {Error}
+     * - `INVALID_BUNDLE_INDEX`: Invalid `bundle index`
      * - `INVALID_TRUNK_TRANSACTION`: Invalid `trunkTransaction`
      * - `INVALID_BRANCH_TRANSACTION`: Invalid `branchTransaction`
      * - `INVALID_MIN_WEIGHT_MAGNITUDE`: Invalid `minWeightMagnitude` argument
@@ -102,6 +105,21 @@ export const createLocalAttachToTangle = ({
      */
 
     return new bPromise<ReadonlyArray<TransactionTxHex>>((resolve, reject) => {
+      if (
+        !validate(
+          integerValidator(minWeightMagnitude),
+          arrayValidator<TransactionTxHex>(transactionTxHexValidator)(txs),
+          transactionHashValidator(trunkTransaction, INVALID_TRUNK_TRANSACTION),
+          transactionHashValidator(
+            branchTransaction,
+            INVALID_BRANCH_TRANSACTION
+          )
+        )
+      ) {
+        reject();
+        return;
+      }
+
       processLocalPow(
         trunkTransaction,
         branchTransaction,
@@ -131,25 +149,19 @@ async function processLocalPow(
     const tx = txs[index];
     let txBytes = toTxBytes(tx);
 
-    // const txObject = transactionObject(tx);
-    // // Check if last transaction in the bundle
+    // Check if last transaction in the bundle
     if (
       !previousTransactionHash &&
       tx.substring(
-        START_INDEX_CURRENT_INDEX_HEX / 2,
-        START_INDEX_CURRENT_INDEX_HEX / 2 +
-          TRANSACTION_CURRENT_INDEX_HEX_SIZE / 2
+        START_INDEX_CURRENT_INDEX_HEX,
+        START_INDEX_CURRENT_INDEX_HEX + TRANSACTION_CURRENT_INDEX_HEX_SIZE
       ) !==
         tx.substring(
-          START_INDEX_LAST_INDEX_HEX / 2,
-          START_INDEX_LAST_INDEX_HEX / 2 + TRANSACTION_LAST_INDEX_HEX_SIZE / 2
+          START_INDEX_LAST_INDEX_HEX,
+          START_INDEX_LAST_INDEX_HEX + TRANSACTION_LAST_INDEX_HEX_SIZE
         )
     ) {
-      reject(
-        new Error(
-          "Wrong bundle order. The bundle should be ordered in descending order from currentIndex"
-        )
-      );
+      reject(new Error(INVALID_BUNDLE_INDEX));
       return;
     }
 
@@ -157,23 +169,23 @@ async function processLocalPow(
       toTxBytes(
         !previousTransactionHash ? trunkTransaction : previousTransactionHash
       ),
-      START_TRUNK_TRANS_HEX / 2
+      START_TRUNK_TRANS_BYTE
     );
     txBytes.set(
       toTxBytes(
         !previousTransactionHash ? branchTransaction : trunkTransaction
       ),
-      START_BRANCH_TRANS_HEX / 2
+      START_BRANCH_TRANS_BYTE
     );
 
     txBytes.set(
       toTxBytes(txHex(txBits(Date.now()))),
-      START_INDEX_ATTACHED_TIMESTAMP_HEX / 2
+      START_INDEX_ATTACHED_TIMESTAMP_BYTE
     );
-    txBytes.set(toTxBytes(txHex(txBits(0))), START_INDEX_TIMESTAMP_LOW_HEX / 2);
+    txBytes.set(toTxBytes(txHex(txBits(0))), START_INDEX_TIMESTAMP_LOW_BYTE);
     txBytes.set(
       toTxBytes(txHex(txBits((Math.pow(2, 8) - 1) / 2))),
-      START_INDEX_TIMESTAMP_UP_HEX / 2
+      START_INDEX_TIMESTAMP_UP_BYTE
     );
 
     txBytes = toTxBytes(await powTx(txBytes, minWeightMagnitude));
