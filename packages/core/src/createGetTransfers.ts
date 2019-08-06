@@ -1,4 +1,5 @@
 import * as Promise from "bluebird";
+import { DEFAULT_SECURITY_LEVEL_TRANSFER_OPTIONS } from "../../constants";
 import {
   securityLevelValidator,
   seedValidator,
@@ -15,6 +16,7 @@ import {
   Transaction
 } from "../../types";
 import { createGetBundlesFromAddresses } from "./createGetBundlesFromAddresses";
+import { GetInputsOptions } from "./createGetInputs";
 import {
   createGetNewAddress,
   getNewAddressOptions,
@@ -32,7 +34,7 @@ const defaults: GetTransfersOptions = {
   start: 0,
   end: undefined,
   inclusionStates: false,
-  security: 2
+  security: DEFAULT_SECURITY_LEVEL_TRANSFER_OPTIONS
 };
 
 export const transferToAddressOptions = (

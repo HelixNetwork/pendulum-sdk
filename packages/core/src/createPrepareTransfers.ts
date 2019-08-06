@@ -5,6 +5,8 @@ import { asFinalTransactionStrings } from "@helixnetwork/transaction-converter";
 import { signatureFragments } from "@helixnetwork/winternitz";
 import * as Promise from "bluebird";
 import {
+  DEFAULT_SECURITY_LEVEL,
+  DEFAULT_SECURITY_LEVEL_PREPARE_TRANSFER,
   HASH_BYTE_SIZE,
   NULL_HASH_TX_HEX,
   SEED_HEX_SIZE,
@@ -39,8 +41,7 @@ import HMAC from "./hmac";
 const HASH_LENGTH = HASH_BYTE_SIZE;
 const SIGNATURE_MESSAGE_FRAGMENT_LENGTH = SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE;
 const SIGNATURE_MESSAGE_FRAGMENT_LENGTH_BYTE = SIGNATURE_TOTAL_BYTE_SIZE;
-// const KEY_FRAGMENT_LENGTH = 2 * SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE;
-const SECURITY_LEVEL = 1;
+const SECURITY_LEVEL = DEFAULT_SECURITY_LEVEL;
 
 export interface PrepareTransfersOptions {
   readonly inputs: ReadonlyArray<Address>;
@@ -54,7 +55,7 @@ const defaults: PrepareTransfersOptions = {
   inputs: [],
   address: undefined,
   remainderAddress: undefined,
-  security: 1,
+  security: DEFAULT_SECURITY_LEVEL_PREPARE_TRANSFER,
   hmacKey: undefined
 };
 

@@ -1,4 +1,5 @@
 import * as Promise from "bluebird";
+import { DEFAULT_SECURITY_LEVEL_GET_ACCOUNT } from "../../constants";
 import {
   securityLevelValidator,
   seedValidator,
@@ -41,7 +42,7 @@ export interface GetAccountDataOptions {
 
 const defaults: GetAccountDataOptions = {
   start: 0,
-  security: 2
+  security: DEFAULT_SECURITY_LEVEL_GET_ACCOUNT
 };
 
 export const getAccountDataOptions = getOptionsWithDefaults(defaults);
@@ -76,7 +77,7 @@ export const createGetAccountData = (provider: Provider, caller?: string) => {
    * ```js
    * getAccountData(seed, {
    *    start: 0,
-   *    security: 2
+   *    security: DEFAULT_SECURITY_LEVEL_GET_ACCOUNT
    * })
    *   .then(accountData => {
    *     const { addresses, inputs, transactions, balance } = accountData

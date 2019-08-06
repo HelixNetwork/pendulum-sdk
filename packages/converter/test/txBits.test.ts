@@ -32,8 +32,6 @@ test("Converter = Test number to bits and back to number conversion) ", t => {
   const expected: number = 1563378693928; //1522184057 114645499
   const txBits: Int8Array = fromValue(expected);
 
-  console.log("valueoftxBits " + value(txBits));
-
   const paddedBits =
     txBits.length < 64
       ? new Int8Array(64).map((n, i) => txBits[i] || 0)
@@ -41,7 +39,6 @@ test("Converter = Test number to bits and back to number conversion) ", t => {
   let bytes = txBitsToTxHex(paddedBits);
 
   let againToBits = txsToTxBits(bytes);
-  console.log("bytes - " + bytes);
   const result = value(againToBits.slice(0, txBits.length));
   t.deepEqual(
     result,
