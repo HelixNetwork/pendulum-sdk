@@ -148,13 +148,6 @@ export const isTransactionHash = (
   const hasCorrectHashLength = isTxHexOfExactLength(hash, HASH_TX_HEX_SIZE);
 
   if (minWeightMagnitude) {
-    console.log(
-      hasCorrectHashLength &&
-        txHexToTxBits(hash)
-          .slice(-Math.abs(minWeightMagnitude))
-          .every(hBit => hBit === 0)
-    );
-
     return (
       hasCorrectHashLength &&
       txHexToTxBits(hash)

@@ -128,8 +128,6 @@ export const createHttpClient = (settings?: Partial<Settings>): Provider => {
      */
     setSettings: (newSettings?: Partial<Settings>): void => {
       _settings = getSettingsWithDefaults({ ..._settings, ...newSettings });
-      // tslint:disable-next-line:no-console
-      console.log(settings);
     }
   };
 };

@@ -65,7 +65,7 @@ export const search = (
       miner.on("message", (response: any) => {
         if (response && response.hash && response.nonce) {
           sendAbortSignal(miners);
-          resolve(response.nonce);
+          resolve(response.hash);
         }
       });
       miners.push(miner);

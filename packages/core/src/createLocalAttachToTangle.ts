@@ -101,8 +101,6 @@ export const createLocalAttachToTangle = ({
      * - Fetch error
      */
 
-    console.log("-------------------------------------------");
-
     return new bPromise<ReadonlyArray<TransactionTxHex>>((resolve, reject) => {
       processLocalPow(
         trunkTransaction,
@@ -131,7 +129,7 @@ async function processLocalPow(
   const updateBundle: TransactionTxHex[] = new Array(txs.length);
   for (let index = 0; index < txs.length; index++) {
     const tx = txs[index];
-    const txBytes = toTxBytes(tx);
+    let txBytes = toTxBytes(tx);
 
     // const txObject = transactionObject(tx);
     // // Check if last transaction in the bundle
@@ -178,8 +176,8 @@ async function processLocalPow(
       START_INDEX_TIMESTAMP_UP / 2
     );
 
-    const nonce = await powTx(txBytes, minWeightMagnitude);
-    txBytes.set(toTxBytes(nonce), START_INDEX_NONCE / 2);
+    txBytes = toTxBytes(await powTx(txBytes, minWeightMagnitude));
+    // txBytes.set(toTxBytes(nonce), START_INDEX_NONCE / 2);
     previousTransactionHash = transactionHash(txBytes);
     updateBundle[index] = hex(txBytes);
   }
