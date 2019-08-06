@@ -3,7 +3,7 @@ import {
   fromValue,
   txBits,
   txBitsToTxHex,
-  txHexToTxBits,
+  txsToTxBits,
   hex,
   value
 } from "../src";
@@ -20,11 +20,11 @@ test("Converter: Test number to bits and back to number conversion) ", t => {
     0x00
   ]);
   let bytes = txBitsToTxHex(input);
-  let bit = txHexToTxBits(bytes);
+  let bit = txsToTxBits(bytes);
   t.deepEqual(
     bit,
     input,
-    "Function txBitsToTxHex and txHexToTxBits() return the same value"
+    "Function txBitsToTxHex and txsToTxBits() return the same value"
   );
 });
 
@@ -40,13 +40,13 @@ test("Converter = Test number to bits and back to number conversion) ", t => {
       : txBits;
   let bytes = txBitsToTxHex(paddedBits);
 
-  let againToBits = txHexToTxBits(bytes);
+  let againToBits = txsToTxBits(bytes);
   console.log("bytes - " + bytes);
   const result = value(againToBits.slice(0, txBits.length));
   t.deepEqual(
     result,
     expected,
-    "Function txHexToTxBits() then back to value should return the same value"
+    "Function txsToTxBits() then back to value should return the same value"
   );
 });
 
@@ -61,12 +61,12 @@ test("Converter: Test number to bits and back to number conversion for negative 
       : txBits;
   let bytes = txBitsToTxHex(paddedBits);
 
-  let againToBits = txHexToTxBits(bytes);
+  let againToBits = txsToTxBits(bytes);
   const result = value(againToBits);
   t.deepEqual(
     result,
     expected,
-    "Function txHexToTxBits() then back to value should return the same value"
+    "Function txsToTxBits() then back to value should return the same value"
   );
 });
 
@@ -86,7 +86,7 @@ test("Function: txBits) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from txHex to txBits is not correctly!"
+    "Conversion from txs to txBits is not correctly!"
   );
 });
 
@@ -114,7 +114,7 @@ test("Function2: txBits) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from txHex to txBits is not correctly!"
+    "Conversion from txs to txBits is not correctly!"
   );
 });
 
@@ -125,7 +125,7 @@ test("Function3: txBits) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from txHex to txBits is not correctly!"
+    "Conversion from txs to txBits is not correctly!"
   );
 });
 
@@ -146,7 +146,7 @@ test("Function: txBits - from number) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from txHex to txBits is not correctly!"
+    "Conversion from txs to txBits is not correctly!"
   );*/
   const input = "placeholder";
   const placeholder = (input: string): string => {
@@ -175,7 +175,7 @@ test("Function: txBits - from number more than one byte) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from txHex to txBits is not correctly expected 10 bits!"
+    "Conversion from txs to txBits is not correctly expected 10 bits!"
   );*/
   const input = "placeholder";
   const placeholder = (input: string): string => {

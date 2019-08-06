@@ -19,17 +19,6 @@ export const powTx = async (
   return result;
 };
 
-export const powBundle = async (
-  txBytesArray: Uint8Array[],
-  minWeightMagnitude: number
-) => {
-  const nonces: any = [];
-  for (const txBytes of txBytesArray) {
-    nonces.push(await powTx(txBytes, minWeightMagnitude));
-  }
-  return nonces;
-};
-
 export const search = (
   txBytes: Uint8Array,
   minWeightMagnitude: number,
@@ -63,9 +52,9 @@ export const search = (
     for (let i = 0; i < numberOfThreads; i++) {
       const miner = childProcess.fork(__dirname + "/miner/miner");
       miner.on("message", (response: any) => {
-        if (response && response.txHex && response.nonce) {
+        if (response && response.txs && response.nonce) {
           sendAbortSignal(miners);
-          resolve(response.txHex);
+          resolve(response.txs);
         }
       });
       miners.push(miner);

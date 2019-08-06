@@ -1818,7 +1818,7 @@ Maps the list of given hashes to a list of converted transaction objects.
 
     * [~isTransactionTxHex(txs, minWeightMagnitude)](#module_transaction..isTransactionTxHex)
 
-    * [~isAttachedTxHex(txHex)](#module_transaction..isAttachedTxHex)
+    * [~isAttachedTxHex(txs)](#module_transaction..isAttachedTxHex)
 
 
 <a name="module_transaction..transactionHash"></a>
@@ -1868,7 +1868,7 @@ Checks if input is correct transaction hash (32 txs)
 
 <a name="module_transaction..isTransactionTxHex"></a>
 
-### *transaction*~isTransactionTxHex(txHex, minWeightMagnitude)
+### *transaction*~isTransactionTxHex(txs, minWeightMagnitude)
 
 | Param | Type |
 | --- | --- |
@@ -1876,7 +1876,7 @@ Checks if input is correct transaction hash (32 txs)
 | minWeightMagnitude | <code>number</code> |
 
 Checks if input is correct transaction txs (768
- txHex)
+ txs)
 
 <a name="module_transaction..isAttachedTxHex"></a>
 
@@ -1887,7 +1887,7 @@ Checks if input is correct transaction txs (768
 | txs | <code>string</code> |
 
 Checks if input is valid attached transaction txs.
-For attached transactions last 48 txHex are non-zero.
+For attached transactions last 48 txs are non-zero.
 
 
 <a name="module_unit-converter"></a>

@@ -78,11 +78,11 @@ helix
     console.log(results);
 
     console.log("export const bundleTxBytes: TxBytes[] = ");
-    const txHexsResult = TransactionConverter.asTransactionTxBytes(results);
-    console.log(txHexsResult);
+    const txssResult = TransactionConverter.asTransactionTxBytes(results);
+    console.log(txssResult);
 
     const bundleFromTangle = Array.from(results);
-    const transactions = Array.from(txHexsResult);
+    const transactions = Array.from(txssResult);
     for (var i = 0; i < transactions.length; i++) {
       console.log("Transaction " + i);
       console.log(

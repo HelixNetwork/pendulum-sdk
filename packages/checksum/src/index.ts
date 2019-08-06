@@ -1,6 +1,6 @@
 /** @module checksum */
 
-import { txBits, txHex, hex, toTxBytes } from "@helixnetwork/converter";
+import { txBits, txs, hex, toTxBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
   ADDRESS_HEX_SIZE,
@@ -117,11 +117,11 @@ export function removeChecksum(
   input: ReadonlyArray<TxHex>
 ): ReadonlyArray<TxHex>;
 export function removeChecksum(input: TxHex | ReadonlyArray<TxHex>) {
-  const txHexArray = asArray(input);
+  const txsArray = asArray(input);
 
   if (
-    txHexArray.length === 0 ||
-    !txHexArray.every(
+    txsArray.length === 0 ||
+    !txsArray.every(
       t =>
         isTxHex(t, ADDRESS_HEX_SIZE) ||
         isTxHex(t, ADDRESS_WITH_CHECKSUM_TX_HEX_LENGTH)
@@ -130,7 +130,7 @@ export function removeChecksum(input: TxHex | ReadonlyArray<TxHex>) {
     throw new Error(errors.INVALID_ADDRESS);
   }
 
-  const noChecksum: ReadonlyArray<TxHex> = txHexArray.map(inputTxHex =>
+  const noChecksum: ReadonlyArray<TxHex> = txsArray.map(inputTxHex =>
     inputTxHex.slice(0, ADDRESS_HEX_SIZE)
   );
 

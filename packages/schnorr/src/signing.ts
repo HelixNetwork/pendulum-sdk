@@ -3,8 +3,8 @@
 import {
   fromValue,
   txBits,
-  txHex,
-  txHexToTxBits,
+  txs,
+  txsToTxBits,
   hex,
   toTxBytes,
   value,
@@ -277,9 +277,9 @@ export function signatureFragment(
 /**
  * @method validateSignatures
  *
- * @param {string} expectedAddress - Expected address txHex
- * @param {array} signatureFragments - Array of signatureFragments txHex
- * @param {string} bundleHash - Bundle hash txHex
+ * @param {string} expectedAddress - Expected address txs
+ * @param {array} signatureFragments - Array of signatureFragments txs
+ * @param {string} bundleHash - Bundle hash txs
  *
  * @return {boolean}
  */
@@ -307,7 +307,7 @@ export function validateSignatures(
     );
     isValid = isValid && Schnorr.verify(normalizedBundle, signature, publicKey);
   });
-  return isValid; // expectedAddress === txHex(address(digests));
+  return isValid; // expectedAddress === txs(address(digests));
 }
 
 /**
@@ -315,7 +315,7 @@ export function validateSignatures(
  *
  * @method normalizedBundleHash
  *
- * @param {Hash} bundlehash - Bundle hash txHex
+ * @param {Hash} bundlehash - Bundle hash txs
  *
  * @return {Int8Array} Normalized bundle hash
  */

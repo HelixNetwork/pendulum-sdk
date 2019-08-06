@@ -10,18 +10,18 @@ test("isAttachedTxHexArray()", t => {
   t.is(
     isAttachedTxHexArray(attachedTxHex),
     true,
-    "isAttachedTxHexArray() returns true for valid attached txHex"
+    "isAttachedTxHexArray() returns true for valid attached txs"
   );
 
   t.is(
     isAttachedTxHexArray(attachedTxHexOfInvalidChars),
     false,
-    "isAttachedTxHexArray() returns false for invalid txHex"
+    "isAttachedTxHexArray() returns false for invalid txs"
   );
 
   t.is(
     isAttachedTxHexArray(attachedTxHexOfInvalidLength),
     false,
-    "isAttachedTxHexArray() return false for txHex of invalid length"
+    "isAttachedTxHexArray() return false for txs of invalid length"
   );
 });

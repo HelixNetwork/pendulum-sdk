@@ -1,24 +1,24 @@
 import test from "ava";
 import * as errors from "../src/errors";
-import { txHexToAscii } from "../src";
+import { txsToAscii } from "../src";
 
 const { INVALID_ODD_LENGTH, INVALID_TX_HEX } = errors;
 
-test("txHexToAscii()", t => {
-  const txHex = "494f5441";
+test("txsToAscii()", t => {
+  const txs = "494f5441";
   const expected = "IOTA";
 
   const nonTxHex = "AAAfasds";
-  const txHexOfOddLength = "aaa";
+  const txsOfOddLength = "aaa";
 
   t.is(
-    txHexToAscii(txHex),
+    txsToAscii(txs),
     expected,
     "fromTxHex() should convert transactionStrings to ascii."
   );
 
   const invalidTxHexError = t.throws(
-    () => txHexToAscii(nonTxHex),
+    () => txsToAscii(nonTxHex),
     Error,
     "fromTxHex() should throw error for non-transactionStrings."
   );
@@ -26,7 +26,7 @@ test("txHexToAscii()", t => {
   t.is(invalidTxHexError.message, INVALID_TX_HEX, "incorrect error message");
 
   const oddLengthError = t.throws(
-    () => txHexToAscii(txHexOfOddLength),
+    () => txsToAscii(txsOfOddLength),
     Error,
     "fromTxHex() should throw error for transactionStrings of odd length."
   );

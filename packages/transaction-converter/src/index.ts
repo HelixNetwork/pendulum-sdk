@@ -2,7 +2,7 @@
 
 import {
   txBitsToTxHex,
-  txHexToTxBits,
+  txsToTxBits,
   txBits,
   value,
   toTxBytes
@@ -115,27 +115,27 @@ export function asTransactionStrings(
  *
  * @method asTransactionObject
  *
- * @param {TxHex} txHex - Transaction transactionStrings
+ * @param {TxHex} txs - Transaction transactionStrings
  *
  * @return {Transaction} Transaction object
  */
-export const asTransactionObject = (txHex: TxHex, hash?: Hash): Transaction => {
-  if (!isTxHexOfExactLength(txHex, TRANSACTION_TX_HEX_SIZE)) {
+export const asTransactionObject = (txs: TxHex, hash?: Hash): Transaction => {
+  if (!isTxHexOfExactLength(txs, TRANSACTION_TX_HEX_SIZE)) {
     throw new Error(errors.INVALID_TX_HEX);
   }
-  const txBits = txHexToTxBits(txHex);
+  const txBits = txsToTxBits(txs);
 
   const noOfBitsInBytes = 4;
   const usefulBytesFromValue = TRANSACTION_VALUE_HEX_SIZE;
   const noOfBitsInValue = 4 * usefulBytesFromValue;
 
   return {
-    hash: hash || transactionHash(toTxBytes(txHex)),
-    signatureMessageFragment: txHex.slice(
+    hash: hash || transactionHash(toTxBytes(txs)),
+    signatureMessageFragment: txs.slice(
       START_INDEX_SIGNATURE_MESSAGE_HEX,
       START_INDEX_SIGNATURE_MESSAGE_HEX + SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
     ),
-    address: txHex.slice(
+    address: txs.slice(
       START_INDEX_ADDRESS_HEX,
       START_INDEX_ADDRESS_HEX + ADDRESS_HEX_SIZE
     ),
@@ -145,7 +145,7 @@ export const asTransactionObject = (txHex: TxHex, hash?: Hash): Transaction => {
         START_INDEX_VALUE_HEX * noOfBitsInBytes + noOfBitsInValue
       )
     ),
-    obsoleteTag: txHex.slice(
+    obsoleteTag: txs.slice(
       START_INDEX_OBSOLETE_TAG_HEX,
       START_INDEX_OBSOLETE_TAG_HEX + OBSOLETE_TAG_HEX_SIZE
     ),
@@ -170,19 +170,19 @@ export const asTransactionObject = (txHex: TxHex, hash?: Hash): Transaction => {
           (START_INDEX_LAST_INDEX_HEX + TRANSACTION_LAST_INDEX_HEX_SIZE)
       )
     ),
-    bundle: txHex.slice(
+    bundle: txs.slice(
       START_INDEX_BUNDLE_HEX,
       START_INDEX_BUNDLE_HEX + HASH_TX_HEX_SIZE
     ),
-    trunkTransaction: txHex.slice(
+    trunkTransaction: txs.slice(
       START_TRUNK_TRANS_HEX,
       START_TRUNK_TRANS_HEX + HASH_TX_HEX_SIZE
     ),
-    branchTransaction: txHex.slice(
+    branchTransaction: txs.slice(
       START_BRANCH_TRANS_HEX,
       START_BRANCH_TRANS_HEX + HASH_TX_HEX_SIZE
     ),
-    tag: txHex.slice(START_INDEX_TAG_HEX, START_INDEX_TAG_HEX + TAG_HEX_SIZE),
+    tag: txs.slice(START_INDEX_TAG_HEX, START_INDEX_TAG_HEX + TAG_HEX_SIZE),
     attachmentTimestamp: value(
       txBits.slice(
         noOfBitsInBytes * START_INDEX_ATTACHED_TIMESTAMP_HEX,
@@ -206,7 +206,7 @@ export const asTransactionObject = (txHex: TxHex, hash?: Hash): Transaction => {
             TRANSACTION_TIMESTAMP_UPPER_BOUND_HEX_SIZE)
       )
     ),
-    nonce: txHex.slice(
+    nonce: txs.slice(
       START_INDEX_NONCE_HEX,
       START_INDEX_NONCE_HEX + NONCE_BYTE_HEX_SIZE
     )
@@ -236,9 +236,9 @@ export const asTransactionObjects = (hashes?: ReadonlyArray<Hash>) => {
    *
    * @return {Transaction[]} List of transaction objects with hashes
    */
-  return function transactionObjectsMapper(txHex: ReadonlyArray<TxHex>) {
-    return txHex.map((txHexString, i) =>
-      asTransactionObject(txHexString, hashes![i])
+  return function transactionObjectsMapper(txs: ReadonlyArray<TxHex>) {
+    return txs.map((txsString, i) =>
+      asTransactionObject(txsString, hashes![i])
     );
   };
 };
@@ -247,11 +247,11 @@ export const asFinalTransactionStrings = (
   transactions: ReadonlyArray<Transaction>
 ) => [...asTransactionStrings(transactions)].reverse();
 
-export const transactionObject = (txHex: TxHex): Transaction => {
+export const transactionObject = (txs: TxHex): Transaction => {
   /* tslint:disable-next-line:no-console */
   console.warn("`transactionObject` has been renamed to `asTransactionObject`");
 
-  return asTransactionObject(txHex);
+  return asTransactionObject(txs);
 };
 
 export const transactionTxHex = (transaction: Transaction): TxHex => {

@@ -1,6 +1,6 @@
 # @helixnetwork/converter
 
-Methods for converting ascii values to txHex, txBits and back.
+Methods for converting ascii values to txs, txBits and back.
 
 ## Installation
 
@@ -22,11 +22,11 @@ yarn add @helixnetwork/converter
 
     * [.asciiToTxHex(input)](#module_converter.asciiToTxHex)
 
-    * [.txsToAscii(txs)](#module_converter.txHexToAscii)
+    * [.txsToAscii(txs)](#module_converter.txsToAscii)
 
     * [.txBits(input)](#module_converter.txBits)
 
-    * [.txs(txBytes)](#module_converter.txHex)
+    * [.txs(txBits)](#module_converter.txs)
 
     * [.value(txBits)](#module_converter.value)
 
@@ -98,7 +98,7 @@ Converts txs or values to txBits
 **Returns**: <code>Int8Array</code> - txBits  
 <a name="module_converter.txs"></a>
 
-### *converter*.txs(hBits)
+### *converter*.txs(txBits)
 
 | Param | Type |
 | --- | --- |
