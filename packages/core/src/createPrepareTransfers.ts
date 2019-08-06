@@ -162,7 +162,7 @@ export const createPrepareTransfers = (
       if (isTxHex(seed) && seed.length < SEED_BYTE_SIZE) {
         /* tslint:disable-next-line:no-console */
         console.warn(
-          "WARNING: Seeds with less length than 81 transactionStrings are not secure! Use a random, 81-transactionStrings long seed!"
+          "WARNING: Seeds with less length than 64 transactionStrings are not secure! Use a random, 64-transactionStrings long seed!"
         );
       }
     }
