@@ -22,11 +22,11 @@ test("sendTransactionStrings() attaches to tangle, broadcasts, stores and resolv
 });
 
 test("sendTransactionStrings() does not mutate original txs.", async t => {
-  const txHexCopy = [...txs];
+  const txsCopy = [...txs];
 
-  await sendTxHex(txHexCopy, depth, minWeightMagnitude);
+  await sendTxHex(txsCopy, depth, minWeightMagnitude);
   t.deepEqual(
-    txHexCopy,
+    txsCopy,
     txs,
     "sendTransactionStrings() should not mutate original txs."
   );

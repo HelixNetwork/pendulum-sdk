@@ -58,20 +58,20 @@ export function toTxBytes(
 /**
  * Converts TxHex into TxBytes
  *
- * @param {TxHex} txHex hexadecimal string representation
+ * @param {TxHex} txs hexadecimal string representation
  *
  * @return {TxBytes} byte array
  */
 
-function toTxBytesFromTxHex(txHex: string, padding?: number): Uint8Array {
-  if (txHex.length % 2 !== 0) {
-    throw new Error(errors.INVALID_STRING_LENGTH + txHex.length);
+function toTxBytesFromTxHex(txs: string, padding?: number): Uint8Array {
+  if (txs.length % 2 !== 0) {
+    throw new Error(errors.INVALID_STRING_LENGTH + txs.length);
   }
   const paddingCt = padding ? padding : 1;
-  const result = new Uint8Array(Math.max(paddingCt, txHex.length / 2));
+  const result = new Uint8Array(Math.max(paddingCt, txs.length / 2));
   let ct = 0;
-  for (let i = 0; i < txHex.length; i += 2) {
-    result[ct++] = parseInt(txHex.substr(i, 2), 16);
+  for (let i = 0; i < txs.length; i += 2) {
+    result[ct++] = parseInt(txs.substr(i, 2), 16);
   }
   return result;
 }

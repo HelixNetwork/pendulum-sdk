@@ -85,12 +85,12 @@ Checks if input is correct transaction hash (32 txs)
 | txs | <code>string</code> | 
 | minWeightMagnitude | <code>number</code> | 
 
-Checks if input is correct transaction txs (1536 txHex)
+Checks if input is correct transaction txs (1536 txs)
 
 
 <a name="module_transaction..isAttachedTxHex"></a>
 
-### *transaction*~isAttachedTxHex(txHex)
+### *transaction*~isAttachedTxHex(txs)
 
 | Param | Type |
 | --- | --- |

@@ -42,17 +42,17 @@ export default class Schnorr {
     const hHash = new HHash(HHash.HASH_ALGORITHM_3);
     hHash.initialize();
     hHash.absorb(seed, 0, hHash.getHashLength());
-    const hastxHex: Int8Array = new Int8Array(hHash.getHashLength());
-    hHash.squeeze(hastxHex, 0, hHash.getHashLength());
-    let privateKey: any = new BN(hastxHex);
+    const hastxs: Int8Array = new Int8Array(hHash.getHashLength());
+    hHash.squeeze(hastxs, 0, hHash.getHashLength());
+    let privateKey: any = new BN(hastxs);
     let buffer;
     while (
       !Schnorr.validateBN(privateKey) ||
       privateKey.toArrayLike(Buffer, "be").length !=
         SIGNATURE_SECRETE_KEY_BYTE_SIZE
     ) {
-      hHash.squeeze(hastxHex, 0, hHash.getHashLength());
-      privateKey = new BN(hastxHex);
+      hHash.squeeze(hastxs, 0, hHash.getHashLength());
+      privateKey = new BN(hastxs);
     }
 
     return privateKey.toArrayLike(Buffer, "be");

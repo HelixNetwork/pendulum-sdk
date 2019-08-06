@@ -1,10 +1,8 @@
 import { OBSOLETE_TAG_HEX_SIZE, TAG_HEX_SIZE } from "../../constants";
 import { TxHex, Tag } from "../../types";
 
-export const padTxHex = (length: number) => (txHex: TxHex) =>
-  txHex.length < length
-    ? txHex.concat("0".repeat(length - txHex.length))
-    : txHex;
+export const padTxHex = (length: number) => (txs: TxHex) =>
+  txs.length < length ? txs.concat("0".repeat(length - txs.length)) : txs;
 
 export const padTxBits = (length: number) => (txBits: Int8Array) =>
   txBits.length < length

@@ -1,17 +1,17 @@
 export class MinerResponse {
   public nonce: string | undefined;
 
-  public txHex: string | undefined;
+  public txs: string | undefined;
 
   public message: string | undefined;
 
   constructor(
     nonce: string | undefined,
-    txHex: string | undefined,
+    txs: string | undefined,
     message: string | undefined
   ) {
     this.nonce = nonce;
-    this.txHex = txHex;
+    this.txs = txs;
     this.message = message;
   }
 }

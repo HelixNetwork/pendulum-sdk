@@ -109,7 +109,7 @@ const depth = 3
 const minWeightMagnitude = 2
 
 helix.prepareTransfers(seed, transfers)
-    .then(txs => helix.sendTxHex(txHex, depth, minWeightMagnitude))
+    .then(txs => helix.sendTxHex(txs, depth, minWeightMagnitude))
     .then(bundle => {
         console.log(`Published transaction with tail hash: ${bundle[0].hash}`)
         console.log(`Bundle: ${bundle}`)

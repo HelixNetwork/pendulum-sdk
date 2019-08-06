@@ -1,4 +1,4 @@
-import { hex, toTxBytes, txBits, txHex } from "@helixnetwork/converter";
+import { hex, toTxBytes, txBits, txBitsToTxHex } from "@helixnetwork/converter";
 import { powTx } from "@helixnetwork/pow";
 import {
   transactionHash,
@@ -179,12 +179,15 @@ async function processLocalPow(
     );
 
     txBytes.set(
-      toTxBytes(txHex(txBits(Date.now()))),
+      toTxBytes(txBitsToTxHex(txBits(Date.now()))),
       START_INDEX_ATTACHED_TIMESTAMP_BYTE
     );
-    txBytes.set(toTxBytes(txHex(txBits(0))), START_INDEX_TIMESTAMP_LOW_BYTE);
     txBytes.set(
-      toTxBytes(txHex(txBits((Math.pow(2, 8) - 1) / 2))),
+      toTxBytes(txBitsToTxHex(txBits(0))),
+      START_INDEX_TIMESTAMP_LOW_BYTE
+    );
+    txBytes.set(
+      toTxBytes(txBitsToTxHex(txBits((Math.pow(2, 8) - 1) / 2))),
       START_INDEX_TIMESTAMP_UP_BYTE
     );
 

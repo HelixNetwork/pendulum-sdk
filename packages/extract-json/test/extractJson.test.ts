@@ -15,7 +15,7 @@ test("extractJson() parses JSON object.", t => {
   t.is(
     extractJson(bundleWithJSON),
     parsedJSON,
-    "extractJson() should return parsed object for bundle with valid txHex encoded JSON."
+    "extractJson() should return parsed object for bundle with valid txs encoded JSON."
   );
 });
 
@@ -23,7 +23,7 @@ test("extractJson() parses JSON object over multiple signature message fragments
   t.is(
     extractJson(bundleWithMultipleJSONMessageFragments),
     parsedJSONOfMultipleMessageFragments,
-    "extractJson() should return parsed object for bundle with valid txHex encoded JSON in multiple message fragments."
+    "extractJson() should return parsed object for bundle with valid txs encoded JSON in multiple message fragments."
   );
 });
 
@@ -31,7 +31,7 @@ test("extractJson() parses empty JSON object.", t => {
   t.is(
     extractJson(bundleWithEmptyJSON),
     "{}",
-    "extractJson() should return empty object for bundle with empty txHex encoded JSON."
+    "extractJson() should return empty object for bundle with empty txs encoded JSON."
   );
 });
 

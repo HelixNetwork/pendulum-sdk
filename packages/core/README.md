@@ -135,11 +135,11 @@ yarn add @helixnetwork/core
 
     * [.createStoreAndBroadcast(provider)](#module_core.createStoreAndBroadcast)
 
-    * [.storeAndBroadcast(txHex, [callback])](#module_core.storeAndBroadcast)
+    * [.storeAndBroadcast(txs, [callback])](#module_core.storeAndBroadcast)
 
     * [.createStoreTransactions(provider)](#module_core.createStoreTransactions)
 
-    * [.storeTransactions(txHex, [callback])](#module_core.storeTransactions)
+    * [.storeTransactions(txs, [callback])](#module_core.storeTransactions)
 
     * [.createTraverseBundle(provider)](#module_core.createTraverseBundle)
 
@@ -225,7 +225,7 @@ addNeighbors(['udp://148.148.148.148:14265'])
 | trunkTransaction | <code>Hash</code> | Trunk transaction as returned by [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) |
 | branchTransaction | <code>Hash</code> | Branch transaction as returned by [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) |
 | minWeightMagnitude | <code>number</code> | Number of minimun trailing zeros in tail transaction hash |
-| txHex | <code>Array.&lt;TransactionTxHex&gt;</code> | List of transaction txs |
+| txs | <code>Array.&lt;TransactionTxHex&gt;</code> | List of transaction txs |
 | [callback] | <code>Callback</code> | Optional callback |
 
 Performs the Proof-of-Work required to attach a transaction to the Tangle by
@@ -308,12 +308,12 @@ broadcastTransactions(tailHash)
 ### *core*.broadcastTransactions(txs, [callback])
 **Fulfil**: <code>HBytes[]</code> Attached transaction txs  
 **Reject**: <code>Error</code>
-- `INVALID_ATTACHED_HBYTES`: Invalid array of attached txs
+- `INVALID_ATTACHED_TX_HEX`: Invalid array of attached txs
 - Fetch error  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| txHex | <code>Array.&lt;TransactionTxHex&gt;</code> | Attached Transaction txHex |
+| txs | <code>Array.&lt;TransactionTxHex&gt;</code> | Attached Transaction txs |
 | [callback] | <code>Callback</code> | Optional callback |
 
 Broadcasts an list of _attached_ transaction txs to the network by calling
@@ -822,11 +822,11 @@ Returns list of connected neighbors.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| seed | <code>string</code> |  | At least 64 txHex long seed |
+| seed | <code>string</code> |  | At least 64 txs long seed |
 | [options] | <code>object</code> |  |  |
 | [options.index] | <code>number</code> | <code>0</code> | Key index to start search at |
 | [options.security] | <code>number</code> | <code>1</code> | Security level |
-| [options.checksum] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to include 8-txHex checksum or not |
+| [options.checksum] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to include 8-txs checksum or not |
 | [options.total] | <code>number</code> |  | `Deprecated` Number of addresses to generate. |
 | [options.returnAll] | <code>boolean</code> | <code>false</code> | `Deprecated` Flag to return all addresses, from start up to new address. |
 | [callback] | <code>Callback</code> |  | Optional callback |
@@ -1262,23 +1262,23 @@ prepareTransfers(seed, transfers)
 **Returns**: <code>function</code> - [`storeAndBroadcast`](#module_core.storeAndBroadcast)  
 <a name="module_core.storeAndBroadcast"></a>
 
-### *core*.storeAndBroadcast(txHex, [callback])
+### *core*.storeAndBroadcast(txs, [callback])
 **Fulfil**: <code>TxHex[]</code> Attached transaction txs  
 **Reject**: <code>Error</code>
-- `INVALID_ATTACHED_HBYTES`: Invalid attached txs
+- `INVALID_ATTACHED_TX_HEX`: Invalid attached txs
 - Fetch error  
 
 | Param | Type | Description |
 | --- | --- | --- |
 
-| txHex | <code>Array.&lt;TxHex&gt;</code> | Attached transaction txs |
+| txs | <code>Array.&lt;TxHex&gt;</code> | Attached transaction txs |
 | [callback] | <code>Callback</code> | Optional callback |
 
-Stores and broadcasts a list of _attached_ transaction txHex by calling
+Stores and broadcasts a list of _attached_ transaction txs by calling
 [`storeTransactions`](#module_core.storeTransactions) and
 [`broadcastTransactions`](#module_core.broadcastTransactions).
 
-Note: Persist the transaction txHex in local storage **before** calling this command, to ensure
+Note: Persist the transaction txs in local storage **before** calling this command, to ensure
 that reattachment is possible, until your bundle has been included.
 
 Any transactions stored with this command will eventaully be erased, as a result of a snapshot.
@@ -1295,9 +1295,9 @@ Any transactions stored with this command will eventaully be erased, as a result
 <a name="module_core.storeTransactions"></a>
 
 ### *core*.storeTransactions(txs, [callback])
-**Fullfil**: <code>TxHex[]</code> Attached transaction txHex  
+**Fullfil**: <code>TxHex[]</code> Attached transaction txs  
 **Reject**: <code>Error</code>
-- `INVALID_ATTACHED_HBYTES`: Invalid attached txs
+- `INVALID_ATTACHED_TX_HEX`: Invalid attached txs
 - Fetch error  
 
 | Param | Type | Description |

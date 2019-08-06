@@ -57,12 +57,12 @@ const prepareTransfersWithNetwork = createPrepareTransfers(
   "lib"
 );
 test("prepareTransfers() prepares the correct array of txs offline.", async t => {
-  const txHex = await prepareTransfers("abcd", transfers, {
+  const txs = await prepareTransfers("abcd", transfers, {
     inputs,
     remainderAddress
   });
   t.deepEqual(
-    txHex,
+    txs,
     expected,
     "prepareTransfers() should prepare the correct array of txs."
   );

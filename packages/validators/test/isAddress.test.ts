@@ -40,6 +40,6 @@ test("isAddress()", t => {
   t.is(
     isAddress(addressOfInvalidTxHex),
     false,
-    "isAddress() should return false for input of invalid txHex."
+    "isAddress() should return false for input of invalid txs."
   );
 });

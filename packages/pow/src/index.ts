@@ -1,1 +1,1 @@
-export { powTx, powBundle } from "./proofOfWork";
+export { powTx } from "./proofOfWork";

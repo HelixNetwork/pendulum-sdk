@@ -51,6 +51,6 @@ test("isTransactionHash() returns false for invalid transaction hash.", t => {
   t.is(
     isTransactionHash(invalidTxHex),
     false,
-    "isTransactionHash() should return false for invalid txHex."
+    "isTransactionHash() should return false for invalid txs."
   );
 });

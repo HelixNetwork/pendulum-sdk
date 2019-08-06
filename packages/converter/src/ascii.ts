@@ -2,7 +2,7 @@ import { hex, toTxBytes } from "./";
 import * as errors from "./errors";
 
 /**
- * Converts an ascii encoded string to txHex.
+ * Converts an ascii encoded string to txs.
  *
  * ### How conversion works:
  *
@@ -46,29 +46,26 @@ export const asciiToTxHex = (input: string): string => {
 /**
  * Converts TxHex to ascii string
  *
- * @method txHexToAscii
+ * @method txsToAscii
  *
  * @memberof module:converter
  *
- * @param {string} txHex - txHex
+ * @param {string} txs - txs
  *
  * @return {string} string in ascii
  */
-export const txHexToAscii = (txHex: string): string => {
-  if (
-    typeof txHex !== "string" ||
-    !new RegExp(`^[0-9abcdef]{1,}$`).test(txHex)
-  ) {
+export const txsToAscii = (txs: string): string => {
+  if (typeof txs !== "string" || !new RegExp(`^[0-9abcdef]{1,}$`).test(txs)) {
     throw new Error(errors.INVALID_TX_HEX);
   }
 
-  if (txHex.length % 2) {
+  if (txs.length % 2) {
     throw new Error(errors.INVALID_ODD_LENGTH);
   }
 
   let ascii = "";
 
-  const txBytes = toTxBytes(txHex);
+  const txBytes = toTxBytes(txs);
   for (let i = 0; i < txBytes.length; i++) {
     ascii += String.fromCharCode(txBytes[i]);
   }

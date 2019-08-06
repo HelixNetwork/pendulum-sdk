@@ -100,6 +100,12 @@ export const SIGNATURE_FRAGMENT_NO = 16;
 export const MAX_INDEX_DIFF = 1000;
 export const SECURITY_LEVELS = 4;
 
+export const DEFAULT_SECURITY_LEVEL = 1;
+export const DEFAULT_SECURITY_LEVEL_PREPARE_TRANSFER = DEFAULT_SECURITY_LEVEL;
+export const DEFAULT_SECURITY_LEVEL_TRANSFER_OPTIONS = 2;
+export const DEFAULT_SECURITY_LEVEL_INPUT_OPTIONS = 2;
+export const DEFAULT_SECURITY_LEVEL_GET_ACCOUNT = 2;
+
 /********************************************************************************
  * Transaction fields offsets for TxBytes:
  *******************************************************************************/

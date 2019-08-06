@@ -46,9 +46,9 @@ Converts a transaction object or a list of those into transaction strings (txs).
 
 | Param | Type | Description |
 | --- | --- | --- |
-| txHex | <code>TxHex</code> | Transaction txs |
+| txs | <code>TxHex</code> | Transaction txs |
 
-Converts transaction txs of 1536 txHex into a transaction object.
+Converts transaction txs of 1536 txs into a transaction object.
 
 **Returns**: <code>Transaction</code> - Transaction object  
 <a name="module_transaction-converter..asTransactionObjects"></a>
@@ -72,7 +72,7 @@ the mapper function map them to converted objects.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| txHex | <code>Array.&lt;TxHex&gt;</code> | List of transaction txs to convert |
+| txs | <code>Array.&lt;TxHex&gt;</code> | List of transaction txs to convert |
 
 Maps the list of given hashes to a list of converted transaction objects.
 

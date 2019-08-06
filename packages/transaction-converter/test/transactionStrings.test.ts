@@ -2,7 +2,7 @@ import {
   bundle,
   bundleTxHex,
   transactionObject,
-  transactionTxHex as txHex
+  transactionTxHex as txs
 } from "@helixnetwork/samples";
 import test from "ava";
 import {
@@ -11,34 +11,34 @@ import {
   transactionTxHex
 } from "../src";
 
-test("asTransactionStrings() converts transaction object to transaction txHex.", t => {
+test("asTransactionStrings() converts transaction object to transaction txs.", t => {
   t.deepEqual(
     asTransactionStrings(transactionObject),
-    txHex,
-    "asTransactionStrings() should convert transaction object to transaction txHex."
+    txs,
+    "asTransactionStrings() should convert transaction object to transaction txs."
   );
 });
 
-test("asTransactionStrings() converts transaction object array to transaction txHex array.", t => {
+test("asTransactionStrings() converts transaction object array to transaction txs array.", t => {
   t.deepEqual(
     asTransactionStrings([transactionObject]),
-    [txHex],
-    "asTransactionStrings() should convert transaction object array to transaction txHex array."
+    [txs],
+    "asTransactionStrings() should convert transaction object array to transaction txs array."
   );
 });
 
-test("transactionTxHex() converts transaction object to transaction txHex.", t => {
+test("transactionTxHex() converts transaction object to transaction txs.", t => {
   t.deepEqual(
     transactionTxHex(transactionObject),
-    txHex,
-    "transactionTxHex() should convert transaction object to transaction txHex."
+    txs,
+    "transactionTxHex() should convert transaction object to transaction txs."
   );
 });
 
-test("asFinalTransactionStrings() converts transaction objects to reversed txHex.", t => {
+test("asFinalTransactionStrings() converts transaction objects to reversed txs.", t => {
   t.deepEqual(
     asFinalTransactionStrings([...bundle]),
     [...bundleTxHex].reverse(),
-    "asFinalTransactionStrings() should convert transaction objects to reversed txHex."
+    "asFinalTransactionStrings() should convert transaction objects to reversed txs."
   );
 });

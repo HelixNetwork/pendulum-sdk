@@ -118,9 +118,9 @@ Split seed in fragments and hashed them then generate from each fragment a winte
 
 | Param | Type | Description |
 | --- | --- | --- |
-| expectedAddress | <code>TxBytes</code> | Expected address txHex |
-| signatureFragments | <code>TxBytes</code> | Array of signatureFragments txHex |
-| bundleHash | <code>TxHex</code> | Bundle hash txHex |
+| expectedAddress | <code>TxBytes</code> | Expected address txs |
+| signatureFragments | <code>TxBytes</code> | Array of signatureFragments txs |
+| bundleHash | <code>TxHex</code> | Bundle hash txs |
 
 <a name="module_winternitz..normalizedBundleHash"></a>
 
@@ -128,7 +128,7 @@ Split seed in fragments and hashed them then generate from each fragment a winte
 
 | Param | Type | Description |
 | --- | --- | --- |
-| bundlehash | <code>TxBytes</code> | Bundle hash txHex |
+| bundlehash | <code>TxBytes</code> | Bundle hash txs |
 
 Normalizes the bundle hash, with resulting digits summing to zero.
 

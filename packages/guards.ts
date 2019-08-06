@@ -20,38 +20,37 @@ import { Address, Hash, TxHex, Tag, Transfer } from "./types";
  * Checks if input is correct txs consisting of [9A-Z]; optionally validate length
  * @method isTxHex
  *
- * @param {string} txHex
+ * @param {string} txs
  * @param {string | number} [length='1,']
  *
  * @return {boolean}
  */
 export const isTxHex = (
-  txHex: string,
+  txs: string,
   length: string | number = "1,"
-): txHex is TxHex =>
-  typeof txHex === "string" && new RegExp(`^[0-9a-f]{${length}}$`).test(txHex);
+): txs is TxHex =>
+  typeof txs === "string" && new RegExp(`^[0-9a-f]{${length}}$`).test(txs);
 /**
  * @method isTxHexOfExactLength
  *
- * @param {string} txHex
+ * @param {string} txs
  * @param {number} length
  *
  * @return {boolean}
  */
-export const isTxHexOfExactLength = (txHex: string, length: number) =>
-  typeof txHex === "string" && new RegExp(`^[0-9a-f]{${length}}$`).test(txHex);
+export const isTxHexOfExactLength = (txs: string, length: number) =>
+  typeof txs === "string" && new RegExp(`^[0-9a-f]{${length}}$`).test(txs);
 
 /**
  * @method isTxHexOfMaxLength
  *
- * @param {string} txHex
+ * @param {string} txs
  * @param {number} length
  *
  * @return {boolean}
  */
-export const isTxHexOfMaxLength = (txHex: string, length: number) =>
-  typeof txHex === "string" &&
-  new RegExp(`^[0-9a-f]{1,${length}}$`).test(txHex);
+export const isTxHexOfMaxLength = (txs: string, length: number) =>
+  typeof txs === "string" && new RegExp(`^[0-9a-f]{1,${length}}$`).test(txs);
 
 /**
  * Checks if input contains `0`s only.
@@ -61,8 +60,8 @@ export const isTxHexOfMaxLength = (txHex: string, length: number) =>
  *
  * @return {boolean}
  */
-export const isEmpty = (txHex: any): txHex is TxHex =>
-  typeof txHex === "string" && /^[00]+$/.test(txHex);
+export const isEmpty = (txs: any): txs is TxHex =>
+  typeof txs === "string" && /^[00]+$/.test(txs);
 
 /**
  * Checks if input contains `0`s only.
@@ -328,8 +327,8 @@ export const hashValidator: Validator<Hash> = hash => [
   errors.INVALID_HASH
 ];
 
-export const txHexValidator: Validator<TxHex> = (txHex, msg?: string) => [
-  txHex,
+export const txHexValidator: Validator<TxHex> = (txs, msg?: string) => [
+  txs,
   isTxHex,
   msg || errors.INVALID_TX_HEX
 ];

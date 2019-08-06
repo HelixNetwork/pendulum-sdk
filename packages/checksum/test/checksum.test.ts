@@ -58,12 +58,12 @@ test("addChecksum() does not mutate the original array", t => {
 });
 
 test("addChecksum() adds checksum of arbitrary length", t => {
-  const txHex = "0".repeat(ADDRESS_HEX_SIZE);
-  const txHexWithChecksum = txHex + "9e4e";
+  const txs = "0".repeat(ADDRESS_HEX_SIZE);
+  const txsWithChecksum = txs + "9e4e";
 
   t.is(
-    addChecksum(txHex, 4, false),
-    txHexWithChecksum,
+    addChecksum(txs, 4, false),
+    txsWithChecksum,
     "addChecsum() should add checksum of arbitrary length."
   );
 });

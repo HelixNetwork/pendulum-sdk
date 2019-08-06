@@ -11,9 +11,9 @@ test("Sha3: absorb()/squeeze(), Converter: toTxBytes()/hex()", t => {
     const inputBytes = toTxBytes(input);
     const sha3: Sha3 = new Sha3();
     sha3.absorb(inputBytes, 0, inputBytes.length);
-    const hastxHex = new Uint8Array(Sha3.HASH_LENGTH);
-    sha3.squeeze(hastxHex, 0, Sha3.HASH_LENGTH);
-    return hex(hastxHex);
+    const hastxs = new Uint8Array(Sha3.HASH_LENGTH);
+    sha3.squeeze(hastxs, 0, Sha3.HASH_LENGTH);
+    return hex(hastxs);
   };
 
   t.is(

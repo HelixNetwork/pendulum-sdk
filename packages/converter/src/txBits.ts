@@ -1,7 +1,7 @@
 import * as errors from "./errors";
 
 /**
- * Converts txHex or values to txBits
+ * Converts txs or values to txBits
  *
  * @method txBits
  *
@@ -25,9 +25,9 @@ export function txBits(input: string | number): Int8Array {
 }
 
 /**
- * Converts txHex to TxBits
+ * Converts txs to TxBits
  *
- * @method txHexToTxBits
+ * @method txsToTxBits
  *
  * @memberof module:converter
  *
@@ -35,20 +35,20 @@ export function txBits(input: string | number): Int8Array {
  *
  * @alias txBits
  */
-export const txHexToTxBits = txBits;
+export const txsToTxBits = txBits;
 
 /**
- * Converts txBits to txHex
+ * Converts txBits to txs
  *
- * @method txHex
+ * @method txs
  *
  * @memberof module:converter
  *
  * @param {Int8Array} hBits
  *
- * @return {String} txHex
+ * @return {String} txs
  */
-export function txHex(hBits: Int8Array | Uint8Array): string {
+export function txs(hBits: Int8Array | Uint8Array): string {
   if (hBits.length % 4 !== 0) {
     throw new Error(errors.INVALID_HBITS_LENGTH);
   }
@@ -67,7 +67,7 @@ export function txHex(hBits: Int8Array | Uint8Array): string {
 }
 
 /**
- * Converts txBits to txHex
+ * Converts txBits to txs
  *
  * @method txBitsToTxHex
  *
@@ -75,9 +75,9 @@ export function txHex(hBits: Int8Array | Uint8Array): string {
  *
  * @ignore
  *
- * @alias txHex
+ * @alias txs
  */
-export const txBitsToTxHex = txHex;
+export const txBitsToTxHex = txs;
 
 /**
  * Converts txBits into an integer value
