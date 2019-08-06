@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/ipfs",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "description": "",
   "main": "./out/src/index.js",
   "typings": "typings/src",
@@ -52,7 +52,7 @@
     "url": "https://github.com/helixnetwork/helix.api.git"
   },
   "dependencies": {
-    "@helixnetwork/rsa": "^1.0.0-alpha.4",
+    "@helixnetwork/rsa": "^1.0.0-alpha.5",
     "ipfs-http-client": "^29.1.1"
   }
 }
