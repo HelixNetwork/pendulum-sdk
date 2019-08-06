@@ -1,23 +1,12 @@
 import { addChecksum } from "@helixnetwork/checksum";
-import { hex, toTxBytes } from "@helixnetwork/converter";
+import { toTxBytes } from "@helixnetwork/converter";
 import { createHttpClient } from "@helixnetwork/http-client";
-import { powBundle } from "@helixnetwork/pow";
-import {
-  addresses,
-  bundleWithValidSignature,
-  seed
-} from "@helixnetwork/samples";
-import { START_INDEX_NONCE, transactionHash } from "@helixnetwork/transaction";
-import { ADDRESS_BYTE_SIZE, NONCE_BYTE_SIZE } from "../../constants";
-import { powTx } from "../../pow/src";
-import { TxHex, Transaction, Transfer } from "../../types";
+import { addresses, seed } from "@helixnetwork/samples";
+import { transactionHash } from "@helixnetwork/transaction";
+import { asTransactionStrings } from "@helixnetwork/transaction-converter";
+import { ADDRESS_HEX_SIZE } from "../../constants";
+import { Transfer } from "../../types";
 import { composeAPI, createLocalAttachToTangle } from "../src";
-
-import isBundle from "@helixnetwork/bundle-validator";
-import {
-  asTransactionStrings,
-  asTransactionObjects
-} from "@helixnetwork/transaction-converter";
 import { createGetNewAddress } from "../src/createGetNewAddress";
 import "../test/integration/nocks/prepareTransfers";
 
@@ -35,7 +24,7 @@ async function generateBundle() {
     seed,
     [
       {
-        address: addChecksum("a".repeat(ADDRESS_BYTE_SIZE)),
+        address: addChecksum("a".repeat(ADDRESS_HEX_SIZE)),
         value: 3,
         tag: "aaaa",
         message: "abcd"

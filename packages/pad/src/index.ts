@@ -1,4 +1,4 @@
-import { OBSOLETE_TAG_BYTE_SIZE, TAG_BYTE_SIZE } from "../../constants";
+import { OBSOLETE_TAG_HEX_SIZE, TAG_HEX_SIZE } from "../../constants";
 import { TxHex, Tag } from "../../types";
 
 export const padTxHex = (length: number) => (txHex: TxHex) =>
@@ -22,8 +22,8 @@ export const padSignedHBits = (length: number) => (txBits: Int8Array) =>
       )
     : txBits;
 
-export const padTag = padTxHex(TAG_BYTE_SIZE);
-export const padObsoleteTag = padTxHex(OBSOLETE_TAG_BYTE_SIZE);
+export const padTag = padTxHex(TAG_HEX_SIZE);
+export const padObsoleteTag = padTxHex(OBSOLETE_TAG_HEX_SIZE);
 
 export const padByteArray = (length: number) => (bytes: Uint8Array) =>
   bytes.length < length

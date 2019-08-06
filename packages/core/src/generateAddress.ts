@@ -3,8 +3,8 @@ import { hex, toTxBytes } from "@helixnetwork/converter";
 import { address, digests, key, subseed } from "@helixnetwork/winternitz";
 import { securityLevelValidator, seedValidator, validate } from "../../guards";
 import {
-  ADDRESS_BYTE_SIZE,
-  ADDRESS_CHECKSUM_BYTE_SIZE,
+  ADDRESS_HEX_SIZE,
+  ADDRESS_CHECKSUM_HEX_SIZE,
   HASH_TX_HEX_SIZE
 } from "../../constants";
 import { Hash } from "../../types";

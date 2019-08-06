@@ -1,21 +1,21 @@
 import { hex, toTxBytes, txBits, txHex } from "@helixnetwork/converter";
 import { powTx } from "@helixnetwork/pow";
 import {
-  START_BRANCH_TRANS,
-  START_INDEX_ATTACHED_TIMESTAMP,
-  START_INDEX_CURRENT_INDEX,
-  START_INDEX_LAST_INDEX_BYTES,
-  START_INDEX_NONCE,
-  START_INDEX_TIMESTAMP_LOW,
-  START_INDEX_TIMESTAMP_UP,
-  START_TRUNK_TRANS,
+  START_BRANCH_TRANS_HEX,
+  START_INDEX_ATTACHED_TIMESTAMP_HEX,
+  START_INDEX_CURRENT_INDEX_HEX,
+  START_INDEX_LAST_INDEX_HEX,
+  START_INDEX_NONCE_HEX,
+  START_INDEX_TIMESTAMP_LOW_HEX,
+  START_INDEX_TIMESTAMP_UP_HEX,
+  START_TRUNK_TRANS_HEX,
   transactionHash
 } from "@helixnetwork/transaction";
 import { transactionObject } from "@helixnetwork/transaction-converter";
 import * as bPromise from "bluebird";
 import {
-  TRANSACTION_CURRENT_INDEX_BYTE_SIZE,
-  TRANSACTION_LAST_INDEX_BYTE_SIZE
+  TRANSACTION_CURRENT_INDEX_HEX_SIZE,
+  TRANSACTION_LAST_INDEX_HEX_SIZE
 } from "../../constants";
 import {
   AttachToTangle,
@@ -136,13 +136,13 @@ async function processLocalPow(
     if (
       !previousTransactionHash &&
       tx.substring(
-        START_INDEX_CURRENT_INDEX / 2,
-        START_INDEX_CURRENT_INDEX / 2 + TRANSACTION_CURRENT_INDEX_BYTE_SIZE / 2
+        START_INDEX_CURRENT_INDEX_HEX / 2,
+        START_INDEX_CURRENT_INDEX_HEX / 2 +
+          TRANSACTION_CURRENT_INDEX_HEX_SIZE / 2
       ) !==
         tx.substring(
-          START_INDEX_LAST_INDEX_BYTES / 2,
-          START_INDEX_LAST_INDEX_BYTES / 2 +
-            TRANSACTION_LAST_INDEX_BYTE_SIZE / 2
+          START_INDEX_LAST_INDEX_HEX / 2,
+          START_INDEX_LAST_INDEX_HEX / 2 + TRANSACTION_LAST_INDEX_HEX_SIZE / 2
         )
     ) {
       reject(
@@ -157,27 +157,27 @@ async function processLocalPow(
       toTxBytes(
         !previousTransactionHash ? trunkTransaction : previousTransactionHash
       ),
-      START_TRUNK_TRANS / 2
+      START_TRUNK_TRANS_HEX / 2
     );
     txBytes.set(
       toTxBytes(
         !previousTransactionHash ? branchTransaction : trunkTransaction
       ),
-      START_BRANCH_TRANS / 2
+      START_BRANCH_TRANS_HEX / 2
     );
 
     txBytes.set(
       toTxBytes(txHex(txBits(Date.now()))),
-      START_INDEX_ATTACHED_TIMESTAMP / 2
+      START_INDEX_ATTACHED_TIMESTAMP_HEX / 2
     );
-    txBytes.set(toTxBytes(txHex(txBits(0))), START_INDEX_TIMESTAMP_LOW / 2);
+    txBytes.set(toTxBytes(txHex(txBits(0))), START_INDEX_TIMESTAMP_LOW_HEX / 2);
     txBytes.set(
       toTxBytes(txHex(txBits((Math.pow(2, 8) - 1) / 2))),
-      START_INDEX_TIMESTAMP_UP / 2
+      START_INDEX_TIMESTAMP_UP_HEX / 2
     );
 
     txBytes = toTxBytes(await powTx(txBytes, minWeightMagnitude));
-    // txBytes.set(toTxBytes(nonce), START_INDEX_NONCE / 2);
+    // txBytes.set(toTxBytes(nonce), START_INDEX_NONCE_HEX / 2);
     previousTransactionHash = transactionHash(txBytes);
     updateBundle[index] = hex(txBytes);
   }

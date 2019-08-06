@@ -1,6 +1,6 @@
 import { hex, longToBytes, toTxBytes } from "@helixnetwork/converter";
 import Sha3 from "@helixnetwork/sha3";
-import { START_INDEX_NONCE } from "@helixnetwork/transaction";
+import { START_INDEX_NONCE_HEX } from "@helixnetwork/transaction";
 import { compareTo } from "../proofOfWork";
 import { MinerEvents, MinerMessage } from "./minerMessage";
 import { MinerResponse } from "./minerResponse";
@@ -11,7 +11,7 @@ process.on("message", (minerMessage: MinerMessage) => {
     const minerArgs = minerMessage.message;
 
     const result = toTxBytes(minerArgs.txBytes);
-    const startIndex = START_INDEX_NONCE / 2;
+    const startIndex = START_INDEX_NONCE_HEX / 2;
 
     result.fill(0, startIndex, startIndex + NONCE_SIZE);
     for (let nonce = minerArgs.offset; nonce > 0; nonce += minerArgs.step) {

@@ -1,6 +1,6 @@
 import { createHttpClient } from "@helixnetwork/http-client";
 import test from "ava";
-import { ADDRESS_CHECKSUM_BYTE_SIZE } from "../../../constants";
+import { ADDRESS_CHECKSUM_HEX_SIZE } from "../../../constants";
 import { INVALID_ADDRESS, INVALID_THRESHOLD } from "../../../errors";
 import { createGetBalances } from "../../src";
 import { balancesResponse, getBalancesCommand } from "./nocks/getBalances";
@@ -8,7 +8,7 @@ import { balancesResponse, getBalancesCommand } from "./nocks/getBalances";
 const getBalances = createGetBalances(createHttpClient());
 
 const addressesWithChecksum = getBalancesCommand.addresses.map(address =>
-  address.concat("0".repeat(ADDRESS_CHECKSUM_BYTE_SIZE))
+  address.concat("0".repeat(ADDRESS_CHECKSUM_HEX_SIZE))
 );
 
 test("getBalances() resolves to correct balances response", async t => {

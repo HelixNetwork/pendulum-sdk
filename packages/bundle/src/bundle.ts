@@ -12,12 +12,12 @@ import {
 // import {add, normalizedBundleHash} from "@helixnetwork/winternitz/out/winternitz/src";
 import { add, normalizedBundleHash } from "@helixnetwork/winternitz";
 import {
-  BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING,
+  HEX_SIZE_FOR_TXHEX_USED_FOR_VALIDATION_WITH_PADDING,
   NULL_HASH_TX_HEX,
   NULL_NONCE_TX_HEX,
   NULL_SIGNATURE_MESSAGE_FRAGMENT_TX_HEX,
   NULL_TAG_TX_HEX,
-  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
   TRANSACTION_CURRENT_INDEX_BITS_SIZE,
   TRANSACTION_LAST_INDEX_BITS_SIZE,
   TRANSACTION_OBSOLETE_TAG_BITS_SIZE,
@@ -47,7 +47,7 @@ export const getEntryWithDefaults = (
   timestamp: entry.timestamp || Math.floor(Date.now() / 1000),
   signatureMessageFragments: entry.signatureMessageFragments
     ? entry.signatureMessageFragments.map(
-        padTxHex(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE)
+        padTxHex(SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE)
       )
     : Array(entry.length || 1).fill(NULL_SIGNATURE_MESSAGE_FRAGMENT_TX_HEX)
 });
@@ -149,7 +149,7 @@ export const addTxHex = (
         ? {
             ...transaction,
             signatureMessageFragment: padTxHex(
-              SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+              SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
             )(fragments[i - offset] || "")
           }
         : transaction
@@ -186,7 +186,7 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
 
     for (let i = 0; i < transactions.length; i++) {
       const essence = toTxBytes(
-        padTxHex(BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING)(
+        padTxHex(HEX_SIZE_FOR_TXHEX_USED_FOR_VALIDATION_WITH_PADDING)(
           transactions[i].address +
             txHex(valueHBits[i]) +
             txHex(obsoleteTagHBits[i]) +

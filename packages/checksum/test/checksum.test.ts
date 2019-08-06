@@ -5,7 +5,7 @@ import {
   addressWithInvalidChecksum
 } from "@helixnetwork/samples";
 import test from "ava";
-import { ADDRESS_BYTE_SIZE } from "../../constants";
+import { ADDRESS_HEX_SIZE } from "../../constants";
 import { addChecksum, errors, isValidChecksum, removeChecksum } from "../src";
 
 const invalidAddress =
@@ -46,9 +46,7 @@ test("addChecksum() throws error for invalid addresses", t => {
 });
 
 test("addChecksum() does not mutate the original array", t => {
-  const arr = [
-    ...addresses.slice(0, 1).map(a => a.slice(0, ADDRESS_BYTE_SIZE))
-  ];
+  const arr = [...addresses.slice(0, 1).map(a => a.slice(0, ADDRESS_HEX_SIZE))];
 
   addChecksum(arr);
 
@@ -60,7 +58,7 @@ test("addChecksum() does not mutate the original array", t => {
 });
 
 test("addChecksum() adds checksum of arbitrary length", t => {
-  const txHex = "0".repeat(ADDRESS_BYTE_SIZE);
+  const txHex = "0".repeat(ADDRESS_HEX_SIZE);
   const txHexWithChecksum = txHex + "9e4e";
 
   t.is(
