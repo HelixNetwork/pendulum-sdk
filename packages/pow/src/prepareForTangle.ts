@@ -1,29 +1,6 @@
-import { hex, toTxBytes, txBits, txBitsToTxHex } from "@helixnetwork/converter";
-import {
-  transactionHash,
-  transactionHashValidator,
-  transactionTxHexValidator
-} from "@helixnetwork/transaction";
 import * as bPromise from "bluebird";
-import {
-  START_BRANCH_TRANS_BYTE,
-  START_INDEX_ATTACHED_TIMESTAMP_BYTE,
-  START_INDEX_CURRENT_INDEX_HEX,
-  START_INDEX_LAST_INDEX_HEX,
-  START_INDEX_TIMESTAMP_LOW_BYTE,
-  START_INDEX_TIMESTAMP_UP_BYTE,
-  START_TRUNK_TRANS_BYTE,
-  TRANSACTION_CURRENT_INDEX_HEX_SIZE,
-  TRANSACTION_LAST_INDEX_HEX_SIZE
-} from "../../constants";
-import {
-  INVALID_BRANCH_TRANSACTION,
-  INVALID_BUNDLE_INDEX,
-  INVALID_TRUNK_TRANSACTION
-} from "../../errors";
-import { arrayValidator, integerValidator, validate } from "../../guards";
 import { Callback, Hash, TransactionTxHex } from "../../types";
-import { powTx } from "./proofOfWork";
+import { processLocalPow } from "./processLocalPow";
 
 /**
  * @method prepareForTangleWithLocalPow
@@ -89,18 +66,6 @@ export const prepareForTangleWithLocalPow = function attachLocalPow(
    */
 
   return new bPromise<ReadonlyArray<TransactionTxHex>>((resolve, reject) => {
-    if (
-      !validate(
-        integerValidator(minWeightMagnitude),
-        arrayValidator<TransactionTxHex>(transactionTxHexValidator)(txs),
-        transactionHashValidator(trunkTransaction, INVALID_TRUNK_TRANSACTION),
-        transactionHashValidator(branchTransaction, INVALID_BRANCH_TRANSACTION)
-      )
-    ) {
-      reject();
-      return;
-    }
-
     processLocalPow(
       trunkTransaction,
       branchTransaction,
@@ -112,69 +77,3 @@ export const prepareForTangleWithLocalPow = function attachLocalPow(
     );
   });
 };
-
-async function processLocalPow(
-  trunkTransaction: Hash,
-  branchTransaction: Hash,
-  minWeightMagnitude: number,
-  txs: ReadonlyArray<TransactionTxHex>,
-  result: any,
-  reject: any,
-  callback?: Callback<ReadonlyArray<TransactionTxHex>>
-) {
-  let previousTransactionHash;
-
-  const updateBundle: TransactionTxHex[] = new Array(txs.length);
-  for (let index = 0; index < txs.length; index++) {
-    const tx = txs[index];
-    let txBytes = toTxBytes(tx);
-
-    // Check if last transaction in the bundle
-    if (
-      !previousTransactionHash &&
-      tx.substring(
-        START_INDEX_CURRENT_INDEX_HEX,
-        START_INDEX_CURRENT_INDEX_HEX + TRANSACTION_CURRENT_INDEX_HEX_SIZE
-      ) !==
-        tx.substring(
-          START_INDEX_LAST_INDEX_HEX,
-          START_INDEX_LAST_INDEX_HEX + TRANSACTION_LAST_INDEX_HEX_SIZE
-        )
-    ) {
-      reject(new Error(INVALID_BUNDLE_INDEX));
-      return;
-    }
-
-    txBytes.set(
-      toTxBytes(
-        !previousTransactionHash ? trunkTransaction : previousTransactionHash
-      ),
-      START_TRUNK_TRANS_BYTE
-    );
-    txBytes.set(
-      toTxBytes(
-        !previousTransactionHash ? branchTransaction : trunkTransaction
-      ),
-      START_BRANCH_TRANS_BYTE
-    );
-
-    txBytes.set(
-      toTxBytes(txBitsToTxHex(txBits(Date.now()))),
-      START_INDEX_ATTACHED_TIMESTAMP_BYTE
-    );
-    txBytes.set(
-      toTxBytes(txBitsToTxHex(txBits(0))),
-      START_INDEX_TIMESTAMP_LOW_BYTE
-    );
-    txBytes.set(
-      toTxBytes(txBitsToTxHex(txBits((Math.pow(2, 8) - 1) / 2))),
-      START_INDEX_TIMESTAMP_UP_BYTE
-    );
-
-    txBytes = toTxBytes(await powTx(txBytes, minWeightMagnitude));
-    // txBytes.set(toTxBytes(nonce), START_INDEX_NONCE_HEX / 2);
-    previousTransactionHash = transactionHash(txBytes);
-    updateBundle[index] = hex(txBytes);
-  }
-  result(updateBundle);
-}
