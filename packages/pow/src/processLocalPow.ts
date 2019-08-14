@@ -1,3 +1,4 @@
+import * as bPromise from "bluebird";
 import { hex, toTxBytes, txBits, txBitsToTxHex } from "@helixnetwork/converter";
 import {
   transactionHash,
@@ -18,7 +19,8 @@ import {
 import {
   INVALID_BRANCH_TRANSACTION,
   INVALID_BUNDLE_INDEX,
-  INVALID_TRUNK_TRANSACTION
+  INVALID_TRUNK_TRANSACTION,
+  INVALID_PARAM
 } from "../../errors";
 import { arrayValidator, integerValidator, validate } from "../../guards";
 import { Callback, Hash, TransactionTxHex } from "../../types";
@@ -58,10 +60,7 @@ export const processLocalPow = async function(
   trunkTransaction: Hash,
   branchTransaction: Hash,
   minWeightMagnitude: number,
-  txs: ReadonlyArray<TransactionTxHex>,
-  result: any,
-  reject: any,
-  callback?: Callback<ReadonlyArray<TransactionTxHex>>
+  txs: ReadonlyArray<TransactionTxHex>
 ) {
   if (
     !validate(
@@ -71,8 +70,7 @@ export const processLocalPow = async function(
       transactionHashValidator(branchTransaction, INVALID_BRANCH_TRANSACTION)
     )
   ) {
-    reject();
-    return;
+    return bPromise.reject(INVALID_PARAM);
   }
 
   let previousTransactionHash;
@@ -94,8 +92,7 @@ export const processLocalPow = async function(
           START_INDEX_LAST_INDEX_HEX + TRANSACTION_LAST_INDEX_HEX_SIZE
         )
     ) {
-      reject(new Error(INVALID_BUNDLE_INDEX));
-      return;
+      return bPromise.reject(new Error(INVALID_BUNDLE_INDEX));
     }
 
     txBytes.set(
@@ -129,5 +126,5 @@ export const processLocalPow = async function(
     previousTransactionHash = transactionHash(txBytes);
     updateBundle[index] = hex(txBytes);
   }
-  result(updateBundle);
+  return bPromise.resolve(updateBundle);
 };

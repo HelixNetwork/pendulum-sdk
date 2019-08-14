@@ -2,7 +2,7 @@ import { hex } from "@helixnetwork/converter";
 import Sha3 from "@helixnetwork/sha3";
 import { ChildProcess } from "child_process";
 import * as os from "os";
-import { ILLEGAL_DIFFICULTY, ILLEGAL_TX_BYTES_LENGTH } from "./errors";
+import { ILLEGAL_DIFFICULTY, ILLEGAL_TX_BYTES_LENGTH } from "../../errors";
 import { MinerArgs } from "./miner/minerArgs";
 import { MinerEvents, MinerMessage } from "./miner/minerMessage";
 

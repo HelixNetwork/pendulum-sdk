@@ -1,4 +1,4 @@
-import * as bPromise from "bluebird";
+import * as Promise from "bluebird";
 import { Callback, Hash, TransactionTxHex } from "../../types";
 import { processLocalPow } from "./processLocalPow";
 
@@ -10,13 +10,13 @@ import { processLocalPow } from "./processLocalPow";
  * @return {Function} {@link #module_pow.attachLocalPow `attachLocalPow`}
  */
 
-export const prepareForTangleWithLocalPow = function attachLocalPow(
+export const prepareForTangleWithLocalPow = (
   trunkTransaction: Hash,
   branchTransaction: Hash,
   minWeightMagnitude: number,
   txs: ReadonlyArray<TransactionTxHex>,
   callback?: Callback<ReadonlyArray<TransactionTxHex>>
-): bPromise<ReadonlyArray<TransactionTxHex>> {
+): Promise<ReadonlyArray<TransactionTxHex>> =>
   /**
    * Performs local the Proof-of-Work required to attach a transaction to the Tangle
    * Returns list of transaction txs and overwrites the following fields:
@@ -65,15 +65,13 @@ export const prepareForTangleWithLocalPow = function attachLocalPow(
    * - Fetch error
    */
 
-  return new bPromise<ReadonlyArray<TransactionTxHex>>((resolve, reject) => {
+  Promise.resolve(
     processLocalPow(
       trunkTransaction,
       branchTransaction,
       minWeightMagnitude,
-      txs,
-      resolve,
-      reject,
-      callback
-    );
-  });
-};
+      txs
+    )
+  )
+    .then(txs => txs)
+    .asCallback(callback);
