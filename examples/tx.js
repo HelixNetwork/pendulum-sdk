@@ -28,7 +28,7 @@ var storedTxBytes;
 var transfer = {
   address: receiverAddress1,
   value: 53,
-  message: Converter.asciiToTxBytes("abcd"),
+  message: Converter.asciiToTxHex("abcd"),
   tag: "abcd123"
 };
 
@@ -38,7 +38,7 @@ helix
   .then(function(TxBytes) {
     storedTxBytes = TxBytes;
     // Finalize and broadcast the bundle to the node
-    return helix.sendTxBytes(
+    return helix.sendTransactionStrings(
       storedTxBytes,
       5 /*depth*/,
       2 /*minimum weight magnitude*/
