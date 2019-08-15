@@ -40,7 +40,6 @@ import {
   createInterruptAttachingToTangle,
   createIsPromotable,
   createIsReattachable,
-  createLocalAttachToTangle,
   createPrepareTransfers,
   createPromoteTransaction,
   createRemoveNeighbors,
@@ -184,7 +183,6 @@ export const composeAPI = (settings: Partial<Settings> = {}) => {
       attachToTangle
     ),
     storeAndBroadcast: createStoreAndBroadcast(provider),
-    localAttachToTangle: createLocalAttachToTangle(provider),
     traverseBundle: createTraverseBundle(provider),
     setSettings,
     overrideAttachToTangle,

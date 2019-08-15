@@ -65,7 +65,7 @@ helix
       "-------------------- call sendTransactionStrings ------------------"
     );
     // Finalize and broadcast the bundle to the node
-    return helix.sendTxBytes(
+    return helix.sendTransactionStrings(
       storedTxBytes,
       5 /*depth*/,
       2 /*minimum weight magnitude*/

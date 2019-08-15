@@ -1,20 +1,21 @@
 import { addChecksum } from "@helixnetwork/checksum";
 import { toTxBytes } from "@helixnetwork/converter";
 import { createHttpClient } from "@helixnetwork/http-client";
+//import { prepareForTangleWithLocalPow } from "@helixnetwork/pow";
 import { addresses, seed } from "@helixnetwork/samples";
 import { transactionHash } from "@helixnetwork/transaction";
 import { asTransactionStrings } from "@helixnetwork/transaction-converter";
 import { ADDRESS_HEX_SIZE } from "../../constants";
 import { Transfer } from "../../types";
-import { composeAPI, createLocalAttachToTangle } from "../src";
+import { composeAPI } from "../src";
 import { createGetNewAddress } from "../src/createGetNewAddress";
 import "../test/integration/nocks/prepareTransfers";
 
 const client = createHttpClient();
 const getNewAddress = createGetNewAddress(client, "lib");
 const helix = composeAPI({
-  provider: "https://hlxtest.net:8087",
-  attachToTangle: createLocalAttachToTangle(client)
+  provider: "https://hlxtest.net:8087"
+  //attachToTangle: prepareForTangleWithLocalPow
 });
 
 async function generateBundle() {

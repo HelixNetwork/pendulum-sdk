@@ -54,8 +54,6 @@ export { createAddNeighbors } from "./createAddNeighbors";
 
 export { createAttachToTangle } from "./createAttachToTangle";
 
-export { createLocalAttachToTangle } from "./createLocalAttachToTangle";
-
 export { createBroadcastTransactions } from "./createBroadcastTransactions";
 
 export {
