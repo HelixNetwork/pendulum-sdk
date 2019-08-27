@@ -1,9 +1,8 @@
 /* tslint:disable variable-name no-conditional-assignment */
 
 /** PORTED FROM JS IMPL. This class is still incomplete wip, please use with caution. */
-import * as errors from "./errors";
+import { decrypt, encrypt, importKeyFiles } from "@helixnetwork/rsa";
 import * as ipfsClient from "ipfs-http-client";
-import { encrypt, decrypt, importKeyFiles } from "@helixnetwork/rsa";
 
 /**
  * @class Ipfs

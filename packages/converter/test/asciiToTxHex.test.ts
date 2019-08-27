@@ -1,6 +1,6 @@
 import test from "ava";
-import { INVALID_ASCII_CHARS } from "../src/errors";
 import { asciiToTxHex } from "../src";
+import { INVALID_ASCII_CHARS } from "../src/errors";
 
 test("asciiToBytes()", t => {
   const ascii = "IOTA";

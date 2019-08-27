@@ -1,12 +1,5 @@
 import test from "ava";
-import {
-  fromValue,
-  txBits,
-  txBitsToTxHex,
-  txsToTxBits,
-  hex,
-  value
-} from "../src";
+import { fromValue, txBits, txBitsToTxHex, txsToTxBits, value } from "../src";
 
 test("Converter: Test number to bits and back to number conversion) ", t => {
   const input: Int8Array = new Int8Array([

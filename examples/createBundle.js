@@ -96,7 +96,7 @@ helix
       );
       console.log(
         "Equal hashes? " +
-          (bundleFromTangle[i]["hash"] == computedTransactionHash)
+          (bundleFromTangle[i]["hash"] === computedTransactionHash)
       );
     }
   })

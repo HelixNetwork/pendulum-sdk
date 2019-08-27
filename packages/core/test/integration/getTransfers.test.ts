@@ -1,4 +1,6 @@
 import { createHttpClient } from "@helixnetwork/http-client";
+
+import { seed, transfers } from "@helixnetwork/samples";
 import test from "ava";
 import {
   INVALID_SECURITY_LEVEL,
@@ -8,12 +10,10 @@ import {
 } from "../../../errors";
 import { createGetTransfers } from "../../src/createGetTransfers";
 import "./nocks/findTransactions";
-import "./nocks/getTransactionStrings";
 import "./nocks/getInclusionStates";
 import "./nocks/getNodeInfo";
+import "./nocks/getTransactionStrings";
 import "./nocks/wereAddressesSpentFrom";
-
-import { seed, transfers } from "@helixnetwork/samples";
 
 const getTransfers = createGetTransfers(createHttpClient(), "lib");
 

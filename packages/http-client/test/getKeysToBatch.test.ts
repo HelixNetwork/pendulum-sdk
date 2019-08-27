@@ -1,6 +1,6 @@
 import test from "ava";
-import { getKeysToBatch, BatchableCommand } from "../src/httpClient";
 import { FindTransactionsCommand, ProtocolCommand } from "../../types";
+import { BatchableCommand, getKeysToBatch } from "../src/httpClient";
 
 const BATCH_SIZE = 2;
 

@@ -1,9 +1,8 @@
 /* tslint:disable variable-name no-conditional-assignment */
 
 /** WIP AS PORTED FROM JS IMPL. */
-import * as NodeRSA from "node-rsa";
-import * as errors from "./errors";
 import * as fs from "fs";
+import * as NodeRSA from "node-rsa";
 
 const KEY_LENGTH = 512;
 const ENCODING = "base64";

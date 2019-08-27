@@ -15,10 +15,10 @@ import {
   Callback,
   getOptionsWithDefaults,
   Hash,
-  TxHex,
   Inputs,
   makeAddress,
-  Provider
+  Provider,
+  TxHex
 } from "../../types";
 import { createGetBalances } from "./";
 import {

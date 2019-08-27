@@ -12,9 +12,8 @@ import {
   Bundle,
   Callback,
   Hash,
-  TxHex,
   Provider,
-  Transaction
+  TxHex
 } from "../../types";
 import {
   createAttachToTangle,

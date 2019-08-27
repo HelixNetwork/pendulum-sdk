@@ -5,9 +5,9 @@ import {
   BroadcastTransactionsCommand,
   BroadcastTransactionsResponse,
   Callback,
-  TxHex,
   ProtocolCommand,
-  Provider
+  Provider,
+  TxHex
 } from "../../types";
 
 /**

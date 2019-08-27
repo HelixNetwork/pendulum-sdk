@@ -1,5 +1,5 @@
 import * as Promise from "bluebird";
-import { Callback, TxHex, Provider } from "../../types";
+import { Callback, Provider, TxHex } from "../../types";
 import { createBroadcastTransactions, createStoreTransactions } from "./";
 
 /**

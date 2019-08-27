@@ -1,14 +1,14 @@
-import HHash from "@helixnetwork/hash-module";
-import HSign from "./hsign";
-import * as errors from "./errors";
 import { hex } from "@helixnetwork/converter";
+import HHash from "@helixnetwork/hash-module";
 import {
-  SIGNATURE_R_BYTE_SIZE,
-  SIGNATURE_SECRETE_KEY_BYTE_SIZE,
   SIGNATURE_PUBLIC_KEY_BYTE_SIZE,
-  SIGNATURE_S_BYTE_SIZE
+  SIGNATURE_R_BYTE_SIZE,
+  SIGNATURE_S_BYTE_SIZE,
+  SIGNATURE_SECRETE_KEY_BYTE_SIZE
 } from "../../constants";
 import { isEmptyBytes } from "../../guards";
+import * as errors from "./errors";
+import HSign from "./hsign";
 
 const elliptic = require("bcrypto/vendor/elliptic");
 const BN = require("bcrypto/lib/bn.js");
@@ -17,24 +17,6 @@ const Schn = require("schnorr");
 
 export default class Schnorr {
   public static curve = elliptic.ec("secp256k1").curve;
-
-  public secreteKey: Uint8Array;
-  public publicKey: Uint8Array;
-
-  constructor(seed: string | Int8Array | Uint8Array) {
-    this.secreteKey = Schnorr.computeSecreteKey(seed);
-    this.publicKey = Schnorr.computePublicKey(this.secreteKey);
-    if (this.secreteKey.length != SIGNATURE_SECRETE_KEY_BYTE_SIZE) {
-      throw new Error(
-        errors.ILLEGAL_SECRET_KEY_LENGTH_SCH + " " + this.secreteKey.length
-      );
-    }
-    if (this.publicKey.length != SIGNATURE_PUBLIC_KEY_BYTE_SIZE) {
-      throw new Error(
-        errors.ILLEGAL_PUBLIC_KEY_LENGTH_SCH + " " + this.publicKey.length
-      );
-    }
-  }
 
   public static computeSecreteKey(
     seed: string | Int8Array | Uint8Array
@@ -48,7 +30,7 @@ export default class Schnorr {
     let buffer;
     while (
       !Schnorr.validateBN(privateKey) ||
-      privateKey.toArrayLike(Buffer, "be").length !=
+      privateKey.toArrayLike(Buffer, "be").length !==
         SIGNATURE_SECRETE_KEY_BYTE_SIZE
     ) {
       hHash.squeeze(hastxs, 0, hHash.getHashLength());
@@ -58,18 +40,10 @@ export default class Schnorr {
     return privateKey.toArrayLike(Buffer, "be");
   }
 
-  private static validateBN(bigNumber: any) {
-    return !(bigNumber.isZero() && bigNumber.gte(Schnorr.curve.n));
-  }
-
-  private static isValidPoint(point: any) {
-    return Schnorr.curve.decodePoint(point) != null;
-  }
-
   public static computePublicKey(privateKey: Uint8Array) {
     if (
       privateKey == null ||
-      privateKey.length != SIGNATURE_SECRETE_KEY_BYTE_SIZE
+      privateKey.length !== SIGNATURE_SECRETE_KEY_BYTE_SIZE
     ) {
       throw new Error(errors.ILLEGAL_SECRET_KEY_LENGTH_SCH + privateKey.length);
     }
@@ -80,11 +54,11 @@ export default class Schnorr {
     return secp256k1.publicKeyCreate(buffer, true);
   }
 
-  public static aggregatePublicKey(publicKeys: Array<Uint8Array>) {
+  public static aggregatePublicKey(publicKeys: Uint8Array[]) {
     return Schn.combineKeys(publicKeys);
   }
 
-  public static aggregatePublicNonces(nonces: Array<Uint8Array>) {
+  public static aggregatePublicNonces(nonces: Uint8Array[]) {
     const agg = Schn.combineKeys(nonces);
     if (Schnorr.curve.decodePoint(agg).y.odd) {
       return null;
@@ -92,10 +66,10 @@ export default class Schnorr {
     return agg;
   }
 
-  public static aggregateSignature(signs: Array<HSign>) {
-    let signature = Schn.combineSigs(signs.map(k => k.getSignature()));
-    let r = new BN(signature.r).toArrayLike(Buffer, "be");
-    let s = new BN(signature.s).toArrayLike(Buffer, "be");
+  public static aggregateSignature(signs: HSign[]) {
+    const signature = Schn.combineSigs(signs.map(k => k.getSignature()));
+    const r = new BN(signature.r).toArrayLike(Buffer, "be");
+    const s = new BN(signature.s).toArrayLike(Buffer, "be");
     return new HSign(r, s);
   }
 
@@ -106,13 +80,13 @@ export default class Schnorr {
     } else {
       msg = message;
     }
-    let signature = Schn.sign(msg, secreteKey);
-    let r = new BN(signature.r).toArrayLike(Buffer, "be");
-    let s = new BN(signature.s).toArrayLike(Buffer, "be");
-    if (r.length != SIGNATURE_R_BYTE_SIZE) {
+    const signature = Schn.sign(msg, secreteKey);
+    const r = new BN(signature.r).toArrayLike(Buffer, "be");
+    const s = new BN(signature.s).toArrayLike(Buffer, "be");
+    if (r.length !== SIGNATURE_R_BYTE_SIZE) {
       throw new Error(errors.ILLEGAL_R_IN_SIGNATURE + " " + r.length);
     }
-    if (s.length != SIGNATURE_S_BYTE_SIZE) {
+    if (s.length !== SIGNATURE_S_BYTE_SIZE) {
       throw new Error(errors.ILLEGAL_S_IN_SIGNATURE + " " + s.length);
     }
     return new HSign(r, s);
@@ -130,14 +104,14 @@ export default class Schnorr {
     } else {
       msg = message;
     }
-    let signature = Schn.partialSign(
+    const signature = Schn.partialSign(
       msg,
       secreteKey,
       privateNonce,
       publicNonce
     );
-    let r = new BN(signature.r).toArrayLike(Buffer, "be");
-    let s = new BN(signature.s).toArrayLike(Buffer, "be");
+    const r = new BN(signature.r).toArrayLike(Buffer, "be");
+    const s = new BN(signature.s).toArrayLike(Buffer, "be");
 
     return new HSign(r, s);
   }
@@ -169,17 +143,6 @@ export default class Schnorr {
     }
   }
 
-  private static isValidSiganture(signature: HSign): boolean {
-    if (isEmptyBytes(signature.r) || isEmptyBytes(signature.s)) {
-      return false;
-    }
-    try {
-      return Schnorr.curve.pointFromX(new BN(signature.r), false) != null;
-    } catch {
-      return false;
-    }
-  }
-
   public static generateNoncePair(
     message: Uint8Array | Int8Array | string,
     secreteKey: Uint8Array,
@@ -192,7 +155,7 @@ export default class Schnorr {
       msg = hex(message);
     }
 
-    let dt = data != null && data.length > 32 ? data.slice(0, 32) : data;
+    const dt = data !== null && data.length > 32 ? data.slice(0, 32) : data;
     const drbg = Schn.drbg(
       Buffer.from(msg),
       Buffer.from(secreteKey),
@@ -205,14 +168,55 @@ export default class Schnorr {
     for (;;) {
       k = new BN(drbg.generate(len));
 
-      if (k.isZero()) continue;
+      if (k.isZero()) {
+        continue;
+      }
 
-      if (k.gte(Schnorr.curve.n)) continue;
+      if (k.gte(Schnorr.curve.n)) {
+        continue;
+      }
       break;
     }
     return {
       k: k.toArrayLike(Buffer, "be"),
       buff: Buffer.from(Schnorr.curve.g.mul(k).encode("array", true))
     };
+  }
+
+  private static validateBN(bigNumber: any) {
+    return !(bigNumber.isZero() && bigNumber.gte(Schnorr.curve.n));
+  }
+
+  private static isValidPoint(point: any) {
+    return Schnorr.curve.decodePoint(point) !== null;
+  }
+
+  private static isValidSiganture(signature: HSign): boolean {
+    if (isEmptyBytes(signature.r) || isEmptyBytes(signature.s)) {
+      return false;
+    }
+    try {
+      return Schnorr.curve.pointFromX(new BN(signature.r), false) !== null;
+    } catch {
+      return false;
+    }
+  }
+
+  public secreteKey: Uint8Array;
+  public publicKey: Uint8Array;
+
+  constructor(seed: string | Int8Array | Uint8Array) {
+    this.secreteKey = Schnorr.computeSecreteKey(seed);
+    this.publicKey = Schnorr.computePublicKey(this.secreteKey);
+    if (this.secreteKey.length !== SIGNATURE_SECRETE_KEY_BYTE_SIZE) {
+      throw new Error(
+        errors.ILLEGAL_SECRET_KEY_LENGTH_SCH + " " + this.secreteKey.length
+      );
+    }
+    if (this.publicKey.length !== SIGNATURE_PUBLIC_KEY_BYTE_SIZE) {
+      throw new Error(
+        errors.ILLEGAL_PUBLIC_KEY_LENGTH_SCH + " " + this.publicKey.length
+      );
+    }
   }
 }

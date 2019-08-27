@@ -6,9 +6,9 @@ import {
   GetTransactionStringsCommand,
   GetTransactionStringsResponse,
   Hash,
-  TxHex,
   ProtocolCommand,
-  Provider
+  Provider,
+  TxHex
 } from "../../types";
 
 /**

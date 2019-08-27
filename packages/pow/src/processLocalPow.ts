@@ -1,10 +1,10 @@
-import * as bPromise from "bluebird";
 import { hex, toTxBytes, txBits, txBitsToTxHex } from "@helixnetwork/converter";
 import {
   transactionHash,
   transactionHashValidator,
   transactionTxHexValidator
 } from "@helixnetwork/transaction";
+import * as bPromise from "bluebird";
 import {
   START_BRANCH_TRANS_BYTE,
   START_INDEX_ATTACHED_TIMESTAMP_BYTE,
@@ -19,8 +19,8 @@ import {
 import {
   INVALID_BRANCH_TRANSACTION,
   INVALID_BUNDLE_INDEX,
-  INVALID_TRUNK_TRANSACTION,
-  INVALID_PARAM
+  INVALID_PARAM,
+  INVALID_TRUNK_TRANSACTION
 } from "../../errors";
 import { arrayValidator, integerValidator, validate } from "../../guards";
 import { Callback, Hash, TransactionTxHex } from "../../types";

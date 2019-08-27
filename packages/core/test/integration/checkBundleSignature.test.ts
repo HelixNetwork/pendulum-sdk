@@ -6,7 +6,7 @@ import { addresses, seed } from "@helixnetwork/samples";
 import { asTransactionObjects } from "@helixnetwork/transaction-converter";
 import { address, digests, key, subseed } from "@helixnetwork/winternitz";
 import test from "ava";
-import { TxHex, Transaction, Transfer } from "../../../types";
+import { Transaction, Transfer, TxHex } from "../../../types";
 import { createPrepareTransfers } from "../../src";
 import "./nocks/prepareTransfers";
 

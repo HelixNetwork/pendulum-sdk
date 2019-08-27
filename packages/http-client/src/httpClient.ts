@@ -5,8 +5,8 @@ import {
   BaseCommand,
   FindTransactionsCommand,
   GetBalancesCommand,
-  GetTransactionStringsCommand,
   GetInclusionStatesCommand,
+  GetTransactionStringsCommand,
   ProtocolCommand,
   Provider
 } from "../../types";

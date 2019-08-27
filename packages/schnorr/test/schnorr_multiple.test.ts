@@ -1,12 +1,4 @@
 import test from "ava";
-import Schnorr from "../src/schnorr";
-import { hex, toTxBytes, txBits } from "@helixnetwork/converter";
-import HSign from "../src/hsign";
-import { subseed, key } from "../src";
-import {
-  SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
-  SIGNATURE_SECRETE_KEY_BYTE_SIZE
-} from "../../constants";
 
 /** @todo fix schnorr unit tests, the placeholders may then be removed. */
 test("Schnorr: placeholder()", t => {

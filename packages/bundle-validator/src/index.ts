@@ -1,25 +1,19 @@
 /** @module bundle-validator */
 
-import { txBits, txs, hex, toTxBytes } from "@helixnetwork/converter";
+import { hex, toTxBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { padTxHex } from "@helixnetwork/pad";
 import { isTransaction } from "@helixnetwork/transaction";
 import { asTransactionStrings } from "@helixnetwork/transaction-converter";
 import { validateSignatures } from "@helixnetwork/winternitz";
 import {
-  ADDRESS_HEX_SIZE,
   HEX_SIZE_FOR_TXHEX_USED_FOR_VALIDATION,
   HEX_SIZE_FOR_TXHEX_USED_FOR_VALIDATION_WITH_PADDING,
-  SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
-  TRANSACTION_CURRENT_INDEX_HEX_SIZE,
-  TRANSACTION_LAST_INDEX_BITS_SIZE,
-  TRANSACTION_LAST_INDEX_HEX_SIZE,
-  TRANSACTION_TIMESTAMP_HEX_SIZE,
-  TRANSACTION_VALUE_HEX_SIZE
+  SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
 } from "../../constants";
 import { INVALID_BUNDLE } from "../../errors";
 import { isArray, Validator } from "../../guards";
-import { Bundle, Hash, TxHex, Transaction } from "../../types";
+import { Bundle, Hash, Transaction, TxHex } from "../../types";
 
 interface SignatureFragments {
   readonly [key: string]: ReadonlyArray<TxHex>;
@@ -53,11 +47,11 @@ export const validateBundleSignatures = (bundle: Bundle): boolean => {
           : value === 0 &&
             acc.hasOwnProperty(address) &&
             address === bundle[i - 1].address
-            ? {
-                ...acc,
-                [address]: acc[address].concat(signatureMessageFragment)
-              }
-            : acc,
+          ? {
+              ...acc,
+              [address]: acc[address].concat(signatureMessageFragment)
+            }
+          : acc,
       {}
     );
   return Object.keys(signatures).every(address => {

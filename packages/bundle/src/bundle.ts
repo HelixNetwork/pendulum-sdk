@@ -1,16 +1,10 @@
 /** @module bundle */
 
-import { txBits, txs, hex, toTxBytes, value } from "@helixnetwork/converter";
+import { hex, toTxBytes, txBits, txs, value } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
-import {
-  padTxBits,
-  padTxHex,
-  padObsoleteTag,
-  padSignedTxBits,
-  padTag
-} from "@helixnetwork/pad";
+import { padObsoleteTag, padTag, padTxBits, padTxHex } from "@helixnetwork/pad";
 // import {add, normalizedBundleHash} from "@helixnetwork/winternitz/out/winternitz/src";
-import { add, normalizedBundleHash } from "@helixnetwork/winternitz";
+import { normalizedBundleHash } from "@helixnetwork/winternitz";
 import {
   HEX_SIZE_FOR_TXHEX_USED_FOR_VALIDATION_WITH_PADDING,
   NULL_HASH_TX_HEX,
@@ -18,13 +12,9 @@ import {
   NULL_SIGNATURE_MESSAGE_FRAGMENT_TX_HEX,
   NULL_TAG_TX_HEX,
   SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
-  TRANSACTION_CURRENT_INDEX_BITS_SIZE,
-  TRANSACTION_LAST_INDEX_BITS_SIZE,
-  TRANSACTION_OBSOLETE_TAG_BITS_SIZE,
-  TRANSACTION_TIMESTAMP_BITS_SIZE,
-  TRANSACTION_VALUE_BITS_SIZE
+  TRANSACTION_OBSOLETE_TAG_BITS_SIZE
 } from "../../constants";
-import { Bundle, Hash, TxHex, Transaction } from "../../types";
+import { Bundle, Hash, Transaction, TxHex } from "../../types";
 
 export interface BundleEntry {
   readonly length: number;
@@ -143,16 +133,15 @@ export const addTxHex = (
   fragments: ReadonlyArray<TxHex>,
   offset = 0
 ): Bundle =>
-  transactions.map(
-    (transaction, i) =>
-      i >= offset && i < offset + fragments.length
-        ? {
-            ...transaction,
-            signatureMessageFragment: padTxHex(
-              SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
-            )(fragments[i - offset] || "")
-          }
-        : transaction
+  transactions.map((transaction, i) =>
+    i >= offset && i < offset + fragments.length
+      ? {
+          ...transaction,
+          signatureMessageFragment: padTxHex(
+            SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
+          )(fragments[i - offset] || "")
+        }
+      : transaction
   );
 
 /**

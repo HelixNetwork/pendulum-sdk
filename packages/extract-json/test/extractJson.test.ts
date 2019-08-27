@@ -7,9 +7,9 @@ import {
   parsedJSONOfMultipleMessageFragments
 } from "@helixnetwork/samples";
 import test from "ava";
+import { any } from "bluebird";
 import { SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE } from "../../constants";
 import { errors, extractJson } from "../src";
-import { any } from "bluebird";
 
 test("extractJson() parses JSON object.", t => {
   t.is(

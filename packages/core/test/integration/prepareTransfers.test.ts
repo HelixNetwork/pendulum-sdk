@@ -5,7 +5,7 @@ import {
   transactionStrings as expected
 } from "@helixnetwork/samples";
 import test from "ava";
-import { TxHex, Transfer } from "../../../types";
+import { Transfer } from "../../../types";
 import { createPrepareTransfers } from "../../src";
 import "./nocks/prepareTransfers";
 

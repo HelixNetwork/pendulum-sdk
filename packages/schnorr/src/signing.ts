@@ -1,34 +1,19 @@
 /** @module schnorr */
 
-import {
-  fromValue,
-  txBits,
-  txs,
-  txsToTxBits,
-  hex,
-  toTxBytes,
-  value,
-  txBitsToTxHex
-} from "@helixnetwork/converter";
+import { hex, toTxBytes, txBits, value } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
-import { padTxBits } from "@helixnetwork/pad";
-import { AssertionError } from "assert";
-import { IncomingMessage } from "http";
 import {
-  // ADDRESS_SIZE_BITS,
   HASH_BITS_SIZE,
   HASH_BYTE_SIZE,
   SIGNATURE_FRAGMENT_NO,
-  // SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE_BITS,
   SIGNATURE_SECRETE_KEY_BYTE_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE
 } from "../../constants";
-import { arrayValidator } from "../../guards";
 import { Hash } from "../../types";
-import add from "./add";
 import * as errors from "./errors";
 import HSign from "./hsign";
 import Schnorr from "./schnorr";
+
 const BN = require("bcrypto/lib/bn.js");
 /**
  * @method subseed
@@ -296,7 +281,7 @@ export function validateSignatures(
   const publicKey = toTxBytes(expectedAddress);
 
   // validate schnorr signature:
-  if (signatureFragments.length == 0) {
+  if (signatureFragments.length === 0) {
     return false;
   }
 

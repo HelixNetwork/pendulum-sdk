@@ -3,11 +3,11 @@ import * as Promise from "bluebird";
 import { arrayValidator, validate } from "../../guards";
 import {
   Callback,
-  TxHex,
   ProtocolCommand,
   Provider,
   StoreTransactionsCommand,
-  StoreTransactionsResponse
+  StoreTransactionsResponse,
+  TxHex
 } from "../../types";
 
 /**

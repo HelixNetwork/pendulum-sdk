@@ -5,8 +5,8 @@ import { INVALID_TRANSACTION_HASH } from "../../../errors";
 import { createReplayBundle } from "../../src";
 import { attachToTangleCommand } from "./nocks/attachToTangle";
 import "./nocks/broadcastTransactions";
-import "./nocks/getTransactionStrings";
 import { getTransactionsToApproveCommand } from "./nocks/getTransactionsToApprove";
+import "./nocks/getTransactionStrings";
 import "./nocks/storeTransactions";
 
 const replayBundle = createReplayBundle(createHttpClient());
