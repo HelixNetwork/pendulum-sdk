@@ -77,8 +77,8 @@ export default class Ipfs {
   public pullMessage(cid: string, pathToPrvKey: string, isEncrypted: boolean) {
     this.ipfs.get(cid).then(files => {
       files.forEach(file => {
-        let data = file.content.toString("utf-8");
-        let res = isEncrypted
+        const data = file.content.toString("utf-8");
+        const res = isEncrypted
           ? decrypt(data, importKeyFiles("", pathToPrvKey).prv)
           : data;
         // console.log(res);
@@ -99,8 +99,8 @@ export default class Ipfs {
   public pullFiles(cid: string, pathToPrvKey: string, isEncrypted: boolean) {
     this.ipfs.get(cid).then(files => {
       files.forEach(file => {
-        let data = file.toString();
-        let res = isEncrypted
+        const data = file.toString();
+        const res = isEncrypted
           ? decrypt(data, importKeyFiles("", pathToPrvKey).prv)
           : data;
         // console.log(res);

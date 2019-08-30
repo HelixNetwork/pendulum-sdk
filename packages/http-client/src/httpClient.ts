@@ -85,7 +85,7 @@ export const getKeysToBatch = <C>(
  * @return Object
  */
 export const createHttpClient = (settings?: Partial<Settings>): Provider => {
-  let _settings = getSettingsWithDefaults({ ...settings });
+  let settingsWithDefaults = getSettingsWithDefaults({ ...settings });
   return {
     /**
      * @member send
@@ -98,7 +98,12 @@ export const createHttpClient = (settings?: Partial<Settings>): Provider => {
       command: Readonly<C>
     ): Promise<Readonly<R>> =>
       Promise.try(() => {
-        const { provider, requestBatchSize, apiVersion, timeout } = _settings;
+        const {
+          provider,
+          requestBatchSize,
+          apiVersion,
+          timeout
+        } = settingsWithDefaults;
 
         if (isBatchableCommand(command)) {
           const keysToBatch = getKeysToBatch(command, requestBatchSize);
@@ -127,7 +132,10 @@ export const createHttpClient = (settings?: Partial<Settings>): Provider => {
      * @param {timeout} [settings.timeout] - Timeout.
      */
     setSettings: (newSettings?: Partial<Settings>): void => {
-      _settings = getSettingsWithDefaults({ ..._settings, ...newSettings });
+      settingsWithDefaults = getSettingsWithDefaults({
+        ...settingsWithDefaults,
+        ...newSettings
+      });
     }
   };
 };

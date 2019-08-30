@@ -81,17 +81,17 @@ export function subseed(seed: TxBytes, index: number): TxBytes {
 /**
  * @method key
  *
- * @param {Uint8Array} subseed - Subseed
+ * @param {Uint8Array} subSeed - Subseed
  * @param {number} securityLevel - security level (1 - 4)
  *
  * @return {Uint8Array} Private key
  */
-export function key(subseed: TxBytes, securityLevel: number): TxBytes {
-  if (subseed.length % HASH_LENGTH_BYTES !== 0) {
+export function key(subSeed: TxBytes, securityLevel: number): TxBytes {
+  if (subSeed.length % HASH_LENGTH_BYTES !== 0) {
     throw new Error(errors.ILLEGAL_SUBSEED_LENGTH);
   }
   const sha3 = new Sha3();
-  sha3.absorb(subseed, 0, subseed.length);
+  sha3.absorb(subSeed, 0, subSeed.length);
 
   if ([1, 2, 3, 4].indexOf(securityLevel) === -1) {
     throw new Error(errors.ILLEGAL_NUMBER_OF_FRAGMENTS);

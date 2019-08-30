@@ -56,12 +56,12 @@ import { powTx } from "./proofOfWork";
  * - Fetch error
  */
 
-export const processLocalPow = async function(
+export const processLocalPow = async (
   trunkTransaction: Hash,
   branchTransaction: Hash,
   minWeightMagnitude: number,
   txs: ReadonlyArray<TransactionTxHex>
-) {
+) => {
   if (
     !validate(
       integerValidator(minWeightMagnitude),

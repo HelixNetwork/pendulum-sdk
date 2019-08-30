@@ -117,7 +117,7 @@ export const asTransactionObject = (txs: TxHex, hash?: Hash): Transaction => {
   if (!isTxHexOfExactLength(txs, TRANSACTION_TX_HEX_SIZE)) {
     throw new Error(errors.INVALID_TX_HEX);
   }
-  const txBits = txsToTxBits(txs);
+  const transactionBits = txsToTxBits(txs);
 
   const noOfBitsInBytes = 4;
   const usefulBytesFromValue = TRANSACTION_VALUE_HEX_SIZE;
@@ -134,7 +134,7 @@ export const asTransactionObject = (txs: TxHex, hash?: Hash): Transaction => {
       START_INDEX_ADDRESS_HEX + ADDRESS_HEX_SIZE
     ),
     value: value(
-      txBits.slice(
+      transactionBits.slice(
         START_INDEX_VALUE_HEX * noOfBitsInBytes,
         START_INDEX_VALUE_HEX * noOfBitsInBytes + noOfBitsInValue
       )
@@ -144,21 +144,21 @@ export const asTransactionObject = (txs: TxHex, hash?: Hash): Transaction => {
       START_INDEX_OBSOLETE_TAG_HEX + OBSOLETE_TAG_HEX_SIZE
     ),
     timestamp: value(
-      txBits.slice(
+      transactionBits.slice(
         noOfBitsInBytes * START_INDEX_TIMESTAMP_HEX,
         noOfBitsInBytes *
           (START_INDEX_TIMESTAMP_HEX + TRANSACTION_TIMESTAMP_HEX_SIZE)
       )
     ),
     currentIndex: value(
-      txBits.slice(
+      transactionBits.slice(
         noOfBitsInBytes * START_INDEX_CURRENT_INDEX_HEX,
         noOfBitsInBytes *
           (START_INDEX_CURRENT_INDEX_HEX + TRANSACTION_CURRENT_INDEX_HEX_SIZE)
       )
     ),
     lastIndex: value(
-      txBits.slice(
+      transactionBits.slice(
         START_INDEX_LAST_INDEX_HEX * noOfBitsInBytes,
         noOfBitsInBytes *
           (START_INDEX_LAST_INDEX_HEX + TRANSACTION_LAST_INDEX_HEX_SIZE)
@@ -178,14 +178,14 @@ export const asTransactionObject = (txs: TxHex, hash?: Hash): Transaction => {
     ),
     tag: txs.slice(START_INDEX_TAG_HEX, START_INDEX_TAG_HEX + TAG_HEX_SIZE),
     attachmentTimestamp: value(
-      txBits.slice(
+      transactionBits.slice(
         noOfBitsInBytes * START_INDEX_ATTACHED_TIMESTAMP_HEX,
         noOfBitsInBytes *
           (START_INDEX_ATTACHED_TIMESTAMP_HEX + TRANSACTION_TIMESTAMP_HEX_SIZE)
       )
     ),
     attachmentTimestampLowerBound: value(
-      txBits.slice(
+      transactionBits.slice(
         noOfBitsInBytes * START_INDEX_TIMESTAMP_LOW_HEX,
         noOfBitsInBytes *
           (START_INDEX_TIMESTAMP_LOW_HEX +
@@ -193,7 +193,7 @@ export const asTransactionObject = (txs: TxHex, hash?: Hash): Transaction => {
       )
     ),
     attachmentTimestampUpperBound: value(
-      txBits.slice(
+      transactionBits.slice(
         noOfBitsInBytes * START_INDEX_TIMESTAMP_UP_HEX,
         noOfBitsInBytes *
           (START_INDEX_TIMESTAMP_UP_HEX +
