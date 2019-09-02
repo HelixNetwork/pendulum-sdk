@@ -54,7 +54,8 @@
   "dependencies": {
     "@types/node-rsa": "^1.0.0",
     "fs": "0.0.1-security",
-    "node-rsa": "^1.0.3"
+    "node-rsa": "^1.0.3",
+    "ava": "^1.2.1"
   },
   "devDependencies": {
     "@helixnetwork/converter": "^1.0.0-alpha.4"

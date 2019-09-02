@@ -38,7 +38,8 @@
   },
   "dependencies": {
     "@helixnetwork/checksum": "^1.0.0-alpha.4",
-    "@helixnetwork/transaction": "^1.0.0-alpha.4"
+    "@helixnetwork/transaction": "^1.0.0-alpha.4",
+    "ava": "^1.2.1"
   },
   "devDependencies": {
     "@helixnetwork/samples": "^1.0.0-alpha.4"

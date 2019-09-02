@@ -44,6 +44,7 @@
     "@helixnetwork/transaction": "^1.0.0-alpha.4",
     "@helixnetwork/converter": "^1.0.0-alpha.4",
     "@helixnetwork/sha3": "^1.0.0-alpha.4",
-    "bcrypto": "^2.0.0"
+    "bcrypto": "^2.0.0",
+    "ava": "^1.2.1"
   }
 }

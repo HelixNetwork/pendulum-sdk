@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "@types/bignumber.js": "^5.0.0",
-    "bignumber.js": "^4.1.0"
+    "bignumber.js": "^4.1.0",
+    "ava": "^1.2.1"
   }
 }
