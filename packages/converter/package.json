@@ -52,8 +52,5 @@
     "type": "git",
     "url":
       "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
-  },
-  "dependencies": {
-    "ava": "^1.2.1"
   }
 }

@@ -54,8 +54,7 @@
   "dependencies": {
     "bn.js": "^4.11.8",
     "js-sha3": "^0.8.0",
-    "types-bn": "0.0.1",
-    "ava": "^1.2.1"
+    "types-bn": "0.0.1"
   },
   "devDependencies": {
     "@helixnetwork/converter": "^1.0.0-alpha.4"
