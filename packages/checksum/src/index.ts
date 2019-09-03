@@ -19,7 +19,7 @@ import { asArray, TxHex } from "../../types";
 export const errors = {
   INVALID_ADDRESS,
   INVALID_CHECKSUM,
-  INVALID_TX_HEX: INVALID_TX_HEX,
+  INVALID_TX_HEX,
   INVALID_CHECKSUM_LENGTH: "Invalid checksum length"
 };
 

@@ -6,10 +6,10 @@ test("Ipfs: publish()/pull()", t => {
   const input =
     "c02c4aa8852301f3eb7b926f320d911bb178ba1ec4159f67d6cc1d75ef9a62f8";
   const ipfs: Ipfs = new Ipfs("3.122.144.244", "5001");
-  const publishPull = (input: string): string => {
+  const publishPull = (inputValue: string): string => {
     // ipfs.publish("c02c4aa8852301f3eb7b926f320d911bb178ba1ec4159f67d6cc1d75ef9a62f8", false);
     // ipfs.pullMessage("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u", "./samples/prv-test.pem", false);
-    let output = input;
+    const output = inputValue;
     return output;
   };
 

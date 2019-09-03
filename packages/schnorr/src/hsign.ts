@@ -8,8 +8,6 @@ import {
 } from "../../constants";
 import * as errors from "./errors";
 
-const Schn = require("schnorr");
-
 export default class HSign {
   public static generateSignatureFromArray(arr: Uint8Array): HSign {
     if (arr.length !== SIGNATURE_TOTAL_BYTE_SIZE) {

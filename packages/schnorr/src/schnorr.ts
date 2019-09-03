@@ -27,7 +27,6 @@ export default class Schnorr {
     const hastxs: Int8Array = new Int8Array(hHash.getHashLength());
     hHash.squeeze(hastxs, 0, hHash.getHashLength());
     let privateKey: any = new BN(hastxs);
-    let buffer;
     while (
       !Schnorr.validateBN(privateKey) ||
       privateKey.toArrayLike(Buffer, "be").length !==
@@ -148,12 +147,7 @@ export default class Schnorr {
     secreteKey: Uint8Array,
     data: string
   ) {
-    let msg: string = "";
-    if (typeof message === "string") {
-      msg = message;
-    } else {
-      msg = hex(message);
-    }
+    let msg: string = typeof message === "string" ? message : hex(message);
 
     const dt = data !== null && data.length > 32 ? data.slice(0, 32) : data;
     const drbg = Schn.drbg(

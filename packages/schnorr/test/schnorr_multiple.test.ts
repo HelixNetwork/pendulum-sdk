@@ -2,12 +2,12 @@ import test from "ava";
 
 /** @todo fix schnorr unit tests, the placeholders may then be removed. */
 test("Schnorr: placeholder()", t => {
-  const input = "placeholder";
+  const expectedInput = "placeholder";
   const placeholder = (input: string): string => {
     return input;
   };
 
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
+  t.is(placeholder("placeholder"), expectedInput, "Inputs should be equal.");
 });
 
 /*
