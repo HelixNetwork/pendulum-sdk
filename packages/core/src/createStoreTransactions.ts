@@ -3,11 +3,11 @@ import * as Promise from "bluebird";
 import { arrayValidator, validate } from "../../guards";
 import {
   Callback,
-  TxHex,
   ProtocolCommand,
   Provider,
   StoreTransactionsCommand,
-  StoreTransactionsResponse
+  StoreTransactionsResponse,
+  TxHex
 } from "../../types";
 
 /**
@@ -21,14 +21,14 @@ import {
  */
 export const createStoreTransactions = ({ send }: Provider) =>
   /**
-   * @description Persists a list of _attached_ transaction txHex in the store of connected node by calling
+   * @description Persists a list of _attached_ transaction txs in the store of connected node by calling
    * [`storeTransactions`](https://docs.hlx.ai/hlx/api#endpoints/storeTransactions) command.
    * Tip selection and Proof-of-Work must be done first, by calling
    * [`getTransactionsToApprove`]{@link #module_core.getTransactionsToApprove} and
    * [`attachToTangle`]{@link #module_core.attachToTangle} or an equivalent attach method or remote
    * [`PoW-Integrator`](https://powbox.devnet.iota.org/).
    *
-   * Persist the transaction txHex in local storage **before** calling this command, to ensure
+   * Persist the transaction txs in local storage **before** calling this command, to ensure
    * reattachment is possible, until your bundle has been included.
    *
    * Any transactions stored with this command will eventaully be erased, as a result of a snapshot.
@@ -37,13 +37,13 @@ export const createStoreTransactions = ({ send }: Provider) =>
    *
    * @memberof module:core
    *
-   * @param {TxHex[]} txs - Attached transaction txHex
+   * @param {TxHex[]} txs - Attached transaction txs
    * @param {Callback} [callback] - Optional callback
    *
    * @return {Promise}
-   * @fullfil {TxHex[]} Attached transaction txHex
+   * @fullfil {TxHex[]} Attached transaction txs
    * @reject {Error}
-   * - `INVALID_ATTACHED_TX_HEX`: Invalid attached txHex
+   * - `INVALID_ATTACHED_TX_HEX`: Invalid attached txs
    * - Fetch error
    */
   (

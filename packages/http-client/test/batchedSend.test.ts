@@ -23,43 +23,43 @@ export const command: FindTransactionsCommand = {
   approvees: ["d".repeat(2 * 32)]
 };
 
-export const command_1: FindTransactionsCommand = {
+export const command1: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
   addresses: ["a".repeat(2 * 32), "a".repeat(2 * 32)]
 };
-export const command_2: FindTransactionsCommand = {
+export const command2: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
   addresses: ["c".repeat(2 * 32)]
 };
 
-export const command_3: FindTransactionsCommand = {
+export const command3: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
   tags: ["a".repeat(2 * 8), "a".repeat(2 * 8)]
 };
 
-export const command_4: FindTransactionsCommand = {
+export const command4: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
   tags: ["c".repeat(2 * 8)]
 };
 
-export const command_5: FindTransactionsCommand = {
+export const command5: FindTransactionsCommand = {
   command: ProtocolCommand.FIND_TRANSACTIONS,
   approvees: ["d".repeat(2 * 32)]
 };
 
-export const response_1: FindTransactionsResponse = {
+export const response1: FindTransactionsResponse = {
   hashes: ["a".repeat(2 * 32), "c".repeat(2 * 32)]
 };
-export const response_2: FindTransactionsResponse = {
+export const response2: FindTransactionsResponse = {
   hashes: ["a".repeat(2 * 32), "d".repeat(2 * 32)]
 };
-export const response_3: FindTransactionsResponse = {
+export const response3: FindTransactionsResponse = {
   hashes: ["a".repeat(2 * 32), "d".repeat(2 * 32), "e".repeat(2 * 32)]
 };
-export const response_4: FindTransactionsResponse = {
+export const response4: FindTransactionsResponse = {
   hashes: ["a".repeat(2 * 32), "a".repeat(2 * 32)]
 };
-export const response_5: FindTransactionsResponse = {
+export const response5: FindTransactionsResponse = {
   hashes: ["a".repeat(2 * 32), "c".repeat(2 * 32)]
 };
 
@@ -67,45 +67,45 @@ export const response: FindTransactionsResponse = {
   hashes: ["a".repeat(2 * 32)]
 };
 
-export const batchedSendNock_1 = nock(
+export const batchedSendNock1 = nock(
   "http://localhost:24265",
   headers(API_VERSION)
 )
   .persist()
-  .post("/", command_1)
-  .reply(200, response_1);
+  .post("/", command1)
+  .reply(200, response1);
 
-export const batchedSendNock_2 = nock(
+export const batchedSendNock2 = nock(
   "http://localhost:24265",
   headers(API_VERSION)
 )
   .persist()
-  .post("/", command_2)
-  .reply(200, response_2);
+  .post("/", command2)
+  .reply(200, response2);
 
-export const batchedSendNock_3 = nock(
+export const batchedSendNock3 = nock(
   "http://localhost:24265",
   headers(API_VERSION)
 )
   .persist()
-  .post("/", command_3)
-  .reply(200, response_3);
+  .post("/", command3)
+  .reply(200, response3);
 
-export const batchedSendNock_4 = nock(
+export const batchedSendNock4 = nock(
   "http://localhost:24265",
   headers(API_VERSION)
 )
   .persist()
-  .post("/", command_4)
-  .reply(200, response_4);
+  .post("/", command4)
+  .reply(200, response4);
 
-export const batchedSendNock_5 = nock(
+export const batchedSendNock5 = nock(
   "http://localhost:24265",
   headers(API_VERSION)
 )
   .persist()
-  .post("/", command_5)
-  .reply(200, response_5);
+  .post("/", command5)
+  .reply(200, response5);
 
 test("batchedSend() returns correct response", async t => {
   t.deepEqual(await send(command), response);

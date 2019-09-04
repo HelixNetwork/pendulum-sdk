@@ -1,3 +1,4 @@
+import { addresseDefaultSecLevel, addresses } from "@helixnetwork/samples";
 import * as nock from "nock";
 import { ProtocolCommand } from "../../../../types";
 import {
@@ -5,8 +6,6 @@ import {
   WereAddressesSpentFromResponse
 } from "../../../src/createWereAddressesSpentFrom";
 import headers from "./headers";
-
-import { addresses, addresseDefaultSecLevel } from "@helixnetwork/samples";
 
 export const wereAddressesSpentFromCommand: WereAddressesSpentFromCommand = {
   command: ProtocolCommand.WERE_ADDRESSES_SPENT_FROM,

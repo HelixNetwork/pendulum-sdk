@@ -35,14 +35,14 @@ const transfers = [
   {
     address: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     value: 3,
-    tag: Converter.asciiToHBytes("aaaa"),
-    message: Converter.asciiToHBytes("abcd")
+    tag: Converter.asciiToTxBytes("aaaa"),
+    message: Converter.asciiToTxBytes("abcd")
   }
 ];
 
-var storedHBytes;
+var storedTxBytes;
 
-// Create bundle and return the HBytes of the prepared TXs
+// Create bundle and return the TxBytes of the prepared TXs
 helix
   .prepareTransfers(senderSeed, transfers, {
     inputs,
@@ -50,7 +50,7 @@ helix
   })
   .then(txs => {
     console.log(
-      "export const bundleHBytes: HBytes[] = " +
+      "export const bundleTxBytes: TxBytes[] = " +
         JSON.stringify([txs].reverse()) +
         ";"
     );
@@ -60,13 +60,13 @@ helix
         txs
       ).reverse()
     );
-    storedHBytes = txs;
+    storedTxBytes = txs;
     console.log(
       "-------------------- call sendTransactionStrings ------------------"
     );
     // Finalize and broadcast the bundle to the node
-    return helix.sendHBytes(
-      storedHBytes,
+    return helix.sendTransactionStrings(
+      storedTxBytes,
       5 /*depth*/,
       2 /*minimum weight magnitude*/
     );
@@ -77,26 +77,26 @@ helix
     console.log("export const bundle: Transaction[] = ");
     console.log(results);
 
-    console.log("export const bundleHBytes: HBytes[] = ");
-    const txsResult = TransactionConverter.asTransactionHBytes(results);
-    console.log(txsResult);
+    console.log("export const bundleTxBytes: TxBytes[] = ");
+    const txssResult = TransactionConverter.asTransactionTxBytes(results);
+    console.log(txssResult);
 
     const bundleFromTangle = Array.from(results);
-    const transactions = Array.from(txsResult);
+    const transactions = Array.from(txssResult);
     for (var i = 0; i < transactions.length; i++) {
       console.log("Transaction " + i);
       console.log(
-        "Transaction hash from tangle: " + bundleFromTangle[i]["hash"]
+        "Transaction hash from tangle: " + bundleFromTangle.slice(i, i + 1).hash
       );
       let computedTransactionHash = Transaction.transactionHash(
-        Converter.toHBytes(transactions[i])
+        Converter.toTxBytes(transactions.slice(i, i + 1))
       );
       console.log(
         "New computed hash (in helix.lib): " + computedTransactionHash
       );
       console.log(
         "Equal hashes? " +
-          (bundleFromTangle[i]["hash"] == computedTransactionHash)
+          (bundleFromTangle.slice(i, i + 1).hash === computedTransactionHash)
       );
     }
   })

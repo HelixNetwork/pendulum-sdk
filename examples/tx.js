@@ -22,24 +22,24 @@ const receiverAddress1 =
 const receiverAddress2 =
   "9477ec3c08c3e79a4fdcbc2a8fda9539b320b9b25dc9bc6cfca01cded875df0e";
 
-// Store the HBytes that are returned from prepareTransfers function
-var storedHBytes;
+// Store the TxBytes that are returned from prepareTransfers function
+var storedTxBytes;
 
 var transfer = {
   address: receiverAddress1,
   value: 53,
-  message: Converter.asciiToHBytes("abcd"),
+  message: Converter.asciiToTxHex("abcd"),
   tag: "abcd123"
 };
 
-// Create bundle and return the HBytes of the prepared TXs
+// Create bundle and return the TxBytes of the prepared TXs
 helix
   .prepareTransfers(senderSeed, [transfer])
-  .then(function(HBytes) {
-    storedHBytes = HBytes;
+  .then(function(TxBytes) {
+    storedTxBytes = TxBytes;
     // Finalize and broadcast the bundle to the node
-    return helix.sendHBytes(
-      storedHBytes,
+    return helix.sendTransactionStrings(
+      storedTxBytes,
       5 /*depth*/,
       2 /*minimum weight magnitude*/
     );

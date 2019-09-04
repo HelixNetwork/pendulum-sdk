@@ -81,7 +81,7 @@ export default class Sha3 {
 
     do {
       // finalize
-      let state = this.sha3.digest();
+      const state = this.sha3.digest();
 
       let i = 0;
       const limit = length < Sha3.HASH_LENGTH ? length : Sha3.HASH_LENGTH;

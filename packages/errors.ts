@@ -54,5 +54,9 @@ export const invalidChecksum = (address: string) =>
 export const inconsistentTransaction = (reason: string) =>
   `Transaction is inconsistent. Reason: ${reason}`;
 export const INVALID_DELAY = "Invalid delay.";
+export const INVALID_BUNDLE_INDEX = "Invalid bundle index";
 export const requestError = (statusText: string) =>
   `Request error: ${statusText}`;
+export const ILLEGAL_TX_BYTES_LENGTH = "Illegal txBytes length: ";
+export const ILLEGAL_DIFFICULTY = "Illegal difficulty: ";
+export const INVALID_PARAM = "Invalid Parameters were passed";

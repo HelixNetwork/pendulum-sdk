@@ -1,6 +1,6 @@
 /** @module  extract-json */
 
-import { txHexToAscii } from "@helixnetwork/converter";
+import { txsToAscii } from "@helixnetwork/converter";
 import { Bundle, Transaction } from "../../types";
 
 export const errors = {
@@ -84,7 +84,7 @@ export const extractJson = (bundle: Bundle): string | number | null => {
       /^([0-9a-f][0-9a-f])*?(0{2})/
     );
     if (num) {
-      return parseFloat(txHexToAscii(num[0]));
+      return parseFloat(txsToAscii(num[0]));
     }
     throw new Error(errors.INVALID_JSON);
   } else {
@@ -93,46 +93,46 @@ export const extractJson = (bundle: Bundle): string | number | null => {
 
   let index = 0;
   let notEnded = true;
-  let txHexChunk = "";
-  let txHexChecked = 0;
+  let txsChunk = "";
+  let txsChecked = 0;
   let preliminaryStop = false;
   let finalJson = "";
 
   while (index < bundle.length && notEnded) {
     const messageChunk = bundle[index].signatureMessageFragment;
-    // We iterate over the message chunk, reading 9 txHex at a time
+    // We iterate over the message chunk, reading 9 txs at a time
     for (let i = 0; i < messageChunk.length; i += 8) {
-      // get 9 txHex
-      const txHex = messageChunk.slice(i, i + 8);
-      txHexChunk += txHex;
+      // get 9 txs
+      const txs = messageChunk.slice(i, i + 8);
+      txsChunk += txs;
 
       // Get the upper limit of the tytes that need to be checked
-      // because we only check 2 txHex at a time, there is sometimes a leftover
-      const upperLimit = txHexChunk.length - txHexChunk.length % 2;
+      // because we only check 2 txs at a time, there is sometimes a leftover
+      const upperLimit = txsChunk.length - txsChunk.length % 2;
 
-      const txHexToCheck = txHexChunk.slice(txHexChecked, upperLimit);
+      const txsToCheck = txsChunk.slice(txsChecked, upperLimit);
 
-      // We read 2 txHex at a time and check if it equals the closing bracket character
-      for (let j = 0; j < txHexToCheck.length; j += 2) {
-        const txHexPair = txHexToCheck[j] + txHexToCheck[j + 1];
+      // We read 2 txs at a time and check if it equals the closing bracket character
+      for (let j = 0; j < txsToCheck.length; j += 2) {
+        const txsPair = txsToCheck[j] + txsToCheck[j + 1];
 
         // If closing bracket char was found, and there are only trailing 0's
-        // we quit and remove the 0's from the txHexChunk.
-        if (preliminaryStop && txHexPair === "00") {
+        // we quit and remove the 0's from the txsChunk.
+        if (preliminaryStop && txsPair === "00") {
           notEnded = false;
-          // TODO: Remove the trailing 9's from txHexChunk
-          // var closingBracket = txHexToCheck.indexOf('QD') + 1;
+          // TODO: Remove the trailing 9's from txsChunk
+          // var closingBracket = txsToCheck.indexOf('QD') + 1;
 
-          // txHexChunk = txHexChunk.slice( 0, ( txHexChunk.length - txHexToCheck.length ) + ( closingBracket % 2 === 0 ? closingBracket : closingBracket + 1 ) );
+          // txsChunk = txsChunk.slice( 0, ( txsChunk.length - txsToCheck.length ) + ( closingBracket % 2 === 0 ? closingBracket : closingBracket + 1 ) );
 
           break;
         }
 
-        finalJson += txHexToAscii(txHexPair);
+        finalJson += txsToAscii(txsPair);
 
-        // If txHex pair equals closing bracket char, we set a preliminary stop
+        // If txs pair equals closing bracket char, we set a preliminary stop
         // the preliminaryStop is useful when we have a nested JSON object
-        if (txHexPair === lastTxHexPair) {
+        if (txsPair === lastTxHexPair) {
           preliminaryStop = true;
         }
       }
@@ -140,7 +140,7 @@ export const extractJson = (bundle: Bundle): string | number | null => {
       if (!notEnded) {
         break;
       }
-      txHexChecked += txHexToCheck.length;
+      txsChecked += txsToCheck.length;
     }
 
     // If we have not reached the end of the message yet, we continue with the next

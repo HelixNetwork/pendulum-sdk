@@ -1,6 +1,4 @@
 import test from "ava";
-import Schnorr from "../src/schnorr";
-import { hex, toTxBytes } from "@helixnetwork/converter";
 
 /** @todo fix schnorr unit tests, the placeholders may then be removed. */
 test("Schnorr-Multi: placeholder()", t => {

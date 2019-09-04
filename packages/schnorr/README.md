@@ -112,6 +112,7 @@ Split seed in fragments and hashed them then generate from each fragment a schno
 | signatureFragments | <code>array</code> | Array of signatureFragments txs |
 | bundleHash | <code>string</code> | Bundle hash txs |
 
+
 <a name="module_schnorr..normalizedBundleHash"></a>
 
 ### *schnorr*~normalizedBundleHash(bundlehash)

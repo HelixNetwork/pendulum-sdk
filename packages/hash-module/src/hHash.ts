@@ -1,5 +1,5 @@
 /* tslint:disable variable-name no-conditional-assignment */
-import { hex, txBits, txHex } from "@helixnetwork/converter";
+import { hex, txBits, txs } from "@helixnetwork/converter";
 import SHA3 from "@helixnetwork/sha3";
 
 const HASH_SHA3 = "sha3";
@@ -61,7 +61,7 @@ export default class HHash {
   }
 
   public absorbBits(data: Int8Array, offset: number, length: number) {
-    this.h.absorb(txHex(data), offset, length);
+    this.h.absorb(txs(data), offset, length);
   }
 
   /**

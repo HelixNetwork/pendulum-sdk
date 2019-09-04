@@ -1,32 +1,32 @@
 /** @module checksum */
 
-import { txBits, txHex, hex, toTxBytes } from "@helixnetwork/converter";
+import { hex, toTxBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
-  ADDRESS_BYTE_SIZE,
-  ADDRESS_BYTE_SIZE_PADDING,
-  ADDRESS_CHECKSUM_BYTE_SIZE,
-  ADDRESS_MIN_CHECKSUM_BYTE_SIZE
+  ADDRESS_CHECKSUM_HEX_SIZE,
+  ADDRESS_HEX_SIZE,
+  ADDRESS_HEX_SIZE_PADDING,
+  ADDRESS_MIN_CHECKSUM_HEX_SIZE
 } from "../../constants";
 import {
   INVALID_ADDRESS,
   INVALID_CHECKSUM,
   INVALID_TX_HEX
 } from "../../errors";
-import { isHash, isTxHex } from "../../guards";
+import { isTxHex } from "../../guards";
 import { asArray, TxHex } from "../../types";
 
 export const errors = {
   INVALID_ADDRESS,
   INVALID_CHECKSUM,
-  INVALID_TX_HEX: INVALID_TX_HEX,
+  INVALID_TX_HEX,
   INVALID_CHECKSUM_LENGTH: "Invalid checksum length"
 };
 
-const ADDRESS_CHECKSUM_TX_HEX_LENGTH = ADDRESS_CHECKSUM_BYTE_SIZE;
+const ADDRESS_CHECKSUM_TX_HEX_LENGTH = ADDRESS_CHECKSUM_HEX_SIZE;
 const ADDRESS_WITH_CHECKSUM_TX_HEX_LENGTH =
-  ADDRESS_BYTE_SIZE + ADDRESS_CHECKSUM_TX_HEX_LENGTH;
-const MIN_CHECKSUM_TX_HEX_LENGTH = ADDRESS_MIN_CHECKSUM_BYTE_SIZE;
+  ADDRESS_HEX_SIZE + ADDRESS_CHECKSUM_TX_HEX_LENGTH;
+const MIN_CHECKSUM_TX_HEX_LENGTH = ADDRESS_MIN_CHECKSUM_HEX_SIZE;
 
 /**
  * Generates and appends the 8-transactionStrings checksum of the given transactionStrings, usually an address.
@@ -61,7 +61,7 @@ export function addChecksum(
       throw new Error(errors.INVALID_TX_HEX);
     }
 
-    if (isAddress && inputTxHex.length !== ADDRESS_BYTE_SIZE) {
+    if (isAddress && inputTxHex.length !== ADDRESS_HEX_SIZE) {
       if (inputTxHex.length === ADDRESS_WITH_CHECKSUM_TX_HEX_LENGTH) {
         return inputTxHex;
       }
@@ -80,7 +80,7 @@ export function addChecksum(
 
     let paddedInputTxHex = inputTxHex;
 
-    while (paddedInputTxHex.length % ADDRESS_BYTE_SIZE_PADDING !== 0) {
+    while (paddedInputTxHex.length % ADDRESS_HEX_SIZE_PADDING !== 0) {
       paddedInputTxHex += "0";
     }
     const hHash = new HHash(HHash.HASH_ALGORITHM_1);
@@ -117,21 +117,21 @@ export function removeChecksum(
   input: ReadonlyArray<TxHex>
 ): ReadonlyArray<TxHex>;
 export function removeChecksum(input: TxHex | ReadonlyArray<TxHex>) {
-  const txHexArray = asArray(input);
+  const txsArray = asArray(input);
 
   if (
-    txHexArray.length === 0 ||
-    !txHexArray.every(
+    txsArray.length === 0 ||
+    !txsArray.every(
       t =>
-        isTxHex(t, ADDRESS_BYTE_SIZE) ||
+        isTxHex(t, ADDRESS_HEX_SIZE) ||
         isTxHex(t, ADDRESS_WITH_CHECKSUM_TX_HEX_LENGTH)
     )
   ) {
     throw new Error(errors.INVALID_ADDRESS);
   }
 
-  const noChecksum: ReadonlyArray<TxHex> = txHexArray.map(inputTxHex =>
-    inputTxHex.slice(0, ADDRESS_BYTE_SIZE)
+  const noChecksum: ReadonlyArray<TxHex> = txsArray.map(inputTxHex =>
+    inputTxHex.slice(0, ADDRESS_HEX_SIZE)
   );
 
   // return either string or the list

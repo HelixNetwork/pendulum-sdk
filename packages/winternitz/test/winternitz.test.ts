@@ -3,7 +3,7 @@ import test from "ava";
 import {
   HASH_BYTE_SIZE,
   SECURITY_LEVELS,
-  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE
 } from "../../constants";
 import {
@@ -69,8 +69,8 @@ function testWinternitz(securityLevel: number) {
     .fill(null)
     .map((_, i) =>
       sig.slice(
-        i * SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
-        (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+        i * SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
+        (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
       )
     );
 

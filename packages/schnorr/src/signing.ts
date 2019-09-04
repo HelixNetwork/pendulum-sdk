@@ -1,34 +1,19 @@
 /** @module schnorr */
 
-import {
-  fromValue,
-  txBits,
-  txHex,
-  txHexToTxBits,
-  hex,
-  toTxBytes,
-  value,
-  txBitsToTxHex
-} from "@helixnetwork/converter";
+import { hex, toTxBytes, txBits, value } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
-import { padTxBits } from "@helixnetwork/pad";
-import { AssertionError } from "assert";
-import { IncomingMessage } from "http";
 import {
-  // ADDRESS_SIZE_BITS,
   HASH_BITS_SIZE,
   HASH_BYTE_SIZE,
   SIGNATURE_FRAGMENT_NO,
-  // SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE_BITS,
   SIGNATURE_SECRETE_KEY_BYTE_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE
 } from "../../constants";
-import { arrayValidator } from "../../guards";
 import { Hash } from "../../types";
-import add from "./add";
 import * as errors from "./errors";
 import HSign from "./hsign";
 import Schnorr from "./schnorr";
+
 const BN = require("bcrypto/lib/bn.js");
 /**
  * @method subseed
@@ -49,34 +34,34 @@ export function subseed(seed: Uint8Array, index: number): Uint8Array {
 
   const indexBN = new BN(index.toString(2), 2);
   const seedBN = new BN(seed, 16);
-  const subseed: Uint8Array = new Uint8Array(seedBN.add(indexBN).toBuffer());
+  const subSeed: Uint8Array = new Uint8Array(seedBN.add(indexBN).toBuffer());
 
   const hHash = new HHash(HHash.HASH_ALGORITHM_1);
 
   hHash.initialize();
-  hHash.absorb(subseed, 0, subseed.length);
-  hHash.squeeze(subseed, 0, subseed.length);
+  hHash.absorb(subSeed, 0, subSeed.length);
+  hHash.squeeze(subSeed, 0, subSeed.length);
 
-  return subseed;
+  return subSeed;
 }
 
 /**
  * @method key
  * Split seed in fragments and hashed them then generate from each fragment a schnore private key;
  *
- * @param {Int8Array} subseed - Subseed txBits
+ * @param {Int8Array} subSeed - Subseed txBits
  * @param {number} securityLevel - Private key length
  *
  * @return {Int8Array} Private key bytes
  */
-export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
-  if (subseed.length % 2 !== 0) {
+export function key(subSeed: Uint8Array, securityLevel: number): Uint8Array {
+  if (subSeed.length % 2 !== 0) {
     throw new Error(errors.ILLEGAL_SUBSEED_LENGTH);
   }
 
   const hHash = new HHash(HHash.HASH_ALGORITHM_1);
   hHash.initialize();
-  hHash.absorb(subseed, 0, subseed.length);
+  hHash.absorb(subSeed, 0, subSeed.length);
 
   const buffer = new Uint8Array(hHash.getHashLength());
   const result = new Uint8Array(
@@ -86,7 +71,7 @@ export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
 
   while (securityLevel-- > 0) {
     for (let i = 0; i < SIGNATURE_FRAGMENT_NO; i++) {
-      hHash.squeeze(buffer, 0, subseed.length);
+      hHash.squeeze(buffer, 0, subSeed.length);
       const secreteKeySchnorr: Uint8Array = Schnorr.computeSecreteKey(buffer);
       for (let j = 0; j < secreteKeySchnorr.length; j++) {
         result[offset++] = secreteKeySchnorr[j];
@@ -107,7 +92,6 @@ export function key(subseed: Uint8Array, securityLevel: number): Uint8Array {
  *
  */
 // tslint:disable-next-line no-shadowed-variable
-
 export function digests(key: Uint8Array): Uint8Array {
   const securityLevel = Math.floor(
     key.length / (SIGNATURE_SECRETE_KEY_BYTE_SIZE * SIGNATURE_FRAGMENT_NO)
@@ -194,9 +178,9 @@ export function address(digests: Uint8Array): Uint8Array {
  *
  * @return {Int8Array} Digest txBits
  */
-// tslint:disable-next-line no-shadowed-variable
 function digest(
   normalizedBundleFragment: Int8Array,
+  // tslint:disable-next-line no-shadowed-variable
   signatureFragment: Uint8Array
 ): Uint8Array {
   const digestHash = new HHash(HHash.HASH_ALGORITHM_1);
@@ -277,9 +261,9 @@ export function signatureFragment(
 /**
  * @method validateSignatures
  *
- * @param {string} expectedAddress - Expected address txHex
- * @param {array} signatureFragments - Array of signatureFragments txHex
- * @param {string} bundleHash - Bundle hash txHex
+ * @param {string} expectedAddress - Expected address txs
+ * @param {array} signatureFragments - Array of signatureFragments txs
+ * @param {string} bundleHash - Bundle hash txs
  *
  * @return {boolean}
  */
@@ -296,18 +280,18 @@ export function validateSignatures(
   const publicKey = toTxBytes(expectedAddress);
 
   // validate schnorr signature:
-  if (signatureFragments.length == 0) {
+  if (signatureFragments.length === 0) {
     return false;
   }
 
   let isValid: boolean = true;
-  signatureFragments.forEach(value => {
+  signatureFragments.forEach(fragment => {
     const signature: HSign = HSign.generateSignatureFromArray(
-      toTxBytes(value.slice(0, SIGNATURE_TOTAL_BYTE_SIZE * 2))
+      toTxBytes(fragment.slice(0, SIGNATURE_TOTAL_BYTE_SIZE * 2))
     );
     isValid = isValid && Schnorr.verify(normalizedBundle, signature, publicKey);
   });
-  return isValid; // expectedAddress === txHex(address(digests));
+  return isValid; // expectedAddress === txs(address(digests));
 }
 
 /**
@@ -315,7 +299,7 @@ export function validateSignatures(
  *
  * @method normalizedBundleHash
  *
- * @param {Hash} bundlehash - Bundle hash txHex
+ * @param {Hash} bundlehash - Bundle hash txs
  *
  * @return {Int8Array} Normalized bundle hash
  */

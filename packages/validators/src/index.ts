@@ -13,7 +13,7 @@ import { isValidChecksum } from "@helixnetwork/checksum";
  *
  * @method isAddress
  *
- * @param {string} address - Address txHex, with checksum
+ * @param {string} address - Address txs, with checksum
  *
  * @return {boolean}
  */

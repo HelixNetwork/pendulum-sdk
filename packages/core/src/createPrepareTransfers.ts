@@ -1,21 +1,16 @@
-import * as Promise from "bluebird";
-
 import { addEntry, addTxHex, finalizeBundle } from "@helixnetwork/bundle";
-import { isValidChecksum, removeChecksum } from "@helixnetwork/checksum";
-import { txBits, txHex, hex, toTxBytes } from "@helixnetwork/converter";
+import { removeChecksum } from "@helixnetwork/checksum";
+import { hex, toTxBytes, txBits } from "@helixnetwork/converter";
 import { asFinalTransactionStrings } from "@helixnetwork/transaction-converter";
+import { signatureFragments } from "@helixnetwork/winternitz";
+import * as Promise from "bluebird";
 import {
-  key,
-  normalizedBundleHash,
-  signatureFragments,
-  subseed
-} from "@helixnetwork/winternitz";
-import {
+  DEFAULT_SECURITY_LEVEL,
+  DEFAULT_SECURITY_LEVEL_PREPARE_TRANSFER,
   HASH_BYTE_SIZE,
   NULL_HASH_TX_HEX,
-  SECURITY_LEVELS,
-  SEED_BYTE_SIZE,
-  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
+  SEED_HEX_SIZE,
+  SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
   SIGNATURE_TOTAL_BYTE_SIZE
 } from "../../constants";
 import * as errors from "../../errors";
@@ -34,20 +29,19 @@ import {
   asArray,
   Callback,
   getOptionsWithDefaults,
-  TxHex,
   Provider,
   Transaction,
-  Transfer
+  Transfer,
+  TxHex
 } from "../../types";
 import { asyncPipe } from "../../utils";
 import { createGetInputs, createGetNewAddress } from "./";
 import HMAC from "./hmac";
 
 const HASH_LENGTH = HASH_BYTE_SIZE;
-const SIGNATURE_MESSAGE_FRAGMENT_LENGTH = SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
+const SIGNATURE_MESSAGE_FRAGMENT_LENGTH = SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE;
 const SIGNATURE_MESSAGE_FRAGMENT_LENGTH_BYTE = SIGNATURE_TOTAL_BYTE_SIZE;
-// const KEY_FRAGMENT_LENGTH = 2 * SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
-const SECURITY_LEVEL = 1;
+const SECURITY_LEVEL = DEFAULT_SECURITY_LEVEL;
 
 export interface PrepareTransfersOptions {
   readonly inputs: ReadonlyArray<Address>;
@@ -61,7 +55,7 @@ const defaults: PrepareTransfersOptions = {
   inputs: [],
   address: undefined,
   remainderAddress: undefined,
-  security: 1,
+  security: DEFAULT_SECURITY_LEVEL_PREPARE_TRANSFER,
   hmacKey: undefined
 };
 
@@ -159,10 +153,10 @@ export const createPrepareTransfers = (
         );
       }
 
-      if (isTxHex(seed) && seed.length < SEED_BYTE_SIZE) {
+      if (isTxHex(seed) && seed.length < SEED_HEX_SIZE) {
         /* tslint:disable-next-line:no-console */
         console.warn(
-          "WARNING: Seeds with less length than 81 transactionStrings are not secure! Use a random, 81-transactionStrings long seed!"
+          "WARNING: Seeds with less length than 64 transactionStrings are not secure! Use a random, 64-transactionStrings long seed!"
         );
       }
     }
@@ -427,8 +421,8 @@ export const addSignatures = (
             .fill(null)
             .map((_, i) =>
               allSignatureFragments.slice(
-                i * SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
-                (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+                i * SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
+                (i + 1) * SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
               )
             )
         );

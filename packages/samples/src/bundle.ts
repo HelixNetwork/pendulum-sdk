@@ -1,4 +1,4 @@
-import { TxHex, Transaction } from "../../types";
+import { Transaction, TxHex } from "../../types";
 
 export const bundle: Transaction[] = [
   {
@@ -211,14 +211,13 @@ export const bundleWithInvalidSignature = [...bundle].map(transaction => ({
     .concat("a".repeat(2 * 32))
 }));
 
-export const bundleWithInvalidValueSum = [...bundle].map(
-  (transaction, i) =>
-    i === 0
-      ? {
-          ...transaction,
-          value: transaction.value + 23128
-        }
-      : transaction
+export const bundleWithInvalidValueSum = [...bundle].map((transaction, i) =>
+  i === 0
+    ? {
+        ...transaction,
+        value: transaction.value + 23128
+      }
+    : transaction
 );
 
 export const bundleWithInvalidBundleHash = [...bundle].map(

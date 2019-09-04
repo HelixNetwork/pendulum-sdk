@@ -10,7 +10,8 @@ import {
   Neighbor,
   Provider,
   Transaction,
-  Transfer
+  Transfer,
+  TxHex
 } from "../../types";
 import {
   AccountData,
@@ -133,7 +134,6 @@ export const composeAPI = (settings: Partial<Settings> = {}) => {
    *
    * @memberof API
    *
-   * @param {function} attachToTangle - Function to override
    * [`attachToTangle`]{@link #module_core.attachToTangle} with
    */
   function overrideAttachToTangle(attachFn: AttachToTangle) {

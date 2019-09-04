@@ -122,6 +122,7 @@ Creates a bunlde with given transaction entries
 | fragments | <code>Array.&lt;TxHex&gt;</code> |  | Message signature fragments to add |
 | [offset] | <code>number</code> | <code>0</code> | Optional offset to start appending signature message fragments |
 
+
 Adds a list of txs in the bundle starting at offset
 
 **Returns**: <code>Array.&lt;Transaction&gt;</code> - Transactions of finalized bundle  
@@ -438,6 +439,7 @@ broadcastTransactions(tailHash)
 **Returns**: <code>function</code> - [`broadcastTransactions`](#module_core.broadcastTransactions)  
 <a name="module_core.broadcastTransactions"></a>
 
+
 ### *core*.broadcastTransactions(txs, [callback])
 **Fulfill**: <code>TxHex[]</code> Attached transactions (txs)  
 **Reject**: <code>Error</code>
@@ -446,10 +448,12 @@ broadcastTransactions(tailHash)
 
 | Param | Type | Description |
 | --- | --- | --- |
+
 | txs | <code>Array.&lt;TransactionTxHex&gt;</code> | Attached txs |
 | [callback] | <code>Callback</code> | Optional callback |
 
 Broadcasts an list of _attached_ transaction txs to the network by calling
+
 [`boradcastTransactions`](https://docs.helix.net/hlx/api#endpoints/broadcastTransactions) command.
 Tip selection and Proof-of-Work must be done first, by calling
 [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) and
@@ -458,7 +462,9 @@ Tip selection and Proof-of-Work must be done first, by calling
 
 You may use this method to increase odds of effective transaction propagation.
 
+
 Persist the transaction txs in local storage **before** calling this command for first time, to ensure
+
 that reattachment is possible, until your bundle has been included.
 
 **Example**  
@@ -1080,7 +1086,7 @@ const minWeightMagnitude = 2
 
 getTransactionsToApprove(depth)
   .then(transactionsToApprove =>
-     attachToTanle(minWightMagnitude, txs, { transactionsToApprove })
+     attachToTangle(minWightMagnitude, txs, { transactionsToApprove })
   )
   .then(storeAndBroadcast)
   .catch(err => {
@@ -1095,11 +1101,13 @@ getTransactionsToApprove(depth)
 | --- | --- | --- |
 | provider | <code>Provider</code> | Network provider |
 
+
 **Returns**: <code>function</code> - [`getTransactionStrings`](#module_core.getTransactionStrings)  
 <a name="module_core.getTransactionStrings"></a>
 
 ### *core*.getTransactionStrings(hashes, [callback])
 **Fulfil**: <code>String[]</code> - Transaction strings (txs)
+
 **Reject**: Error{}
 - `INVALID_TRANSACTION_HASH`: Invalid hash
 - Fetch error  
@@ -1201,6 +1209,7 @@ It is possible to prepare and sign transactions offline, by omitting the provide
 <a name="module_core.prepareTransfers"></a>
 
 ### *core*.prepareTransfers(seed, transfers, [options], [callback])
+
 **Fulfil**: <code>array</code> txs Returns bundle txs  
 **Reject**: <code>Error</code>
 - `INVALID_SEED`
@@ -1344,6 +1353,7 @@ replayBundle(tail)
 
 ### *core*.createSendTransactionStrings(provider)
 
+
 | Param | Type | Description |
 | --- | --- | --- |
 | provider | <code>Provider</code> | Network provider |
@@ -1369,6 +1379,7 @@ replayBundle(tail)
 
 [Attaches to tanlge](#module_core.attachToTangle), [stores](#module_core.storeTransactions)
 and [broadcasts](#module_core.broadcastTransactions) a list of transaction txs.
+
 
 **Example**  
 ```js
@@ -1431,6 +1442,7 @@ Any transactions stored with this command will eventaully be erased, as a result
 
 | Param | Type | Description |
 | --- | --- | --- |
+
 | txs | <code>Array.&lt;TxHex&gt;</code> | Attached transaction txs |
 | [callback] | <code>Callback</code> | Optional callback |
 
@@ -1440,6 +1452,7 @@ Tip selection and Proof-of-Work must be done first, by calling
 [`getTransactionsToApprove`](#module_core.getTransactionsToApprove) and
 [`attachToTangle`](#module_core.attachToTangle) or an equivalent attach method or remote
 [`PoWbox`](https://powbox.devnet.iota.org/).
+
 
 Persist the transactions (txs) in local storage **before** calling this command, to ensure
 reattachment is possible, until your bundle has been included.
@@ -1770,7 +1783,9 @@ Converts transaction txs of 768
 | --- | --- | --- |
 | [hashes] | <code>Array.&lt;Hash&gt;</code> | Optional list of known hashes. Known hashes are directly mapped to transaction objects, otherwise all hashes are being recalculated. |
 
+
 Converts a list of transaction txs into list of transaction objects.
+
 Accepts a list of hashes and returns a mapper. In cases hashes are given,
 the mapper function map them to converted objects.
 
@@ -1783,6 +1798,7 @@ the mapper function map them to converted objects.
 | --- | --- | --- |
 | txs | <code>Array.&lt;TxHex&gt;</code> | List of transactions (txs) to convert |
 
+
 Maps the list of given hashes to a list of converted transaction objects.
 
 **Returns**: <code>Array.&lt;Transaction&gt;</code> - List of transaction objects with hashes  
@@ -1792,7 +1808,7 @@ Maps the list of given hashes to a list of converted transaction objects.
 
 * [transaction](#module_transaction)
 
-    * [~transactionHash(txBits)](#module_transaction..transactionHash)
+    * [~transactionHash(txBytes)](#module_transaction..transactionHash)
 
     * [~isTransaction(tx)](#module_transaction..isTransaction)
 
@@ -1802,12 +1818,12 @@ Maps the list of given hashes to a list of converted transaction objects.
 
     * [~isTransactionTxHex(txs, minWeightMagnitude)](#module_transaction..isTransactionTxHex)
 
-    * [~TxHex(txs)](#module_transaction..isAttachedTxHex)
+    * [~isAttachedTxHex(txs)](#module_transaction..isAttachedTxHex)
 
 
 <a name="module_transaction..transactionHash"></a>
 
-### *transaction*~transactionHash(txBits)
+### *transaction*~transactionHash(txBytes)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1848,8 +1864,7 @@ A tail transaction is one with `currentIndex=0`.
 | hash | <code>string</code> |
 | mwm | <code>number</code> |
 
-Checks if input is correct transaction hash (32
- txs)
+Checks if input is correct transaction hash (32 txs)
 
 <a name="module_transaction..isTransactionTxHex"></a>
 
@@ -1872,7 +1887,8 @@ Checks if input is correct transaction txs (768
 | txs | <code>string</code> |
 
 Checks if input is valid attached transaction txs.
-For attached transactions last 30 txs are non-zero.
+For attached transactions last 48 txs are non-zero.
+
 
 <a name="module_unit-converter"></a>
 

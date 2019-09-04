@@ -1,30 +1,20 @@
 /** @module bundle */
 
-import { txBits, txHex, hex, toTxBytes, value } from "@helixnetwork/converter";
+import { hex, toTxBytes, txBits, txs, value } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
-import {
-  padTxBits,
-  padTxHex,
-  padObsoleteTag,
-  padSignedTxBits,
-  padTag
-} from "@helixnetwork/pad";
+import { padObsoleteTag, padTag, padTxBits, padTxHex } from "@helixnetwork/pad";
 // import {add, normalizedBundleHash} from "@helixnetwork/winternitz/out/winternitz/src";
-import { add, normalizedBundleHash } from "@helixnetwork/winternitz";
+import { normalizedBundleHash } from "@helixnetwork/winternitz";
 import {
-  BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING,
+  HEX_SIZE_FOR_TXHEX_USED_FOR_VALIDATION_WITH_PADDING,
   NULL_HASH_TX_HEX,
   NULL_NONCE_TX_HEX,
   NULL_SIGNATURE_MESSAGE_FRAGMENT_TX_HEX,
   NULL_TAG_TX_HEX,
-  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
-  TRANSACTION_CURRENT_INDEX_BITS_SIZE,
-  TRANSACTION_LAST_INDEX_BITS_SIZE,
-  TRANSACTION_OBSOLETE_TAG_BITS_SIZE,
-  TRANSACTION_TIMESTAMP_BITS_SIZE,
-  TRANSACTION_VALUE_BITS_SIZE
+  SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
+  TRANSACTION_OBSOLETE_TAG_BITS_SIZE
 } from "../../constants";
-import { Bundle, Hash, TxHex, Transaction } from "../../types";
+import { Bundle, Hash, Transaction, TxHex } from "../../types";
 
 export interface BundleEntry {
   readonly length: number;
@@ -47,7 +37,7 @@ export const getEntryWithDefaults = (
   timestamp: entry.timestamp || Math.floor(Date.now() / 1000),
   signatureMessageFragments: entry.signatureMessageFragments
     ? entry.signatureMessageFragments.map(
-        padTxHex(SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE)
+        padTxHex(SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE)
       )
     : Array(entry.length || 1).fill(NULL_SIGNATURE_MESSAGE_FRAGMENT_TX_HEX)
 });
@@ -143,16 +133,15 @@ export const addTxHex = (
   fragments: ReadonlyArray<TxHex>,
   offset = 0
 ): Bundle =>
-  transactions.map(
-    (transaction, i) =>
-      i >= offset && i < offset + fragments.length
-        ? {
-            ...transaction,
-            signatureMessageFragment: padTxHex(
-              SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
-            )(fragments[i - offset] || "")
-          }
-        : transaction
+  transactions.map((transaction, i) =>
+    i >= offset && i < offset + fragments.length
+      ? {
+          ...transaction,
+          signatureMessageFragment: padTxHex(
+            SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
+          )(fragments[i - offset] || "")
+        }
+      : transaction
   );
 
 /**
@@ -186,13 +175,13 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
 
     for (let i = 0; i < transactions.length; i++) {
       const essence = toTxBytes(
-        padTxHex(BYTE_SIZE_USED_FOR_VALIDATION_WITH_PADDING)(
+        padTxHex(HEX_SIZE_FOR_TXHEX_USED_FOR_VALIDATION_WITH_PADDING)(
           transactions[i].address +
-            txHex(valueHBits[i]) +
-            txHex(obsoleteTagHBits[i]) +
-            txHex(timestampHBits[i]) +
-            txHex(currentIndexHBits[i]) +
-            txHex(lastIndexHBits)
+            txs(valueHBits[i]) +
+            txs(obsoleteTagHBits[i]) +
+            txs(timestampHBits[i]) +
+            txs(currentIndexHBits[i]) +
+            txs(lastIndexHBits)
         )
       );
       hHash.absorb(essence, 0, essence.length);
@@ -216,7 +205,7 @@ export const finalizeBundle = (transactions: Bundle): Bundle => {
   return transactions.map((transaction, i) => ({
     ...transaction,
     // overwrite obsoleteTag in first entry
-    obsoleteTag: i === 0 ? txHex(obsoleteTagHBits[0]) : transaction.obsoleteTag,
+    obsoleteTag: i === 0 ? txs(obsoleteTagHBits[0]) : transaction.obsoleteTag,
     bundle: bundleHash
   }));
 };

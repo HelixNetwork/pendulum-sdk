@@ -1,12 +1,5 @@
 import test from "ava";
-import {
-  fromValue,
-  txBits,
-  txBitsToTxHex,
-  txHexToTxBits,
-  hex,
-  value
-} from "../src";
+import { fromValue, txBits, txBitsToTxHex, txsToTxBits, value } from "../src";
 
 test("Converter: Test number to bits and back to number conversion) ", t => {
   const input: Int8Array = new Int8Array([
@@ -19,54 +12,53 @@ test("Converter: Test number to bits and back to number conversion) ", t => {
     0x01,
     0x00
   ]);
-  let bytes = txBitsToTxHex(input);
-  let bit = txHexToTxBits(bytes);
+  const bytes = txBitsToTxHex(input);
+  const bit = txsToTxBits(bytes);
   t.deepEqual(
     bit,
     input,
-    "Function txBitsToTxHex and txHexToTxBits() return the same value"
+    "Function txBitsToTxHex and txsToTxBits() return the same value"
   );
 });
 
 test("Converter = Test number to bits and back to number conversion) ", t => {
-  const expected: number = 1563378693928; //1522184057 114645499
-  const txBits: Int8Array = fromValue(expected);
-
-  console.log("valueoftxBits " + value(txBits));
+  const expected: number = 1563378693928; // 1522184057 114645499
+  const transactionBits: Int8Array = fromValue(expected);
 
   const paddedBits =
-    txBits.length < 64
-      ? new Int8Array(64).map((n, i) => txBits[i] || 0)
-      : txBits;
-  let bytes = txBitsToTxHex(paddedBits);
+    transactionBits.length < 64
+      ? new Int8Array(64).map((n, i) => transactionBits[i] || 0)
+      : transactionBits;
+  const bytes = txBitsToTxHex(paddedBits);
 
-  let againToBits = txHexToTxBits(bytes);
-  console.log("bytes - " + bytes);
-  const result = value(againToBits.slice(0, txBits.length));
+  const againToBits = txsToTxBits(bytes);
+  const result = value(againToBits.slice(0, transactionBits.length));
   t.deepEqual(
     result,
     expected,
-    "Function txHexToTxBits() then back to value should return the same value"
+    "Function txsToTxBits() then back to value should return the same value"
   );
 });
 
 test("Converter: Test number to bits and back to number conversion for negative number) ", t => {
-  const expected: number = -6473274; //1522184057 114645499
-  const txBits: Int8Array = fromValue(expected);
+  const expected: number = -6473274; // 1522184057 114645499
+  const transactionBits: Int8Array = fromValue(expected);
   const paddedBits =
-    txBits.length < 64
+    transactionBits.length < 64
       ? new Int8Array(64).map((n, i) => {
-          return i < txBits.length ? txBits[i] || 0 : txBits[txBits.length - 1];
+          return i < transactionBits.length
+            ? transactionBits[i] || 0
+            : transactionBits[transactionBits.length - 1];
         })
-      : txBits;
-  let bytes = txBitsToTxHex(paddedBits);
+      : transactionBits;
+  const bytes = txBitsToTxHex(paddedBits);
 
-  let againToBits = txHexToTxBits(bytes);
+  const againToBits = txsToTxBits(bytes);
   const result = value(againToBits);
   t.deepEqual(
     result,
     expected,
-    "Function txHexToTxBits() then back to value should return the same value"
+    "Function txsToTxBits() then back to value should return the same value"
   );
 });
 
@@ -86,7 +78,7 @@ test("Function: txBits) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from txHex to txBits is not correctly!"
+    "Conversion from txs to txBits is not correctly!"
   );
 });
 
@@ -114,7 +106,7 @@ test("Function2: txBits) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from txHex to txBits is not correctly!"
+    "Conversion from txs to txBits is not correctly!"
   );
 });
 
@@ -125,7 +117,7 @@ test("Function3: txBits) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from txHex to txBits is not correctly!"
+    "Conversion from txs to txBits is not correctly!"
   );
 });
 
@@ -146,14 +138,14 @@ test("Function: txBits - from number) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from txHex to txBits is not correctly!"
+    "Conversion from txs to txBits is not correctly!"
   );*/
-  const input = "placeholder";
+  const expectedInput = "placeholder";
   const placeholder = (input: string): string => {
     return input;
   };
 
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
+  t.is(placeholder("placeholder"), expectedInput, "Inputs should be equal.");
 });
 
 test("Function: txBits - from number more than one byte) ", t => {
@@ -175,14 +167,14 @@ test("Function: txBits - from number more than one byte) ", t => {
   t.deepEqual(
     txBits(input),
     expected,
-    "Conversion from txHex to txBits is not correctly expected 10 bits!"
+    "Conversion from txs to txBits is not correctly expected 10 bits!"
   );*/
-  const input = "placeholder";
+  const expectedInput = "placeholder";
   const placeholder = (input: string): string => {
     return input;
   };
 
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
+  t.is(placeholder("placeholder"), expectedInput, "Inputs should be equal.");
 });
 
 test("Converter: Test values) ", t => {
@@ -237,12 +229,12 @@ test("Converter:Test value) ", t => {
     expected,
     "Function value() should return correct value"
   );*/
-  const input = "placeholder";
+  const expectedInput = "placeholder";
   const placeholder = (input: string): string => {
     return input;
   };
 
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
+  t.is(placeholder("placeholder"), expectedInput, "Inputs should be equal.");
 });
 
 test("Converter: Test txBitsToTxHex) ", t => {
@@ -287,10 +279,10 @@ test("Converters: Test values) ", t => {
     expected,
     "Function value() should return correct value"
   );*/
-  const input = "placeholder";
+  const expectedInput = "placeholder";
   const placeholder = (input: string): string => {
     return input;
   };
 
-  t.is(placeholder("placeholder"), input, "Inputs should be equal.");
+  t.is(placeholder("placeholder"), expectedInput, "Inputs should be equal.");
 });

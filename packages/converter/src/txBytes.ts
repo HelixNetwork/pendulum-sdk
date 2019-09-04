@@ -51,3 +51,18 @@ export function wordsToBytes(words: Uint32Array): Uint8Array {
   }
   return bytes;
 }
+
+export function longToBytes(value: number): Uint8Array {
+  const bytes = new Uint8Array(8);
+  const valueLow = value / Math.pow(2, 32);
+  const valueHigh = value;
+  for (let i = 0; i < 4; i++) {
+    const shiftNo = 8 * (8 - i - 1);
+    bytes[i] = (valueLow >>> shiftNo) & 0xff;
+  }
+  for (let i = 4; i < 8; i++) {
+    const shiftNo = 8 * (8 - i - 1);
+    bytes[i] = (valueHigh >>> shiftNo) & 0xff;
+  }
+  return bytes;
+}

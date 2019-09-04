@@ -1,4 +1,5 @@
 import * as Promise from "bluebird";
+import { DEFAULT_SECURITY_LEVEL_INPUT_OPTIONS } from "../../constants";
 import * as errors from "../../errors";
 import {
   getInputsThresholdValidator,
@@ -14,10 +15,10 @@ import {
   Callback,
   getOptionsWithDefaults,
   Hash,
-  TxHex,
   Inputs,
   makeAddress,
-  Provider
+  Provider,
+  TxHex
 } from "../../types";
 import { createGetBalances } from "./";
 import {
@@ -37,7 +38,7 @@ const defaults: GetInputsOptions = {
   start: 0,
   end: undefined,
   threshold: undefined,
-  security: 2
+  security: DEFAULT_SECURITY_LEVEL_INPUT_OPTIONS
 };
 
 /**

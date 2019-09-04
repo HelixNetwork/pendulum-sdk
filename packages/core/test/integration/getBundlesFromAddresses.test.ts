@@ -9,9 +9,9 @@ import {
 } from "../../src/createGetBundlesFromAddresses";
 import "./nocks/findTransactions";
 import { getBalancesCommand } from "./nocks/getBalances";
-import "./nocks/getTransactionStrings";
 import "./nocks/getInclusionStates";
 import "./nocks/getNodeInfo";
+import "./nocks/getTransactionStrings";
 
 const getBundlesFromAddresses = createGetBundlesFromAddresses(
   createHttpClient(),

@@ -1,11 +1,8 @@
 import { transactionHashValidator } from "@helixnetwork/transaction";
-import {
-  asFinalTransactionStrings,
-  asTransactionObjects
-} from "@helixnetwork/transaction-converter";
+import { asFinalTransactionStrings } from "@helixnetwork/transaction-converter";
 import * as Promise from "bluebird";
 import { validate } from "../../guards";
-import { Callback, Hash, TxHex, Provider } from "../../types";
+import { Callback, Hash, Provider, TxHex } from "../../types";
 import { createBroadcastTransactions, createGetBundle } from "./";
 
 /**

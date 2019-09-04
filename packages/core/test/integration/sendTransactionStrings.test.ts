@@ -1,13 +1,14 @@
-import test from "ava";
-import { INVALID_TRANSACTION_TX_HEX } from "../../../errors";
 import { createHttpClient } from "@helixnetwork/http-client";
 import { bundle } from "@helixnetwork/samples";
+import test from "ava";
+import { INVALID_TRANSACTION_TX_HEX } from "../../../errors";
 import { createSendTransactionStrings } from "../../src";
 import { attachToTangleCommand } from "./nocks/attachToTangle";
+import "./nocks/broadcastTransactions";
 import { getTransactionsToApproveCommand } from "./nocks/getTransactionsToApprove";
 
 import "./nocks/storeTransactions";
-import "./nocks/broadcastTransactions";
+
 const { minWeightMagnitude, txs } = attachToTangleCommand;
 const { depth } = getTransactionsToApproveCommand;
 
@@ -22,11 +23,11 @@ test("sendTransactionStrings() attaches to tangle, broadcasts, stores and resolv
 });
 
 test("sendTransactionStrings() does not mutate original txs.", async t => {
-  const txHexCopy = [...txs];
+  const txsCopy = [...txs];
 
-  await sendTxHex(txHexCopy, depth, minWeightMagnitude);
+  await sendTxHex(txsCopy, depth, minWeightMagnitude);
   t.deepEqual(
-    txHexCopy,
+    txsCopy,
     txs,
     "sendTransactionStrings() should not mutate original txs."
   );

@@ -1,6 +1,6 @@
 import { addEntry, addTxHex, finalizeBundle } from "@helixnetwork/bundle";
 import { removeChecksum } from "@helixnetwork/checksum";
-import { txBits, txHex, hex, toTxBytes } from "@helixnetwork/converter";
+import { hex, toTxBytes, txBits, txs } from "@helixnetwork/converter";
 import { Balances, createGetBalances } from "@helixnetwork/core";
 import HHash from "@helixnetwork/hash-module";
 import {
@@ -11,6 +11,15 @@ import {
   subseed
 } from "@helixnetwork/winternitz";
 import * as Promise from "bluebird";
+import {
+  ADDRESS_HEX_SIZE,
+  NULL_TAG_TX_HEX,
+  SECURITY_LEVELS,
+  SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
+  SIGNATURE_SECRETE_KEY_BYTE_SIZE,
+  SIGNATURE_TOTAL_BYTE_SIZE,
+  TAG_HEX_SIZE
+} from "../../constants";
 import * as errors from "../../errors";
 import {
   arrayValidator,
@@ -24,15 +33,6 @@ import {
 } from "../../guards";
 import { Bundle, Callback, Provider, Transaction, Transfer } from "../../types";
 import Address from "./address";
-import {
-  ADDRESS_BYTE_SIZE,
-  NULL_TAG_TX_HEX,
-  SECURITY_LEVELS,
-  SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
-  SIGNATURE_SECRETE_KEY_BYTE_SIZE,
-  SIGNATURE_TOTAL_BYTE_SIZE,
-  TAG_BYTE_SIZE
-} from "../../constants";
 
 export { Bundle, Callback, Provider, Transaction, Transfer };
 
@@ -85,31 +85,30 @@ export const createBundle = (
   for (let i = 0; i < transfers.length; i++) {
     let signatureMessageLength = 1;
 
-    // If message longer than 2187 txHex, increase signatureMessageLength (add multiple transactions)
+    // If message longer than 2187 txs, increase signatureMessageLength (add multiple transactions)
     if (
-      (transfers[i].message || "").length >
-      SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+      (transfers[i].message || "").length > SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
     ) {
-      // Get total length, message / maxLength (2187 txHex)
+      // Get total length, message / maxLength (2187 txs)
       signatureMessageLength += Math.floor(
         (transfers[i].message || "").length /
-          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+          SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
       );
 
       let msgCopy = transfers[i].message;
 
       // While there is still a message, copy it
       while (msgCopy) {
-        let fragment = msgCopy.slice(0, SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE);
+        let fragment = msgCopy.slice(0, SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE);
         msgCopy = msgCopy.slice(
-          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE,
+          SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
           msgCopy.length
         );
 
         // Pad remainder of fragment
         for (
           let j = 0;
-          fragment.length < SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
+          fragment.length < SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE;
           j++
         ) {
           fragment += "0";
@@ -118,19 +117,19 @@ export const createBundle = (
         signatureFragments.push(fragment);
       }
     } else {
-      // Else, get single fragment with 2187 of 9's txHex
+      // Else, get single fragment with 2187 of 9's txs
       let fragment = "";
 
       if (transfers[i].message) {
         fragment = (transfers[i].message || "").slice(
           0,
-          SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE
+          SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE
         );
       }
 
       for (
         let j = 0;
-        fragment.length < SIGNATURE_MESSAGE_FRAGMENT_TX_HEX_SIZE;
+        fragment.length < SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE;
         j++
       ) {
         fragment += "0";
@@ -143,7 +142,7 @@ export const createBundle = (
     tag = transfers[i].tag || NULL_TAG_TX_HEX;
 
     // Pad for required 27 tryte length
-    for (let j = 0; tag.length < TAG_BYTE_SIZE; j++) {
+    for (let j = 0; tag.length < TAG_HEX_SIZE; j++) {
       tag += "0";
     }
 
@@ -151,7 +150,7 @@ export const createBundle = (
     // Slice the address in case the user provided a checksummed one
     const _bundle = addEntry(bundle, {
       length: signatureMessageLength,
-      address: transfers[i].address.slice(0, ADDRESS_BYTE_SIZE),
+      address: transfers[i].address.slice(0, ADDRESS_HEX_SIZE),
       value: transfers[i].value,
       tag,
       timestamp: Math.floor(Date.now() / 1000)
@@ -234,7 +233,7 @@ export default class Multisig {
    * @param {number} index
    * @param {number} security Security level to be used for the private key / address. Can be 1, 2 or 3
    *
-   * @return {string} digest txHex
+   * @return {string} digest txs
    */
   public getKey(seed: string, index: number, security: number) {
     return hex(key(subseed(toTxBytes(seed), index), security));
@@ -251,7 +250,7 @@ export default class Multisig {
    * @param {number} index
    * @param {number} security Security level to be used for the private key / address. Can be 1, 2 or 3
    *
-   * @return {string} digest txHex
+   * @return {string} digest txs
    **/
   public getDigest(seed: string, index: number, security: number) {
     const keyBytes = key(subseed(toTxBytes(seed), index), security);
@@ -289,8 +288,8 @@ export default class Multisig {
     const addressHBits: Int8Array = new Int8Array(hHash.getHashLength());
     hHash.squeeze(addressHBits, 0, hHash.getHashLength());
 
-    // Convert txBits into txHex and return the address
-    return txHex(addressHBits) === multisigAddress;
+    // Convert txBits into txs and return the address
+    return txs(addressHBits) === multisigAddress;
   }
 
   /**
@@ -330,10 +329,12 @@ export default class Multisig {
           return createBundle(input, sanitizedTransfers, remainderAddress);
         } else {
           return createGetBalances(this.provider)([input.address], 100)
-            .then((res: Balances): MultisigInput => ({
-              ...input,
-              balance: res.balances[0]
-            }))
+            .then(
+              (res: Balances): MultisigInput => ({
+                ...input,
+                balance: res.balances[0]
+              })
+            )
             .then((inputWithBalance: MultisigInput) =>
               createBundle(
                 inputWithBalance,
@@ -358,7 +359,7 @@ export default class Multisig {
    * @param keyTxHex
    * @param {function} callback
    *
-   * @return {array} txHex Returns bundle txHex
+   * @return {array} txs Returns bundle txs
    */
   public addSignature(
     bundleToSign: Bundle,
@@ -370,10 +371,10 @@ export default class Multisig {
     const _bundle: Array<Partial<Transaction>> = [];
 
     // Get the security used for the private key
-    // 1 security level = 2187 txHex
+    // 1 security level = 2187 txs
     const security = keyTxHex.length / SIGNATURE_SECRETE_KEY_BYTE_SIZE;
 
-    // convert private key txHex into txBits
+    // convert private key txs into txBits
     const keyBytes = toTxBytes(keyTxHex);
 
     // First get the total number of already signed transactions
@@ -405,7 +406,7 @@ export default class Multisig {
             );
           }
 
-          //  First bundle fragment uses 27 txHex
+          //  First bundle fragment uses 27 txs
           const firstBundleFragment =
             normalizedBundleFragments[numSignedTxs % SECURITY_LEVELS];
 
@@ -415,9 +416,9 @@ export default class Multisig {
             firstFragment
           );
 
-          //  Convert signature to txHex and assign the new signatureFragment
+          //  Convert signature to txs and assign the new signatureFragment
           _bundle.push({
-            signatureMessageFragment: txHex(firstSignedFragment)
+            signatureMessageFragment: txs(firstSignedFragment)
           });
           for (let j = 1; j < security; j++) {
             const nextFragment = keyBytes.slice(
@@ -433,7 +434,7 @@ export default class Multisig {
               nextFragment
             );
 
-            //  Convert signature to txHex and add new bundle entry at h + j position
+            //  Convert signature to txs and add new bundle entry at h + j position
             // Assign the signature fragment
             _bundle.push({
               signatureMessageFragment: hex(nextSignedFragment)

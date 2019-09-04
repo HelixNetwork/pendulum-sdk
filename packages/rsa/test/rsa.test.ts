@@ -1,5 +1,5 @@
 import test from "ava";
-import { generateKey, encrypt, decrypt, importKeyFiles } from "../src";
+import { decrypt, encrypt, generateKey, importKeyFiles } from "../src";
 
 test("RSA: encrypt()/decrypt()", t => {
   const message =

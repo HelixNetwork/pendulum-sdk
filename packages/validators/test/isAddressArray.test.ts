@@ -41,7 +41,7 @@ test("isAddressArray()", t => {
   t.is(
     isAddressArray(addressesOfInvalidTxHex),
     false,
-    "isAddressArray() should return false for addresses of invalid txHex."
+    "isAddressArray() should return false for addresses of invalid txs."
   );
 
   t.is(

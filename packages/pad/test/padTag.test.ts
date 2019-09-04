@@ -8,13 +8,13 @@ test("padTag() adds correct padding to tag.", t => {
   t.is(padTag(tag), expected, "padTag() should add correct padding to tag.");
 });
 
-test("padTag() adds no padding to 2 * 8-txHex long tags.", t => {
+test("padTag() adds no padding to 2 * 8-txs long tags.", t => {
   const tag = "aabb".repeat(4);
 
   t.is(
     padTag(tag),
     tag,
-    "padTag() should add no padding to 2 * 8-txHex long tags."
+    "padTag() should add no padding to 2 * 8-txs long tags."
   );
 });
 

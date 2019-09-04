@@ -1,6 +1,6 @@
 import { createHttpClient } from "@helixnetwork/http-client";
 import test from "ava";
-import { ADDRESS_CHECKSUM_BYTE_SIZE } from "../../../constants";
+import { ADDRESS_CHECKSUM_HEX_SIZE } from "../../../constants";
 import { INVALID_ADDRESS } from "../../../errors";
 import { createWereAddressesSpentFrom } from "../../src/createWereAddressesSpentFrom";
 import {
@@ -14,7 +14,7 @@ const wereAddressesSpentFrom = createWereAddressesSpentFrom(
 );
 
 const addressesWithChecksum = wereAddressesSpentFromCommand.addresses.map(
-  (address: string) => address.concat("0".repeat(ADDRESS_CHECKSUM_BYTE_SIZE))
+  (address: string) => address.concat("0".repeat(ADDRESS_CHECKSUM_HEX_SIZE))
 );
 
 test("wereAddressesSpentFrom() resolves to correct balances response", async t => {
