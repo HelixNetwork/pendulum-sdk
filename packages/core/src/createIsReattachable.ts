@@ -4,7 +4,6 @@ import { INVALID_ADDRESS } from "../../errors";
 import {
   addressValidator,
   arrayValidator,
-  hashValidator,
   txHexValidator,
   validate
 } from "../../guards";
@@ -12,9 +11,9 @@ import {
   asArray,
   Callback,
   Hash,
-  TxHex,
   Provider,
-  Transaction
+  Transaction,
+  TxHex
 } from "../../types";
 import { createFindTransactionObjects, createGetLatestInclusion } from "./";
 

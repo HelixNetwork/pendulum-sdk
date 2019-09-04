@@ -1,6 +1,6 @@
 import test from "ava";
-import { getKeysToBatch, BatchableCommand } from "../src/httpClient";
 import { FindTransactionsCommand, ProtocolCommand } from "../../types";
+import { BatchableCommand, getKeysToBatch } from "../src/httpClient";
 
 const BATCH_SIZE = 2;
 
@@ -31,7 +31,7 @@ const commandWithoutBatchableKeys: FindTransactionsCommand = {
 test("getKeysToBatch() should return correct keys.", t => {
   t.deepEqual(
     getKeysToBatch(
-      <BatchableCommand<FindTransactionsCommand>>command,
+      command as BatchableCommand<FindTransactionsCommand>,
       BATCH_SIZE
     ),
     ["tags", "approvees"]
@@ -41,7 +41,7 @@ test("getKeysToBatch() should return correct keys.", t => {
 test("getKeysToBatch() should return no empty array for non-batchable keys.", t => {
   t.deepEqual(
     getKeysToBatch(
-      <BatchableCommand<FindTransactionsCommand>>commandWithoutBatchableKeys,
+      commandWithoutBatchableKeys as BatchableCommand<FindTransactionsCommand>,
       BATCH_SIZE
     ),
     []

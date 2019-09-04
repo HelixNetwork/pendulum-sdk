@@ -1,6 +1,6 @@
 import {
-  addresses as addr,
-  addresseDefaultSecLevel
+  addresseDefaultSecLevel,
+  addresses as addr
 } from "@helixnetwork/samples";
 import * as nock from "nock";
 import {

@@ -1,9 +1,8 @@
 /* tslint:disable variable-name no-conditional-assignment */
 
 /** WIP AS PORTED FROM JS IMPL. */
-import * as NodeRSA from "node-rsa";
-import * as errors from "./errors";
 import * as fs from "fs";
+import * as NodeRSA from "node-rsa";
 
 const KEY_LENGTH = 512;
 const ENCODING = "base64";
@@ -65,7 +64,7 @@ export function decrypt(hash: string, rsa: NodeRSA) {
  **/
 
 export function importKeyFiles(pubKeyPath: string, prvKeyPath: string) {
-  let rsa: NodeRSA = generateKey();
+  const rsa: NodeRSA = generateKey();
 
   const pubKeyFile = fs.readFileSync(pubKeyPath, "utf-8");
   const prvKeyFile = fs.readFileSync(prvKeyPath, "utf-8");
@@ -94,7 +93,7 @@ export function importKeyFiles(pubKeyPath: string, prvKeyPath: string) {
  **/
 
 export function generateKeyFiles(pubKeyPath: string, prvKeyPath: string) {
-  let rsa: NodeRSA = generateKey();
+  const rsa: NodeRSA = generateKey();
 
   const pubKeyExport = rsa.exportKey("pkcs8-public");
   const prvKeyExport = rsa.exportKey("pkcs8-private");

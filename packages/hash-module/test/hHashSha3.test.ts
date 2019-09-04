@@ -12,11 +12,11 @@ test("hash-module: Test sha3 input string (update/final), Converter: bytesToWord
     "964b398ecd55793d8ca93e01274efe1377a70c8dc358fdca17cb4e94a9ed7777";
   const expected =
     "c02c4aa8852301f3eb7b926f320d911bb178ba1ec4159f67d6cc1d75ef9a62f8";
-  const simpleSha3 = (input: string): string => {
+  const simpleSha3 = (inputValue: string): string => {
     const hHash: HHash = new HHash(HHash.HASH_ALGORITHM_3);
     hHash.initialize();
 
-    hHash.absorb(toTxBytes(input), 0, hHash.getHashLength());
+    hHash.absorb(toTxBytes(inputValue), 0, hHash.getHashLength());
     const hastxHex: Int8Array = new Int8Array(hHash.getHashLength());
     hHash.squeeze(hastxHex, 0, hHash.getHashLength());
     return hex(hastxHex);

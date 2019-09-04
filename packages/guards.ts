@@ -1,13 +1,12 @@
-import { ADDRCONFIG } from "dns";
 import {
-  ADDRESS_HEX_SIZE,
   ADDRESS_CHECKSUM_HEX_SIZE,
+  ADDRESS_HEX_SIZE,
   HASH_TX_HEX_SIZE,
   MAX_INDEX_DIFF,
   TAG_HEX_SIZE
 } from "./constants";
 import * as errors from "./errors";
-import { Address, Hash, TxHex, Tag, Transfer } from "./types";
+import { Address, Hash, Tag, Transfer, TxHex } from "./types";
 
 // Required for markdown generation with JSDoc
 /**

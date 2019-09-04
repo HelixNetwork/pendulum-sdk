@@ -2,7 +2,7 @@ import test from "ava";
 import { bytesToWords, wordsToBytes } from "../src";
 
 test("Converter: Test bytesToWords and wordsToBytes) ", t => {
-  let size = 16;
+  const size = 16;
   const input = new Uint8Array(16);
 
   input[size - 2] = 0xffff;

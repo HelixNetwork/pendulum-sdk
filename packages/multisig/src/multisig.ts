@@ -1,6 +1,6 @@
 import { addEntry, addTxHex, finalizeBundle } from "@helixnetwork/bundle";
 import { removeChecksum } from "@helixnetwork/checksum";
-import { txBits, txs, hex, toTxBytes } from "@helixnetwork/converter";
+import { hex, toTxBytes, txBits, txs } from "@helixnetwork/converter";
 import { Balances, createGetBalances } from "@helixnetwork/core";
 import HHash from "@helixnetwork/hash-module";
 import {
@@ -11,6 +11,15 @@ import {
   subseed
 } from "@helixnetwork/winternitz";
 import * as Promise from "bluebird";
+import {
+  ADDRESS_HEX_SIZE,
+  NULL_TAG_TX_HEX,
+  SECURITY_LEVELS,
+  SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
+  SIGNATURE_SECRETE_KEY_BYTE_SIZE,
+  SIGNATURE_TOTAL_BYTE_SIZE,
+  TAG_HEX_SIZE
+} from "../../constants";
 import * as errors from "../../errors";
 import {
   arrayValidator,
@@ -24,15 +33,6 @@ import {
 } from "../../guards";
 import { Bundle, Callback, Provider, Transaction, Transfer } from "../../types";
 import Address from "./address";
-import {
-  ADDRESS_HEX_SIZE,
-  NULL_TAG_TX_HEX,
-  SECURITY_LEVELS,
-  SIGNATURE_MESSAGE_FRAGMENT_HEX_SIZE,
-  SIGNATURE_SECRETE_KEY_BYTE_SIZE,
-  SIGNATURE_TOTAL_BYTE_SIZE,
-  TAG_HEX_SIZE
-} from "../../constants";
 
 export { Bundle, Callback, Provider, Transaction, Transfer };
 
@@ -329,10 +329,12 @@ export default class Multisig {
           return createBundle(input, sanitizedTransfers, remainderAddress);
         } else {
           return createGetBalances(this.provider)([input.address], 100)
-            .then((res: Balances): MultisigInput => ({
-              ...input,
-              balance: res.balances[0]
-            }))
+            .then(
+              (res: Balances): MultisigInput => ({
+                ...input,
+                balance: res.balances[0]
+              })
+            )
             .then((inputWithBalance: MultisigInput) =>
               createBundle(
                 inputWithBalance,

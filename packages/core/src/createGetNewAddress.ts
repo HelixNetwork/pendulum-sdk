@@ -11,8 +11,8 @@ import {
   asArray,
   Callback,
   getOptionsWithDefaults,
-  TxHex,
-  Provider
+  Provider,
+  TxHex
 } from "../../types";
 import { createFindTransactions, generateAddress } from "./";
 import { createWereAddressesSpentFrom } from "./createWereAddressesSpentFrom";
@@ -223,19 +223,18 @@ export const createGetNewAddress = (provider: Provider, caller?: string) => {
         ]
       )
     )
-      .then(
-        () =>
-          total && total > 0
-            ? generateAddresses(seed, index, security, total)
-            : Promise.try(
-                getUntilFirstUnusedAddress(
-                  isAddressUsed,
-                  seed,
-                  index,
-                  security,
-                  returnAll
-                )
+      .then(() =>
+        total && total > 0
+          ? generateAddresses(seed, index, security, total)
+          : Promise.try(
+              getUntilFirstUnusedAddress(
+                isAddressUsed,
+                seed,
+                index,
+                security,
+                returnAll
               )
+            )
       )
       .then(applyReturnAllOption(returnAll, total))
       .then(applyChecksumOption(checksum))

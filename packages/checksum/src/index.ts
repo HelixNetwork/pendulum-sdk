@@ -1,11 +1,11 @@
 /** @module checksum */
 
-import { txBits, txs, hex, toTxBytes } from "@helixnetwork/converter";
+import { hex, toTxBytes } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import {
+  ADDRESS_CHECKSUM_HEX_SIZE,
   ADDRESS_HEX_SIZE,
   ADDRESS_HEX_SIZE_PADDING,
-  ADDRESS_CHECKSUM_HEX_SIZE,
   ADDRESS_MIN_CHECKSUM_HEX_SIZE
 } from "../../constants";
 import {
@@ -13,13 +13,13 @@ import {
   INVALID_CHECKSUM,
   INVALID_TX_HEX
 } from "../../errors";
-import { isHash, isTxHex } from "../../guards";
+import { isTxHex } from "../../guards";
 import { asArray, TxHex } from "../../types";
 
 export const errors = {
   INVALID_ADDRESS,
   INVALID_CHECKSUM,
-  INVALID_TX_HEX: INVALID_TX_HEX,
+  INVALID_TX_HEX,
   INVALID_CHECKSUM_LENGTH: "Invalid checksum length"
 };
 

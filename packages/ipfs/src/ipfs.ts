@@ -1,9 +1,8 @@
 /* tslint:disable variable-name no-conditional-assignment */
 
 /** PORTED FROM JS IMPL. This class is still incomplete wip, please use with caution. */
-import * as errors from "./errors";
+import { decrypt, encrypt, importKeyFiles } from "@helixnetwork/rsa";
 import * as ipfsClient from "ipfs-http-client";
-import { encrypt, decrypt, importKeyFiles } from "@helixnetwork/rsa";
 
 /**
  * @class Ipfs
@@ -78,8 +77,8 @@ export default class Ipfs {
   public pullMessage(cid: string, pathToPrvKey: string, isEncrypted: boolean) {
     this.ipfs.get(cid).then(files => {
       files.forEach(file => {
-        let data = file.content.toString("utf-8");
-        let res = isEncrypted
+        const data = file.content.toString("utf-8");
+        const res = isEncrypted
           ? decrypt(data, importKeyFiles("", pathToPrvKey).prv)
           : data;
         // console.log(res);
@@ -100,8 +99,8 @@ export default class Ipfs {
   public pullFiles(cid: string, pathToPrvKey: string, isEncrypted: boolean) {
     this.ipfs.get(cid).then(files => {
       files.forEach(file => {
-        let data = file.toString();
-        let res = isEncrypted
+        const data = file.toString();
+        const res = isEncrypted
           ? decrypt(data, importKeyFiles("", pathToPrvKey).prv)
           : data;
         // console.log(res);

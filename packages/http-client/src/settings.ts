@@ -37,7 +37,7 @@ export const getSettingsWithDefaults = (
     apiVersion
   } = getOptionsWithDefaults(defaults)(settings);
 
-  let _provider: string = provider;
+  let localProvider: string = provider;
 
   if (sandbox || token) {
     throw new Error(
@@ -51,7 +51,7 @@ export const getSettingsWithDefaults = (
       "Setting `host` and `port` is deprecated and will be removed in next version. Please use the `provider` option instead."
     );
 
-    _provider = [host || DEFAULT_HOST, port || DEFAULT_PORT]
+    localProvider = [host || DEFAULT_HOST, port || DEFAULT_PORT]
       .join("/")
       .replace("//", "/");
   }
@@ -69,7 +69,7 @@ export const getSettingsWithDefaults = (
   }
 
   return {
-    provider: _provider,
+    provider: localProvider,
     requestBatchSize,
     apiVersion,
     timeout: settings.timeout

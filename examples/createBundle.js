@@ -86,17 +86,17 @@ helix
     for (var i = 0; i < transactions.length; i++) {
       console.log("Transaction " + i);
       console.log(
-        "Transaction hash from tangle: " + bundleFromTangle[i]["hash"]
+        "Transaction hash from tangle: " + bundleFromTangle.slice(i, i + 1).hash
       );
       let computedTransactionHash = Transaction.transactionHash(
-        Converter.toTxBytes(transactions[i])
+        Converter.toTxBytes(transactions.slice(i, i + 1))
       );
       console.log(
         "New computed hash (in helix.lib): " + computedTransactionHash
       );
       console.log(
         "Equal hashes? " +
-          (bundleFromTangle[i]["hash"] == computedTransactionHash)
+          (bundleFromTangle.slice(i, i + 1).hash === computedTransactionHash)
       );
     }
   })

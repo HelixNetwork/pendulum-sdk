@@ -1,4 +1,4 @@
-import { txBits, hex } from "@helixnetwork/converter";
+import { hex, txBits } from "@helixnetwork/converter";
 import HHash from "@helixnetwork/hash-module";
 import { asArray } from "../../types";
 

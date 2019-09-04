@@ -1,5 +1,5 @@
-import test from "ava";
 import { transactionStrings } from "@helixnetwork/samples";
+import test from "ava";
 import { isTxHexArray } from "../src";
 
 test("isTxHexArray()", t => {

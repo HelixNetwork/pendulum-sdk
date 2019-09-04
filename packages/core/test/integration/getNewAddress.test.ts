@@ -1,4 +1,16 @@
 import { createHttpClient } from "@helixnetwork/http-client";
+
+import {
+  addresseDefaultSecLevel,
+  addresses,
+  addressesWithChecksum,
+  addresseWithChecksumDefaultSecLevel,
+  newAddress,
+  newAddressDefaultSecurity,
+  newAddressWithChecksum,
+  newAddressWithChecksumDefaultSecurity,
+  seed
+} from "@helixnetwork/samples";
 import test from "ava";
 import { INVALID_SEED, INVALID_TOTAL_OPTION } from "../../../errors";
 import {
@@ -10,18 +22,6 @@ import {
 } from "../../src/createGetNewAddress";
 import "./nocks/findTransactions";
 import "./nocks/wereAddressesSpentFrom";
-
-import {
-  addresses,
-  addresseDefaultSecLevel,
-  addressesWithChecksum,
-  addresseWithChecksumDefaultSecLevel,
-  newAddress,
-  newAddressDefaultSecurity,
-  newAddressWithChecksum,
-  newAddressWithChecksumDefaultSecurity,
-  seed
-} from "@helixnetwork/samples";
 
 const client = createHttpClient();
 const getNewAddress = createGetNewAddress(client, "lib");

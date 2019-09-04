@@ -126,7 +126,7 @@ export const txBitsToValue = value;
 export function fromValue(value: number): Int8Array {
   const isNegative = value < 0;
   const binary = isNegative ? (-value - 1).toString(2) : value.toString(2);
-  let destination = new Int8Array(64).fill(isNegative ? 1 : 0);
+  const destination = new Int8Array(64).fill(isNegative ? 1 : 0);
   for (let i = 0; i < binary.length; i++) {
     destination[i + (64 - binary.length)] = isNegative
       ? ~parseInt(binary[i], 10) & 0x01

@@ -1,6 +1,6 @@
 import test from "ava";
-import * as errors from "../src/errors";
 import { txsToAscii } from "../src";
+import * as errors from "../src/errors";
 
 const { INVALID_ODD_LENGTH, INVALID_TX_HEX } = errors;
 
