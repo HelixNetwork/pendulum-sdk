@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/winternitz",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.6",
   "description": "Winternitz signing functions",
   "main": "./out/winternitz/src/index.js",
   "typings": "typings/winternitz/src",
@@ -53,10 +53,10 @@
       "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
   },
   "dependencies": {
-    "@helixnetwork/converter": "^1.0.0-alpha.4",
-    "@helixnetwork/hash-module": "^1.0.0-alpha.4",
-    "@helixnetwork/pad": "^1.0.0-alpha.4",
-    "@helixnetwork/sha3": "^1.0.0-alpha.4",
+    "@helixnetwork/converter": "^1.0.0-alpha.6",
+    "@helixnetwork/hash-module": "^1.0.0-alpha.6",
+    "@helixnetwork/pad": "^1.0.0-alpha.6",
+    "@helixnetwork/sha3": "^1.0.0-alpha.6",
     "bcrypto": "^2.0.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/unit-converter",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.6",
   "description": "Converts value across different Helix units.",
   "main": "./out/src/index.js",
   "typings": "./out/src",

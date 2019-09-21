@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/rsa",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.6",
   "description": "",
   "main": "./out/src/index.js",
   "typings": "typings/src",
@@ -57,6 +57,6 @@
     "node-rsa": "^1.0.3"
   },
   "devDependencies": {
-    "@helixnetwork/converter": "^1.0.0-alpha.4"
+    "@helixnetwork/converter": "^1.0.0-alpha.6"
   }
 }

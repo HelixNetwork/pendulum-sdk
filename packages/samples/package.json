@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/samples",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.6",
   "description": "Collection of samples useful in testing Helix modules.",
   "main": "./out/samples/src/index.js",
   "typings": "typings/samples/src",
