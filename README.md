@@ -1,26 +1,26 @@
-# Helix Library
+# Pendulum SDK
 
 Based on ([**iota.js**](https://github.com/iotaledger/iota.js)).
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/helixnetwork/helix.ap/master/LICENSE)  
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/helixnetwork/pendulum-sdk/master/LICENSE)  
 
 ---
 
 ## Contributing
 
-Thanks for everyone involved in the process of developing the Helix Library. Hat tip to all of the IOTA developers! Please see the [AUTHORS.md](https://github.com/HelixNetwork/helix-lib/blob/master/AUTHORS.md)
+Thanks for everyone involved in the process of developing the Pendulum SDK. Hat tip to all of the IOTA developers! Please see the [AUTHORS.md](https://github.com/HelixNetwork/pendulum-sdk/blob/master/AUTHORS.md)
 
 ### Clone and bootstrap
 
 1. Fork the repo with <kbd>Fork</kbd> button at top right corner.
-2. Clone your fork locally and `cd` in it.
+2. Clone your fork locally and `cd pendulum-sdk`.
 3. Bootstrap your environment with:
 
 ```
 npm run init
 ```
 
-This will install all dependencies, build and link the packages together. helix.api uses [Lerna](https://lerna.js.org) to manage multiple packages. You can re-bootstrap your setup at any point with `lerna bootstrap` command.
+This will install all dependencies, build and link the packages together. The pendulum-sdk uses [Lerna](https://lerna.js.org) to manage multiple packages. You can re-bootstrap your setup at any point with `lerna bootstrap` command.
 
 ### Run the tests
 
@@ -93,7 +93,7 @@ prepared txs to [`sendTxHex`](packages/core#module_core.sendTxHex) command.
 // must be truly random
 const seed = ' your seed here '
 
-// Array of transfers which defines transfer recipients and value transferred in helixs.
+// Array of transfers which defines transfer recipients and value transferred in HLX.
 const transfers = [{
     address: ' recipient address here ',
     value: 1000, // 1Kh
@@ -125,4 +125,3 @@ For details on all available API methods please see the [reference page](api_ref
 
 
 Documentation of [`Helix`](https://hlx.readme.io/hcp) core and the HTTP API can be found in the [Helix Documentation](https://hlx.readme.io).
-

@@ -2,7 +2,7 @@
   "lerna": "2.10.1",
   "packages": ["packages/*"],
   "create": {
-    "homepage": "https://github.com/helixnetwork/helix.api",
+    "homepage": "https://github.com/helixnetwork/pendulum-sdk",
     "license": "MIT"
   },
   "publish": {
