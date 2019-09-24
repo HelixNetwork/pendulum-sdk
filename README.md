@@ -1,8 +1,9 @@
+[![license][1]][2] [![discord][3]][4]
+
 # Pendulum SDK
 
-Based on ([**iota.js**](https://github.com/iotaledger/iota.js)).
-
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/helixnetwork/pendulum-sdk/master/LICENSE)  
+Pendulum is a distributed globally available messaging protocol that enables tamper proof timestamps. The pendulum SDK provides the necessary tools to create applications running on the distributed pendulum network.
+The SDK is built on [**iota.js**](https://github.com/iotaledger/iota.js).
 
 ---
 
@@ -125,3 +126,8 @@ For details on all available API methods please see the [reference page](api_ref
 
 
 Documentation of [`Helix`](https://hlx.readme.io/hcp) core and the HTTP API can be found in the [Helix Documentation](https://hlx.readme.io).
+
+[1]: https://img.shields.io/badge/license-MIT-blue.svg
+[2]: LICENSE
+[3]: https://img.shields.io/discord/410771391600656395.svg?label=discord
+[4]: https://discord.gg/PjAKR8q
