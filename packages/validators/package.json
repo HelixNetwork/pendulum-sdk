@@ -6,7 +6,7 @@
   "main": "./out/validators/src/index.js",
   "typings": "./typings/validators/src",
   "publishConfig": {
-    "access": "private"
+    "access": "public"
   },
   "scripts": {
     "prepare": "tsc",

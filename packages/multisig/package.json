@@ -6,7 +6,7 @@
   "main": "./out/multisig/src/index.js",
   "typings": "typings/multisig/src",
   "publishConfig": {
-    "access": "private"
+    "access": "public"
   },
   "scripts": {
     "prepare": "tsc",

@@ -5,7 +5,7 @@
   "main": "./out/winternitz/src/index.js",
   "typings": "typings/winternitz/src",
   "publishConfig": {
-    "access": "private"
+    "access": "public"
   },
   "scripts": {
     "prepare": "tsc",

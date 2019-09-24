@@ -6,7 +6,7 @@
   "main": "./out/transaction-converter/src/index.js",
   "typings": "typings/transaction-converter/src",
   "publishConfig": {
-    "access": "private"
+    "access": "public"
   },
   "scripts": {
     "prepare": "tsc",
