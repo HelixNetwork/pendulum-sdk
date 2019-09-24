@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/sha3",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "Sha3 Library.",
   "main": "./out/src/index.js",
   "typings": "typings/src",
@@ -57,6 +57,6 @@
     "types-bn": "0.0.1"
   },
   "devDependencies": {
-    "@helixnetwork/converter": "^1.0.0-alpha.6"
+    "@helixnetwork/converter": "^1.0.0-alpha.7"
   }
 }

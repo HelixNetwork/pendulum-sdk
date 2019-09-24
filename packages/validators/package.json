@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/validators",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description":
     "Collection of guards and validators, useful in helix development.",
   "main": "./out/validators/src/index.js",
@@ -37,11 +37,11 @@
     "include": ["out/*/src/*.js", "out/*/test/*.js"]
   },
   "dependencies": {
-    "@helixnetwork/checksum": "^1.0.0-alpha.6",
-    "@helixnetwork/transaction": "^1.0.0-alpha.6"
+    "@helixnetwork/checksum": "^1.0.0-alpha.7",
+    "@helixnetwork/transaction": "^1.0.0-alpha.7"
   },
   "devDependencies": {
-    "@helixnetwork/samples": "^1.0.0-alpha.6"
+    "@helixnetwork/samples": "^1.0.0-alpha.7"
   },
   "keywords": [
     "helix",
