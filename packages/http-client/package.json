@@ -5,7 +5,7 @@
   "main": "./out/http-client/src/index.js",
   "typings": "typings/http-client/src",
   "publishConfig": {
-    "access": "private"
+    "access": "public"
   },
   "scripts": {
     "prepare": "tsc",
