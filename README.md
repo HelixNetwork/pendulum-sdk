@@ -125,7 +125,7 @@ helix.prepareTransfers(seed, transfers)
 For details on all available API methods please see the [reference page](api_reference.md).
 
 
-Documentation of [`Helix`](https://hlx.readme.io/hcp) core and the HTTP API can be found in the [Helix Documentation](https://hlx.readme.io).
+Documentation of [`Pendulum`](https://pendulum.readme.io/pendulum) core and the HTTP API can be found in the [Pendulum Documentation](https://pendulum.readme.io) in the near future.
 
 [1]: https://img.shields.io/badge/license-MIT-blue.svg
 [2]: LICENSE
