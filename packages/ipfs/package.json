@@ -1,11 +1,11 @@
 {
   "name": "@helixnetwork/ipfs",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "",
   "main": "./out/src/index.js",
   "typings": "typings/src",
   "publishConfig": {
-    "access": "private"
+    "access": "public"
   },
   "scripts": {
     "prepare": "tsc",
@@ -52,7 +52,7 @@
     "url": "https://github.com/helixnetwork/helix.api.git"
   },
   "dependencies": {
-    "@helixnetwork/rsa": "^1.0.0-alpha.6",
+    "@helixnetwork/rsa": "^1.0.0-alpha.7",
     "ipfs-http-client": "^29.1.1"
   }
 }

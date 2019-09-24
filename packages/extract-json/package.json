@@ -1,12 +1,12 @@
 {
   "name": "@helixnetwork/extract-json",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description":
     "Extracts JSON encoded messages from signature message fragments",
   "main": "./out/extract-json/src/index.js",
   "typings": "./out/extract-json/src",
   "publishConfig": {
-    "access": "private"
+    "access": "public"
   },
   "scripts": {
     "prepare": "tsc",
@@ -55,9 +55,9 @@
       "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
   },
   "dependencies": {
-    "@helixnetwork/converter": "^1.0.0-alpha.6"
+    "@helixnetwork/converter": "^1.0.0-alpha.7"
   },
   "devDependencies": {
-    "@helixnetwork/samples": "^1.0.0-alpha.6"
+    "@helixnetwork/samples": "^1.0.0-alpha.7"
   }
 }

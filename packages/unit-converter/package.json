@@ -1,11 +1,11 @@
 {
   "name": "@helixnetwork/unit-converter",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "Converts value across different Helix units.",
   "main": "./out/src/index.js",
   "typings": "./out/src",
   "publishConfig": {
-    "access": "private"
+    "access": "public"
   },
   "scripts": {
     "prepare": "tsc",

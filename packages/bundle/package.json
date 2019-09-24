@@ -1,11 +1,11 @@
 {
   "name": "@helixnetwork/bundle",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "Utilities for generating and schnorr bundles",
   "main": "./out/bundle/src/index.js",
   "typings": "typings/bundle/src",
   "publishConfig": {
-    "access": "private"
+    "access": "public"
   },
   "scripts": {
     "prepare": "tsc",
@@ -54,9 +54,9 @@
       "https://github.com/helixnetwork/helix.api.git/tree/dev/packages/crypto"
   },
   "dependencies": {
-    "@helixnetwork/converter": "^1.0.0-alpha.6",
-    "@helixnetwork/hash-module": "^1.0.0-alpha.6",
-    "@helixnetwork/pad": "^1.0.0-alpha.6",
-    "@helixnetwork/winternitz": "^1.0.0-alpha.6"
+    "@helixnetwork/converter": "^1.0.0-alpha.7",
+    "@helixnetwork/hash-module": "^1.0.0-alpha.7",
+    "@helixnetwork/pad": "^1.0.0-alpha.7",
+    "@helixnetwork/winternitz": "^1.0.0-alpha.7"
   }
 }

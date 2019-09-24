@@ -1,11 +1,11 @@
 {
   "name": "@helixnetwork/converter",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "Converter for ASCII and hexadecimal bytes (txs).",
   "main": "./out/src/index.js",
   "typings": "typings/src",
   "publishConfig": {
-    "access": "private"
+    "access": "public"
   },
   "scripts": {
     "prepare": "tsc",

@@ -1,11 +1,11 @@
 {
   "name": "@helixnetwork/samples",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "Collection of samples useful in testing Helix modules.",
   "main": "./out/samples/src/index.js",
   "typings": "typings/samples/src",
   "publishConfig": {
-    "access": "private"
+    "access": "public"
   },
   "scripts": {
     "prepare": "tsc",

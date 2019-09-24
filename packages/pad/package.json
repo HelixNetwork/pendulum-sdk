@@ -1,11 +1,11 @@
 {
   "name": "@helixnetwork/pad",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "Padding utility",
   "main": "./out/pad/src/index.js",
   "typings": "typings/pad/src",
   "publishConfig": {
-    "access": "private"
+    "access": "public"
   },
   "scripts": {
     "prepare": "tsc",
