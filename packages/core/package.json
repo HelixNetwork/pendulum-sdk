@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/core",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-alpha.8",
   "description":
     "Core functionality to interact with the helix network: generate addresses, create, broadcast and monitor transactions.",
   "main": "./out/core/src/index.js",

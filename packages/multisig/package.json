@@ -1,6 +1,6 @@
 {
   "name": "@helixnetwork/multisig",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-alpha.8",
   "description":
     "Methods for generating multisig addresses and co-schnorr transactions.",
   "main": "./out/multisig/src/index.js",
@@ -48,7 +48,7 @@
     "@helixnetwork/bundle": "^1.0.0-alpha.7",
     "@helixnetwork/checksum": "^1.0.0-alpha.7",
     "@helixnetwork/converter": "^1.0.0-alpha.7",
-    "@helixnetwork/core": "^1.0.0-alpha.7",
+    "@helixnetwork/core": "^1.0.0-alpha.8",
     "@helixnetwork/hash-module": "^1.0.0-alpha.7",
     "@helixnetwork/winternitz": "^1.0.0-alpha.7",
     "@types/bluebird": "^3.5.20",
