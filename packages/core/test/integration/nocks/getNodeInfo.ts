@@ -12,7 +12,7 @@ export const getNodeInfoCommand: GetNodeInfoCommand = {
 };
 
 export const getNodeInfoResponse: GetNodeInfoResponse = {
-  appName: "Helix",
+  appName: "Pendulum",
   appVersion: "",
   duration: 100,
   jreAvailableProcessors: 4,
