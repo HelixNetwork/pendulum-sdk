@@ -1,0 +1,15 @@
+dist: trusty
+language: node_js
+node_js:
+  - '8'
+  - '10'
+cache:
+  npm: false
+branches:
+  only:
+  - master
+before_install:
+ - ./cleanup.sh
+ - npm run init
+script:
+- npm run test
