@@ -225,10 +225,11 @@ export interface GetNodeInfoResponse {
   readonly jreFreeMemory: number;
   readonly jreMaxMemory: number;
   readonly jreTotalMemory: number;
-  readonly latestMilestone: Hash;
-  readonly latestMilestoneIndex: number;
-  readonly latestSolidSubtangleMilestone: Hash;
-  readonly latestSolidSubtangleMilestoneIndex: number;
+  readonly currentRoundIndex: number;
+  readonly latestSolidRoundHash: Hash;
+  readonly latestSolidRoundIndex: number;
+  readonly roundStartIndex: number;
+  readonly lastSnapshottedRoundIndex: number;
   readonly neighbors: number;
   readonly packetsQueueSize: number;
   readonly time: number;
