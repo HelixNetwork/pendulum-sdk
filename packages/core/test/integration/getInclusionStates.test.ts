@@ -29,19 +29,6 @@ test("getInclusionStates() resolves to correct inclusion states", async t => {
     `${INVALID_TRANSACTION_HASH}: ${invalidHashes[0]}`,
     "getInclusionStates() throws error for invalid hashes"
   );
-
-  t.is(
-    t.throws(
-      () =>
-        getInclusionStates(
-          getInclusionStatesCommand.transactions,
-          invalidHashes
-        ),
-      Error
-    ).message,
-    `${INVALID_TRANSACTION_HASH}: ${invalidHashes[0]}`,
-    "getInclusionStates() throws error for invalid tips"
-  );
 });
 
 test.cb("getInclusionStates() invokes callback", t => {

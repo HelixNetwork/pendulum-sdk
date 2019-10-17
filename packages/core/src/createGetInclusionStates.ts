@@ -55,16 +55,13 @@ export const createGetInclusionStates = ({ send }: Provider) =>
     callback?: Callback<ReadonlyArray<boolean>>
   ): Promise<ReadonlyArray<boolean>> =>
     Promise.resolve(
-      validate(
-        arrayValidator(transactionHashValidator)(transactions),
-        arrayValidator(transactionHashValidator)(tips)
-      )
+      validate(arrayValidator(transactionHashValidator)(transactions))
     )
       .then(() =>
         send<GetInclusionStatesCommand, GetInclusionStatesResponse>({
           command: ProtocolCommand.GET_INCLUSION_STATES,
           transactions,
-          tips
+          tips: []
         })
       )
       .then(({ states }) => states)
