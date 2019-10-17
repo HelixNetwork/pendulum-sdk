@@ -50,11 +50,7 @@ export const createGetLatestInclusion = (provider: Provider) => {
     callback?: Callback<ReadonlyArray<boolean>>
   ): Promise<ReadonlyArray<boolean>> {
     return getNodeInfo()
-      .then(nodeInfo =>
-        getInclusionStates(transactions, [
-          nodeInfo.latestSolidSubtangleMilestone
-        ])
-      )
+      .then(nodeInfo => getInclusionStates(transactions, []))
       .asCallback(callback);
   };
 };
