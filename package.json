@@ -34,6 +34,11 @@
   "lint-staged": {
     "*.{js,ts,json}": ["prettier --write", "git add"]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "keywords": [
     "helix",
     "pendulum",
