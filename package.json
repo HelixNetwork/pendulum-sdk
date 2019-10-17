@@ -6,7 +6,6 @@
     "init": "npm i && lerna bootstrap",
     "test": "lerna run test --stream",
     "test-ci": "lerna bootstrap && lerna run test-ci --stream",
-    "precommit": "lint-staged",
     "format": "prettier",
     "docs": "lerna run docs",
     "testapi": " mocha -r  ts-node/register test/**/*.test.ts"
@@ -32,7 +31,8 @@
     "verbose": true
   },
   "lint-staged": {
-    "*.{js,ts,json}": ["prettier --write", "git add"]
+    "*.{js,json}": ["prettier --write", "git add"],
+    "*.ts": ["prettier --write", "tslint .", "git add"]
   },
   "husky": {
     "hooks": {
@@ -69,10 +69,10 @@
   "devDependencies": {
     "ava": "^1.2.1",
     "dmd-clear": "^0.1.2",
-    "husky": "^0.14.3",
+    "husky": "^3.0.9",
     "jsdoc-babel": "^0.4.0",
     "lerna": "^3.15.0",
-    "lint-staged": "^7.3.0",
+    "lint-staged": "^9.4.2",
     "nyc": "^14.1.1",
     "prettier": "^1.10.2",
     "tslint": "^5.11.0",
